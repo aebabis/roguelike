@@ -1,0 +1,74 @@
+.grid-scroll {
+    max-width: 50%;
+    max-height: 50%;
+    overflow: hidden;
+}
+
+.grid-scroll.grid-focused {
+    box-shadow: 0 0 6px 4px skyblue;
+}
+
+.grid {
+    display: table;
+    border-collapse: collapse;
+    position: relative;
+    background-color: black;
+    outline: solid 5px red;
+}
+
+.grid .row {
+    display: table-row;
+}
+
+.grid .cell {
+    display: table-cell;
+    position: relative;
+    font-size: 10px;
+    width: 5em;
+    height: 5em;
+    border: solid 1px #333;
+    z-index: 1;
+}
+
+.grid .cell:focus {
+    border: double 1px red;
+    outline: 0;
+}
+
+.grid .cell > div {
+    width: 100%;
+    height: 100%;
+}
+
+.grid .cell:hover {
+    z-index: 2;
+}
+
+.grid .cell:hover:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: #36f 0px 0px 10px 3px;
+}
+
+.grid .cell > div { /* Entity */
+    position: relative;
+}
+
+.grid .cell > div > div { /* Entity decoration and stats */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.grid .cell:not([data-visible="true"]) {
+    opacity: .5;
+}
+
+.grid .cell:not([data-explored="true"]) {
+    opacity: 0;
+}

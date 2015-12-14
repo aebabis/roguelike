@@ -1,0 +1,22 @@
+{
+  "name": "Roguelike",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "bower install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alex Babis <acbabis@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^6.3.13",
+    "es6-module-loader": "^0.17.8",
+    "random-js": "^1.0.8",
+    "traceur": "0.0.93",
+    "typescript": "^1.7.3"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1"
+  }
+}

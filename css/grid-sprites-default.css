@@ -1,0 +1,24 @@
+.grid.theme-default .cell[data-tile-type="Tile"] {
+    background-image: url(../images/small/DungeonTile.png);
+    background-size: 103%;
+    background-position: -1px -1px;
+}
+
+.grid.theme-default .cell[data-tile-type="WallTile"] {
+    background-color: rgb(50, 50, 50);
+}
+
+.grid.theme-default .cell [data-creature-name="PlayableCharacter"] {
+    background-image: url(../images/small/HeroFemale.png);
+    background-size: 100%;
+}
+
+.grid.theme-default .cell [data-creature-name="BlackVoidSphere"] {
+    background-image: url(../images/small/BlackVoidSphere.png);
+    background-size: 100%;
+}
+
+.grid.theme-default .cell [data-creature-name="SlingshotImp"] {
+    background-image: url(../images/small/SlingshotImp.png);
+    background-size: 100%;
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Roguelike",
+  "version": "0.0.0",
+  "authors": [
+    "Alex Babis <acbabis@gmail.com>"
+  ],
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "traceur": "https://github.com/jmcriffey/bower-traceur.git#~0.0.92",
+    "es6-a-star": "https://github.com/acbabis/es6-a-star.git#master",
+    "random": "~1.0.8",
+    "jquery": "~2.1.4",
+    "normalize-css": "normalize.css#~3.0.3"
+  }
+}

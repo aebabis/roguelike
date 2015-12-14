@@ -1,0 +1,22 @@
+# Backlog
+- High
+  - More enemies
+  - Refactor Dungeon timestep to be one move at a time
+- Med
+  - Animation strategy
+  - Keybindings Overlay
+  - Click to focus grid?
+  - Abilities Bar
+  - Inventory
+  - Tile Contents Panel (Use + and - to navigate?)
+  - Tile Info Panel
+    - Monster
+    - Items
+  - Set up SASS
+  - Consider switching to NPM only (no bower)
+- Low
+   - CSS Layout
+   - Come up with a better name for "speed"
+   - Option to hide health and action bars
+   - Promote theme class to UI wrapper
+   - Site icon

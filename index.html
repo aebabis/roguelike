@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="bower_components/normalize-css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="css/layout.css"/>
+<link rel="stylesheet" type="text/css" href="css/grid.css"/>
+<link rel="stylesheet" type="text/css" href="css/grid-sprites-default.css"/>
+<link rel="stylesheet" type="text/css" href="css/grid-animations-default.css"/>
+<link rel="stylesheet" type="text/css" href="css/event-log.css"/>
+<script type="text/javascript" src="node_modules/traceur/bin/traceur.js"></script>
+<script type="text/javascript" src="node_modules/es6-module-loader/dist/es6-module-loader-dev.js"></script>
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/random/lib/random.min.js"></script>
+<script>
+    // https://github.com/ModuleLoader/es6-module-loader/wiki/Extending-the-ES6-Loader#custom-extension-example---cache-busting-extension
+    // The above will add a customizable cache-busting query parameter to all requests.
+    // Custom filtering could even be added as well to only do this for certain requests.
+    var systemLocate = System.locate;
+    System.locate = function(load) {
+      var System = this; // its good to ensure exact instance-binding
+      return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
+        return address + '?bust=' + Date.now();
+      });
+    }
+
+    window.addEventListener('load', function() {
+        System.import('js/app/TestBootstrapper.js').then(function(module) {
+            module.default();
+        }).catch(function(error) {
+            console.error(error);
+        })
+    });
+</script>
+</head>
+<body>
+
+</body>
+</html>

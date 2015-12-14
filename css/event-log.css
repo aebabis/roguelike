@@ -1,0 +1,5 @@
+.log-scroll {
+    width: 30em;
+    height: 10em;
+    overflow-y: auto;
+}

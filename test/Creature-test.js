@@ -1,16 +1,17 @@
 var System = require('es6-module-loader').System;
 var expect = require('chai').expect;
 
-var depList = ['js/app/Dungeon.js',
-    'js/app/Creature.js',
-    'js/app/creatures/PlayableCharacter.js',
-    'js/app/tiles/WallTile.js',
-    'js/app/dungeons/TestDungeonFactory.js'
+var depList = [
+    'js/app/dungeons/Dungeon.js',
+    'js/app/dungeons/TestDungeonFactory.js',
+    'js/app/entities/creatures/Creature.js',
+    'js/app/entities/creatures/PlayableCharacter.js',
+    'js/app/tiles/WallTile.js'
 ];
 
 var MODULES = {};
 
-describe('creature', function() {
+describe('Creature', function() {
     before(function(done) {
         // Files have to be loaded sequentially to prevent traceur/es6-module-loader
         // bug.
@@ -35,7 +36,7 @@ describe('creature', function() {
     it('should be able to see in a straight line', function() {
         var dungeon = new MODULES['TestDungeonFactory']().getEmptyDungeon();
         var creature = dungeon.getPlayableCharacter();
-        
+
         expect(creature.canSee(dungeon.getTile(4, 1))).to.equal(true);
     });
 

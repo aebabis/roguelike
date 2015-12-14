@@ -3,7 +3,7 @@ import { default as Tile } from "../../tiles/Tile.js";
 import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
 
-import { default as AStar } from "/bower_components/es6-a-star/es6-a-star.js";
+import { default as AStar } from "../../../../bower_components/es6-a-star/es6-a-star.js";
 
 import { default as Geometry } from "../../util/Geometry.js";
 

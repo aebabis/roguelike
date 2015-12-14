@@ -5,7 +5,7 @@ var depList = ['js/app/util/Geometry.js'];
 
 var MODULES = {};
 
-describe('creature', function() {
+describe('Geometry', function() {
     before(function(done) {
         // Files have to be loaded sequentially to prevent traceur/es6-module-loader
         // dependency resolution problem.

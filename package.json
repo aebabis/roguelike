@@ -1,22 +1,39 @@
 {
-  "name": "Roguelike",
+  "name": "roguelike",
   "version": "0.0.0",
-  "description": "",
+  "description": "A Free HTML5 Roguelike",
   "main": "index.js",
   "scripts": {
-    "install": "bower install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "node node_modules/bower/bin/bower install",
+    "test": "node node_modules/mocha/bin/mocha"
   },
   "author": "Alex Babis <acbabis@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "babel": "^6.3.13",
+    "bower": "^1.7.1",
     "es6-module-loader": "^0.17.8",
+    "mocha": "^2.3.4",
     "random-js": "^1.0.8",
     "traceur": "0.0.93",
     "typescript": "^1.7.3"
   },
   "devDependencies": {
     "chai": "^3.4.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acbabis/roguelike.git"
+  },
+  "keywords": [
+    "html5",
+    "roguelike"
+  ],
+  "bugs": {
+    "url": "https://github.com/acbabis/roguelike/issues"
+  },
+  "homepage": "https://github.com/acbabis/roguelike#readme"
 }

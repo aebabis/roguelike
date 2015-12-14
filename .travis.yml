@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '5'
+before_install:
+- npm install -g bower
+deploy:
+  provider: heroku
+  api_key:
+    secure: JJwwvLoiypoFoFJhtl/SlRCz8ta/2lK/9AUwqWESA12Dp24TmlC165BtqL8/IQ1ZHi2g5Xm2AnV92EU84EALvNNMzKhBFtM/KWOslRwixhkUl+Ypl0/Xyq29HsG8nRcZl4QHiAU7QL2kaX/w03PmrRG5uWrGDWy3+/5jcOlrVuWW/BS/2SYq+DZhvYdPkoqBXwYVLz2oRVnpN+vflIzc5fxS0TnkssjgRj2EU2LWAm6cAQdZK8mWXO86xc9yMS9EvWf4kJSmxq8Uje2f5b7DHW3uJJe9gWyTlUla1HcA1C1AbvsnLmG1AkOoHOyEJ1ygEg1EOYf5Xcluo5aUN1WebOVfSBc+jRiScO35I6N2NeWH7IdLX6OVtkOlkwNehcRBJQCWdlevJatTr2s59SyyowXkRMbyXjO0MfmZOX83mdsHYM2152lhjGXfRhADC09gMB+cRkdR76kpN6RicOxozrUbVRgMRLRFYkEW6MkoBUUeLOnqYFZvXjMKHcA5PU+hRkWnHP+DvR4X679dF2WyxwQfxe8bke/19l9t3u5ETOqSVRjmgPs3CVvllS/zDh3rP9QjCtlr5pthtZAPF2S+w2qNm0GE5XpdA2EFGSuhgTOOQyhofX3sIPNWPe6U5lw4jvYMtqu4M2FnlwnrQrwDaQcCmT5P97mJ4BPaN3KrCGw=
+  app: acbabis-roguelike
+  on:
+    repo: acbabis/roguelike

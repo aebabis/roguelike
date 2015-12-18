@@ -25,7 +25,7 @@
     };
 
     window.addEventListener('load', function() {
-        System.import('js/app/TestBootstrapper.js').then(function(module) {
+        System.import('js/app/ui/LayoutBootstrapper.js').then(function(module) {
             module.default();
         })['catch'](function(error) {
             console.error(error);

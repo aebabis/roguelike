@@ -17,7 +17,7 @@ export default class ChaseStrategy { // TODO: Would a concrete
         var self = this;
         var creature = this._creature;
         return function() {
-            var occupiedTile = creature.getLocation().getNeighbors8().filter(function(tile) {
+            var occupiedTile = creature.getTile().getNeighbors8().filter(function(tile) {
                 var other = tile.getCreature();
                 return other && creature.isEnemy(other);
             })[0];
@@ -28,10 +28,10 @@ export default class ChaseStrategy { // TODO: Would a concrete
                 var enemy = creature.getVisibleEnemies()[0];
                 if(enemy) {
                     creature.moveToward(enemy);
-                    self._lastKnownEnemyLocation = enemy.getLocation();
+                    self._lastKnownEnemyLocation = enemy.getTile();
                 } else {
                     var tile = self._lastKnownEnemyLocation;
-                    if(tile && tile !== creature.getLocation()) {
+                    if(tile && tile !== creature.getTile()) {
                         creature.moveToward(tile);
                     }
                 }

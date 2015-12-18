@@ -39,12 +39,15 @@ export default class Dungeon extends Observable {
         this._grid[x][y] = tile;
     }
 
-    getTile(x, y) {
-        if(isNaN(x) || isNaN(y)) {
-            throw new Error('Must pass an x and y coordinate');
+    getTile(param1, param2) {
+        if(param1 instanceof Creature) {
+            return this._creatureMap.get(param1);
+        } else if(!isNaN(param1) && !isNaN(param2)) {
+            var col = this._grid[param1];
+            return col && col[param2];
+        } else {
+            throw new Error('Must pass a Creature or XY coordinates');
         }
-        var col = this._grid[x];
-        return col && col[y];
     }
 
     getTiles(filter) {
@@ -114,10 +117,6 @@ export default class Dungeon extends Observable {
             this._grid[param1][param2].removeCreature();
         }
         this._notifyObservers();
-    }
-
-    getLocation(creature) {
-        return this._creatureMap.get(creature);
     }
 
     getCreatures() {

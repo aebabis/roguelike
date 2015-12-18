@@ -19,7 +19,7 @@ export default class SlingshotImp extends Creature {
             } else {
                 self.wait();
                 return;
-                var neighbors = self.getLocation().getNeighbors8().filter((tile)=>self.canOccupy(tile));
+                var neighbors = self.getTile().getNeighbors8().filter((tile)=>self.canOccupy(tile));
                 var randNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
                 if(randNeighbor) {
                     self.move(randNeighbor);

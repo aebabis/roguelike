@@ -35,7 +35,7 @@ export default class GraphicalViewKeyboardController {
                         case 40: dy++; break;
                     }
                     var character = dungeon.getPlayableCharacter();
-                    var tile = dungeon.getLocation(character);
+                    var tile = dungeon.getTile(character);
                     character.setNextMove(function() {
                         character.move(dx, dy);
                     });

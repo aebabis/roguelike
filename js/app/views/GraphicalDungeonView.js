@@ -63,7 +63,7 @@ export default class GraphicDungeonView {
                 tile.removeAttribute('data-event-name');
             });
         } else if(event instanceof AttackEvent) {
-            var tile = this._dungeon.getLocation(event.getTarget());
+            var tile = this._dungeon.getTile(event.getTarget());
             var cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
             cell.setAttribute('data-event-name', 'AttackEvent');
         }

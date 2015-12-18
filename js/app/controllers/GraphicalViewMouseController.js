@@ -9,7 +9,7 @@ export default class GraphicalViewMouseController {
                 return;
             }
             var character = dungeon.getPlayableCharacter();
-            var playerLocation = dungeon.getLocation(character);
+            var playerLocation = dungeon.getTile(character);
             var targetX = tile.getAttribute('data-x');
             var targetY = tile.getAttribute('data-y');
             var enemy = dungeon.getTile(targetX, targetY).getCreature();

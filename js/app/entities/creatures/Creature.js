@@ -23,7 +23,7 @@ export default class Creature extends Entity {
 
     move(dx, dy) {
         var dungeon = this.getDungeon();
-        var tile = dungeon.getLocation(this);
+        var tile = dungeon.getTile(this);
         var x = tile.getX() + dx;
         var y = tile.getY() + dy;
         var newLocation = dungeon.getTile(x, y);
@@ -41,7 +41,7 @@ export default class Creature extends Entity {
     }
 
     moveToward(param1, param2) {
-        var start = this.getLocation();
+        var start = this.getTile();
         var target;
         var x = start.getX();
         var y = start.getY();
@@ -49,7 +49,7 @@ export default class Creature extends Entity {
         if(param1 instanceof Tile) {
             target = param1;
         } else if(param1 instanceof Creature) {
-            target = param1.getLocation();
+            target = param1.getTile();
         } else if(!isNaN(param1) && !isNaN(param2)) {
             target = this.getDungeon().getTile(param1, param2);
         } else {
@@ -83,13 +83,13 @@ export default class Creature extends Entity {
 
     attack(param1, param2) {
         var dungeon = this.getDungeon();
-        var tile = dungeon.getLocation(this);
+        var tile = dungeon.getTile(this);
         var x, y, target, targetTile;
         if(param1 instanceof Creature) {
             target = param1;
-            targetTile = target.getLocation();
-            x = target.getLocation().getX();
-            y = target.getLocation().getY();
+            targetTile = target.getTile();
+            x = target.getTile().getX();
+            y = target.getTile().getY();
         } else {
             x = param1;
             y = param2;
@@ -126,8 +126,8 @@ export default class Creature extends Entity {
         }
     }
 
-    getLocation() {
-        return this.getDungeon().getLocation(this);
+    getTile() {
+        return this.getDungeon().getTile(this);
     }
 
     getBaseHP() {
@@ -161,7 +161,7 @@ export default class Creature extends Entity {
             throw new Error('Must pass a Tile to canSee');
         }
         var dungeon = this.getDungeon();
-        var location = this.getLocation();
+        var location = this.getTile();
         if(!location) { // Creature hasn't been placed yet.
             // TODO: Should this check be necessary?
             return false;

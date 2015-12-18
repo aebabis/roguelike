@@ -97,6 +97,9 @@ export default class Creature extends Entity {
         }
         var dx = tile.getX() - x;
         var dy = tile.getY() - y;
+        if(dx === 0 && dy === 0) {
+            throw new Error('Creature can\'t attack itself');
+        }
         var weapon = (Math.abs(dx) > 1 || Math.abs(dy) > 1) ? this.getRangedWeapon() : this.getMeleeWeapon();
         if(!weapon) {
             throw new Error('No weapon to attack that target with');

@@ -56,6 +56,10 @@ export default class Creature extends Entity {
             throw new Error("Illegal parameters", param1, param2);
         }
 
+        if(start === target) {
+            console.warn("Creature trying to move to path to its own location", this);
+        }
+
         var pathfinding = AStar({
             start: start,
             isEnd: (node)=>node===target,
@@ -66,10 +70,12 @@ export default class Creature extends Entity {
 
         if(pathfinding.status === 'success') {
             var nextTile = pathfinding.path[1];
-            this.move(
-                Math.sign(nextTile.getX() - x),
-                Math.sign(nextTile.getY() - y)
-            );
+            if(nextTile) {
+                this.move(
+                    Math.sign(nextTile.getX() - x),
+                    Math.sign(nextTile.getY() - y)
+                );
+            }
         } else {
             throw new Error(pathfinding.status);
         }

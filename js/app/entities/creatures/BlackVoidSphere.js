@@ -1,5 +1,6 @@
 import { default as Creature } from "./Creature.js";
 import { default as PlayableCharacter } from "./PlayableCharacter.js";
+import { default as ChaseStrategy } from "./strategies/ChaseStrategy.js";
 
 export default class BlackVoidSphere extends Creature {
     /**
@@ -8,23 +9,11 @@ export default class BlackVoidSphere extends Creature {
      */
     constructor(dungeon) {
         super(dungeon);
+        this._strategy = new ChaseStrategy(this);
     }
 
     getNextMove() {
-        var self = this;
-        return function() {
-            var occupiedTile = self.getLocation().getNeighbors8().find(function(tile) {
-                return tile.getCreature() instanceof PlayableCharacter;
-            });
-            if(occupiedTile) {
-                self.attack(occupiedTile.getX(), occupiedTile.getY());
-            } else {
-                var enemy = self.getVisibleEnemies()[0];
-                if(enemy) {
-                    self.moveToward(enemy);
-                }
-            }
-        };
+        return this._strategy.getNextMove();
     }
 
     getSpeed() {

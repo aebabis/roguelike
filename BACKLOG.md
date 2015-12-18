@@ -14,6 +14,7 @@
     - Items
   - Set up SASS
   - Consider switching to NPM only (no bower)
+  - Serialization for saving games (and as POC for client-server games)
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

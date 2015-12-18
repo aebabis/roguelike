@@ -6,9 +6,11 @@ import { default as GraphicalViewMouseController } from "./controllers/Graphical
 import { default as TestDungeonFactory } from "./dungeons/TestDungeonFactory.js";
 
 export default function() {
+    var gameSection = document.querySelector('section');
+    gameSection.innerHTML = '';
     var container = document.createElement('div');
     container.classList.add('game-ui-container');
-    document.body.appendChild(container);
+    gameSection.appendChild(container);
     var dungeon = new TestDungeonFactory().getBasicEnemyDungeon();
     var mapView = new GraphicalDungeonView(dungeon);
     var eventLogView = new EventLogView(dungeon);

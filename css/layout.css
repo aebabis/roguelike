@@ -8,25 +8,9 @@ body {
 }
 
 .grid-scroll {
-    float: left;
+    display: inline-block;
 }
 
 .sidebar {
-    float: left;
-}
-
-.backlog {
-    position: fixed;
-    right: 0;
-    font-size: 14px;
-    padding: 0;
-}
-
-.backlog > li {
-    font-weight: bold;
-    list-style-type: none;
-}
-
-.backlog li {
-    padding:  0;
+    display: inline-block;
 }

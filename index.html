@@ -16,23 +16,26 @@
     // The above will add a customizable cache-busting query parameter to all requests.
     // Custom filtering could even be added as well to only do this for certain requests.
     var systemLocate = System.locate;
+
     System.locate = function(load) {
-      var System = this; // its good to ensure exact instance-binding
-      return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
-        return address + '?bust=' + Date.now();
-      });
-    }
+        var System = this; // its good to ensure exact instance-binding
+        return Promise.resolve(systemLocate.call(this, load)).then(function(address) {
+            return address + '?bust=' + Date.now();
+        });
+    };
 
     window.addEventListener('load', function() {
         System.import('js/app/TestBootstrapper.js').then(function(module) {
             module.default();
-        }).catch(function(error) {
+        })['catch'](function(error) {
             console.error(error);
-        })
+        });
     });
 </script>
 </head>
 <body>
-
+    <header></header>
+    <section class="game"></section>
+    <footer></footer>
 </body>
 </html>

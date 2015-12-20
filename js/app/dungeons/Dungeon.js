@@ -5,7 +5,7 @@ import { default as GameConditions } from "../conditions/GameConditions.js";
 
 import { default as PlayableCharacter } from "../entities/creatures/PlayableCharacter.js";
 
-import { default as DebugEvent } from "../events/DebugEvent.js";
+import { default as CustomEvent } from "../events/CustomEvent.js";
 import { default as HumanToMoveEvent } from "../events/HumanToMoveEvent.js";
 import { default as HumanMovingEvent } from "../events/HumanMovingEvent.js";
 
@@ -186,9 +186,9 @@ export default class Dungeon extends Observable {
             var conditions = self._gameConditions;
             if(conditions) {
                 if(conditions.hasPlayerWon(self)) {
-                    self.fireEvent({getText: ()=>"Victory"});
+                    self.fireEvent(new CustomEvent(self, "Victory"));
                 } else if(conditions.hasPlayerLost(self)) {
-                    self.fireEvent({getText: ()=>"Defeat"});
+                    self.fireEvent(new CustomEvent(self, "Defeat"));
 
                 }
             }

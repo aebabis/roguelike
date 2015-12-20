@@ -1,4 +1,5 @@
 import { default as Dungeon } from "../dungeons/Dungeon.js";
+import { default as CustomEvent } from "../events/CustomEvent.js";
 
 var idGen = 1;
 
@@ -45,9 +46,7 @@ export default class Entity {
     die() {
         this._isDead = true;
         this._dungeon.removeCreature(this);
-        this._dungeon.fireEvent({
-            getText: ()=>(this.toString() + " died")
-        });
+        this._dungeon.fireEvent(new CustomEvent(this.getDungeon(), this.toString() + " died"));
     }
 
     isDead() {

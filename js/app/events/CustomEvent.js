@@ -1,9 +1,9 @@
 import { default as GameEvent } from "./GameEvent.js";
 
-export default class DebugEvent extends GameEvent {
+export default class CustomEvent extends GameEvent {
     /**
-      * @class DebugEvent
-      * @description Can be fired as a one-off event for debugging
+      * @class CustomEvent
+      * @description Custom event class for one-off and/or debugging events
       */
     constructor(dungeon, message) {
         super(dungeon);
@@ -11,6 +11,6 @@ export default class DebugEvent extends GameEvent {
     }
 
     getText() {
-        return 'DebugEvent: ' + this._message;
+        return this._message;
     }
 }

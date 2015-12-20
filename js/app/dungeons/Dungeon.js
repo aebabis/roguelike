@@ -28,6 +28,7 @@ export default class Dungeon extends Observable {
                 col[y] = new Tile(this, x, y);
             }
         }
+        this._timestep = 0;
     }
 
     setTile(tile, x, y) {
@@ -75,6 +76,10 @@ export default class Dungeon extends Observable {
 
     getHeight() {
         return this._height;
+    }
+
+    getCurrentTimestep() {
+        return this._timestep;
     }
 
     setCreature(creature, x, y) {
@@ -156,11 +161,11 @@ export default class Dungeon extends Observable {
 
         if(activeCreature) {
             if(activeCreature instanceof PlayableCharacter) {
-                self.fireEvent(new HumanToMoveEvent(activeCreature));
+                self.fireEvent(new HumanToMoveEvent(this, activeCreature));
             }
             promise = Promise.resolve(activeCreature.getNextMove()).then(function(move) {
                 if(activeCreature instanceof PlayableCharacter) {
-                    self.fireEvent(new HumanMovingEvent(activeCreature));
+                    self.fireEvent(new HumanMovingEvent(self, activeCreature));
                 }
                 try {
                     move();
@@ -170,6 +175,7 @@ export default class Dungeon extends Observable {
                 activeCreature.ensureDelay();
             });
         } else {
+            this._timestep++;
             creatures.forEach(function(creature) {
                 creature.timestep();
             });

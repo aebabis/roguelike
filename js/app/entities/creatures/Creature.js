@@ -37,7 +37,7 @@ export default class Creature extends Entity {
         tile.removeCreature();
         dungeon.setCreature(this, x, y);
         this._delay();
-        dungeon.fireEvent(new MoveEvent(this, x, y));
+        dungeon.fireEvent(new MoveEvent(dungeon, this, x, y));
     }
 
     moveToward(param1, param2) {
@@ -112,7 +112,7 @@ export default class Creature extends Entity {
         }
         target.modifyHP(-weapon.getDamage());
         this._delay();
-        dungeon.fireEvent(new AttackEvent(this, target, weapon));
+        dungeon.fireEvent(new AttackEvent(dungeon, this, target, weapon));
     }
 
     wait() {

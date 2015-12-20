@@ -6,8 +6,8 @@ export default class HumanMovingEvent extends GameEvent {
       * @class HumanMovingEvent
       * @description Event fired whenever the player has begun moving
       */
-    constructor(player) {
-        super();
+    constructor(dungeon, player) {
+        super(dungeon);
         if(!(player instanceof PlayableCharacter)) {
             throw new Error('First parameter must be a PlayableCharacter');
         }

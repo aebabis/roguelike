@@ -6,8 +6,8 @@ export default class AttackEvent extends GameEvent {
       * @class AttackEvent
       * @description Fired whenever a creature attacks
       */
-    constructor(attacker, target, weapon) {
-        super();
+    constructor(dungeon, attacker, target, weapon) {
+        super(dungeon);
         if(!(attacker instanceof Creature)) {
             throw new Error('First parameter must be a creature');
         } else if(!(target instanceof Creature)) {

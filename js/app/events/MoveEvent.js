@@ -6,8 +6,8 @@ export default class MoveEvent extends GameEvent {
       * @class MoveEvent
       * @description Event fired whenever a Creature moves
       */
-    constructor(creature, x, y) {
-        super();
+    constructor(dungeon, creature, x, y) {
+        super(dungeon);
         if(!(creature instanceof Creature)) {
             throw new Error('First parameter must be a creature');
         } else if(isNaN(x) || isNaN(y)) {

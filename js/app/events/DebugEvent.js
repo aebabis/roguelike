@@ -5,8 +5,8 @@ export default class DebugEvent extends GameEvent {
       * @class DebugEvent
       * @description Can be fired as a one-off event for debugging
       */
-    constructor(message) {
-        super();
+    constructor(dungeon, message) {
+        super(dungeon);
         this._message = message;
     }
 

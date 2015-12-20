@@ -22,15 +22,9 @@ export default function() {
     container.appendChild(sidebar);
     sidebar.appendChild(eventLogView.getDom());
 
-    function delay() {
-        return new Promise(function(resolve, reject) {
-            setTimeout(resolve, 50);
-        });
-    }
-
     (function iterate() {
         if(!dungeon.hasEnded()) {
-            dungeon.resolveNextStep().then(delay).then(iterate).catch(function(error) {
+            dungeon.resolveNextStep().then(iterate).catch(function(error) {
                 console.error(error);
             });
         }

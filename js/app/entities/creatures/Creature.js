@@ -269,7 +269,7 @@ export default class Creature extends Entity {
     }
 
     getSpeed() {
-        return 2;
+        return 500;
     }
 
     timestep() {

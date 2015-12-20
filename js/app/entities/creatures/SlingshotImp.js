@@ -31,6 +31,6 @@ export default class SlingshotImp extends Creature {
     }
 
     getSpeed() {
-        return 2;
+        return 550;
     }
 }

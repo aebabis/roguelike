@@ -63,7 +63,7 @@ export default class PlayableCharacter extends Creature {
     }
 
     getSpeed() {
-        return 1;
+        return 450;
     }
 
     toString() {

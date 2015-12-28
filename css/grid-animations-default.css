@@ -16,3 +16,8 @@
     animation-name: quickPulse;
     animation-duration: .10s;
 }
+
+.grid.theme-default .cell > div[data-is-dead="true"] {
+    transition: .5s all;
+    opacity: 0;
+}

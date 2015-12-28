@@ -14,11 +14,31 @@ export default class MoveEvent extends GameEvent {
             throw new Error('Second and third parameters must be numbers');
         }
         this._creature = creature;
-        this._x = x;
-        this._y = y;
+        var location = creature.getTile();
+        this._from = Object.freeze({
+            x: location.getX(),
+            y: location.getY()
+        });
+        this._to = Object.freeze({
+            x: x,
+            y: y
+        })
+    }
+
+    getCreature() {
+        return this._creature;
+    }
+
+    getFromCoords() {
+        return this._from;
+    }
+
+    getToCoords() {
+        return this._to;
     }
 
     getText() {
-        return this._creature.toString() + ' moved to (' + this._x + ', ' + this._y + ')';
+        var to = this.getToCoords();
+        return this._creature.toString() + ' moved to (' + to.x + ', ' + to.y + ')';
     }
 }

@@ -3,6 +3,7 @@ import { default as AttackEvent } from "../events/AttackEvent.js";
 import { default as GameEvent } from "../events/GameEvent.js";
 import { default as HumanMovingEvent } from "../events/HumanMovingEvent.js";
 import { default as HumanToMoveEvent } from "../events/HumanToMoveEvent.js";
+import { default as MoveEvent } from "../events/MoveEvent.js";
 
 export default class GraphicDungeonView {
     constructor(dungeon) {
@@ -35,7 +36,7 @@ export default class GraphicDungeonView {
                 row.appendChild(cell);
             }
         }
-        this._rejections = [];
+        this._synchronizeView();
 
         grid.addEventListener('focus', function() {
             scrollPane.classList.add('grid-focused');
@@ -54,11 +55,46 @@ export default class GraphicDungeonView {
         return this._scrollPane;
     }
 
-    _resetAnimationQueue() {
-        console.log("JREXCT", this._rejections);
-        this._rejections.forEach(function(reject) {
-            reject();
+    /**
+     * Makes the view match the current game state.
+     * This is not called every event. It is called
+     * when skipping animations (e.g because player
+     * provided multiple inputs quickly)
+     */
+    _synchronizeView() {
+        var self = this;
+        var grid = this.getDom();
+        var dungeon = this._dungeon;
+        var player = dungeon.getPlayableCharacter();
+
+        this._resetAnimationQueue();
+
+        dungeon.forEachTile(function(tile, x, y) {
+            var cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
+            var fc;
+            while(fc = cell.firstChild) {
+                cell.removeChild(fc);
+            }
+            cell.setAttribute('data-tile-type', tile.constructor.name);
+            if(player) {
+                cell.setAttribute('data-explored', player.hasSeen(tile));
+                cell.setAttribute('data-visible', player.canSee(tile));
+                var creature = tile.getCreature();
+                if(creature) {
+                    var dom = self._getDomForCreature(creature);
+                    dom.querySelector('.hp').textContent = creature.getCurrentHP() + '/' + creature.getBaseHP();
+                    cell.appendChild(dom);
+                }
+            }
         });
+    }
+
+    _resetAnimationQueue() {
+        if(this._rejections) {
+            this._rejections.forEach(function(reject) {
+                reject();
+            });
+        }
         this._rejections = [];
     }
 
@@ -72,14 +108,33 @@ export default class GraphicDungeonView {
     }
 
     _queueAnimation(event) {
+        var self = this;
         var grid = this.getDom();
         console.log(event);
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof AttackEvent) {
-            var tile = this._dungeon.getTile(event.getTarget());
-            var cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
+            let target = event.getTarget();
+            let tile = this._dungeon.getTile(target);
+            let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
             this._createDelay(function() {
                 cell.setAttribute('data-event-name', 'AttackEvent');
+                let dom = self._getDomForCreature(target);
+                // TODO: Only deduct what was taken by this attack
+                dom.querySelector('.hp').textContent = target.getCurrentHP() + '/' + target.getBaseHP();
+                // TODO: Animate death
+                if(target.isDead()) {
+                    dom.setAttribute('data-is-dead', true);
+                }
+            }, delay);
+        } else if(event instanceof MoveEvent) {
+            this._createDelay(function() {
+                let to = event.getToCoords();
+                let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
+                let creature = event.getCreature();
+                let dom = self._getDomForCreature(event.getCreature());
+                // TODO: Animate HP by moving this to AttackEvent handling
+                dom.querySelector('.hp').textContent = creature.getCurrentHP() + '/' + creature.getBaseHP();
+                cell.appendChild(dom);
             }, delay);
         }
     }
@@ -90,38 +145,29 @@ export default class GraphicDungeonView {
         var dungeon = this._dungeon;
         var player = dungeon.getPlayableCharacter();
 
+        console.time(event);
+
         if(event instanceof GameEvent) {
             if(event instanceof HumanMovingEvent) {
                 Array.from(grid.querySelectorAll('[data-event-name]')).forEach(function(tile) {
                     tile.removeAttribute('data-event-name');
                 });
-                this._resetAnimationQueue();
+                this._synchronizeView();
                 this._lastHumanMovingEvent = event;
             } else {
                 this._queueAnimation(event);
             }
         }
 
+        // TODO: Consider if visibility needs to be animated
+        // during events other than HumanMovingEvent
+        // Should only be an issue in destructible environment
         dungeon.forEachTile(function(tile, x, y) {
             var cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
-            var fc;
-            while(fc = cell.firstChild) {
-                cell.removeChild(fc);
-            }
             cell.setAttribute('data-tile-type', tile.constructor.name);
             if(player) {
                 cell.setAttribute('data-explored', player.hasSeen(tile));
-                if(player.canSee(tile)) {
-                    cell.setAttribute('data-visible', true);
-                    var creature = tile.getCreature();
-                    if(creature) {
-                        var dom = self._getDomForCreature(creature);
-                        dom.querySelector('.hp').textContent = creature.getCurrentHP() + '/' + creature.getBaseHP();
-                        cell.appendChild(dom);
-                    }
-                } else {
-                    cell.setAttribute('data-visible', false);
-                }
+                cell.setAttribute('data-visible', player.canSee(tile));
             }
         });
     }

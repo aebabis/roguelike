@@ -69,6 +69,10 @@
     opacity: .5;
 }
 
+.grid .cell:not([data-visible="true"]) > div {
+    display: none;
+}
+
 .grid .cell:not([data-explored="true"]) {
     opacity: 0;
 }

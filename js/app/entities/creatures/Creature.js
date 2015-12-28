@@ -17,8 +17,21 @@ export default class Creature extends Entity {
         this._delay();
     }
 
-    _delay() {
-        this._timeToNextMove = this.getSpeed();
+    _delay(multiplier) {
+        if(typeof amount === 'undefined') {
+            multiplier = 1;
+        } else if (isNaN(amount)) {
+            throw new Error('Delay amount, if given, must be a number');
+        }
+        this._timeToNextMove = Math.floor(this.getSpeed() * multiplier);
+    }
+
+    getActionsCompleted() {
+        return this.numActions;
+    }
+
+    _incrementActions() {
+        this.numActions = (this.numActions || 0) + 1;
     }
 
     move(dx, dy) {
@@ -36,8 +49,10 @@ export default class Creature extends Entity {
         }
         tile.removeCreature();
         dungeon.setCreature(this, x, y);
+        this._incrementActions();
         this._delay();
         dungeon.fireEvent(new MoveEvent(dungeon, this, x, y));
+        this._timeToNextMove = this.getSpeed();
     }
 
     moveToward(param1, param2) {
@@ -111,19 +126,14 @@ export default class Creature extends Entity {
             throw new Error('No weapon to attack that target with');
         }
         target.modifyHP(-weapon.getDamage());
+        this._incrementActions();
         this._delay();
         dungeon.fireEvent(new AttackEvent(dungeon, this, target, weapon));
     }
 
     wait() {
-        this._timeToNextMove = 1;
-    }
-
-    ensureDelay() {
-        // Makes sure that the creature does not get two actions on the same timestep
-        if(this._timeToNextMove <= 0) {
-            this.wait();
-        }
+        this._incrementActions();
+        this._delay(.25);
     }
 
     getTile() {

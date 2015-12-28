@@ -3,7 +3,8 @@
   - More enemies
   - Refactor Dungeon timestep to be one move at a time
 - Med
-  - Animation strategy
+  - Repeat level button
+  - Make move classes so serialization is easier?
   - Keybindings Overlay
   - Click to focus grid?
   - Abilities Bar
@@ -15,9 +16,11 @@
   - Set up SASS
   - Consider switching to NPM only (no bower)
   - Serialization for saving games (and as POC for client-server games)
+  - Button panel for actions other than move
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
    - Option to hide health and action bars
    - Promote theme class to UI wrapper
    - Site icon
+   - Animation speed

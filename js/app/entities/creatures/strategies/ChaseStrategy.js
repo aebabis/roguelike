@@ -33,6 +33,8 @@ export default class ChaseStrategy { // TODO: Would a concrete
                     var tile = self._lastKnownEnemyLocation;
                     if(tile && tile !== creature.getTile()) {
                         creature.moveToward(tile);
+                    } else {
+                        creature.wait();
                     }
                 }
             }

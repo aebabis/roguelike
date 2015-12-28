@@ -167,12 +167,20 @@ export default class Dungeon extends Observable {
                 if(activeCreature instanceof PlayableCharacter) {
                     self.fireEvent(new HumanMovingEvent(self, activeCreature));
                 }
+
                 try {
+                    var actions = activeCreature.getActionsCompleted();
                     move();
+                    if(actions === activeCreature.getActionsCompleted()) {
+                        throw new Error('Move did not perform any actions');
+                    }
+                    if(activeCreature.canActThisTimestep()) {
+                        console.warn('Move did not cause a delay')
+                    }
                 } catch(error) {
                     console.error(error);
+                    activeCreature.wait();
                 }
-                activeCreature.ensureDelay();
             });
         } else {
             this._timestep++;

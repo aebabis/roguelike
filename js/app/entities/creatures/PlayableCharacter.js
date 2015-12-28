@@ -1,5 +1,7 @@
 import { default as Creature } from "./Creature.js";
 
+import { default as Dagger } from "../weapons/Dagger.js";
+
 export default class PlayableCharacter extends Creature {
     /**
       * @class Tile
@@ -10,6 +12,10 @@ export default class PlayableCharacter extends Creature {
         this.test = 'Chatar';
         this._readQueue = [];
         this._writeQueue = [];
+    }
+
+    getMeleeWeapon() {
+        return new Dagger(this.getDungeon());
     }
 
     _queueWrite() {

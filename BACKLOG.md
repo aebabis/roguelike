@@ -17,6 +17,7 @@
   - Consider switching to NPM only (no bower)
   - Serialization for saving games (and as POC for client-server games)
   - Button panel for actions other than move
+  - Highlighting to indicate if action is legal
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

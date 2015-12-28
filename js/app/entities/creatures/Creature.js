@@ -4,6 +4,8 @@ import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
 import { default as CustomEvent } from "../../events/CustomEvent.js";
 
+import { default as Weapon } from "../weapons/Weapon.js";
+
 import { default as AStar } from "../../../../bower_components/es6-a-star/es6-a-star.js";
 
 import { default as Geometry } from "../../util/Geometry.js";
@@ -16,6 +18,7 @@ export default class Creature extends Entity {
     constructor(dungeon) {
         super(dungeon);
         this._delay();
+        this._currentHP = this.getBaseHP();
     }
 
     _delay(multiplier) {
@@ -125,6 +128,8 @@ export default class Creature extends Entity {
         var weapon = (Math.abs(dx) > 1 || Math.abs(dy) > 1) ? this.getRangedWeapon() : this.getMeleeWeapon();
         if(!weapon) {
             throw new Error('No weapon to attack that target with');
+        } else if(!(weapon instanceof Weapon)) {
+            throw new Error('Creature did not return weapon');
         }
         target.modifyHP(-weapon.getDamage());
         this._incrementActions();
@@ -174,15 +179,11 @@ export default class Creature extends Entity {
     }
 
     getMeleeWeapon() {
-        return {
-            getDamage: function() {return 2;}
-        };
+        return null;
     }
 
     getRangedWeapon() {
-        return {
-            getDamage: function() {return 1;}
-        };
+        return null;
     }
 
     /**
@@ -309,9 +310,5 @@ export default class Creature extends Entity {
 
     timestep() {
         this._timeToNextMove--;
-    }
-
-    toString() {
-        return this.constructor.name;
     }
 }

@@ -14,7 +14,6 @@ export default class Entity {
         }
         this._id = idGen++;
         this._dungeon = dungeon;
-        this._currentHP = this.getBaseHP();
     }
 
     getId() {
@@ -23,5 +22,13 @@ export default class Entity {
 
     getDungeon() {
         return this._dungeon;
+    }
+
+    getTile() {
+        return this.getDungeon().getTile(this);
+    }
+
+    toString() {
+        return this.constructor.name;
     }
 }

@@ -1,5 +1,6 @@
 import { default as Tile } from "../tiles/Tile.js";
 import { default as AttackEvent } from "../events/AttackEvent.js";
+import { default as GameEvent } from "../events/GameEvent.js";
 import { default as HumanMovingEvent } from "../events/HumanMovingEvent.js";
 import { default as HumanToMoveEvent } from "../events/HumanToMoveEvent.js";
 
@@ -34,6 +35,7 @@ export default class GraphicDungeonView {
                 row.appendChild(cell);
             }
         }
+        this._rejections = [];
 
         grid.addEventListener('focus', function() {
             scrollPane.classList.add('grid-focused');
@@ -52,20 +54,52 @@ export default class GraphicDungeonView {
         return this._scrollPane;
     }
 
+    _resetAnimationQueue() {
+        console.log("JREXCT", this._rejections);
+        this._rejections.forEach(function(reject) {
+            reject();
+        });
+        this._rejections = [];
+    }
+
+    _createDelay(action, delay) {
+        var self = this;
+        return Promise.race([new Promise(function(resolve, reject) {
+            setTimeout(resolve, delay);
+        }), new Promise(function(resolve, reject) {
+            self._rejections.push(reject);
+        })]).then(action);
+    }
+
+    _queueAnimation(event) {
+        var grid = this.getDom();
+        console.log(event);
+        var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
+        if(event instanceof AttackEvent) {
+            var tile = this._dungeon.getTile(event.getTarget());
+            var cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
+            this._createDelay(function() {
+                cell.setAttribute('data-event-name', 'AttackEvent');
+            }, delay);
+        }
+    }
+
     update(event) {
         var self = this;
         var grid = this.getDom();
         var dungeon = this._dungeon;
         var player = dungeon.getPlayableCharacter();
 
-        if(event instanceof HumanMovingEvent) {
-            Array.from(grid.querySelectorAll('[data-event-name]')).forEach(function(tile) {
-                tile.removeAttribute('data-event-name');
-            });
-        } else if(event instanceof AttackEvent) {
-            var tile = this._dungeon.getTile(event.getTarget());
-            var cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
-            cell.setAttribute('data-event-name', 'AttackEvent');
+        if(event instanceof GameEvent) {
+            if(event instanceof HumanMovingEvent) {
+                Array.from(grid.querySelectorAll('[data-event-name]')).forEach(function(tile) {
+                    tile.removeAttribute('data-event-name');
+                });
+                this._resetAnimationQueue();
+                this._lastHumanMovingEvent = event;
+            } else {
+                this._queueAnimation(event);
+            }
         }
 
         dungeon.forEachTile(function(tile, x, y) {

@@ -30,6 +30,10 @@ export default class SlingshotImp extends Creature {
         };
     }
 
+    getBaseHP() {
+        return 3;
+    }
+
     getSpeed() {
         return 550;
     }

@@ -24,32 +24,4 @@ export default class Entity {
     getDungeon() {
         return this._dungeon;
     }
-
-    getBaseHP() {
-        return 0;
-    }
-
-    getCurrentHP() {
-        return this._currentHP;
-    }
-
-    modifyHP(amount) {
-        if(isNaN(amount)) {
-            throw new Error('amount must be a number');
-        }
-        this._currentHP += amount;
-        if(this._currentHP <= 0) {
-            this.die();
-        }
-    }
-
-    die() {
-        this._isDead = true;
-        this._dungeon.removeCreature(this);
-        this._dungeon.fireEvent(new CustomEvent(this.getDungeon(), this.toString() + " died"));
-    }
-
-    isDead() {
-        return !!this._isDead;
-    }
 }

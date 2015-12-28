@@ -2,6 +2,7 @@ import { default as Entity } from "../Entity.js";
 import { default as Tile } from "../../tiles/Tile.js";
 import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
+import { default as CustomEvent } from "../../events/CustomEvent.js";
 
 import { default as AStar } from "../../../../bower_components/es6-a-star/es6-a-star.js";
 
@@ -141,7 +142,31 @@ export default class Creature extends Entity {
     }
 
     getBaseHP() {
-        return 3;
+        throw new Error('Abstract method not implemented')
+    }
+
+    getCurrentHP() {
+        return this._currentHP;
+    }
+
+    modifyHP(amount) {
+        if(isNaN(amount)) {
+            throw new Error('amount must be a number');
+        }
+        this._currentHP += amount;
+        if(this._currentHP <= 0) {
+            this.die();
+        }
+    }
+
+    die() {
+        this._isDead = true;
+        this._dungeon.removeCreature(this);
+        this._dungeon.fireEvent(new CustomEvent(this.getDungeon(), this.toString() + " died"));
+    }
+
+    isDead() {
+        return !!this._isDead;
     }
 
     canActThisTimestep() {

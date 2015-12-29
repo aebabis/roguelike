@@ -7,6 +7,7 @@ import { default as WallTile } from "../tiles/WallTile.js";
 
 import { default as BasicGameConditions } from "../conditions/BasicGameConditions.js";
 import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
+import { default as Ent } from "../entities/creatures/Ent.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 
 export default class TestDungeonFactory {
@@ -108,6 +109,8 @@ export default class TestDungeonFactory {
         dungeon.setCreature(new BlackVoidSphere(dungeon), loc.getX(), loc.getY());
         var loc = locations.shift();
         dungeon.setCreature(new SlingshotImp(dungeon), loc.getX(), loc.getY());
+        var loc = locations.shift();
+        dungeon.setCreature(new Ent(dungeon), loc.getX(), loc.getY());
 
         dungeon.setGameConditions(new BasicGameConditions());
 

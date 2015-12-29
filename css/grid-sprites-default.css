@@ -18,6 +18,11 @@
     background-size: 100%;
 }
 
+.grid.theme-default .cell [data-creature-name="Ent"] {
+    background-image: url(../images/small/Ent.png);
+    background-size: 100%;
+}
+
 .grid.theme-default .cell [data-creature-name="SlingshotImp"] {
     background-image: url(../images/small/SlingshotImp.png);
     background-size: 100%;

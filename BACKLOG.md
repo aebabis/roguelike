@@ -2,6 +2,7 @@
 - High
   - More enemies
   - Refactor Dungeon timestep to be one move at a time
+  - Ability to compare 2 dungeons, for testing dungeon factory regressions
 - Med
   - Repeat level button
   - Make move classes so serialization is easier?

@@ -21,7 +21,7 @@ export default class BlackVoidSphere extends Creature {
      */
     constructor(dungeon) {
         super(dungeon);
-        this._strategy = new ChaseStrategy(this);
+        this.setStrategy(new ChaseStrategy(this));
     }
 
     getMeleeWeapon() {
@@ -30,10 +30,6 @@ export default class BlackVoidSphere extends Creature {
 
     getRangedWeapon() {
         return null;
-    }
-
-    getNextMove() {
-        return this._strategy.getNextMove();
     }
 
     getSpeed() {

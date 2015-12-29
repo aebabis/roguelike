@@ -1,5 +1,6 @@
 import { default as Creature } from "./Creature.js";
 import { default as PlayableCharacter } from "./PlayableCharacter.js";
+import { default as ChaseStrategy } from "./strategies/ChaseStrategy.js";
 
 import { default as Weapon } from "../weapons/Weapon.js";
 
@@ -20,6 +21,7 @@ export default class SlingshotImp extends Creature {
       */
     constructor(dungeon) {
         super(dungeon);
+        this.setStrategy(new ChaseStrategy(this));
     }
 
     getMeleeWeapon() {
@@ -28,26 +30,6 @@ export default class SlingshotImp extends Creature {
 
     getRangedWeapon() {
         return new ImpSlingshot(this.getDungeon());
-    }
-
-    getNextMove() {
-        var self = this;
-        return function() {
-            var enemy = self.getVisibleEnemies()[0];
-            if(enemy) {
-                self.attack(enemy);
-            } else {
-                self.wait();
-                return;
-                var neighbors = self.getTile().getNeighbors8().filter((tile)=>self.canOccupy(tile));
-                var randNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
-                if(randNeighbor) {
-                    self.move(randNeighbor);
-                } else {
-                    self.wait();
-                }
-            }
-        };
     }
 
     getBaseHP() {

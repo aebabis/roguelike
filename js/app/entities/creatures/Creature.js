@@ -4,6 +4,7 @@ import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
 import { default as CustomEvent } from "../../events/CustomEvent.js";
 
+import { default as Strategy } from "./strategies/Strategy.js";
 import { default as Weapon } from "../weapons/Weapon.js";
 
 import { default as AStar } from "../../../../bower_components/es6-a-star/es6-a-star.js";
@@ -296,12 +297,29 @@ export default class Creature extends Entity {
         return (this.toString() === 'PlayableCharacter') !== (other.toString() === 'PlayableCharacter');
     }
 
+    setStrategy(strategy) {
+        if(!(strategy instanceof Strategy)) {
+            throw new Error('Must pass a Strategy');
+        } else {
+            this._strategy = strategy;
+        }
+    }
+
+    getStrategy() {
+        return this._strategy || null;
+    }
+
     /**
      * @description Gets the Creature's next move
      * @return {Move | Promise} - A Move or a Promise for a Move
      */
     getNextMove() {
-        throw new Error('Abstract method not implemented');
+        var strategy = this.getStrategy();
+        if(strategy) {
+            return strategy.getNextMove();
+        } else {
+            throw new Error('Default method ran with no strategy set');
+        }
     }
 
     getSpeed() {

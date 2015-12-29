@@ -18,6 +18,15 @@
     background-size: 100%;
 }
 
+.grid.theme-default .cell [data-creature-name="ClunkyNinetiesCellPhone"] {
+    background-image: url(../images/small/Chunky90sPhone.png);
+    background-size: 100%;
+}
+
+.grid.theme-default .cell [data-creature-name="ClunkyNinetiesCellPhone"][data-phone-charged="true"] {
+    -webkit-filter: drop-shadow(0px 0px 10px rgba(0, 160, 255, .8));
+}
+
 .grid.theme-default .cell [data-creature-name="Ent"] {
     background-image: url(../images/small/Ent.png);
     background-size: 100%;

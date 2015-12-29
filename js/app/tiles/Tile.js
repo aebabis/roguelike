@@ -1,4 +1,5 @@
 import { default as Dungeon } from "../dungeons/Dungeon.js";
+import { default as Creature } from "../entities/creatures/Creature.js";
 
 export default class Tile {
     /**
@@ -18,6 +19,9 @@ export default class Tile {
     }
 
     setCreature(creature) {
+        if(!(creature instanceof Creature)) {
+            throw new Error('First parameter must be a Creature');
+        }
         this._creature = creature;
     }
 
@@ -64,12 +68,18 @@ export default class Tile {
     }
 
     getDirectDistance(other) {
+        if(!(other instanceof Tile)) {
+            throw new Error('First parameter must be a Tile');
+        }
         var dx = Math.abs(other.getX() - this.getX());
         var dy = Math.abs(other.getY() - this.getY());
         return Math.max(dx, dy);
     }
 
     getEuclideanDistance(other) {
+        if(!(other instanceof Tile)) {
+            throw new Error('First parameter must be a Tile');
+        }
         var dx = Math.abs(other.getX() - this.getX());
         var dy = Math.abs(other.getY() - this.getY());
         return Math.sqrt(dx * dx + dy * dy);

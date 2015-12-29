@@ -126,12 +126,23 @@ export default class Creature extends Entity {
         if(dx === 0 && dy === 0) {
             throw new Error('Creature can\'t attack itself');
         }
-        var weapon = (Math.abs(dx) > 1 || Math.abs(dy) > 1) ? this.getRangedWeapon() : this.getMeleeWeapon();
+
+        var targetDistance = tile.getDirectDistance(targetTile);
+        var weapon = (targetDistance > 1) ? this.getRangedWeapon() : this.getMeleeWeapon();
         if(!weapon) {
             throw new Error('No weapon to attack that target with');
         } else if(!(weapon instanceof Weapon)) {
             throw new Error('Creature did not return weapon');
         }
+
+        // TODO: Should the attack legality determination be in the weapon classes?
+        if(targetDistance > weapon.getRange()) {
+            throw new Error('Target not in range');
+        }
+        if(!weapon.isUseable()) {
+            throw new Error('Weapon not currently useable');
+        }
+
         target.modifyHP(-weapon.getDamage());
         this._incrementActions();
         this._delay();

@@ -5,7 +5,7 @@
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
 - Med
   - Repeat level button
-  - Make move classes so serialization is easier?
+  - Make Move classes so serialization is easier?
   - Keybindings Overlay
   - Click to focus grid?
   - Abilities Bar
@@ -19,6 +19,7 @@
   - Serialization for saving games (and as POC for client-server games)
   - Button panel for actions other than move
   - Highlighting to indicate if action is legal
+  - Make strategies return Move objects so that it's easier to make composite strategies.
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
@@ -26,3 +27,4 @@
    - Promote theme class to UI wrapper
    - Site icon
    - Animation speed
+   - Make Strategies check if Weapon isUseable()

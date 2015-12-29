@@ -27,4 +27,11 @@ export default class Weapon extends Entity {
     isMagical() {
         return false;
     }
+
+    /**
+     * False if the weapon is currently inoperable
+     */
+    isUseable() {
+        return true;
+    }
 }

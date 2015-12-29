@@ -7,6 +7,7 @@ import { default as WallTile } from "../tiles/WallTile.js";
 
 import { default as BasicGameConditions } from "../conditions/BasicGameConditions.js";
 import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
+import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
 import { default as Ent } from "../entities/creatures/Ent.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 
@@ -98,14 +99,17 @@ export default class TestDungeonFactory {
         var locations = Random.shuffle(prng, emptyTiles);
 
         // Test game configuration
-        var loc = locations.shift();
-        dungeon.setCreature(new PlayableCharacter(dungeon), loc.getX(), loc.getY());
-        var loc = locations.shift();
-        dungeon.setCreature(new BlackVoidSphere(dungeon), loc.getX(), loc.getY());
-        var loc = locations.shift();
-        dungeon.setCreature(new SlingshotImp(dungeon), loc.getX(), loc.getY());
-        var loc = locations.shift();
-        dungeon.setCreature(new Ent(dungeon), loc.getX(), loc.getY());
+        var creatures = [
+            new PlayableCharacter(dungeon),
+            new BlackVoidSphere(dungeon),
+            new SlingshotImp(dungeon),
+            new Ent(dungeon),
+            new ClunkyNinetiesCellPhone(dungeon)
+        ];
+        creatures.forEach(function(creature) {
+            var loc = locations.shift();
+            dungeon.setCreature(creature, loc.getX(), loc.getY());
+        });
 
         dungeon.setGameConditions(new BasicGameConditions());
 

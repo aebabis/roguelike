@@ -159,6 +159,15 @@ export default class GraphicDungeonView {
             }
         }
 
+        // Tempory
+        // Sync phone charge state
+        dungeon.getCreatures().filter(function(creature) {
+            return creature.constructor.name === 'ClunkyNinetiesCellPhone';
+        }).forEach(function(creature) {
+            console.log(creature);
+            self._getDomForCreature(creature).setAttribute('data-phone-charged', creature.getRangedWeapon().isCharged());
+        });
+
         // TODO: Consider if visibility needs to be animated
         // during events other than HumanMovingEvent
         // Should only be an issue in destructible environment

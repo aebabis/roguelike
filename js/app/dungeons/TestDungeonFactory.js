@@ -54,12 +54,7 @@ export default class TestDungeonFactory {
         return dungeon;
     }
 
-    getBasicEnemyDungeon() {
-        var seed = +new Date();
-        console.log(seed);
-        var prng = Random.engines.mt19937();
-        prng.seed(+new Date());
-
+    getBasicEnemyDungeon(prng) {
         var width = Random.integer(8, 15)(prng);
         var height = Random.integer(7, 10)(prng);
 

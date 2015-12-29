@@ -5,13 +5,24 @@ import { default as GraphicalViewKeyboardController } from "./controllers/Graphi
 import { default as GraphicalViewMouseController } from "./controllers/GraphicalViewMouseController.js";
 import { default as TestDungeonFactory } from "./dungeons/TestDungeonFactory.js";
 
-export default function() {
+export default function(newSeed) {
     var gameSection = document.querySelector('section');
     gameSection.innerHTML = '';
     var container = document.createElement('div');
     container.classList.add('game-ui-container');
     gameSection.appendChild(container);
-    var dungeon = new TestDungeonFactory().getBasicEnemyDungeon();
+
+    var seed;
+    if(localStorage.lastSeed && !newSeed) {
+        seed = localStorage.lastSeed;
+    } else {
+        seed = localStorage.lastSeed = +new Date();
+    }
+
+    var prng = Random.engines.mt19937();
+    prng.seed(seed);
+
+    var dungeon = new TestDungeonFactory().getBasicEnemyDungeon(prng);
     var mapView = new GraphicalDungeonView(dungeon);
     var eventLogView = new EventLogView(dungeon);
     var keyboardController = new GraphicalViewKeyboardController(dungeon, mapView);

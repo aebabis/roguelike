@@ -13,4 +13,6 @@ body {
 
 .sidebar {
     display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
 }

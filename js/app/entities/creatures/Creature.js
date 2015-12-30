@@ -82,7 +82,8 @@ export default class Creature extends Entity {
         var pathfinding = AStar({
             start: start,
             isEnd: (node)=>node===target,
-            neighbor: (node)=>node.getNeighbors8().filter((node)=>this.canOccupy(node)),
+            neighbor: (node)=>node.getNeighbors8().filter(
+                (neighbor)=>(this.canOccupy(neighbor) && (neighbor===target || neighbor.getCreature() == null))),
             distance: (a,b)=>a.getDirectDistance(b),
             heuristic: (a)=>a.getEuclideanDistance(target)
         });

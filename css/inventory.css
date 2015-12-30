@@ -1,0 +1,23 @@
+.inventory {
+    list-style: none;
+    padding: 0;
+
+    font-size: 12px;
+}
+
+.inventory li.slot {
+    height: 3em;
+
+    vertical-align: middle;
+    line-height: 1.5em;
+    border: solid 1px #666;
+}
+
+.inventory li.slot + li.slot {
+    margin-top: .5em;
+}
+
+.inventory li.slot.empty {
+    color: #999;
+    font-style: italicized;
+}

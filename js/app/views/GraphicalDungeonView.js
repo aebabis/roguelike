@@ -111,7 +111,6 @@ export default class GraphicDungeonView {
     _queueAnimation(event) {
         var self = this;
         var grid = this.getDom();
-        console.log(event);
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof AttackEvent) {
             let target = event.getTarget();
@@ -120,10 +119,6 @@ export default class GraphicDungeonView {
             this._createDelay(function() {
                 cell.setAttribute('data-event-name', 'AttackEvent');
                 let dom = self._getDomForCreature(target);
-                // TODO: Only deduct what was taken by this attack
-                dom.querySelector('.hp').style.width = target.getCurrentHP() * 100 / target.getBaseHP() + '%';
-                dom.querySelector('.action-bar').style.width = target.getTimeToNextMove() * 100 / target.getSpeed() + '%';
-                // TODO: Animate death
                 if(target.isDead()) {
                     dom.setAttribute('data-is-dead', true);
                 }
@@ -134,9 +129,6 @@ export default class GraphicDungeonView {
                 let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
                 let creature = event.getCreature();
                 let dom = self._getDomForCreature(creature);
-                // TODO: Animate HP by moving this to AttackEvent handling
-                dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
-                dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
                 cell.appendChild(dom);
             }, delay);
         }
@@ -147,8 +139,6 @@ export default class GraphicDungeonView {
         var grid = this.getDom();
         var dungeon = this._dungeon;
         var player = dungeon.getPlayableCharacter();
-
-        console.time(event);
 
         if(event instanceof GameEvent) {
             if(event instanceof HumanMovingEvent) {
@@ -162,12 +152,18 @@ export default class GraphicDungeonView {
             }
         }
 
+        dungeon.getCreatures().forEach(function(creature) {
+            // TODO: Animate HP by moving this to AttackEvent handling
+            let dom = self._getDomForCreature(creature);
+            dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
+            dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
+        });
+
         // Tempory
         // Sync phone charge state
         dungeon.getCreatures().filter(function(creature) {
             return creature.constructor.name === 'ClunkyNinetiesCellPhone';
         }).forEach(function(creature) {
-            console.log(creature);
             self._getDomForCreature(creature).setAttribute('data-phone-charged', creature.getRangedWeapon().isCharged());
         });
 

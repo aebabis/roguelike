@@ -1,3 +1,13 @@
+.grid.theme-default .cell .creature .hp {
+    height: 4px;
+    background-color: green;
+}
+
+.grid.theme-default .cell .creature .action-bar {
+    height: 2px;
+    background-color: yellow;
+}
+
 .grid.theme-default .cell[data-tile-type="Tile"] {
     background-image: url(../images/small/DungeonTile.png);
     background-size: 103%;

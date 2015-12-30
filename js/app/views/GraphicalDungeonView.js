@@ -82,7 +82,8 @@ export default class GraphicDungeonView {
                 var creature = tile.getCreature();
                 if(creature) {
                     var dom = self._getDomForCreature(creature);
-                    dom.querySelector('.hp').textContent = creature.getCurrentHP() + '/' + creature.getBaseHP();
+                    dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
+                    dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
                     cell.appendChild(dom);
                 }
             }
@@ -120,7 +121,8 @@ export default class GraphicDungeonView {
                 cell.setAttribute('data-event-name', 'AttackEvent');
                 let dom = self._getDomForCreature(target);
                 // TODO: Only deduct what was taken by this attack
-                dom.querySelector('.hp').textContent = target.getCurrentHP() + '/' + target.getBaseHP();
+                dom.querySelector('.hp').style.width = target.getCurrentHP() * 100 / target.getBaseHP() + '%';
+                dom.querySelector('.action-bar').style.width = target.getTimeToNextMove() * 100 / target.getSpeed() + '%';
                 // TODO: Animate death
                 if(target.isDead()) {
                     dom.setAttribute('data-is-dead', true);
@@ -131,9 +133,10 @@ export default class GraphicDungeonView {
                 let to = event.getToCoords();
                 let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
                 let creature = event.getCreature();
-                let dom = self._getDomForCreature(event.getCreature());
+                let dom = self._getDomForCreature(creature);
                 // TODO: Animate HP by moving this to AttackEvent handling
-                dom.querySelector('.hp').textContent = creature.getCurrentHP() + '/' + creature.getBaseHP();
+                dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
+                dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
                 cell.appendChild(dom);
             }, delay);
         }
@@ -194,10 +197,16 @@ export default class GraphicDungeonView {
             var div = document.createElement('div');
             div.setAttribute('data-id', id);
             div.setAttribute('data-creature-name', creature.toString());
+            div.classList.add('entity');
+            div.classList.add('creature');
 
             var hp = document.createElement('div');
             hp.classList.add('hp');
             div.appendChild(hp);
+
+            var actionBar = document.createElement('div');
+            actionBar.classList.add('action-bar');
+            div.appendChild(actionBar);
 
             return div;
         }

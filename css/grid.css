@@ -55,14 +55,8 @@
     box-shadow: #36f 0px 0px 10px 3px;
 }
 
-.grid .cell > div { /* Entity */
+.grid .cell .entity {
     position: relative;
-}
-
-.grid .cell > div > div { /* Entity decoration and stats */
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .grid .cell:not([data-visible="true"]) {

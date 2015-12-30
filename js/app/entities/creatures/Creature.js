@@ -23,9 +23,9 @@ export default class Creature extends Entity {
     }
 
     _delay(multiplier) {
-        if(typeof amount === 'undefined') {
+        if(typeof multiplier === 'undefined') {
             multiplier = 1;
-        } else if (isNaN(amount)) {
+        } else if (isNaN(multiplier)) {
             throw new Error('Delay amount, if given, must be a number');
         }
         this._timeToNextMove = Math.floor(this.getSpeed() * multiplier);
@@ -57,7 +57,6 @@ export default class Creature extends Entity {
         this._incrementActions();
         this._delay();
         dungeon.fireEvent(new MoveEvent(dungeon, this, x, y));
-        this._timeToNextMove = this.getSpeed();
     }
 
     moveToward(param1, param2) {
@@ -186,8 +185,12 @@ export default class Creature extends Entity {
         return !!this._isDead;
     }
 
+    getTimeToNextMove() {
+        return this._timeToNextMove;
+    }
+
     canActThisTimestep() {
-        return this._timeToNextMove === 0;
+        return this.getTimeToNextMove() === 0;
     }
 
     getMeleeWeapon() {

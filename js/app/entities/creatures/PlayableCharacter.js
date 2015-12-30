@@ -9,16 +9,12 @@ export default class PlayableCharacter extends Creature {
       */
     constructor(dungeon) {
         super(dungeon);
-        this.test = 'Chatar';
         this._readQueue = [];
         this._writeQueue = [];
     }
 
     getMeleeWeapon() {
         return new Dagger(this.getDungeon());
-    }
-
-    _queueWrite() {
     }
 
     move(dx, dy)  {

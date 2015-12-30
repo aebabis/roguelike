@@ -20,6 +20,10 @@ export default class Creature extends Entity {
         super(dungeon);
         this._delay();
         this._currentHP = this.getBaseHP();
+        var inventory = this._inventory = [];
+        for(var i = 0, l = this.getInventoryCapacity(); i < l; i++) {
+            inventory.push(null);
+        }
     }
 
     _delay(multiplier) {
@@ -33,6 +37,14 @@ export default class Creature extends Entity {
 
     getActionsCompleted() {
         return this.numActions;
+    }
+
+    getInventory() {
+        return this._inventory.slice();
+    }
+
+    getInventoryCapacity() {
+        return 2;
     }
 
     _incrementActions() {

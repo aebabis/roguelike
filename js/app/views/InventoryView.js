@@ -2,13 +2,21 @@ import { default as GameEvent } from "../events/GameEvent.js";
 
 import { default as Weapon } from "../entities/weapons/Weapon.js";
 
-function getItemDom(item) {
+function getItemDom(item, index) {
     if(item instanceof Weapon) {
+        return getWeaponDom(item)
+    } else {
+        return $(`<li class="slot empty" tabindex="0" data-index="${index}">(Empty slot)</li>`)[0];
+    }
+}
+
+function getWeaponDom(weapon) {
+    if(weapon) {
         var data = {
-            name: item.constructor.name,
-            damage: item.getDamage(),
-            range: item.getRange(),
-            isMagical: item.isMagical()
+            name: weapon.constructor.name,
+            damage: weapon.getDamage(),
+            range: weapon.getRange(),
+            isMagical: weapon.isMagical()
         }
         return $(`
             <li class="slot item weapon" tabindex="0">
@@ -21,13 +29,18 @@ function getItemDom(item) {
             </li>
         `)[0];
     } else {
-        return $('<li class="slot empty" tabindex="0">(Empty slot)</li>')[0];
+        return $('<li class="slot empty" tabindex="0">(Empty weapon slot)</li>')[0];
     }
 }
 
 function getInventoryDom(creature) {
-    var items = [creature.getMeleeWeapon(), creature.getRangedWeapon()];
-    return $('<ul class="inventory">').append(items.map(getItemDom));
+    var meleeWeapon = creature.getMeleeWeapon();
+    var rangedWeapon = creature.getRangedWeapon();
+    var items = creature.getInventory();
+    return $('<ul class="inventory">')
+        .append(getWeaponDom(meleeWeapon))
+        .append(getWeaponDom(rangedWeapon))
+        .append(items.map(getItemDom));
 }
 
 export default class InventoryView {

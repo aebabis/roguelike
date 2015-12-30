@@ -8,7 +8,6 @@
   - Make Move classes so serialization is easier?
   - Keybindings Overlay
   - Click to focus grid?
-  - Abilities Bar
   - Inventory
   - Tile Contents Panel (Use + and - to navigate?)
   - Tile Info Panel
@@ -20,6 +19,7 @@
   - Button panel for actions other than move
   - Highlighting to indicate if action is legal
   - Make strategies return Move objects so that it's easier to make composite strategies.
+  - Handle legal noPath situations
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

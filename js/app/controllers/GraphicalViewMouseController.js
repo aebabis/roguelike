@@ -12,15 +12,19 @@ export default class GraphicalViewMouseController {
             var playerLocation = dungeon.getTile(character);
             var targetX = tile.getAttribute('data-x');
             var targetY = tile.getAttribute('data-y');
-            var enemy = dungeon.getTile(targetX, targetY).getCreature();
-            if(enemy) {
+            var creature = dungeon.getTile(targetX, targetY).getCreature();
+            if(creature && creature.isEnemy(character)) {
                 character.setNextMove(function() {
-                    character.attack(targetX, targetY);
+                    character.attack(creature);
                 });
             } else {
                 var dx = targetX - playerLocation.getX();
                 var dy = targetY - playerLocation.getY();
-                if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
+                if(dx === 0 && dy === 0) {
+                    character.setNextMove(function() {
+                        character.wait();
+                    });
+                } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
                     character.setNextMove(function() {
                         character.move(dx, dy);
                     });

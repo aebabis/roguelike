@@ -62,6 +62,8 @@ export default class ClunkyNinetiesCellPhone extends Creature {
                     self.wait(); // TODO: Make useItem Move
                     weapon.charge();
                 }
+            } else {
+                self.wait();
             }
         }
     }

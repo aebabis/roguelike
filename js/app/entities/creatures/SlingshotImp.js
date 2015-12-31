@@ -6,7 +6,7 @@ import { default as Weapon } from "../weapons/Weapon.js";
 
 class ImpSlingshot extends Weapon {
     getRange() {
-        return 5;
+        return 3;
     }
 
     getDamage() {

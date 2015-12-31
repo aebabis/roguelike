@@ -4,13 +4,13 @@ import { default as Weapon } from "../entities/weapons/Weapon.js";
 
 function getItemDom(item, index) {
     if(item instanceof Weapon) {
-        return getWeaponDom(item)
+        return getWeaponDom(item, index)
     } else {
         return $(`<li class="slot empty" tabindex="0" data-index="${index}">(Empty slot)</li>`)[0];
     }
 }
 
-function getWeaponDom(weapon) {
+function getWeaponDom(weapon, index) {
     if(weapon) {
         var data = {
             name: weapon.constructor.name,
@@ -19,7 +19,7 @@ function getWeaponDom(weapon) {
             isMagical: weapon.isMagical()
         }
         return $(`
-            <li class="slot item weapon" tabindex="0">
+            <li class="slot item weapon" tabindex="0" data-index="${index}">
                 <div class="name">${data.name}</div>
                 <div class="stats">
                     <span class="damage-icon">Damage: </span> <span class="damage-text">${data.damage}</span>,
@@ -52,14 +52,27 @@ export default class InventoryView {
         var self = this;
         var dom = this._dom = document.createElement('div');
 
+        $(dom).on('click', '.item', function() {
+            var creature = self.getCreature();
+            var index = $(this).attr('data-index');
+            // TODO: Assumes PlayableCharacter anyway?
+            creature.setNextMove(function() {
+                creature.useItem(index);
+            });
+        });
+
         dungeon.addObserver((event)=>this.update());
 
         this.setCreature(dungeon.getPlayableCharacter());
     }
 
     update() {
-        $(this._dom).empty().append(getInventoryDom(this._creature));
+        $(this._dom).empty().append(getInventoryDom(this.getCreature()));
     }
+
+    getCreature(creature) {
+        return this._creature;
+    };
 
     setCreature(creature) {
         this._creature = creature;

@@ -43,6 +43,19 @@ export default class Creature extends Entity {
         return this._inventory.slice();
     }
 
+    addItem(item) {
+        if(!(item instanceof Weapon)) {
+            throw new Error('First parameter must be an item');
+        }
+        var inventory = this._inventory;
+        var emptySlot = inventory.indexOf(null);
+        if(emptySlot === -1) {
+            throw new Error('Inventory full');
+        } else {
+            inventory[emptySlot] = item;
+        }
+    }
+
     getInventoryCapacity() {
         return 2;
     }
@@ -161,6 +174,32 @@ export default class Creature extends Entity {
         dungeon.fireEvent(new AttackEvent(dungeon, this, target, weapon));
     }
 
+    useItem(inventoryIndex, targetTile) {
+        if(isNaN(inventoryIndex)) {
+            throw new Error('First parameter must be a number');
+        }
+        var inventory = this._inventory;
+        var item = inventory[inventoryIndex];
+        var dungeon = this.getDungeon();
+        if(!item) {
+            throw new Error('No item in given position');
+        }
+        if(item instanceof Weapon) {
+            var oldWeapon;
+            if(item.getRange() === 1) {
+                oldWeapon = this.getMeleeWeapon();
+                this.setMeleeWeapon(item);
+            } else {
+                oldWeapon = this.getRangedWeapon();
+                this.setRangedWeapon(item);
+            }
+            inventory[inventoryIndex] = oldWeapon;
+            dungeon.fireEvent(new CustomEvent(dungeon, this + "equipped" + item));
+        }
+        this._incrementActions();
+        this._delay();
+    }
+
     wait() {
         this._incrementActions();
         this._delay(.25);
@@ -206,12 +245,30 @@ export default class Creature extends Entity {
         return this.getTimeToNextMove() === 0;
     }
 
+    setMeleeWeapon(weapon) {
+        if(!(weapon instanceof Weapon)) {
+            throw new Error('Parameter must be a Weapon');
+        } else if(weapon.getRange() > 1) {
+            throw new Error('Weapon is not melee')
+        }
+        this._meleeWeapon = weapon;
+    }
+
+    setRangedWeapon(weapon) {
+        if(!(weapon instanceof Weapon)) {
+            throw new Error('Parameter must be a Weapon');
+        } else if(weapon.getRange() === 1) {
+            throw new Error('Weapon is not ranged')
+        }
+        this._rangedWeapon = weapon;
+    }
+
     getMeleeWeapon() {
-        return null;
+        return this._meleeWeapon;
     }
 
     getRangedWeapon() {
-        return null;
+        return this._rangedWeapon;
     }
 
     /**

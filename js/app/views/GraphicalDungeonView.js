@@ -196,13 +196,17 @@ export default class GraphicDungeonView {
             div.classList.add('entity');
             div.classList.add('creature');
 
+            var stats = document.createElement('div');
+            stats.classList.add('stats');
+            div.appendChild(stats);
+
             var hp = document.createElement('div');
             hp.classList.add('hp');
-            div.appendChild(hp);
+            stats.appendChild(hp);
 
             var actionBar = document.createElement('div');
             actionBar.classList.add('action-bar');
-            div.appendChild(actionBar);
+            stats.appendChild(actionBar);
 
             return div;
         }

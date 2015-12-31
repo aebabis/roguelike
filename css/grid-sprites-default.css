@@ -1,11 +1,24 @@
+.grid.theme-default,
+.grid.theme-default * {
+    box-sizing: border-box;
+}
+
+.grid.theme-default .cell .creature .stats {
+    width: 90%;
+    margin: 5%;
+}
+
 .grid.theme-default .cell .creature .hp {
     height: 4px;
     background-color: green;
+    border: solid 1px darkgreen;
 }
 
 .grid.theme-default .cell .creature .action-bar {
-    height: 2px;
-    background-color: yellow;
+    margin-top: -1px;
+    height: 4px;
+    background: linear-gradient(to bottom, #ed2 0%, #c70 100%);
+    border: solid 1px #640;
 }
 
 .grid.theme-default .cell[data-tile-type="Tile"] {

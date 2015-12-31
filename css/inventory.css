@@ -5,12 +5,35 @@
     font-size: 12px;
 }
 
+.inventory .subinventory {
+    padding: 7px;
+    position: relative;
+    background-color: #668;
+}
+
+.inventory .subinventory h2 {
+    position: absolute;
+    background-color: white;
+    font-size: 14px;
+    top: -23px;
+    line-height: 1em;
+    padding: 0 3px;
+    left: 4px;
+    color: #666;
+    border: solid 1px #668;
+}
+
+.inventory .subinventory + .subinventory {
+    margin-top: 15px;
+}
+
 .inventory li.slot {
     height: 3em;
 
     vertical-align: middle;
     line-height: 1.5em;
     border: solid 1px #666;
+    background-color: white;
 }
 
 .inventory li.slot + li.slot {

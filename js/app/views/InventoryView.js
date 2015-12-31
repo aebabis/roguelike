@@ -38,9 +38,17 @@ function getInventoryDom(creature) {
     var rangedWeapon = creature.getRangedWeapon();
     var items = creature.getInventory();
     return $('<ul class="inventory">')
-        .append(getWeaponDom(meleeWeapon))
-        .append(getWeaponDom(rangedWeapon))
-        .append(items.map(getItemDom));
+        .append(
+            $('<div class="subinventory equipment">')
+                .append('<h2>Equipment</h2>')
+                .append(getWeaponDom(meleeWeapon))
+                .append(getWeaponDom(rangedWeapon))
+            )
+        .append(
+            $('<div class="subinventory backpack">')
+                .append('<h2>Backpack</h2>')
+                .append(items.map(getItemDom))
+        );
 }
 
 export default class InventoryView {

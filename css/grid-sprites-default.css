@@ -15,7 +15,8 @@
 }
 
 .grid.theme-default .cell[data-tile-type="WallTile"] {
-    background-color: rgb(50, 50, 50);
+    background-image: url(../images/small/crummywall.png);
+    background-size: 100%;
 }
 
 .grid.theme-default .cell [data-creature-name="PlayableCharacter"] {

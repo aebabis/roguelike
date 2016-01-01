@@ -5,6 +5,8 @@ import { default as HumanMovingEvent } from "../events/HumanMovingEvent.js";
 import { default as HumanToMoveEvent } from "../events/HumanToMoveEvent.js";
 import { default as MoveEvent } from "../events/MoveEvent.js";
 
+var ANIMATE_BARS = false;
+
 export default class GraphicDungeonView {
     constructor(dungeon) {
         var self = this;
@@ -82,12 +84,37 @@ export default class GraphicDungeonView {
                 var creature = tile.getCreature();
                 if(creature) {
                     var dom = self._getDomForCreature(creature);
-                    dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
-                    dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
                     cell.appendChild(dom);
+                    self._animateBars(creature);
                 }
             }
         });
+    }
+
+    _animateBars(creature) {
+        var SCALE = 2;
+        if(creature.isDead()) {
+            return;
+        }
+        var dom = this._getDomForCreature(creature);
+        dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
+        var actionBar = $(dom).find('.action-bar');
+        var prevTime = actionBar.attr('data-last-width') || 0;
+        var time = creature.getTimeToNextMove();
+        var width = time * 100 / 1000 + '%';
+        if(ANIMATE_BARS) {
+            if(time < prevTime) {
+                actionBar.stop().animate({width: width}, (prevTime - time) * SCALE);
+            } else {
+                actionBar.stop().animate({width: 0}, prevTime * SCALE, function() {
+                    var speed = creature.getSpeed();
+                    var startingWidth = speed * 100 / 1000 + '%';
+                    actionBar.width(startingWidth).animate({width: width}, (speed - time) * SCALE);
+                });
+            }
+        } else {
+            actionBar.width(width);
+        }
     }
 
     _resetAnimationQueue() {
@@ -154,9 +181,7 @@ export default class GraphicDungeonView {
 
         dungeon.getCreatures().forEach(function(creature) {
             // TODO: Animate HP by moving this to AttackEvent handling
-            let dom = self._getDomForCreature(creature);
-            dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
-            dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
+            self._animateBars(creature);
         });
 
         // Tempory

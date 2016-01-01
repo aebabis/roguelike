@@ -24,6 +24,10 @@ export default class Entity {
         return this._dungeon;
     }
 
+    isEquipable() {
+        return false;
+    }
+
     getTile() {
         return this.getDungeon().getTile(this);
     }

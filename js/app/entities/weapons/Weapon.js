@@ -9,6 +9,10 @@ export default class Weapon extends Entity {
         super(dungeon);
     }
 
+    isEquipable() {
+        return true;
+    }
+
     getDamage() {
         throw new Error('Abstract method not implemented');
     }

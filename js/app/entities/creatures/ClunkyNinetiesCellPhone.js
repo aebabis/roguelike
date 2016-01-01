@@ -1,4 +1,5 @@
 import { default as Creature } from "./Creature.js";
+import { default as Inventory } from "./Inventory.js";
 import { default as PlayableCharacter } from "./PlayableCharacter.js";
 
 import { default as CustomEvent } from "../../events/CustomEvent.js";
@@ -14,9 +15,17 @@ class CellPhoneZap extends Weapon {
         return (this.getDungeon().getCurrentTimestep() - this._chargeTimestamp) < 500;
     }
 
-   isUseable() {
+    use() {
+        this.charge();
+    }
+
+    getUseMessage(creature) {
+        return creature +  " is charging its lazer";
+    }
+
+    isUseable() {
        return this.isCharged();
-   }
+    }
 
     getRange() {
         return 10;
@@ -38,11 +47,7 @@ export default class ClunkyNinetiesCellPhone extends Creature {
       */
     constructor(dungeon) {
         super(dungeon);
-        this._zap = new CellPhoneZap(dungeon);
-    }
-
-    getRangedWeapon() {
-        return this._zap;
+        this.setRangedWeapon(new CellPhoneZap(dungeon));
     }
 
     getNextMove() {
@@ -58,9 +63,7 @@ export default class ClunkyNinetiesCellPhone extends Creature {
                 if(weapon.isCharged()) {
                     self.attack(target);
                 } else {
-                    dungeon.fireEvent(new CustomEvent(dungeon, self + " is charging its lazer"));
-                    self.wait(); // TODO: Make useItem Move
-                    weapon.charge();
+                    self.useItem(Inventory.RANGED_SLOT);
                 }
             } else {
                 self.wait();

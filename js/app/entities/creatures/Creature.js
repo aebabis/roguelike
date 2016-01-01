@@ -167,10 +167,13 @@ export default class Creature extends Entity {
         if(!item) {
             throw new Error('No item at position: ' + position);
         }
-        if(item instanceof Weapon && !isNaN(position)) {
-            // Unequipped weapon
+        if(item.isEquipable() && !isNaN(position)) {
+            // Equipable items in backpack are used by equipping them
             inventory.equipItem(position);
             dungeon.fireEvent(new CustomEvent(dungeon, this + " equipped " + item));
+        } else {
+            item.use();
+            dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(this, targetTile)));
         }
         this._incrementActions();
         this._delay();

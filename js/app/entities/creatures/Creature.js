@@ -4,6 +4,8 @@ import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
 import { default as CustomEvent } from "../../events/CustomEvent.js";
 
+import { default as Inventory } from "./Inventory.js";
+
 import { default as Strategy } from "./strategies/Strategy.js";
 import { default as Weapon } from "../weapons/Weapon.js";
 
@@ -20,10 +22,7 @@ export default class Creature extends Entity {
         super(dungeon);
         this._delay();
         this._currentHP = this.getBaseHP();
-        var inventory = this._inventory = [];
-        for(var i = 0, l = this.getInventoryCapacity(); i < l; i++) {
-            inventory.push(null);
-        }
+        this._inventory = new Inventory();
     }
 
     _delay(multiplier) {
@@ -40,24 +39,11 @@ export default class Creature extends Entity {
     }
 
     getInventory() {
-        return this._inventory.slice();
+        return this._inventory;
     }
 
     addItem(item) {
-        if(!(item instanceof Weapon)) {
-            throw new Error('First parameter must be an item');
-        }
-        var inventory = this._inventory;
-        var emptySlot = inventory.indexOf(null);
-        if(emptySlot === -1) {
-            throw new Error('Inventory full');
-        } else {
-            inventory[emptySlot] = item;
-        }
-    }
-
-    getInventoryCapacity() {
-        return 2;
+        this._inventory.addItem(item);
     }
 
     _incrementActions() {
@@ -174,27 +160,17 @@ export default class Creature extends Entity {
         dungeon.fireEvent(new AttackEvent(dungeon, this, target, weapon));
     }
 
-    useItem(inventoryIndex, targetTile) {
-        if(isNaN(inventoryIndex)) {
-            throw new Error('First parameter must be a number');
-        }
-        var inventory = this._inventory;
-        var item = inventory[inventoryIndex];
+    useItem(position, targetTile) {
         var dungeon = this.getDungeon();
+        var inventory = this.getInventory();
+        var item = inventory.getItem(position);
         if(!item) {
-            throw new Error('No item in given position');
+            throw new Error('No item at position: ' + position);
         }
-        if(item instanceof Weapon) {
-            var oldWeapon;
-            if(item.getRange() === 1) {
-                oldWeapon = this.getMeleeWeapon();
-                this.setMeleeWeapon(item);
-            } else {
-                oldWeapon = this.getRangedWeapon();
-                this.setRangedWeapon(item);
-            }
-            inventory[inventoryIndex] = oldWeapon;
-            dungeon.fireEvent(new CustomEvent(dungeon, this + "equipped" + item));
+        if(item instanceof Weapon && !isNaN(position)) {
+            // Unequipped weapon
+            inventory.equipItem(position);
+            dungeon.fireEvent(new CustomEvent(dungeon, this + " equipped " + item));
         }
         this._incrementActions();
         this._delay();
@@ -246,29 +222,21 @@ export default class Creature extends Entity {
     }
 
     setMeleeWeapon(weapon) {
-        if(!(weapon instanceof Weapon)) {
-            throw new Error('Parameter must be a Weapon');
-        } else if(weapon.getRange() > 1) {
-            throw new Error('Weapon is not melee')
-        }
-        this._meleeWeapon = weapon;
+        this.getInventory().setMeleeWeapon(weapon);
     }
 
     setRangedWeapon(weapon) {
-        if(!(weapon instanceof Weapon)) {
-            throw new Error('Parameter must be a Weapon');
-        } else if(weapon.getRange() === 1) {
-            throw new Error('Weapon is not ranged')
-        }
-        this._rangedWeapon = weapon;
+        this.getInventory().setRangedWeapon(weapon);
     }
 
+    // Convenience function to get inventory item
+    // TODO: Consider removing
     getMeleeWeapon() {
-        return this._meleeWeapon;
+        return this.getInventory().getMeleeWeapon();
     }
 
     getRangedWeapon() {
-        return this._rangedWeapon;
+        return this.getInventory().getRangedWeapon();
     }
 
     /**

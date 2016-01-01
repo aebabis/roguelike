@@ -36,7 +36,7 @@ function getWeaponDom(weapon, index) {
 function getInventoryDom(creature) {
     var meleeWeapon = creature.getMeleeWeapon();
     var rangedWeapon = creature.getRangedWeapon();
-    var items = creature.getInventory();
+    var items = creature.getInventory().getBackpack();
     return $('<ul class="inventory">')
         .append(
             $('<div class="subinventory equipment">')

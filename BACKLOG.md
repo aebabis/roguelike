@@ -20,6 +20,7 @@
   - Make strategies return Move objects so that it's easier to make composite strategies.
   - Handle legal noPath situations
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
+  - Make views get Dungeon from shared data
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

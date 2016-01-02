@@ -1,5 +1,5 @@
 export default class GraphicalViewMouseController {
-    constructor(dungeon, graphicalDungeonView) {
+    constructor(dungeon, sharedData, graphicalDungeonView) {
         var dom = graphicalDungeonView.getDom();
 
         // Arrow key handler
@@ -30,6 +30,12 @@ export default class GraphicalViewMouseController {
                     });
                 }
             }
+        });
+
+        $(dom).on('mouseover', '.cell', function() {
+            var x = $(this).attr('data-x');
+            var y = $(this).attr('data-y');
+            sharedData.setInspectedTile(x, y);
         });
 
         // Arrow key handler

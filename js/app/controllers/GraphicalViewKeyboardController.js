@@ -1,7 +1,7 @@
 import { default as Tile } from "../tiles/Tile.js";
 
 export default class GraphicalViewKeyboardController {
-    constructor(dungeon, graphicalDungeonView) {
+    constructor(dungeon, sharedData, graphicalDungeonView) {
         var dom = graphicalDungeonView.getDom();
 
         // Arrow key handler

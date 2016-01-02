@@ -4,9 +4,11 @@ import { default as TestDungeonFactory } from "./dungeons/TestDungeonFactory.js"
 import { default as GraphicalDungeonView } from "./views/GraphicalDungeonView.js";
 import { default as EventLogView } from "./views/EventLogView.js";
 import { default as InventoryView } from "./views/InventoryView.js";
+import { default as TileView } from "./views/TileView.js";
 
 import { default as GraphicalViewKeyboardController } from "./controllers/GraphicalViewKeyboardController.js";
 import { default as GraphicalViewMouseController } from "./controllers/GraphicalViewMouseController.js";
+import { default as GraphicalViewSharedData } from "./controllers/GraphicalViewSharedData.js";
 
 export default function(newSeed) {
     var gameSection = document.querySelector('section');
@@ -26,15 +28,20 @@ export default function(newSeed) {
     prng.seed(seed);
 
     var dungeon = new TestDungeonFactory().getBasicEnemyDungeon(prng);
+
+    var sharedData = new GraphicalViewSharedData(dungeon);
+
     var mapView = new GraphicalDungeonView(dungeon);
     var eventLogView = new EventLogView(dungeon);
     var inventoryView = new InventoryView(dungeon);
-    var keyboardController = new GraphicalViewKeyboardController(dungeon, mapView);
-    var mouseController = new GraphicalViewMouseController(dungeon, mapView);
+    var tileView = new TileView(sharedData);
+    var keyboardController = new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
+    var mouseController = new GraphicalViewMouseController(dungeon, sharedData, mapView);
     container.appendChild(mapView.getDom());
     var sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
     container.appendChild(sidebar);
+    sidebar.appendChild(tileView.getDom());
     sidebar.appendChild(inventoryView.getDom());
     sidebar.appendChild(eventLogView.getDom());
 

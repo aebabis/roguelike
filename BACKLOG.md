@@ -1,14 +1,11 @@
 # Backlog
 - High
   - More enemies
-  - Refactor Dungeon timestep to be one move at a time
-  - Ability to compare 2 dungeons, for testing dungeon factory regressions
 - Med
+  - Ranged attack animation
   - Repeat level button
-  - Make Move classes so serialization is easier?
   - Keybindings Overlay
   - Click to focus grid?
-  - Inventory
   - Tile Contents Panel (Use + and - to navigate?)
   - Tile Info Panel
     - Monster
@@ -18,8 +15,11 @@
   - Serialization for saving games (and as POC for client-server games)
   - Button panel for actions other than move
   - Highlighting to indicate if action is legal
+  - Make moveToward return a move so Move refactoring is easier
+  - Make Move classes so serialization is easier?
   - Make strategies return Move objects so that it's easier to make composite strategies.
   - Handle legal noPath situations
+  - Ability to compare 2 dungeons, for testing dungeon factory regressions
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
@@ -27,4 +27,4 @@
    - Promote theme class to UI wrapper
    - Site icon
    - Animation speed
-   - Make Strategies check if Weapon isUseable()
+   - Make action bars orange if their next action will be before player's

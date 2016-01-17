@@ -1,6 +1,7 @@
 import { default as Observable } from "../util/Observable.js";
 import { default as Tile } from "../tiles/Tile.js";
 import { default as Creature } from "../entities/creatures/Creature.js";
+import { default as Move } from "../entities/creatures/moves/Move.js";
 import { default as GameConditions } from "../conditions/GameConditions.js";
 
 import { default as PlayableCharacter } from "../entities/creatures/PlayableCharacter.js";
@@ -163,23 +164,20 @@ export default class Dungeon extends Observable {
             if(activeCreature instanceof PlayableCharacter) {
                 self.fireEvent(new HumanToMoveEvent(this, activeCreature));
             }
-            promise = Promise.resolve(activeCreature.getNextMove()).then(function(move) {
+            promise = Promise.resolve(activeCreature.getNextMove(this)).then(function(move) {
+                if(!(move instanceof Move)) {
+                    throw new Error("Expected move from " + activeCreature + ", got " + move);
+                }
                 if(activeCreature instanceof PlayableCharacter) {
                     self.fireEvent(new HumanMovingEvent(self, activeCreature));
                 }
 
                 try {
-                    var actions = activeCreature.getActionsCompleted();
-                    move();
-                    if(actions === activeCreature.getActionsCompleted()) {
-                        throw new Error('Move did not perform any actions');
-                    }
-                    if(activeCreature.canActThisTimestep()) {
-                        console.warn('Move did not cause a delay')
-                    }
+                    activeCreature.executeMove(self, move);
                 } catch(error) {
                     console.error(error);
-                    activeCreature.wait();
+                    activeCreature.executeMove(self, new Move.WaitMove());
+                    //activeCreature.wait();
                 }
             });
         } else {

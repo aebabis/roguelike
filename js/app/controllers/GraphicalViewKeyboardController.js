@@ -1,4 +1,13 @@
 import { default as Tile } from "../tiles/Tile.js";
+import { default as Move } from "../entities/creatures/moves/Move.js";
+
+
+import { default as AttackMove } from "../entities/creatures/moves/AttackMove.js";
+import { default as MovementMove } from "../entities/creatures/moves/MovementMove.js";
+import { default as TakeItemMove } from "../entities/creatures/moves/TakeItemMove.js";
+import { default as UseAbilityMove } from "../entities/creatures/moves/UseAbilityMove.js";
+import { default as UseItemMove } from "../entities/creatures/moves/UseItemMove.js";
+import { default as WaitMove } from "../entities/creatures/moves/WaitMove.js";
 
 export default class GraphicalViewKeyboardController {
     constructor(dungeon, sharedData, graphicalDungeonView) {
@@ -19,14 +28,10 @@ export default class GraphicalViewKeyboardController {
                         case 39: dx++; break;
                         case 40: dy++; break;
                     }
-                    character.setNextMove(function() {
-                        character.move(dx, dy);
-                    });
+                    character.setNextMove(new Move.MovementMove(dx, dy));
                     event.preventDefault();
-                } else if(code === 190) {
-                    character.setNextMove(function() {
-                        character.wait();
-                    });
+                } else if(code === 190 || code === 101) {
+                    character.setNextMove(new Move.WaitMove());
                 }
             }
         });

@@ -9,9 +9,9 @@ export default class AttackEvent extends GameEvent {
     constructor(dungeon, attacker, target, weapon) {
         super(dungeon);
         if(!(attacker instanceof Creature)) {
-            throw new Error('First parameter must be a creature');
-        } else if(!(target instanceof Creature)) {
             throw new Error('Second parameter must be a creature');
+        } else if(!(target instanceof Creature)) {
+            throw new Error('Third parameter must be a creature');
         }
 
         this._attacker = attacker;

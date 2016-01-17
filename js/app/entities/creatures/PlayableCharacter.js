@@ -4,6 +4,8 @@ import { default as Dagger } from "../weapons/Dagger.js";
 import { default as Shortbow } from "../weapons/Shortbow.js";
 import { default as Stick } from "../weapons/Stick.js";
 
+import { default as Move } from "./moves/Move.js";
+
 export default class PlayableCharacter extends Creature {
     /**
       * @class Tile
@@ -36,6 +38,9 @@ export default class PlayableCharacter extends Creature {
     }
 
     setNextMove(move) {
+        if(!(move instanceof Move)) {
+            throw new Error(move + " is not a Move");
+        }
         var write = this._writeQueue;
         if(write.length) {
             write.shift().resolve(move);

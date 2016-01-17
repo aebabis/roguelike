@@ -76,7 +76,7 @@ export default class TestDungeonFactory {
         var tile = dungeon.getTile(Random.integer(0, width - 1)(prng), Random.integer(0, height - 1)(prng));
         var doneList = {};
         var adjacentList = {};
-        console.log("Num open tiles", numOpenTiles);
+        
         for(var times = 0; times < numOpenTiles; times++) {
             let x = tile.getX();
             let y = tile.getY();

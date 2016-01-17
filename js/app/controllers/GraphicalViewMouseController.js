@@ -1,3 +1,5 @@
+import { default as Move } from "../entities/creatures/moves/Move.js";
+
 export default class GraphicalViewMouseController {
     constructor(dungeon, sharedData, graphicalDungeonView) {
         var dom = graphicalDungeonView.getDom();
@@ -14,20 +16,14 @@ export default class GraphicalViewMouseController {
             var targetY = tile.getAttribute('data-y');
             var creature = dungeon.getTile(targetX, targetY).getCreature();
             if(creature && creature.isEnemy(character)) {
-                character.setNextMove(function() {
-                    character.attack(creature);
-                });
+                character.setNextMove(new Move.AttackMove(creature));
             } else {
                 var dx = targetX - playerLocation.getX();
                 var dy = targetY - playerLocation.getY();
                 if(dx === 0 && dy === 0) {
-                    character.setNextMove(function() {
-                        character.wait();
-                    });
+                    character.setNextMove(new Move.WaitMove());
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
-                    character.setNextMove(function() {
-                        character.move(dx, dy);
-                    });
+                    character.setNextMove(new Move.MovementMove(dx, dy));
                 }
             }
         });

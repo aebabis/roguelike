@@ -6,6 +6,10 @@ import { default as CustomEvent } from "../../events/CustomEvent.js";
 
 import { default as Weapon } from "../weapons/Weapon.js";
 
+import { default as AttackMove } from "./moves/AttackMove.js";
+import { default as UseItemMove } from "./moves/UseItemMove.js";
+import { default as WaitMove } from "./moves/WaitMove.js";
+
 class CellPhoneZap extends Weapon {
     charge() {
         this._chargeTimestamp = this.getDungeon().getCurrentTimestep();
@@ -51,23 +55,20 @@ export default class ClunkyNinetiesCellPhone extends Creature {
     }
 
     getNextMove() {
-        var self = this;
-        return function() {
-            var dungeon = self.getDungeon();
-            var tile = self.getTile();
-            var target = self.getVisibleEnemies().find(function(creature) {
-                return tile.getDirectDistance(creature.getTile()) > 1;
-            });
-            if(target) {
-                var weapon = self.getRangedWeapon();
-                if(weapon.isCharged()) {
-                    self.attack(target);
-                } else {
-                    self.useItem(Inventory.RANGED_SLOT);
-                }
+        var dungeon = this.getDungeon();
+        var tile = this.getTile();
+        var target = this.getVisibleEnemies().find(function(creature) {
+            return tile.getDirectDistance(creature.getTile()) > 1;
+        });
+        if(target) {
+            var weapon = this.getRangedWeapon();
+            if(weapon.isCharged()) {
+                return new AttackMove(target);
             } else {
-                self.wait();
+                return new UseItemMove(Inventory.RANGED_SLOT);
             }
+        } else {
+            return new WaitMove();
         }
     }
 

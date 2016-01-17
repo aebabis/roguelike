@@ -9,8 +9,6 @@ import { default as Inventory } from "./Inventory.js";
 import { default as Strategy } from "./strategies/Strategy.js";
 import { default as Weapon } from "../weapons/Weapon.js";
 
-import { default as AStar } from "../../../../bower_components/es6-a-star/es6-a-star.js";
-
 import { default as Geometry } from "../../util/Geometry.js";
 
 export default class Creature extends Entity {
@@ -50,140 +48,6 @@ export default class Creature extends Entity {
         this.numActions = (this.numActions || 0) + 1;
     }
 
-    move(dx, dy) {
-        var dungeon = this.getDungeon();
-        var tile = dungeon.getTile(this);
-        var x = tile.getX() + dx;
-        var y = tile.getY() + dy;
-        var newLocation = dungeon.getTile(x, y);
-        if(!this.canOccupy(newLocation)) {
-            throw new Error("Cannot legally occupy new location");
-        }
-        var occupant = newLocation.getCreature();
-        if(occupant) {
-            throw new Error('Cannot move to occupied tile', occupant);
-        }
-        tile.removeCreature();
-        dungeon.setCreature(this, x, y);
-        this._incrementActions();
-        this._delay();
-        dungeon.fireEvent(new MoveEvent(dungeon, this, x, y));
-    }
-
-    moveToward(param1, param2) {
-        var start = this.getTile();
-        var target;
-        var x = start.getX();
-        var y = start.getY();
-        var tX, tY;
-        if(param1 instanceof Tile) {
-            target = param1;
-        } else if(param1 instanceof Creature) {
-            target = param1.getTile();
-        } else if(!isNaN(param1) && !isNaN(param2)) {
-            target = this.getDungeon().getTile(param1, param2);
-        } else {
-            throw new Error("Illegal parameters", param1, param2);
-        }
-
-        if(start === target) {
-            console.warn("Creature trying to move to path to its own location", this);
-        }
-
-        var pathfinding = AStar({
-            start: start,
-            isEnd: (node)=>node===target,
-            neighbor: (node)=>node.getNeighbors8().filter(
-                (neighbor)=>(this.canOccupy(neighbor) && (neighbor===target || neighbor.getCreature() == null))),
-            distance: (a,b)=>a.getDirectDistance(b),
-            heuristic: (a)=>a.getEuclideanDistance(target)
-        });
-
-        if(pathfinding.status === 'success') {
-            var nextTile = pathfinding.path[1];
-            if(nextTile) {
-                this.move(
-                    Math.sign(nextTile.getX() - x),
-                    Math.sign(nextTile.getY() - y)
-                );
-            }
-        } else {
-            throw new Error(pathfinding.status);
-        }
-    }
-
-    attack(param1, param2) {
-        var dungeon = this.getDungeon();
-        var tile = dungeon.getTile(this);
-        var x, y, target, targetTile;
-        if(param1 instanceof Creature) {
-            target = param1;
-            targetTile = target.getTile();
-            x = target.getTile().getX();
-            y = target.getTile().getY();
-        } else {
-            x = param1;
-            y = param2;
-            targetTile = dungeon.getTile(x, y);
-            target = targetTile.getCreature();
-        }
-        if(!this.canSee(targetTile)) {
-            throw new Error('Can\'t see the target');
-        } else if(!target) {
-            throw new Error('Nothing to attack');
-        }
-        var dx = tile.getX() - x;
-        var dy = tile.getY() - y;
-        if(dx === 0 && dy === 0) {
-            throw new Error('Creature can\'t attack itself');
-        }
-
-        var targetDistance = tile.getDirectDistance(targetTile);
-        var weapon = (targetDistance > 1) ? this.getRangedWeapon() : this.getMeleeWeapon();
-        if(!weapon) {
-            throw new Error('No weapon to attack that target with');
-        } else if(!(weapon instanceof Weapon)) {
-            throw new Error('Creature did not return weapon');
-        }
-
-        // TODO: Should the attack legality determination be in the weapon classes?
-        if(targetDistance > weapon.getRange()) {
-            throw new Error('Target not in range');
-        }
-        if(!weapon.isUseable()) {
-            throw new Error('Weapon not currently useable');
-        }
-
-        target.modifyHP(-weapon.getDamage());
-        this._incrementActions();
-        this._delay();
-        dungeon.fireEvent(new AttackEvent(dungeon, this, target, weapon));
-    }
-
-    useItem(position, targetTile) {
-        var dungeon = this.getDungeon();
-        var inventory = this.getInventory();
-        var item = inventory.getItem(position);
-        if(!item) {
-            throw new Error('No item at position: ' + position);
-        }
-        if(item.isEquipable() && !isNaN(position)) {
-            // Equipable items in backpack are used by equipping them
-            inventory.equipItem(position);
-            dungeon.fireEvent(new CustomEvent(dungeon, this + " equipped " + item));
-        } else {
-            item.use();
-            dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(this, targetTile)));
-        }
-        this._incrementActions();
-        this._delay();
-    }
-
-    wait() {
-        this._incrementActions();
-        this._delay(.25);
-    }
-
     getTile() {
         return this.getDungeon().getTile(this);
     }
@@ -221,7 +85,7 @@ export default class Creature extends Entity {
     }
 
     canActThisTimestep() {
-        return this.getTimeToNextMove() === 0;
+        return this.getTimeToNextMove() <= 0;
     }
 
     setMeleeWeapon(weapon) {
@@ -286,7 +150,6 @@ export default class Creature extends Entity {
 
         while(x !== x1 || y !== y1) {
             if(!limit--) {
-                console.log("Took too long", los0, los1);
                 return false;
             }
 
@@ -364,14 +227,20 @@ export default class Creature extends Entity {
         return this._strategy || null;
     }
 
+    executeMove(dungeon, move) {
+        move.execute(dungeon, this);
+        this._incrementActions();
+        this._delay(move.getCostMultiplier());
+    }
+
     /**
      * @description Gets the Creature's next move
      * @return {Move | Promise} - A Move or a Promise for a Move
      */
-    getNextMove() {
+    getNextMove(dungeon) {
         var strategy = this.getStrategy();
         if(strategy) {
-            return strategy.getNextMove();
+            return strategy.getNextMove(dungeon, this);
         } else {
             throw new Error('Default method ran with no strategy set');
         }

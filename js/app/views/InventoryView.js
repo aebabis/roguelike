@@ -2,6 +2,8 @@ import { default as GameEvent } from "../events/GameEvent.js";
 
 import { default as Weapon } from "../entities/weapons/Weapon.js";
 
+import { default as Move } from "../entities/creatures/moves/Move.js";
+
 function getItemDom(item, index) {
     if(item instanceof Weapon) {
         return getWeaponDom(item, index)
@@ -64,9 +66,7 @@ export default class InventoryView {
             var creature = self.getCreature();
             var index = $(this).attr('data-index');
             // TODO: Assumes PlayableCharacter anyway?
-            creature.setNextMove(function() {
-                creature.useItem(index);
-            });
+            creature.setNextMove(new Move.UseItemMove(index));
         });
 
         dungeon.addObserver((event)=>this.update());

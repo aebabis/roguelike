@@ -202,6 +202,9 @@ export default class GraphicDungeonView {
                 cell.setAttribute('data-explored', player.hasSeen(tile));
                 cell.setAttribute('data-visible', player.canSee(tile));
             }
+            tile.getItems().forEach(function(item) {
+                cell.appendChild(self._getDomForWeapon(item));
+            });
         });
     }
 
@@ -232,6 +235,22 @@ export default class GraphicDungeonView {
             var actionBar = document.createElement('div');
             actionBar.classList.add('action-bar');
             stats.appendChild(actionBar);
+
+            return div;
+        }
+    }
+
+    _getDomForWeapon(weapon) {
+        var id = weapon.getId();
+        var node = this.getDom().querySelector('[data-id="'+id+'"]');
+        if(node) {
+            return node;
+        } else {
+            var div = document.createElement('div');
+            div.setAttribute('data-id', id);
+            div.setAttribute('data-weapon-name', weapon.toString());
+            div.classList.add('entity');
+            div.classList.add('weapon');
 
             return div;
         }

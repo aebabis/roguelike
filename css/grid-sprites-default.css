@@ -3,6 +3,18 @@
     box-sizing: border-box;
 }
 
+.grid.theme-default .cell .entity {
+    background-size: 100%;
+}
+
+.grid.theme-default .cell .weapon {
+    z-index: 1;
+}
+
+.grid.theme-default .cell .creature {
+    z-index: 2;
+}
+
 .grid.theme-default .cell .creature .stats {
     width: 90%;
     margin: 5%;
@@ -34,17 +46,14 @@
 
 .grid.theme-default .cell [data-creature-name="PlayableCharacter"] {
     background-image: url(../images/small/HeroFemale.png);
-    background-size: 100%;
 }
 
 .grid.theme-default .cell [data-creature-name="BlackVoidSphere"] {
     background-image: url(../images/small/BlackVoidSphere.png);
-    background-size: 100%;
 }
 
 .grid.theme-default .cell [data-creature-name="ClunkyNinetiesCellPhone"] {
     background-image: url(../images/small/Chunky90sPhone.png);
-    background-size: 100%;
 }
 
 .grid.theme-default .cell [data-creature-name="ClunkyNinetiesCellPhone"][data-phone-charged="true"] {
@@ -53,10 +62,12 @@
 
 .grid.theme-default .cell [data-creature-name="Ent"] {
     background-image: url(../images/small/Ent.png);
-    background-size: 100%;
 }
 
 .grid.theme-default .cell [data-creature-name="SlingshotImp"] {
     background-image: url(../images/small/SlingshotImp.png);
-    background-size: 100%;
+}
+
+.grid.theme-default .cell .weapon[data-weapon-name="Stick"] {
+    background-image: url(../images/small/Stick.png);
 }

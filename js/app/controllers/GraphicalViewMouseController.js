@@ -5,11 +5,8 @@ export default class GraphicalViewMouseController {
         var dom = graphicalDungeonView.getDom();
 
         // Arrow key handler
-        dom.addEventListener('click', function(event) {
-            var tile = event.target;
-            if(!tile.classList.contains('cell')) {
-                return;
-            }
+        $(dom).on('click', '.cell', function(event) {
+            var tile = this;
             var character = dungeon.getPlayableCharacter();
             var playerLocation = dungeon.getTile(character);
             var targetX = tile.getAttribute('data-x');

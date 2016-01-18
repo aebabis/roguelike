@@ -16,6 +16,7 @@ export default class Tile {
         this._dungeon = dungeon;
         this._x = x;
         this._y = y;
+        this._items = [];
     }
 
     setCreature(creature) {
@@ -33,6 +34,27 @@ export default class Tile {
 
     getCreature() {
         return this._creature;
+    }
+
+    getItems() {
+        return this._items.slice();
+    }
+
+    addItem(item) {
+        this._items.push(item);
+    }
+
+    removeItem(param) {
+        if(Number.isInteger(param)) {
+            return this._items.splice(param, 1)[0];
+        } else {
+            var index = this._items.indexOf(param);
+            if(index === -1) {
+                throw new Error('Item not found', param);
+            } else {
+                return this._items.splice(index, 1)[0];
+            }
+        }
     }
 
     getX() {

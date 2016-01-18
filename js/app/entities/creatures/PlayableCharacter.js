@@ -1,9 +1,5 @@
 import { default as Creature } from "./Creature.js";
 
-import { default as Dagger } from "../weapons/Dagger.js";
-import { default as Shortbow } from "../weapons/Shortbow.js";
-import { default as Stick } from "../weapons/Stick.js";
-
 import { default as Move } from "./moves/Move.js";
 
 export default class PlayableCharacter extends Creature {
@@ -15,9 +11,6 @@ export default class PlayableCharacter extends Creature {
         super(dungeon);
         this._readQueue = [];
         this._writeQueue = [];
-        this.setMeleeWeapon(new Dagger(this.getDungeon()));
-        this.addItem(new Shortbow(this.getDungeon()));
-        this.addItem(new Stick(this.getDungeon()));
     }
 
     move(dx, dy)  {

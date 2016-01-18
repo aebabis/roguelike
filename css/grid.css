@@ -70,3 +70,9 @@
 .grid .cell:not([data-explored="true"]) {
     opacity: 0;
 }
+
+.grid .cell .weapon {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

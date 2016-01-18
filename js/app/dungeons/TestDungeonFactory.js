@@ -11,6 +11,10 @@ import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/Clunky
 import { default as Ent } from "../entities/creatures/Ent.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 
+import { default as Dagger } from "../entities/weapons/Dagger.js";
+import { default as Shortbow } from "../entities/weapons/Shortbow.js";
+import { default as Stick } from "../entities/weapons/Stick.js";
+
 export default class TestDungeonFactory {
     getEmptyDungeon() {
         var dungeon = new Dungeon(5, 5);
@@ -76,7 +80,7 @@ export default class TestDungeonFactory {
         var tile = dungeon.getTile(Random.integer(0, width - 1)(prng), Random.integer(0, height - 1)(prng));
         var doneList = {};
         var adjacentList = {};
-        
+
         for(var times = 0; times < numOpenTiles; times++) {
             let x = tile.getX();
             let y = tile.getY();
@@ -98,9 +102,27 @@ export default class TestDungeonFactory {
         var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid());
         var locations = Random.shuffle(prng, emptyTiles);
 
+        var drops = [
+            new Dagger(dungeon),
+            new Shortbow(dungeon),
+            new Stick(dungeon)
+        ];
+        drops.forEach(function(item) {
+            var position = Random.integer(0, emptyTiles.length - 1)(prng);
+            var tile = emptyTiles[position];
+            console.log(item, 'at', tile);
+            tile.addItem(item);
+        });
+
+        var player = new PlayableCharacter(dungeon);
+
+        player.setMeleeWeapon(new Dagger(dungeon));
+        player.addItem(new Shortbow(dungeon));
+        player.addItem(new Stick(dungeon));
+
         // Test game configuration
         var creatures = [
-            new PlayableCharacter(dungeon),
+            player,
             new BlackVoidSphere(dungeon),
             new SlingshotImp(dungeon),
             new Ent(dungeon),

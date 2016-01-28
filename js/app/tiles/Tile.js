@@ -45,15 +45,15 @@ export default class Tile {
     }
 
     removeItem(param) {
-        if(Number.isInteger(param)) {
-            return this._items.splice(param, 1)[0];
-        } else {
+        if(isNaN(param)) {
             var index = this._items.indexOf(param);
             if(index === -1) {
                 throw new Error('Item not found', param);
             } else {
                 return this._items.splice(index, 1)[0];
             }
+        } else {
+            return this._items.splice(param, 1)[0];
         }
     }
 

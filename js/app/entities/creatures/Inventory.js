@@ -73,29 +73,44 @@ var Inventory = class Inventory {
         return this._backpack;
     }
 
+    isBackpackFull() {
+        return this._backpack.map((item)=>+!!item).reduce((a,b)=>a+b);
+    }
+
     getEquipment() {
         return this._equipment;
     }
 
-    equipItem(index) {
-        if(isNaN(index)) {
-            throw new Error('First parameter must be a number');
-        }
-        var backpack = this._backpack;
-        var item = backpack[index];
-        if(!item) {
-            throw new Error('No item in given position');
-        }
-        if(item instanceof Weapon) {
-            var oldWeapon;
-            if(item.getRange() === 1) {
-                oldWeapon = this.getMeleeWeapon();
-                this.setMeleeWeapon(item);
-            } else {
-                oldWeapon = this.getRangedWeapon();
-                this.setRangedWeapon(item);
+    equipItem(param) {
+        if(param.isUseable) { // TODO: Make an Item class
+            var item = param;
+            if(item instanceof Weapon) {
+                if(item.getRange() === 1) {
+                    this.setMeleeWeapon(item);
+                } else {
+                    this.setRangedWeapon(item);
+                }
             }
-            backpack[index] = oldWeapon;
+        } else if(!isNaN(param)) {
+            var index = param;
+            var backpack = this._backpack;
+            var item = backpack[index];
+            if(!item) {
+                throw new Error('No item in given position');
+            }
+            if(item instanceof Weapon) {
+                var oldWeapon;
+                if(item.getRange() === 1) {
+                    oldWeapon = this.getMeleeWeapon();
+                    this.setMeleeWeapon(item);
+                } else {
+                    oldWeapon = this.getRangedWeapon();
+                    this.setRangedWeapon(item);
+                }
+                backpack[index] = oldWeapon;
+            }
+        } else {
+            throw new Error('First parameter must be a number or Item');
         }
     }
 

@@ -31,6 +31,14 @@ export default class GraphicalViewMouseController {
             sharedData.setInspectedTile(x, y);
         });
 
+        $(dom).on('mouseout', '.grid', function() {
+            var character = dungeon.getPlayableCharacter();
+            var location = character.getTile(character);
+            var x = location.getX();
+            var y = location.getY();
+            sharedData.setInspectedTile(x, y);
+        });
+
         // Arrow key handler
         dom.addEventListener('mouseover', function(event) {
         });

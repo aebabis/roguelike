@@ -1,30 +1,50 @@
-/*import { default as Entity } from "../Entity.js";
-import { default as Tile } from "../../tiles/Tile.js";
-import { default as MoveEvent } from "../../events/MoveEvent.js";
-import { default as AttackEvent } from "../../events/AttackEvent.js";
-import { default as CustomEvent } from "../../events/CustomEvent.js";
-
-import { default as Inventory } from "./Inventory.js";
-
-import { default as Strategy } from "./strategies/Strategy.js";
-import { default as Weapon } from "../weapons/Weapon.js";
-
-import { default as AStar } from "../../../../bower_components/es6-a-star/es6-a-star.js";
-
-import { default as Geometry } from "../../util/Geometry.js";*/
+import { default as CustomEvent } from "../../../events/CustomEvent.js";
 
 import { default as Move } from "./Move.js";
 
 export default Move.TakeItemMove = class TakeItemMove extends Move {
-    isLegal() {
-        throw new Error('Abstract method not implemented');
+    constructor(itemIndex) {
+        super();
+        if(isNaN(itemIndex)) {
+            throw new Error('Must pass two integer parameters or a Creature');
+        }
+        this._itemIndex = itemIndex;
+    }
+
+    getItemIndex() {
+        return this._itemIndex;
     }
 
     getCostMultiplier() {
-        throw new Error('Abstract method not implemented');
+        return 0.5;
+    }
+
+    isLegal(dungeon, creature) {
+        var inventory = creature.getInventory();
+        var location = creature.getTile();
+        var item = location.getItems()[this.getItemIndex()];
+        if(!item) {
+            return false;
+        }
+        if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+            return true;
+        } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+            return true;
+        } else {
+            return !inventory.isBackpackFull();
+        }
     }
 
     execute(dungeon, creature) {
-        throw new Error('Abstract method not implemented');
+        var item = creature.getTile().removeItem(this.getItemIndex());
+        var inventory = creature.getInventory();
+        if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+            inventory.equipItem(item);
+        } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+            inventory.equipItem(item);
+        } else {
+            inventory.addItem(item);
+        }
+        dungeon.fireEvent(new CustomEvent(dungeon, creature.getName() + " took " + item.getName()));
     }
 };

@@ -74,7 +74,7 @@ var Inventory = class Inventory {
     }
 
     isBackpackFull() {
-        return this._backpack.map((item)=>+!!item).reduce((a,b)=>a+b);
+        return this._backpack.reduce((a,b)=>a&&b);
     }
 
     getEquipment() {

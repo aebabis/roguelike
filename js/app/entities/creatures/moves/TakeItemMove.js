@@ -26,11 +26,15 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         if(!item) {
             return false;
         }
+        console.log(1);
         if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+        console.log(2);
             return true;
         } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+        console.log(3);
             return true;
         } else {
+        console.log(4);
             return !inventory.isBackpackFull();
         }
     }

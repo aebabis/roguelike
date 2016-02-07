@@ -1,15 +1,13 @@
 # Backlog
 - High
-  - More enemies
+  - Abilities
+  - Puzzles/Level-Select
+  - Determine strategy for putting all enemies on a namespace like with Move
 - Med
   - Ranged attack animation
-  - Repeat level button
   - Keybindings Overlay
   - Click to focus grid?
   - Tile Contents Panel (Use + and - to navigate?)
-  - Tile Info Panel
-    - Monster
-    - Items
   - Set up SASS
   - Consider switching to NPM only (no bower)
   - Serialization for saving games (and as POC for client-server games)
@@ -21,6 +19,7 @@
   - Handle legal noPath situations
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
   - Make views get Dungeon from shared data
+  - Damage Resistance
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

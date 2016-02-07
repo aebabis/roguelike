@@ -64,10 +64,18 @@
     background-image: url(../images/small/Ent.png);
 }
 
+.grid.theme-default .cell [data-creature-name="Skeleton"] {
+    background-image: url(../images/small/SkeletonLight.png);
+}
+
 .grid.theme-default .cell [data-creature-name="SlingshotImp"] {
     background-image: url(../images/small/SlingshotImp.png);
 }
 
 .grid.theme-default .cell .weapon[data-weapon-name="Stick"] {
     background-image: url(../images/small/Stick.png);
+}
+
+.grid.theme-default .cell .weapon[data-weapon-name="Dagger"] {
+    background-image: url(../images/small/Dagger.png);
 }

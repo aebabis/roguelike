@@ -9,6 +9,7 @@ import { default as BasicGameConditions } from "../conditions/BasicGameCondition
 import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
 import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
 import { default as Ent } from "../entities/creatures/Ent.js";
+import { default as Skeleton } from "../entities/creatures/Skeleton.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 
 import { default as Dagger } from "../entities/weapons/Dagger.js";
@@ -126,7 +127,8 @@ export default class TestDungeonFactory {
             new BlackVoidSphere(dungeon),
             new SlingshotImp(dungeon),
             new Ent(dungeon),
-            new ClunkyNinetiesCellPhone(dungeon)
+            new ClunkyNinetiesCellPhone(dungeon),
+            new Skeleton(dungeon)
         ];
         creatures.forEach(function(creature) {
             var loc = locations.shift();

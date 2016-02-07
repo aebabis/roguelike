@@ -107,6 +107,10 @@ export default class Tile {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    getName() {
+        return this.constructor.name;
+    }
+
     toString() {
         return this.constructor.name + "<" + this.getX() + "," + this.getY() + ">";
     }

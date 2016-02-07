@@ -1,7 +1,10 @@
+.theme-default .inventory h3 {
+    color: white;
+}
+
 .inventory {
     list-style: none;
     padding: 0;
-
     font-size: 12px;
 }
 
@@ -11,23 +14,7 @@
     background-color: #668;
 }
 
-.inventory .subinventory h2 {
-    position: absolute;
-    background-color: white;
-    font-size: 14px;
-    top: -23px;
-    line-height: 1em;
-    padding: 0 3px;
-    left: 4px;
-    color: #666;
-    border: solid 1px #668;
-}
-
-.inventory .subinventory + .subinventory {
-    margin-top: 15px;
-}
-
-.inventory li.slot {
+.theme-default .inventory li.slot {
     height: 3em;
 
     vertical-align: middle;
@@ -36,11 +23,11 @@
     background-color: white;
 }
 
-.inventory li.slot + li.slot {
+.theme-default .inventory li.slot + li.slot {
     margin-top: .5em;
 }
 
-.inventory li.slot.empty {
+.theme-default .inventory li.slot.empty {
     color: #999;
     font-style: italicized;
 }

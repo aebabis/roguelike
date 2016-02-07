@@ -32,11 +32,11 @@ export default class GraphicalViewMouseController {
         });
 
         $(dom).on('mouseout', '.grid', function() {
-            var character = dungeon.getPlayableCharacter();
+            /*var character = dungeon.getPlayableCharacter();
             var location = character.getTile(character);
             var x = location.getX();
             var y = location.getY();
-            sharedData.setInspectedTile(x, y);
+            sharedData.setInspectedTile(x, y);*/
         });
 
         // Arrow key handler

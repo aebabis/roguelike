@@ -10,18 +10,18 @@ function getInventoryDom(creature) {
     var meleeWeapon = creature.getMeleeWeapon();
     var rangedWeapon = creature.getRangedWeapon();
     var items = creature.getInventory().getBackpack();
-    return $('<ul class="inventory">')
+    return $('<h2>Inventory</h2>').add($('<ul class="inventory">')
         .append(
             $('<div class="subinventory equipment">')
-                .append('<h2>Equipment</h2>')
+                .append('<h3>Equipment</h2>')
                 .append(ItemDomFactory.getWeaponDom(meleeWeapon))
                 .append(ItemDomFactory.getWeaponDom(rangedWeapon))
             )
         .append(
             $('<div class="subinventory backpack">')
-                .append('<h2>Backpack</h2>')
+                .append('<h3>Backpack</h2>')
                 .append(items.map(ItemDomFactory.getItemDom))
-        );
+        ));
 }
 
 export default class InventoryView {
@@ -31,7 +31,7 @@ export default class InventoryView {
      */
     constructor(dungeon) {
         var self = this;
-        var dom = this._dom = document.createElement('div');
+        var dom = this._dom = $('<div class="sidebar-subcontainer">')
 
         $(dom).on('click', '.item', function() {
             var creature = self.getCreature();
@@ -41,6 +41,7 @@ export default class InventoryView {
         });
 
         dungeon.addObserver((event)=>this.update());
+        console.log(dungeon);
 
         this.setCreature(dungeon.getPlayableCharacter());
     }
@@ -59,6 +60,6 @@ export default class InventoryView {
     };
 
     getDom() {
-        return this._dom;
+        return this._dom[0];
     }
 }

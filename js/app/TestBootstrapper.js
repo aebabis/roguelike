@@ -4,6 +4,7 @@ import { default as TestDungeonFactory } from "./dungeons/TestDungeonFactory.js"
 import { default as GraphicalDungeonView } from "./views/GraphicalDungeonView.js";
 import { default as EventLogView } from "./views/EventLogView.js";
 import { default as InventoryView } from "./views/InventoryView.js";
+import { default as PlayerLocationView } from "./views/PlayerLocationView.js";
 import { default as TileView } from "./views/TileView.js";
 
 import { default as GraphicalViewKeyboardController } from "./controllers/GraphicalViewKeyboardController.js";
@@ -34,6 +35,7 @@ export default function(newSeed) {
     var mapView = new GraphicalDungeonView(dungeon);
     var eventLogView = new EventLogView(dungeon);
     var inventoryView = new InventoryView(dungeon);
+    var playerLocationView = new PlayerLocationView(sharedData);
     var tileView = new TileView(sharedData);
     var keyboardController = new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
     var mouseController = new GraphicalViewMouseController(dungeon, sharedData, mapView);
@@ -41,6 +43,7 @@ export default function(newSeed) {
     var sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
     container.appendChild(sidebar);
+    sidebar.appendChild(playerLocationView.getDom());
     sidebar.appendChild(tileView.getDom());
     sidebar.appendChild(inventoryView.getDom());
     sidebar.appendChild(eventLogView.getDom());

@@ -6,31 +6,6 @@ import { default as ItemDomFactory } from "./ItemDomFactory.js";
 
 import { default as Move } from "../entities/creatures/moves/Move.js";
 
-function getCreatureDom(creature) {
-    var name = creature.constructor.name;
-    var hp = creature.getCurrentHP();
-    var baseHP = creature.getBaseHP();
-    var time = creature.getTimeToNextMove();
-    var speed = creature.getSpeed();
-    return $(
-        `<div class="creature">
-            <div class="name">${name}</div>
-            <div class="hp">HP: ${hp} / ${baseHP}</div>
-            <div class="action">Action: ${time} / ${speed}</div>
-        </div>`);
-}
-
-function getItemsDom(dungeon, items) {
-    return $('<div class="items">').append(items.map(function(item, index) {
-        var disabled = new Move.TakeItemMove(index).isLegal(dungeon, dungeon.getPlayableCharacter());
-        return $(
-            `<button class="item"
-                ${disabled ? '' : 'disabled'}
-                data-index="${index}">${item.getName()}
-            </button>`);
-    }));
-}
-
 export default class TileView {
     /**
      * @class TileView
@@ -38,7 +13,7 @@ export default class TileView {
      */
     constructor(sharedData) {
         var self = this;
-        var dom = this._dom = document.createElement('div');
+        var dom = this._dom = $('<div class="sidebar-subcontainer tile-info">');
         this._sharedData = sharedData;
 
         sharedData.addObserver((event)=>this.update());
@@ -52,32 +27,38 @@ export default class TileView {
     }
 
     update() {
+        var template;
         var sharedData = this._sharedData;
         var dungeon = sharedData.getDungeon();
-        var player = dungeon.getPlayableCharacter();
         var location = sharedData.getInspectedTile();
-
-        var contents = $('<div class="tile-info">');
         if(location) {
-            var x = location.x;
-            var y = location.y;
-            var tile = dungeon.getTile(x, y);
-            var items = tile.getItems();
-            contents.append($('<div class="tile">').text(tile.constructor.name + ' (' + x + ', ' + y + ')'));
+            var tile = dungeon.getTile(location.x, location.y);
+            var tileName = tile.getName();
             var creature = tile.getCreature();
-            if(creature === player) {
-                if(items.length > 0) {
-                    contents.append(getItemsDom(dungeon, items));
-                }
-            } else if(creature) {
-                contents.append(getCreatureDom(creature));
-            }
-        }
+            var items = tile.getItems();
 
-        $(this.getDom()).empty().append(contents);
+            template = $(`
+            <h2>${tile.getName()} (${tile.getX()}, ${tile.getY()})</h2>
+            <div class="wrap">
+                ${
+                    creature ? `
+                    <div class="creature">
+                        <div class="name">${creature.getName()}</div>
+                        <div class="hp">HP: ${creature.getCurrentHP()} / ${creature.getBaseHP()}</div>
+                        <div class="action">Action: ${creature.getTimeToNextMove()} / ${creature.getSpeed()}</div>
+                    </div>` : ''
+                }
+                <ul class="items">
+                    ${items.map((item)=>`<li>${item.getName()}</li>`)}
+                </ul>
+            </div>`);
+        } else {
+            template = 'X'
+        }
+        $(this.getDom()).empty().append(template);
     }
 
     getDom() {
-        return this._dom;
+        return this._dom[0];
     }
 }

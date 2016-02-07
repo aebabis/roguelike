@@ -2,6 +2,8 @@ import { default as Creature } from "./Creature.js";
 
 import { default as Move } from "./moves/Move.js";
 
+import { default as Inventory } from "./Inventory.js";
+
 export default class PlayableCharacter extends Creature {
     /**
       * @class Tile
@@ -11,6 +13,7 @@ export default class PlayableCharacter extends Creature {
         super(dungeon);
         this._readQueue = [];
         this._writeQueue = [];
+        this._inventory = new Inventory(4);
     }
 
     move(dx, dy)  {

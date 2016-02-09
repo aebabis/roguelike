@@ -73,6 +73,18 @@ export default class Tile {
         return false;
     }
 
+    getNeighbors4() {
+        var dungeon = this._dungeon;
+        var x = this._x;
+        var y = this._y;
+        return [
+            dungeon.getTile(x    , y - 1),
+            dungeon.getTile(x - 1, y),
+            dungeon.getTile(x + 1, y),
+            dungeon.getTile(x    , y + 1)
+        ].filter(Boolean);
+    }
+
     getNeighbors8() {
         var dungeon = this._dungeon;
         var x = this._x;

@@ -89,6 +89,10 @@ export default class GraphicDungeonView {
                 }
             }
         });
+
+        // Set grid width programatically to override table layout algorithm
+        var table = grid.querySelector('.grid');
+        table.style.width = 5 * dungeon.getWidth() + 'em';
     }
 
     _animateBars(creature) {

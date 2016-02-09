@@ -61,8 +61,8 @@ export default class TestDungeonFactory {
     }
 
     getBasicEnemyDungeon(prng) {
-        var width = Random.integer(8, 15)(prng);
-        var height = Random.integer(7, 10)(prng);
+        var width = Random.integer(15, 20)(prng);
+        var height = Random.integer(10, 15)(prng);
 
         var numTiles = width * height;
         var minOpenTiles = Math.floor(.6 * numTiles);
@@ -88,7 +88,7 @@ export default class TestDungeonFactory {
             var tile = new Tile(dungeon, x, y);
             dungeon.setTile(tile, x, y);
             doneList[x+','+y] = true;
-            tile.getNeighbors8().forEach(function(tile) {
+            tile.getNeighbors4().forEach(function(tile) {
                 var str = tile.getX() + ',' + tile.getY();
                 if(!doneList[str]) {
                     adjacentList[str] = true;

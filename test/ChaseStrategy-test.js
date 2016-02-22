@@ -8,8 +8,8 @@ describe('Creature', function() {
             'js/app/dungeons/TestDungeonFactory.js',
             'js/app/entities/creatures/Creature.js',
             'js/app/entities/creatures/PlayableCharacter.js',
-            'js/app/entities/creatures/Skeleton.js',
-            'js/app/tiles/WallTile.js'
+            'js/app/entities/creatures/Ent.js',
+            'js/app/entities/creatures/moves/Moves.js'
         ]).then(done, done);
     });
 
@@ -29,18 +29,21 @@ describe('Creature', function() {
             [false, true,  false]
         ]));
         var player = new PlayableCharacter(dungeon);
-        var enemy = new Skeleton(dungeon);
-
+        var enemy = new Ent(dungeon);
         dungeon.setCreature(player, 0, 0);
         dungeon.setCreature(enemy, 0, 2);
+        var enemyStartingPosition = enemy.getTile();
 
         TestDungeonFactory.showDungeon(dungeon);
         expect(enemy.canSee(player.getTile())).to.be.true;
-        //expect(enemy.canSee(player.getTile())).to.be.false;
 
+        player.setNextMove(new Moves.MovementMove(1, 0));
+        player.setNextMove(new Moves.MovementMove(0, 1));
+        player.setNextMove(new Moves.MovementMove(0, 1));
 
-        // Skeleton gets to move before player
-        // TODO: Consider allowing creatures to observe movement on other creatures' turns
-        // TODO: Consider adding an advanceUntil() method to dungeon
+        dungeon.resolveUntilBlocked();
+
+        var enemyPosition  = enemy.getTile();
+        expect(enemyPosition).not.to.equal(enemyStartingPosition);
     });
 });

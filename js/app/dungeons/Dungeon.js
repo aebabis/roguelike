@@ -145,6 +145,7 @@ export default class Dungeon extends Observable {
         this._notifyObservers(event);
     }
 
+    // TODO: Make game engine synchronous?
     resolveNextStep() {
         if(this.hasEnded()) {
             throw new Error('Dungeon has ended. No more steps allowed');

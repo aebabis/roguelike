@@ -20,6 +20,7 @@
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
   - Make views get Dungeon from shared data
   - Damage Resistance
+  - Consider allowing creatures to observe movement on other creatures' turns
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

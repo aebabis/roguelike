@@ -17,9 +17,50 @@ import { default as Shortbow } from "../entities/weapons/Shortbow.js";
 import { default as Stick } from "../entities/weapons/Stick.js";
 
 export default class TestDungeonFactory {
+    static showDungeon(dungeon) {
+        var width = dungeon.getWidth();
+        var height = dungeon.getHeight();
+        // Transpose dungeon coordinates and print
+        console.log('\u250E' + Array(width + 1).join('\u2501') + '\u2512');
+        for(let y = 0; y < height; y++) {
+            var row = [];
+            row.push('\u2503');
+            for(let x = 0; x < width; x++) {
+                var tile = dungeon.getTile(x, y);
+                var creature = tile.getCreature();
+                if(creature instanceof PlayableCharacter) {
+                    row.push('P');
+                } else if(creature){
+                    row.push(creature.getName()[0]);
+                } else if(tile instanceof WallTile) {
+                    row.push('\u2588');
+                } else {
+                    row.push(' ');
+                }
+            }
+            row.push('\u2503');
+            console.log(row.join(''));
+        }
+        console.log('\u2516' + Array(width + 1).join('\u2501') + '\u251A');
+    }
+
     getEmptyDungeon() {
         var dungeon = new Dungeon(5, 5);
         dungeon.setCreature(new PlayableCharacter(dungeon), 1, 1);
+        return dungeon;
+    }
+
+    buildCustomWalledDungeon(wallMap, transpose) {
+        var width = wallMap.length;
+        var height = wallMap[0].length;
+        var dungeon = new Dungeon(width, height);
+        wallMap.forEach(function(column, x) {
+            column.forEach(function(hasWall, y) {
+                if(hasWall) {
+                    dungeon.setTile(new WallTile(dungeon, x, y), x, y);
+                }
+            })
+        });
         return dungeon;
     }
 

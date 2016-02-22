@@ -23,6 +23,7 @@ export default class GraphicalViewMouseController {
                     character.setNextMove(new Move.MovementMove(dx, dy));
                 }
             }
+            dungeon.resolveUntilBlocked();
         });
 
         $(dom).on('mouseover', '.cell', function() {

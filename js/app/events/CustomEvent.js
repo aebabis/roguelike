@@ -7,7 +7,6 @@ export default class CustomEvent extends GameEvent {
       */
     constructor(dungeon, message) {
         super(dungeon);
-        console.log(dungeon, message);
         this._message = message;
     }
 

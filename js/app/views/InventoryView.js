@@ -38,6 +38,7 @@ export default class InventoryView {
             var index = $(this).attr('data-index');
             // TODO: Assumes PlayableCharacter anyway?
             creature.setNextMove(new Move.UseItemMove(index));
+            dungeon.resolveUntilBlocked();
         });
 
         dungeon.addObserver((event)=>this.update());

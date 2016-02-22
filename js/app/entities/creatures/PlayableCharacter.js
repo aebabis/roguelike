@@ -6,13 +6,12 @@ import { default as Inventory } from "./Inventory.js";
 
 export default class PlayableCharacter extends Creature {
     /**
-      * @class Tile
+      * @class PlayableCharacter
       * @description
       */
     constructor(dungeon) {
         super(dungeon);
-        this._readQueue = [];
-        this._writeQueue = [];
+        this._moveQueue = [];
         this._inventory = new Inventory(4);
     }
 
@@ -37,28 +36,19 @@ export default class PlayableCharacter extends Creature {
         if(!(move instanceof Move)) {
             throw new Error(move + " is not a Move");
         }
-        var write = this._writeQueue;
-        if(write.length) {
-            write.shift().resolve(move);
-        } else {
-            this._readQueue.push(Promise.resolve(move));
-        }
+        this._moveQueue.push(move);
+    }
+
+    hasMoveQueued() {
+        return this._moveQueue.length > 0;
     }
 
     getNextMove() {
-        var read = this._readQueue;
+        var read = this._moveQueue;
         if(read.length) {
             return read.shift();
         } else {
-            var res;
-            var promise = new Promise(function(resolve, reject) {
-                res = resolve;
-            });
-            this._writeQueue.push({
-                move: promise,
-                resolve: res
-            });
-            return promise;
+            throw new Error('PlayableCharacter doesn\'t have move queued');
         }
     }
 

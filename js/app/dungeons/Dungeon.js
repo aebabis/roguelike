@@ -145,60 +145,71 @@ export default class Dungeon extends Observable {
         this._notifyObservers(event);
     }
 
-    // TODO: Make game engine synchronous?
-    resolveNextStep() {
-        if(this.hasEnded()) {
-            throw new Error('Dungeon has ended. No more steps allowed');
+    canAdvance() {
+        var activeCreature = this.getActiveCreature();
+        if(activeCreature instanceof PlayableCharacter) {
+            return activeCreature.hasMoveQueued();
+        } else {
+            return true;
         }
-        var self = this;
+    }
 
+    resolveUntilBlocked() {
+        while(this.canAdvance()) {
+            this.resolveNextStep();
+        }
+    }
+
+    getActiveCreature() {
         var creatures = this.getCreatures();
-        var activeCreature = creatures.filter(function(creature) {
+        return creatures.filter(function(creature) {
             return creature.canActThisTimestep();
         }).sort(function(c1, c2) {
             return c1.getSpeed() < c2.getSpeed();
         })[0];
+    }
 
-        var promise;
+    resolveNextStep() {
+        if(this.hasEnded()) {
+            throw new Error('Dungeon has ended. No more steps allowed');
+        }
+
+        var activeCreature = this.getActiveCreature();
 
         if(activeCreature) {
             if(activeCreature instanceof PlayableCharacter) {
-                self.fireEvent(new HumanToMoveEvent(this, activeCreature));
+                this.fireEvent(new HumanToMoveEvent(this, activeCreature));
             }
-            promise = Promise.resolve(activeCreature.getNextMove(this)).then(function(move) {
-                if(!(move instanceof Move)) {
-                    throw new Error("Expected move from " + activeCreature + ", got " + move);
-                }
-                if(activeCreature instanceof PlayableCharacter) {
-                    self.fireEvent(new HumanMovingEvent(self, activeCreature));
-                }
+            var move = activeCreature.getNextMove(this)
+            if(!(move instanceof Move)) {
+                throw new Error("Expected move from " + activeCreature + ", got " + move);
+            }
+            if(activeCreature instanceof PlayableCharacter) {
+                this.fireEvent(new HumanMovingEvent(this, activeCreature));
+            }
 
-                try {
-                    activeCreature.executeMove(self, move);
-                } catch(error) {
-                    console.error(error);
-                    activeCreature.executeMove(self, new Move.WaitMove());
-                    //activeCreature.wait();
-                }
-            });
+            try {
+                activeCreature.executeMove(this, move);
+            } catch(error) {
+                console.error(error);
+                activeCreature.executeMove(this, new Move.WaitMove());
+                //activeCreature.wait();
+            }
         } else {
             this._timestep++;
-            creatures.forEach(function(creature) {
+            this.getCreatures().forEach(function(creature) {
                 creature.timestep();
             });
-            promise = Promise.resolve();
         }
 
-        return promise.then(function() {
-            var conditions = self._gameConditions;
-            if(conditions) {
-                if(conditions.hasPlayerWon(self)) {
-                    self.fireEvent(new CustomEvent(self, "Victory"));
-                } else if(conditions.hasPlayerLost(self)) {
-                    self.fireEvent(new CustomEvent(self, "Defeat"));
+        var conditions = this._gameConditions;
+        if(conditions) {
+            if(conditions.hasPlayerWon(this)) {
+                this.fireEvent(new CustomEvent(this, "Victory"));
+            } else if(conditions.hasPlayerLost(this)) {
+                this.fireEvent(new CustomEvent(this, "Defeat"));
 
-                }
             }
-        });
+        }
     }
 }

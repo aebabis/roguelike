@@ -34,6 +34,7 @@ export default class GraphicalViewKeyboardController {
                     character.setNextMove(new Move.WaitMove());
                 }
             }
+            dungeon.resolveUntilBlocked();
         });
 
         // Arrow key handler

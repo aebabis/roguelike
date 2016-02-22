@@ -48,11 +48,6 @@ export default function(newSeed) {
     sidebar.appendChild(inventoryView.getDom());
     sidebar.appendChild(eventLogView.getDom());
 
-    (function iterate() {
-        if(!dungeon.hasEnded()) {
-            dungeon.resolveNextStep().then(iterate).catch(function(error) {
-                console.error(error);
-            });
-        }
-    })();
+setTimeout(function() {
+    dungeon.resolveUntilBlocked();});
 };

@@ -55,7 +55,6 @@ export default class ChaseStrategy extends Strategy {
                 // TODO: Run away?
                 return new Move.WaitMove();
             }
-            this._lastKnownEnemyLocation = meleeTarget.getTile();
         } else if(rangedTarget) {
             if(rangedWeapon && rangedWeapon.getRange() >= tile.getDirectDistance(rangedTarget.getTile())) {
                 return new Move.AttackMove(rangedTarget);
@@ -63,7 +62,6 @@ export default class ChaseStrategy extends Strategy {
                 return Pather.getMoveToward(dungeon, tile, rangedTarget.getTile())
                         || new Move.WaitMove();
             }
-            this._lastKnownEnemyLocation = rangedTarget.getTile();
         } else if(this._lastKnownEnemyLocation) {
             return Pather.getMoveToward(dungeon, tile, this._lastKnownEnemyLocation);
         } else {

@@ -1,7 +1,7 @@
 var System = require('es6-module-loader').System;
 var expect = require('chai').expect;
 
-describe('Creature', function() {
+describe('ChaseStrategy', function() {
     beforeEach(function(done) {
         es6Inject([
             'js/app/dungeons/Dungeon.js',

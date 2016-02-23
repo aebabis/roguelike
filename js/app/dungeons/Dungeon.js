@@ -146,11 +146,17 @@ export default class Dungeon extends Observable {
     }
 
     canAdvance() {
-        var activeCreature = this.getActiveCreature();
-        if(activeCreature instanceof PlayableCharacter) {
-            return activeCreature.hasMoveQueued();
+        if(this.hasEnded()) {
+            return false;
         } else {
-            return true;
+            // Game cannot advance past player's turn until
+            // a move is queued
+            var activeCreature = this.getActiveCreature();
+            if(activeCreature instanceof PlayableCharacter) {
+                return activeCreature.hasMoveQueued();
+            } else {
+                return true;
+            }
         }
     }
 

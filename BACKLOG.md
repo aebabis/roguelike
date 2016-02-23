@@ -3,8 +3,8 @@
   - Abilities
   - Puzzles/Level-Select
   - Determine strategy for putting all enemies on a namespace like with Move
-  - Numpad movement
   - Better dungeon generator
+  - Using keyboard to look at tiles
 - Med
   - Ranged attack animation
   - Keybindings Overlay
@@ -15,13 +15,13 @@
   - Serialization for saving games (and as POC for client-server games)
   - Button panel for actions other than move
   - Highlighting to indicate if action is legal
-  - Make moveToward return a move so Move refactoring is easier
   - Make Move classes so serialization is easier?
-  - Make strategies return Move objects so that it's easier to make composite strategies.
   - Handle legal noPath situations
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
   - Make views get Dungeon from shared data
   - Damage Resistance
+  - Method for getting a single adjacent tile from a direction
+  - Keyboard and mouse instructions
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

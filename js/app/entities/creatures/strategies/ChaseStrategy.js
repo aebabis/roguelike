@@ -63,7 +63,8 @@ export default class ChaseStrategy extends Strategy {
                         || new Move.WaitMove();
             }
         } else if(this._lastKnownEnemyLocation) {
-            return Pather.getMoveToward(dungeon, tile, this._lastKnownEnemyLocation);
+            // TODO: Write a unit test for waiting when there's no path
+            return Pather.getMoveToward(dungeon, tile, this._lastKnownEnemyLocation) || new Move.WaitMove();
         } else {
             return new Move.WaitMove();
         }

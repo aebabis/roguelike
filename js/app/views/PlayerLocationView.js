@@ -28,6 +28,7 @@ export default class PlayerLocationView {
             if(dungeon) {
                 var player = dungeon.getPlayableCharacter();
                 player.setNextMove(new Move.TakeItemMove(index));
+                dungeon.resolveUntilBlocked();
             }
         });
     }

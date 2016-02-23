@@ -1,4 +1,4 @@
-import { default as GameEvent } from "../events/GameEvent.js";
+import { default as GameEvents } from "../events/GameEvents.js";
 
 export default class EventLogView {
     /**

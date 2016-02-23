@@ -1,9 +1,6 @@
 import { default as Tile } from "../tiles/Tile.js";
-import { default as AttackEvent } from "../events/AttackEvent.js";
 import { default as GameEvent } from "../events/GameEvent.js";
-import { default as HumanMovingEvent } from "../events/HumanMovingEvent.js";
-import { default as HumanToMoveEvent } from "../events/HumanToMoveEvent.js";
-import { default as MoveEvent } from "../events/MoveEvent.js";
+import { default as GameEvents } from "../events/GameEvents.js";
 
 var ANIMATE_BARS = false;
 
@@ -143,7 +140,7 @@ export default class GraphicDungeonView {
         var self = this;
         var grid = this.getDom();
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
-        if(event instanceof AttackEvent) {
+        if(event instanceof GameEvents.AttackEvent) {
             let target = event.getTarget();
             let tile = this._dungeon.getTile(target);
             let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
@@ -154,13 +151,19 @@ export default class GraphicDungeonView {
                     dom.setAttribute('data-is-dead', true);
                 }
             }, delay);
-        } else if(event instanceof MoveEvent) {
+        } else if(event instanceof GameEvents.MoveEvent) {
             this._createDelay(function() {
                 let to = event.getToCoords();
                 let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
                 let creature = event.getCreature();
                 let dom = self._getDomForCreature(creature);
                 cell.appendChild(dom);
+            }, delay);
+        } else if(event instanceof GameEvents.TakeItemEvent) {
+            this._createDelay(function() {
+                let location = event.getCreature().getTile();
+                let cell = grid.querySelector('[data-x="'+location.getX()+'"][data-y="'+location.getY()+'"]');
+                cell.removeChild(self._getDomForWeapon(event.getItem()));
             }, delay);
         }
     }
@@ -172,7 +175,7 @@ export default class GraphicDungeonView {
         var player = dungeon.getPlayableCharacter();
 
         if(event instanceof GameEvent) {
-            if(event instanceof HumanMovingEvent) {
+            if(event instanceof GameEvents.HumanMovingEvent) {
                 Array.from(grid.querySelectorAll('[data-event-name]')).forEach(function(tile) {
                     tile.removeAttribute('data-event-name');
                 });

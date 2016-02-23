@@ -1,4 +1,4 @@
-import { default as CustomEvent } from "../../../events/CustomEvent.js";
+import { default as GameEvents } from "../../../events/GameEvents.js";
 
 import { default as Move } from "./Move.js";
 
@@ -25,16 +25,11 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         var item = location.getItems()[this.getItemIndex()];
         if(!item) {
             return false;
-        }
-        console.log(1);
-        if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
-        console.log(2);
+        } else if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
             return true;
         } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
-        console.log(3);
             return true;
         } else {
-        console.log(4);
             return !inventory.isBackpackFull();
         }
     }
@@ -49,7 +44,7 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         } else {
             inventory.addItem(item);
         }
-        dungeon.fireEvent(new CustomEvent(dungeon, creature.getName() + " took " + item.getName()));
+        dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
     }
 
     isSeenBy(dungeon, actor, observer) {

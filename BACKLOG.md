@@ -22,6 +22,7 @@
   - Damage Resistance
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
+  - Add Item to inheritance hierarchy?
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
@@ -30,3 +31,6 @@
    - Site icon
    - Animation speed
    - Make action bars orange if their next action will be before player's
+
+# Bugs
+- GraphicalDungeonView glitches when enemy immediately moves onto tile of another slain enemy

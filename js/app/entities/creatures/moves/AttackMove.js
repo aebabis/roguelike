@@ -62,4 +62,8 @@ export default Move.AttackMove = class AttackMove extends Move {
         target.modifyHP(-weapon.getDamage());
         dungeon.fireEvent(new AttackEvent(dungeon, creature, target, weapon));
     }
+
+    isSeenBy(dungeon, actor, observer) {
+        return observer.canSee(actor.getTile()) || observer.canSee(dungeon.getTile(this._x, this._y));
+    }
 };

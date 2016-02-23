@@ -21,4 +21,8 @@ export default class Move {
     execute(dungeon, creature) {
         throw new Error('Abstract method not implemented');
     }
+
+    isSeenBy(dungeon, creature) {
+        throw new Error('Abstract method not implemented');
+    }
 };

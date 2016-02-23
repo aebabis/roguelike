@@ -11,6 +11,10 @@ export default class Strategy {
         this._creature = creature;
     }
 
+    observeMove(dungeon, observer, actor, move) {
+        throw new Error('Default method not implemented');
+    }
+
     getNextMove(dungeon, creature) {
         throw new Error('Default method not implemented');
     }

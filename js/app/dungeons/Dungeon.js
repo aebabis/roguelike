@@ -180,7 +180,7 @@ export default class Dungeon extends Observable {
             if(activeCreature instanceof PlayableCharacter) {
                 this.fireEvent(new HumanToMoveEvent(this, activeCreature));
             }
-            var move = activeCreature.getNextMove(this)
+            var move = activeCreature.getNextMove(this);
             if(!(move instanceof Move)) {
                 throw new Error("Expected move from " + activeCreature + ", got " + move);
             }
@@ -189,6 +189,12 @@ export default class Dungeon extends Observable {
             }
 
             try {
+                var dungeon = this;
+                this.getCreatures().forEach(function(creature) {
+                    if(activeCreature !== creature && move.isSeenBy(dungeon, activeCreature, creature)) {
+                        creature.observeMove(dungeon, activeCreature, move);
+                    }
+                });
                 activeCreature.executeMove(this, move);
             } catch(error) {
                 console.error(error);

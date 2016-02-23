@@ -65,4 +65,8 @@ export default Move.UseItemMove = class UseItemMove extends Move {
             dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(this, targetTile)));
         }
     }
+
+    isSeenBy(dungeon, actor, observer) {
+        return false; // TODO: Implement
+    }
 };

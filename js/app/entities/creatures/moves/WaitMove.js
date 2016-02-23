@@ -14,4 +14,9 @@ export default Move.WaitMove = class WaitMove extends Move {
     getCostMultiplier() {
         return .5;
     }
+
+
+    isSeenBy(dungeon, actor, observer) {
+        return observer.canSee(actor.getTile());
+    }
 };

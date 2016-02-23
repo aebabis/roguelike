@@ -41,4 +41,12 @@ export default Move.MovementMove = class MovementMove extends Move {
         dungeon.setCreature(creature, x, y);
         dungeon.fireEvent(new MoveEvent(dungeon, creature, x, y));
     }
+
+    isSeenBy(dungeon, actor, observer) {
+        var actorTile = actor.getTile();
+        var actorX = actorTile.getX();
+        var actorY = actorTile.getY();
+        return observer.canSee(actorTile) ||
+                observer.canSee(dungeon.getTile(actorX + this._dx, actorY + this._dy));
+    }
 };

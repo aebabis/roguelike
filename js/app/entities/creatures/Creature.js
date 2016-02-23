@@ -233,6 +233,13 @@ export default class Creature extends Entity {
         this._delay(move.getCostMultiplier());
     }
 
+    observeMove(dungeon, actor, move) {
+        var strategy = this.getStrategy();
+        if(strategy) {
+            strategy.observeMove(dungeon, this, actor, move);
+        }
+    }
+
     /**
      * @description Gets the Creature's next move
      * @return {Move | Promise} - A Move or a Promise for a Move

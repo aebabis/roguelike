@@ -27,4 +27,8 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     execute(dungeon, creature) {
         throw new Error('Abstract method not implemented');
     }
+
+    isSeenBy(dungeon, actor, observer) {
+        throw new Error('Abstract method not implemented');
+    }
 };

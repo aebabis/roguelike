@@ -51,4 +51,8 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         }
         dungeon.fireEvent(new CustomEvent(dungeon, creature.getName() + " took " + item.getName()));
     }
+
+    isSeenBy(dungeon, actor, observer) {
+        return observer.canSee(actor.getTile());
+    }
 };

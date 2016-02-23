@@ -70,4 +70,8 @@ export default class ChaseStrategy extends Strategy {
             return new Move.WaitMove();
         }
     }
+
+    observeMove(dungeon, observer, actor, move) {
+        //console.log(`${observer} saw ${actor} perform a ${move}`);
+    }
 }

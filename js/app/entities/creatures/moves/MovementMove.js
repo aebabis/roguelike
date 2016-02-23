@@ -17,6 +17,14 @@ export default Move.MovementMove = class MovementMove extends Move {
         }
     }
 
+    getDx() {
+        return this._dx;
+    }
+
+    getDy() {
+        return this._dy;
+    }
+
     isLegal() {
         throw new Error('Abstract method not implemented');
     }
@@ -31,7 +39,7 @@ export default Move.MovementMove = class MovementMove extends Move {
         var y = tile.getY() + this._dy;
         var newLocation = dungeon.getTile(x, y);
         if(!creature.canOccupy(newLocation)) {
-            throw new Error("Cannot legally occupy new location");
+            throw new Error(`${creature} cannot legally occupy new location [${x}, ${y}]`);
         }
         var occupant = newLocation.getCreature();
         if(occupant) {

@@ -34,9 +34,10 @@ describe('Creature', function() {
         dungeon.setCreature(enemy, 0, 2);
         var enemyStartingPosition = enemy.getTile();
 
-        TestDungeonFactory.showDungeon(dungeon);
+        //TestDungeonFactory.showDungeon(dungeon);
         expect(enemy.canSee(player.getTile())).to.be.true;
 
+        player.setNextMove(new Moves.MovementMove(1, 0));
         player.setNextMove(new Moves.MovementMove(1, 0));
         player.setNextMove(new Moves.MovementMove(0, 1));
         player.setNextMove(new Moves.MovementMove(0, 1));

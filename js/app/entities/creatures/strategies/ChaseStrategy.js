@@ -72,6 +72,11 @@ export default class ChaseStrategy extends Strategy {
     }
 
     observeMove(dungeon, observer, actor, move) {
-        //console.log(`${observer} saw ${actor} perform a ${move}`);
+        if(observer.isEnemy(actor) && move.getDx) {
+            var currentLocation = actor.getTile();
+            var newX = currentLocation.getX() + move.getDx();
+            var newY = currentLocation.getY() + move.getDy();
+            this._lastKnownEnemyLocation = dungeon.getTile(newX, newY);
+        }
     }
 }

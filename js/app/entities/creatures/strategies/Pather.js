@@ -12,7 +12,7 @@ export default {
             console.warn("Creature trying to move to path to its own location", this);
         }
 
-        console.time("Pathfinding");
+        //console.time("Pathfinding");
         var pathfinding = AStar({
             start: start,
             isEnd: (node)=>node===target,
@@ -21,7 +21,7 @@ export default {
             distance: (a,b)=>a.getDirectDistance(b),
             heuristic: (a)=>a.getEuclideanDistance(target)
         });
-        console.timeEnd("Pathfinding");
+        //console.timeEnd("Pathfinding");
 
         if(pathfinding.status === 'success') {
             var nextTile = pathfinding.path[1];

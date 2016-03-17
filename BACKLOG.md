@@ -5,6 +5,8 @@
   - Determine strategy for putting all enemies on a namespace like with Move
   - Better dungeon generator
   - Using keyboard to look at tiles
+  - Decouple Dungeon from Entity
+  - Keep unseen events out of log
 - Med
   - Ranged attack animation
   - Keybindings Overlay
@@ -31,6 +33,8 @@
    - Site icon
    - Animation speed
    - Make action bars orange if their next action will be before player's
+   - Consider splitting source/target events into two events
 
 # Bugs
 - GraphicalDungeonView glitches when enemy immediately moves onto tile of another slain enemy
+- Prevent player from hover-viewing tiles the character can't see

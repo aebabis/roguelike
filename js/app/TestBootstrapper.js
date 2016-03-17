@@ -1,5 +1,5 @@
 import { default as Dungeon } from "./dungeons/Dungeon.js";
-import { default as TestDungeonFactory } from "./dungeons/TestDungeonFactory.js";
+import { default as RandomMapDungeonFactory } from "./dungeons/RandomMapDungeonFactory.js";
 
 import { default as GraphicalDungeonView } from "./views/GraphicalDungeonView.js";
 import { default as EventLogView } from "./views/EventLogView.js";
@@ -28,7 +28,7 @@ export default function(newSeed) {
     var prng = Random.engines.mt19937();
     prng.seed(seed);
 
-    var dungeon = new TestDungeonFactory().getBasicEnemyDungeon(prng);
+    var dungeon = new RandomMapDungeonFactory().getRandomMap(prng);
 
     var sharedData = new GraphicalViewSharedData(dungeon);
 

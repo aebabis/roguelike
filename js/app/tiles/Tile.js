@@ -10,7 +10,7 @@ export default class Tile {
         if(!(dungeon instanceof Dungeon)) {
             throw new Error("First parameter must be a Dungeon");
         }
-        if(isNaN(x) || isNaN(y)) {
+        if(!Number.isInteger(x) || !Number.isInteger(y)) {
             throw new Error('Must pass an x and y coordinate');
         }
         this._dungeon = dungeon;

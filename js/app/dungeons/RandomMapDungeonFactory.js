@@ -30,8 +30,8 @@ export default class RandomMapDungeonFactory {
         var height = Random.integer(10, 15)(prng);
 
         var numTiles = width * height;
-        var minOpenTiles = Math.floor(.3 * numTiles);
-        var maxOpenTiles = Math.floor(.5 * numTiles);
+        var minOpenTiles = Math.floor(.2 * numTiles);
+        var maxOpenTiles = Math.floor(.4 * numTiles);
 
         var numOpenTiles = Random.integer(minOpenTiles, maxOpenTiles)(prng);
 
@@ -71,8 +71,8 @@ export default class RandomMapDungeonFactory {
                 var ccwKey = dX ? oX + ',' + (oY - dX) : (oX - dY) + ',' + oY;
                 //console.log(x, y, nX, nY, oppositeKey, cwKey, ccwKey);
                 var isOppositeWall = !doneList[oppositeKey];
-                var isCWFloor = !!doneList[cwKey];
-                var isCCWFloor = !!doneList[ccwKey];
+                var isCWFloor = doneList[cwKey];
+                var isCCWFloor = doneList[ccwKey];
                 var isNeighborLegal = isOppositeWall && (isCWFloor || isCCWFloor);
                 if(!doneList[str] && !isNeighborLegal) {
                     adjacentList[str] = true;
@@ -81,7 +81,7 @@ export default class RandomMapDungeonFactory {
                 }
             });
             var key = Random.picker(Object.keys(adjacentList))(prng);
-            adjacentList[key] = false;
+            delete adjacentList[key];
             var coords = key.split(',');
             tile = dungeon.getTile(coords[0], coords[1]);
         }

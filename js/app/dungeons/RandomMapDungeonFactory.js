@@ -16,6 +16,8 @@ import { default as Dagger } from "../entities/weapons/Dagger.js";
 import { default as Shortbow } from "../entities/weapons/Shortbow.js";
 import { default as Stick } from "../entities/weapons/Stick.js";
 
+import { default as EntityTable } from "../entities/EntityTable.js";
+
 function getLoot(prng, dungeon) {
     return Random.picker([
         new Dagger(dungeon),
@@ -23,6 +25,28 @@ function getLoot(prng, dungeon) {
         new Stick(dungeon)
     ])(prng);
 }
+
+var table = new EntityTable([{
+    entity: BlackVoidSphere,
+    weight: 10,
+    cost: 3
+}, {
+    entity: ClunkyNinetiesCellPhone,
+    weight: 3,
+    cost: 5
+}, {
+    entity: Ent,
+    weight: 6,
+    cost: 5
+}, {
+    entity: Skeleton,
+    weight: 8,
+    cost: 7
+}, {
+    entity: SlingshotImp,
+    weight: 5,
+    cost: 4
+}]);
 
 export default class RandomMapDungeonFactory {
     getRandomMap(prng) {
@@ -108,14 +132,8 @@ export default class RandomMapDungeonFactory {
         player.addItem(new Stick(dungeon));
 
         // Test game configuration
-        var creatures = [
-            player,
-            new BlackVoidSphere(dungeon),
-            new SlingshotImp(dungeon),
-            new Ent(dungeon),
-            new ClunkyNinetiesCellPhone(dungeon),
-            new Skeleton(dungeon)
-        ];
+        var creatures = table.rollEntries(dungeon, prng, 30);
+        creatures.unshift(player);
         creatures.forEach(function(creature) {
             var loc = locations.shift();
             dungeon.setCreature(creature, loc.getX(), loc.getY());

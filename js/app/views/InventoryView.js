@@ -6,6 +6,8 @@ import { default as Move } from "../entities/creatures/moves/Move.js";
 
 import { default as ItemDomFactory } from "./ItemDomFactory.js";
 
+import { default as Creature } from "../entities/creatures/Creature.js";
+
 function getInventoryDom(creature) {
     var meleeWeapon = creature.getMeleeWeapon();
     var rangedWeapon = creature.getRangedWeapon();
@@ -56,6 +58,9 @@ export default class InventoryView {
     };
 
     setCreature(creature) {
+        if(!(creature instanceof Creature)) {
+            throw new Error('First parameter must be a creature');
+        }
         this._creature = creature;
         this.update();
     };

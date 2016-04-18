@@ -16,6 +16,8 @@ import { default as Dagger } from "../entities/weapons/Dagger.js";
 import { default as Shortbow } from "../entities/weapons/Shortbow.js";
 import { default as Stick } from "../entities/weapons/Stick.js";
 
+import { default as Fireball } from "../abilities/Fireball.js";
+
 import { default as EntityTable } from "../entities/EntityTable.js";
 
 function getLoot(prng, dungeon) {
@@ -126,6 +128,8 @@ export default class RandomMapDungeonFactory {
         });
 
         var player = new PlayableCharacter(dungeon);
+
+        player.addAbility(new Fireball());
 
         player.setMeleeWeapon(new Dagger(dungeon));
         player.addItem(new Shortbow(dungeon));

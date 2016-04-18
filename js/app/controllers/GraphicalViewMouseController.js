@@ -7,12 +7,17 @@ export default class GraphicalViewMouseController {
         // Arrow key handler
         $(dom).on('click', '.cell', function(event) {
             var tile = this;
+            var dungeon = sharedData.getDungeon();
             var character = dungeon.getPlayableCharacter();
             var playerLocation = dungeon.getTile(character);
             var targetX = tile.getAttribute('data-x');
             var targetY = tile.getAttribute('data-y');
             var creature = dungeon.getTile(targetX, targetY).getCreature();
-            if(creature && creature.isEnemy(character)) {
+            var abilityIndex = sharedData.getTargettedAbility();
+            if(abilityIndex !== null) {
+                character.setNextMove(new Move.UseAbilityMove(abilityIndex, targetX, targetY));
+                sharedData.unsetTargettedAbility();
+            } else if(creature && creature.isEnemy(character)) {
                 character.setNextMove(new Move.AttackMove(creature));
             } else {
                 var dx = targetX - playerLocation.getX();

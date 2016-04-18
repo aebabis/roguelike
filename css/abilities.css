@@ -1,0 +1,7 @@
+.theme-default .abilities button {
+    display: block;
+}
+
+.theme-default .abilities button[data-targetting="true"] {
+    background-color: red;
+}

@@ -16,19 +16,37 @@ import { default as Geometry } from "../../util/Geometry.js";*/
 import { default as Move } from "./Move.js";
 
 export default Move.UseAbilityMove = class UseAbilityMove extends Move {
-    isLegal() {
-        throw new Error('Abstract method not implemented');
+    constructor(index, x, y) {
+        super();
+        this._index = index;
+        this._x = x;
+        this._y = y;
+    }
+
+    isLegal(dungeon, creature) {
+        // TODO: implement
+        return true;
     }
 
     getCostMultiplier() {
-        throw new Error('Abstract method not implemented');
+        return 1;
     }
 
     execute(dungeon, creature) {
-        throw new Error('Abstract method not implemented');
+        var index = this._index;
+        console.log(creature.getAbilities(), index);
+        var ability = creature.getAbilities()[index];
+        if(ability.isTargetted()) {
+            var x = this._x;
+            var y = this._y;
+            var tile = dungeon.getTile(x, y);
+            ability.use(dungeon, creature, tile);
+        } else {
+            ability.use(dungeon, creature);
+        }
     }
 
     isSeenBy(dungeon, actor, observer) {
-        throw new Error('Abstract method not implemented');
+        return true;
     }
 };

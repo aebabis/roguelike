@@ -8,6 +8,7 @@ export default class GraphicalViewSharedData extends Observable {
         if(dungeon) {
             this.setDungeon(dungeon);
         }
+        this._targettedIndex = null;
     }
 
     setDungeon(dungeon) {
@@ -42,5 +43,22 @@ export default class GraphicalViewSharedData extends Observable {
 
     getInspectedTile() {
         return this._inspectedTile;
+    }
+
+    unsetTargettedAbility() {
+        this._targettedIndex = null;
+        this._notifyObservers();
+    }
+
+    setTargettedAbility(index) {
+        if(!Number.isInteger(+index)) {
+            throw new Error('index must be an integer');
+        }
+        this._targettedIndex = +index;
+        this._notifyObservers();
+    }
+
+    getTargettedAbility() {
+        return this._targettedIndex;
     }
 }

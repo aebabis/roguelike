@@ -6,6 +6,8 @@ import { default as CustomEvent } from "../../events/CustomEvent.js";
 
 import { default as Inventory } from "./Inventory.js";
 
+import { default as Ability } from "../../abilities/Ability.js";
+
 import { default as Strategy } from "./strategies/Strategy.js";
 import { default as Weapon } from "../weapons/Weapon.js";
 
@@ -21,6 +23,7 @@ export default class Creature extends Entity {
         this._delay();
         this._currentHP = this.getBaseHP();
         this._inventory = new Inventory();
+        this._abilities = [];
     }
 
     _delay(multiplier) {
@@ -44,6 +47,17 @@ export default class Creature extends Entity {
         this._inventory.addItem(item);
     }
 
+    addAbility(ability) {
+        if(!(ability instanceof Ability)) {
+            throw new Error('First parameter must be an Ability');
+        }
+        this._abilities.push(ability);
+    }
+
+    getAbilities() {
+        return this._abilities.slice();
+    }
+
     _incrementActions() {
         this.numActions = (this.numActions || 0) + 1;
     }
@@ -53,7 +67,7 @@ export default class Creature extends Entity {
     }
 
     getBaseHP() {
-        throw new Error('Abstract method not implemented')
+        throw new Error('Abstract method not implemented');
     }
 
     getCurrentHP() {

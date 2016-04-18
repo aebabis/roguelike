@@ -3,6 +3,7 @@ import { default as RandomMapDungeonFactory } from "./dungeons/RandomMapDungeonF
 
 import { default as GraphicalDungeonView } from "./views/GraphicalDungeonView.js";
 import { default as EventLogView } from "./views/EventLogView.js";
+import { default as AbilitiesView } from "./views/AbilitiesView.js";
 import { default as InventoryView } from "./views/InventoryView.js";
 import { default as PlayerLocationView } from "./views/PlayerLocationView.js";
 import { default as TileView } from "./views/TileView.js";
@@ -32,9 +33,10 @@ export default function(newSeed) {
 
     var sharedData = new GraphicalViewSharedData(dungeon);
 
-    var mapView = new GraphicalDungeonView(dungeon);
+    var mapView = new GraphicalDungeonView(dungeon); // TODO: Use sharedData instead of dungeon
     var eventLogView = new EventLogView(dungeon);
     var inventoryView = new InventoryView(dungeon);
+    var abilitiesView = new AbilitiesView(sharedData);
     var playerLocationView = new PlayerLocationView(sharedData);
     var tileView = new TileView(sharedData);
     var keyboardController = new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
@@ -45,6 +47,7 @@ export default function(newSeed) {
     container.appendChild(sidebar);
     sidebar.appendChild(playerLocationView.getDom());
     sidebar.appendChild(tileView.getDom());
+    sidebar.appendChild(abilitiesView.getDom());
     sidebar.appendChild(inventoryView.getDom());
     sidebar.appendChild(eventLogView.getDom());
 

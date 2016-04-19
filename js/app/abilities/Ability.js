@@ -54,4 +54,8 @@ export default class Ability {
     onUse(dungeon) {
         this._lastUsed = dungeon.getCurrentTimestep();
     }
+
+    toString() {
+        return this.getName();
+    }
 }

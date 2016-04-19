@@ -57,7 +57,7 @@
 }
 
 .grid .cell .entity {
-    position: relative;
+    position: absolute;
 }
 
 .grid .cell:not([data-visible="true"]) {

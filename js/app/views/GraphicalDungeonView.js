@@ -165,6 +165,16 @@ export default class GraphicDungeonView {
                 let cell = grid.querySelector('[data-x="'+location.getX()+'"][data-y="'+location.getY()+'"]');
                 cell.removeChild(self._getDomForWeapon(event.getItem()));
             }, delay);
+        } else if(event instanceof GameEvents.HitpointsEvent) {
+            let creature = event.getCreature();
+            let tile = this._dungeon.getTile(creature);
+            let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
+            this._createDelay(function() {
+                let dom = self._getDomForCreature(creature);
+                if(creature.isDead()) {
+                    dom.setAttribute('data-is-dead', true);
+                }
+            }, delay);
         }
     }
 

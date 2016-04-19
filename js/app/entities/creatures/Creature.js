@@ -3,6 +3,7 @@ import { default as Tile } from "../../tiles/Tile.js";
 import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
 import { default as CustomEvent } from "../../events/CustomEvent.js";
+import { default as HitpointsEvent } from "../../events/HitpointsEvent.js";
 
 import { default as Inventory } from "./Inventory.js";
 
@@ -79,6 +80,7 @@ export default class Creature extends Entity {
             throw new Error('amount must be a number');
         }
         this._currentHP += amount;
+        this._dungeon.fireEvent(new HitpointsEvent(this.getDungeon(), this, amount));
         if(this._currentHP <= 0) {
             this.die();
         }

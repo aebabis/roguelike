@@ -44,9 +44,9 @@ export default class Dungeon extends Observable {
     getTile(param1, param2) {
         if(param1 instanceof Creature) {
             return this._creatureMap.get(param1);
-        } else if(!isNaN(param1) && !isNaN(param2)) {
-            var col = this._grid[param1];
-            return col && col[param2];
+        } else if(Number.isInteger(+param1) && Number.isInteger(+param2)) {
+            var col = this._grid[+param1];
+            return col && col[+param2];
         } else {
             throw new Error('Must pass a Creature or XY coordinates');
         }

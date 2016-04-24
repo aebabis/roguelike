@@ -2,6 +2,8 @@ import { default as Tile } from "../tiles/Tile.js";
 import { default as GameEvent } from "../events/GameEvent.js";
 import { default as GameEvents } from "../events/GameEvents.js";
 
+import { default as GridAnimations } from "./GridAnimations.js";
+
 var ANIMATE_BARS = false;
 
 export default class GraphicDungeonView {
@@ -139,6 +141,7 @@ export default class GraphicDungeonView {
     _queueAnimation(event) {
         var self = this;
         var grid = this.getDom();
+        var dungeon = this._dungeon;
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof GameEvents.AttackEvent) {
             let target = event.getTarget();
@@ -176,6 +179,10 @@ export default class GraphicDungeonView {
                 }
             }, delay);
         }
+
+        this._createDelay(function() {
+            GridAnimations.animateEvent(dungeon, self, event);
+        });
     }
 
     update(event) {

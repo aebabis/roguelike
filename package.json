@@ -21,7 +21,9 @@
     "typescript": "^1.7.3"
   },
   "devDependencies": {
-    "chai": "^3.4.1"
+    "chai": "^3.4.1",
+    "jsdoc": "^3.4.0",
+    "jsdoc-baseline": "https://github.com/hegemonic/baseline/tarball/master"
   },
   "directories": {
     "test": "test"

@@ -3,7 +3,7 @@ import { default as Entity } from "../Entity.js";
 export default class Weapon extends Entity {
     /**
       * @class Weapon
-      * @description
+      * @description Base class for a weapon. Can be wielded by player or enemy
       */
     constructor(dungeon) {
         super(dungeon);

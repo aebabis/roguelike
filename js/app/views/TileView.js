@@ -9,7 +9,7 @@ import { default as Move } from "../entities/creatures/moves/Move.js";
 export default class TileView {
     /**
      * @class TileView
-     * @description
+     * @description View for providing information about an arbitary tile
      */
     constructor(sharedData) {
         var self = this;

@@ -3,7 +3,7 @@ import { default as Entity } from "./Entity.js";
 export default class EntityTable {
     /**
       * @class EntityTable
-      * @description
+      * @description Base class for RNG table for random enemies
       */
     constructor(entries) {
         this._entries = [];

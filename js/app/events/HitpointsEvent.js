@@ -21,6 +21,7 @@ export default class HitpointsEvent extends GameEvent {
 
     /**
      * @function getCreature()
+     * @memberof HitpointsEvent
      * @returns {Creature}
      */
     getCreature() {
@@ -33,6 +34,7 @@ export default class HitpointsEvent extends GameEvent {
 
     /**
      * @function getText()
+     * @memberof HitpointsEvent
      * @description A text description of the event
      * @returns {String}
      */

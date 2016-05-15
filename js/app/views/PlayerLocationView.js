@@ -12,8 +12,8 @@ function getItemsDom(dungeon, items) {
 
 export default class PlayerLocationView {
     /**
-     * @class TileView
-     * @description
+     * @class PlayerLocationView
+     * @description View summarizing the tile where the player is standing
      */
     constructor(sharedData) {
         var self = this;

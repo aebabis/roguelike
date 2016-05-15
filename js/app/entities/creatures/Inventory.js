@@ -18,7 +18,7 @@ var Inventory = class Inventory {
 
     /**
       * @class Inventory
-      * @description
+      * @description A creature's inventory for holding items
       */
     constructor(backpackSize) {
         if(isNaN(backpackSize)) {

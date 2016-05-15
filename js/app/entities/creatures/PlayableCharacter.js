@@ -7,7 +7,7 @@ import { default as Inventory } from "./Inventory.js";
 export default class PlayableCharacter extends Creature {
     /**
       * @class PlayableCharacter
-      * @description
+      * @description The creature controlled by the player
       */
     constructor(dungeon) {
         super(dungeon);

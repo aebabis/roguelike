@@ -17,7 +17,7 @@ import { default as Geometry } from "../../util/Geometry.js";
 export default class Creature extends Entity {
     /**
       * @class Creature
-      * @description
+      * @description Represents an entity that can act
       */
     constructor(dungeon) {
         super(dungeon);

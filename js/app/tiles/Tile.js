@@ -4,7 +4,7 @@ import { default as Creature } from "../entities/creatures/Creature.js";
 export default class Tile {
     /**
       * @class Tile
-      * @description
+      * @description A grid tile in the dungeon
       */
     constructor(dungeon, x, y) {
         if(!(dungeon instanceof Dungeon)) {

@@ -9,7 +9,7 @@ import { default as Move } from "../entities/creatures/moves/Move.js";
 export default class AbilitiesView {
     /**
      * @class AbilitiesView
-     * @description
+     * @description List view for the player's abilities
      */
     constructor(sharedData) {
         var self = this;
@@ -21,7 +21,7 @@ export default class AbilitiesView {
         $(dom).on('click', 'button', function() {
             var index = +$(this).attr('data-index');
             var prevAbility = sharedData.getTargettedAbility();
-            
+
             if(prevAbility === index) {
                 sharedData.unsetTargettedAbility();
             } else {

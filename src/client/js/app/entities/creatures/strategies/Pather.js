@@ -1,4 +1,4 @@
-import { default as AStar } from "../../../../../bower_components/es6-a-star/es6-a-star.js";
+import { default as AStar } from "../../../../../../../bower_components/es6-a-star/es6-a-star.js";
 
 import { default as Move } from "../moves/Move.js";
 

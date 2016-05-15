@@ -4,12 +4,12 @@ var expect = require('chai').expect;
 describe('ChaseStrategy', function() {
     beforeEach(function(done) {
         es6Inject([
-            'js/app/dungeons/Dungeon.js',
-            'js/app/dungeons/TestDungeonFactory.js',
-            'js/app/entities/creatures/Creature.js',
-            'js/app/entities/creatures/PlayableCharacter.js',
-            'js/app/entities/creatures/Ent.js',
-            'js/app/entities/creatures/moves/Moves.js'
+            'src/client/js/app/dungeons/Dungeon.js',
+            'src/client/js/app/dungeons/TestDungeonFactory.js',
+            'src/client/js/app/entities/creatures/Creature.js',
+            'src/client/js/app/entities/creatures/PlayableCharacter.js',
+            'src/client/js/app/entities/creatures/Ent.js',
+            'src/client/js/app/entities/creatures/moves/Moves.js'
         ]).then(done, done);
     });
 

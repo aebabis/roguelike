@@ -7,6 +7,7 @@
   - Using keyboard to look at tiles
   - Decouple Dungeon from Entity
   - Keep unseen events out of log
+  - Button to focus abilities. Arrows to move between
 - Med
   - Ranged attack animation
   - Keybindings Overlay
@@ -25,6 +26,7 @@
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
   - Add Item to inheritance hierarchy?
+  - Class system
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

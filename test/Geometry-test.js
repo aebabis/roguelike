@@ -1,7 +1,7 @@
 var System = require('es6-module-loader').System;
 var expect = require('chai').expect;
 
-var depList = ['js/app/util/Geometry.js'];
+var depList = ['src/client/js/app/util/Geometry.js'];
 
 var MODULES = {};
 

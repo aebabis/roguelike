@@ -1,0 +1,10 @@
+{
+    "plugins": ["plugins/commentsOnly"],
+    "opts": {
+        "destination": "doc",
+        "recurse": true
+    },
+    "source": {
+        "include": "js"
+    }
+}

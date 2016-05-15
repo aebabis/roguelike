@@ -6,7 +6,7 @@
   "scripts": {
     "install": "node node_modules/bower/bin/bower install",
     "test": "node node_modules/mocha/bin/mocha",
-    "start": "node node_modules/http-server/bin/http-server ."
+    "start": "node src/server/server.js"
   },
   "author": "Alex Babis <acbabis@gmail.com>",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "babel": "^6.3.13",
     "bower": "^1.7.1",
     "es6-module-loader": "^0.17.8",
-    "http-server": "^0.8.5",
+    "express": "^4.13.4",
     "mocha": "^2.3.4",
     "random-js": "^1.0.8",
     "traceur": "0.0.93",

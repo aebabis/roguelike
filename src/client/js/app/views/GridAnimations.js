@@ -32,6 +32,7 @@ export default {
                     .appendTo(grid.getDom().querySelector('.grid'))
                     .css({
                         backgroundImage: 'url("images/small/Fireball.png")',
+                        pointerEvents: 'none',
                         transition: '.3s transform, .5s opacity',
                         opacity: 1,
                         transform: 'scale(0)'

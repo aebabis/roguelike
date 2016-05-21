@@ -23,6 +23,7 @@ export default class Creature extends Entity {
         super(dungeon);
         this._delay();
         this._currentHP = this.getBaseHP();
+        this._currentMana = this.getBaseMana();
         this._inventory = new Inventory();
         this._abilities = [];
     }
@@ -75,15 +76,33 @@ export default class Creature extends Entity {
         return this._currentHP;
     }
 
+    getBaseMana() {
+        return 0;
+    }
+
+    getCurrentMana() {
+        return this._currentMana;
+    }
+
     modifyHP(amount) {
-        if(isNaN(amount)) {
-            throw new Error('amount must be a number');
+        if(!Number.isInteger(amount)) {
+            throw new Error('amount must be an integer');
         }
-        this._currentHP += amount;
+        var newValue = this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
         this._dungeon.fireEvent(new HitpointsEvent(this.getDungeon(), this, amount));
-        if(this._currentHP <= 0) {
+        if(newValue <= 0) {
             this.die();
         }
+    }
+
+    modifyMana(amount) {
+        if(!Number.isInteger(amount)) {
+            throw new Error('amount must be an integer');
+        }
+        if(this.getCurrentMana() + amount < 0) {
+            throw new Error('Not enough mana');
+        }
+        this._currentMana = Math.min(this.getCurrentMana() + amount, this.getBaseMana());
     }
 
     die() {
@@ -136,6 +155,9 @@ export default class Creature extends Entity {
         var location = this.getTile();
         if(!location) { // Creature hasn't been placed yet.
             // TODO: Should this check be necessary?
+            return false;
+        }
+        if(tile.getEuclideanDistance(location) > 5) {
             return false;
         }
 

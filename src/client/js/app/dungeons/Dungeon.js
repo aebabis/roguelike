@@ -161,9 +161,11 @@ export default class Dungeon extends Observable {
     }
 
     resolveUntilBlocked() {
+        console.time("Timestep");
         while(this.canAdvance()) {
             this.resolveNextStep();
         }
+        console.timeEnd("Timestep");
     }
 
     getActiveCreature() {

@@ -56,6 +56,10 @@ export default class PlayableCharacter extends Creature {
         return 10;
     }
 
+    getBaseMana() {
+        return 10;
+    }
+
     getSpeed() {
         return 450;
     }

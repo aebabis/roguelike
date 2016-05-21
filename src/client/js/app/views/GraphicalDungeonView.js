@@ -122,20 +122,13 @@ export default class GraphicDungeonView {
 
     _resetAnimationQueue() {
         if(this._rejections) {
-            this._rejections.forEach(function(reject) {
-                reject();
-            });
+            this._rejections.forEach(clearTimeout);
         }
         this._rejections = [];
     }
 
     _createDelay(action, delay) {
-        var self = this;
-        return Promise.race([new Promise(function(resolve, reject) {
-            setTimeout(resolve, delay);
-        }), new Promise(function(resolve, reject) {
-            self._rejections.push(reject);
-        })]).then(action);
+        this._rejections.push(setTimeout(action, delay));
     }
 
     _queueAnimation(event) {

@@ -20,6 +20,10 @@ export default class Fireball extends Ability {
         return 5;
     }
 
+    getManaCost() {
+        return 8;
+    }
+
     getDescription() {
         return "Does fire damage to creatures in a 3x3 area.";
     }

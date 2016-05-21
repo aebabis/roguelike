@@ -46,6 +46,8 @@ export default class PlayerLocationView {
         var name = player.constructor.name;
         var hp = player.getCurrentHP();
         var baseHP = player.getBaseHP();
+        var mana = player.getCurrentMana();
+        var baseMana = player.getBaseMana();
         var time = player.getTimeToNextMove();
         var speed = player.getSpeed();
 
@@ -62,6 +64,7 @@ export default class PlayerLocationView {
         <div class="player">
             <div class="name">${name}</div>
             <div class="hp">HP: ${hp} / ${baseHP}</div>
+            <div class="mana">Mana: ${mana} / ${baseMana}</div>
             <div class="action">Action: ${time} / ${speed}</div>
         </div>
         <div class="items">

@@ -15,6 +15,9 @@ export default class Ability {
         if(creature.getTile().getDirectDistance(optionalTargetTile) > this.getRange()) {
             return "Target not in range";
         }
+        if(this.getManaCost() > creature.getCurrentMana()) {
+            return "Not enough mana";
+        }
         return null;
     }
 
@@ -23,6 +26,7 @@ export default class Ability {
         if(reason) {
             throw new Error(reason);
         }
+        creature.modifyMana(-this.getManaCost());
     }
 
     isTargetted() {
@@ -32,6 +36,10 @@ export default class Ability {
     getRange() {
         // Default for self-target abilities
         return 0;
+    }
+
+    getManaCost() {
+        throw new Error('Abstract method not implemented');
     }
 
     getName() {

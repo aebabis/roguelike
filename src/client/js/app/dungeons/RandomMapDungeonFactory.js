@@ -51,7 +51,7 @@ var table = new EntityTable([{
 }]);
 
 export default class RandomMapDungeonFactory {
-    getRandomMap(prng) {
+    getRandomMap(prng, CharacterClass) {
         var width = Random.integer(15, 20)(prng);
         var height = Random.integer(10, 15)(prng);
 
@@ -127,7 +127,7 @@ export default class RandomMapDungeonFactory {
             tile.addItem(item);
         });
 
-        var player = new PlayableCharacter(dungeon);
+        var player = new (CharacterClass || PlayableCharacter)(dungeon);
 
         player.addAbility(new Fireball());
 

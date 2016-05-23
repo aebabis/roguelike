@@ -12,7 +12,7 @@ import { default as GraphicalViewKeyboardController } from "./controllers/Graphi
 import { default as GraphicalViewMouseController } from "./controllers/GraphicalViewMouseController.js";
 import { default as GraphicalViewSharedData } from "./controllers/GraphicalViewSharedData.js";
 
-export default function(newSeed) {
+export default function(CharacterClass, newSeed) {
     var gameSection = document.querySelector('section');
     gameSection.innerHTML = '';
     var container = document.createElement('div');
@@ -29,7 +29,7 @@ export default function(newSeed) {
     var prng = Random.engines.mt19937();
     prng.seed(seed);
 
-    var dungeon = new RandomMapDungeonFactory().getRandomMap(prng);
+    var dungeon = new RandomMapDungeonFactory().getRandomMap(prng, CharacterClass);
 
     var sharedData = new GraphicalViewSharedData(dungeon);
 

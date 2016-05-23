@@ -1,4 +1,5 @@
 import { default as TestBootstrapper } from '../TestBootstrapper.js';
+import { default as CharacterBuilder } from './CharacterBuilder.js';
 
 function template() {
     return $(`
@@ -12,7 +13,10 @@ export default class MenuBar {
     constructor() {
         this._dom = template()
         .on('click', '.newgame', function() {
-            TestBootstrapper(true);
+            new CharacterBuilder().getCharacter().then(function(CharacterClass) {
+                console.log(CharacterClass);
+                TestBootstrapper(CharacterClass, true);
+            })
         }).on('click', '.restart', function() {
             TestBootstrapper(false);
         });

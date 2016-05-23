@@ -12,7 +12,7 @@ export default class PlayableCharacter extends Creature {
     constructor(dungeon) {
         super(dungeon);
         this._moveQueue = [];
-        this._inventory = new Inventory(4);
+        this._inventory = new Inventory(this.getBackpackSize());
     }
 
     move(dx, dy)  {
@@ -50,6 +50,14 @@ export default class PlayableCharacter extends Creature {
         } else {
             throw new Error('PlayableCharacter doesn\'t have move queued');
         }
+    }
+
+    getFaction() {
+        return 'Player';
+    }
+
+    getBackpackSize() {
+        return 3;
     }
 
     getBaseHP() {

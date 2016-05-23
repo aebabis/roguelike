@@ -248,9 +248,12 @@ export default class Creature extends Entity {
         return this.getVisibleCreatures().filter((other)=>this.isEnemy(other));
     }
 
+    getFaction() {
+        return 'Guards';
+    }
+
     isEnemy(other) {
-        // TODO: Figure out how/if to import PlayableCharacter in this class
-        return (this.toString() === 'PlayableCharacter') !== (other.toString() === 'PlayableCharacter');
+        return this.getFaction() !== other.getFaction();
     }
 
     setStrategy(strategy) {

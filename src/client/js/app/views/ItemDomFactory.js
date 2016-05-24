@@ -31,5 +31,26 @@ export default lib = {
         } else {
             return $('<li class="slot empty" tabindex="0">(Empty weapon slot)</li>')[0];
         }
+    },
+
+    getArmorDom: function(armor, index) {
+        if(armor) {
+            var data = {
+                name: armor.getName(),
+                physical: armor.getPhysicalReduction(),
+                magical: armor.getMagicalReduction()
+            }
+            return $(`
+                <li class="slot item armor" tabindex="0" data-index="${index}">
+                    <div class="name">${data.name}</div>
+                    <div class="stats">
+                        <span class="physical-dr-text">-${data.physical} physical damage</span>,
+                        <span class="magical-dr-text">-${data.magical} magic damage</span>,
+                    </div>
+                </li>
+            `)[0];
+        } else {
+            return $('<li class="slot empty" tabindex="0">(Empty armor slot)</li>')[0];
+        }
     }
 }

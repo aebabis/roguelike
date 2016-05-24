@@ -1,3 +1,4 @@
+import { default as Armor } from "../armor/Armor.js";
 import { default as Weapon } from "../weapons/Weapon.js";
 
 var DEFAULT_BACKPACE_SIZE = 2;
@@ -90,6 +91,8 @@ var Inventory = class Inventory {
                 } else {
                     this.setRangedWeapon(item);
                 }
+            } else if(item instanceof Armor) {
+                this.setArmor(param);
             }
         } else if(!isNaN(param)) {
             var index = param;
@@ -108,6 +111,10 @@ var Inventory = class Inventory {
                     this.setRangedWeapon(item);
                 }
                 backpack[index] = oldWeapon;
+            } else if(item instanceof Armor) {
+                var oldArmor = this.getArmor();
+                this.setArmor(item);
+                backback[index] = oldArmor;
             }
         } else {
             throw new Error('First parameter must be a number or Item');
@@ -132,12 +139,23 @@ var Inventory = class Inventory {
         this.getEquipment()[Inventory.RANGED_SLOT] = weapon;
     }
 
+    setArmor(armor) {
+        if(!(armor instanceof Armor)) {
+            throw new Error('Parameter must be Armor');
+        }
+        this.getEquipment()[Inventory.ARMOR_SLOT] = armor;
+    }
+
     getMeleeWeapon() {
         return this._equipment[Inventory.MELEE_SLOT];
     }
 
     getRangedWeapon() {
         return this._equipment[Inventory.RANGED_SLOT];
+    }
+
+    getArmor() {
+        return this._equipment[Inventory.ARMOR_SLOT];
     }
 }
 

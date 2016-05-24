@@ -27,6 +27,7 @@
   - Keyboard and mouse instructions
   - Add Item to inheritance hierarchy?
   - Class system
+  - Should creature be responsible for receiving damage?
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

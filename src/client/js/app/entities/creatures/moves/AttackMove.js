@@ -59,7 +59,12 @@ export default Move.AttackMove = class AttackMove extends Move {
         var target = targetTile.getCreature();
         var targetDistance = dungeon.getTile(creature).getDirectDistance(targetTile);
         var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
-        target.modifyHP(-weapon.getDamage());
+        var reduction = 0;
+        var armor = target.getArmor();
+        if(armor) {
+            reduction = weapon.isMagical() ? armor.getMagicalReduction() : armor.getPhysicalReduction();
+        }
+        target.modifyHP(-(weapon.getDamage() - reduction));
         dungeon.fireEvent(new AttackEvent(dungeon, creature, target, weapon));
     }
 

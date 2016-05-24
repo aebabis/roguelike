@@ -1,8 +1,8 @@
 import { default as Weapon } from "./Weapon.js";
 
-export default class Stick extends Weapon {
+export default class Longsword extends Weapon {
     getDamage() {
-        return 2;
+        return 5;
     }
 
     getRange() {

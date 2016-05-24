@@ -12,13 +12,18 @@ import { default as Ent } from "../entities/creatures/Ent.js";
 import { default as Skeleton } from "../entities/creatures/Skeleton.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 
-import { default as Dagger } from "../entities/weapons/Dagger.js";
-import { default as Shortbow } from "../entities/weapons/Shortbow.js";
-import { default as Stick } from "../entities/weapons/Stick.js";
-
 import { default as Fireball } from "../abilities/Fireball.js";
 
 import { default as EntityTable } from "../entities/EntityTable.js";
+
+import { default as Stick } from "../entities/weapons/Stick.js";
+import { default as Dagger } from "../entities/weapons/Dagger.js";
+import { default as Shortsword } from "../entities/weapons/Shortsword.js";
+import { default as Longsword } from "../entities/weapons/Longsword.js";
+import { default as Shortbow } from "../entities/weapons/Shortbow.js";
+
+import { default as LightArmor } from "../entities/armor/LightArmor.js";
+import { default as MediumArmor } from "../entities/armor/MediumArmor.js";
 
 function getLoot(prng, dungeon) {
     return Random.picker([
@@ -129,11 +134,22 @@ export default class RandomMapDungeonFactory {
 
         var player = new (CharacterClass || PlayableCharacter)(dungeon);
 
-        player.addAbility(new Fireball());
-
-        player.setMeleeWeapon(new Dagger(dungeon));
-        player.addItem(new Shortbow(dungeon));
-        player.addItem(new Stick(dungeon));
+        // Starting items
+        switch(player.toString()) {
+            case "Fighter":
+                player.setMeleeWeapon(new Longsword(dungeon));
+                player.setArmor(new MediumArmor(dungeon));
+                break;
+            case "Rogue":
+                player.setMeleeWeapon(new Dagger(dungeon));
+                player.setRangedWeapon(new Shortbow(dungeon));
+                player.setArmor(new LightArmor(dungeon));
+                break;
+            case "Wizard":
+                player.setMeleeWeapon(new Stick(dungeon));
+                player.addAbility(new Fireball());
+                break;
+        }
 
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 30);

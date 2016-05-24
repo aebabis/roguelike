@@ -2,7 +2,18 @@ import { default as Creature } from "./Creature.js";
 import { default as PlayableCharacter } from "./PlayableCharacter.js";
 import { default as ChaseStrategy } from "./strategies/ChaseStrategy.js";
 
+import { default as Armor } from "../armor/Armor.js";
 import { default as Weapon } from "../weapons/Weapon.js";
+
+class SkeletonArmor extends Armor {
+    getPhysicalReduction() {
+        return 1;
+    }
+
+    getMagicalReduction() {
+        return 0;
+    }
+}
 
 class SkeletonPunch extends Weapon {
     getRange() {
@@ -32,8 +43,12 @@ export default class Skeleton extends Creature {
         return null;
     }
 
+    getArmor() {
+        return new SkeletonArmor(this.getDungeon());
+    }
+
     getSpeed() {
-        return 400;
+        return 600;
     }
 
     getBaseHP() {

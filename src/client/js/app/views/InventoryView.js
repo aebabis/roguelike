@@ -11,6 +11,7 @@ import { default as Creature } from "../entities/creatures/Creature.js";
 function getInventoryDom(creature) {
     var meleeWeapon = creature.getMeleeWeapon();
     var rangedWeapon = creature.getRangedWeapon();
+    var armor = creature.getArmor();
     var items = creature.getInventory().getBackpack();
     return $('<h2>Inventory</h2>').add($('<ul class="inventory">')
         .append(
@@ -18,6 +19,7 @@ function getInventoryDom(creature) {
                 .append('<h3>Equipment</h2>')
                 .append(ItemDomFactory.getWeaponDom(meleeWeapon))
                 .append(ItemDomFactory.getWeaponDom(rangedWeapon))
+                .append(ItemDomFactory.getArmorDom(armor))
             )
         .append(
             $('<div class="subinventory backpack">')

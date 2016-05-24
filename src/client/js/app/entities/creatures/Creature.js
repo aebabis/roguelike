@@ -131,6 +131,10 @@ export default class Creature extends Entity {
         this.getInventory().setRangedWeapon(weapon);
     }
 
+    setArmor(armor) {
+        this.getInventory().setArmor(armor);
+    }
+
     // Convenience function to get inventory item
     // TODO: Consider removing
     getMeleeWeapon() {
@@ -139,6 +143,10 @@ export default class Creature extends Entity {
 
     getRangedWeapon() {
         return this.getInventory().getRangedWeapon();
+    }
+
+    getArmor() {
+        return this.getInventory().getArmor();
     }
 
     /**

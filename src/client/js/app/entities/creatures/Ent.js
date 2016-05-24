@@ -2,7 +2,18 @@ import { default as Creature } from "./Creature.js";
 import { default as PlayableCharacter } from "./PlayableCharacter.js";
 import { default as ChaseStrategy } from "./strategies/ChaseStrategy.js";
 
+import { default as Armor } from "../armor/Armor.js";
 import { default as Weapon } from "../weapons/Weapon.js";
+
+class Bark extends Armor {
+    getPhysicalReduction() {
+        return 2;
+    }
+
+    getMagicalReduction() {
+        return 1;
+    }
+}
 
 class EntAttack extends Weapon {
     getRange() {
@@ -30,6 +41,10 @@ export default class Ent extends Creature {
 
     getRangedWeapon() {
         return null;
+    }
+
+    getArmor() {
+        return new Bark(this.getDungeon());
     }
 
     getSpeed() {

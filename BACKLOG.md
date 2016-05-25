@@ -1,8 +1,8 @@
 # Backlog
 - High
-  - Abilities
+  - CompositeStrategy that attempts strategies in sequence until one returns a moves
+  - RandomActionMove
   - Puzzles/Level-Select
-  - Determine strategy for putting all enemies on a namespace like with Move
   - Better dungeon generator
   - Using keyboard to look at tiles
   - Decouple Dungeon from Entity
@@ -18,15 +18,12 @@
   - Serialization for saving games (and as POC for client-server games)
   - Button panel for actions other than move
   - Highlighting to indicate if action is legal
-  - Make Move classes so serialization is easier?
   - Handle legal noPath situations
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
-  - Make views get Dungeon from shared data
-  - Damage Resistance
+  - Make all views get Dungeon from shared data
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
   - Add Item to inheritance hierarchy?
-  - Class system
   - Should creature be responsible for receiving damage?
 - Low
    - CSS Layout

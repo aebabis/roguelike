@@ -16,6 +16,10 @@ export default class Fireball extends Ability {
         return true;
     }
 
+    isTargetCreature() {
+        return false;
+    }
+
     getRange() {
         return 5;
     }

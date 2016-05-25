@@ -35,6 +35,14 @@ export default class AbilitiesView {
                 }
             }
         });
+
+        window.addEventListener('keypress', function(event) {
+            var code = event.keyCode;
+            if(48 <= code && code <= 57) {
+                var index = (code + 1) % 10; // '0' key means 10th index
+                $(dom).find('button').eq(index).trigger('click');
+            }
+        });
     }
 
     update() {
@@ -46,7 +54,7 @@ export default class AbilitiesView {
         <h2>Abilities</h2>
         <div class="wrap">
             ${player.getAbilities().map((item, index)=>
-                    `<button class="ability" data-index="${index}" data-targetting="${targettedIndex === index}">${item.getName()} (${item.getManaCost()} mana)</button>`)}
+                    `<button class="ability" data-index="${index}" data-targetting="${targettedIndex === index}"><span class="hotkey">(${index + 1})</span> ${item.getName()} (${item.getManaCost()} mana)</button>`).join('')}
         </div>`);
         $(this.getDom()).empty().append(template);
     }

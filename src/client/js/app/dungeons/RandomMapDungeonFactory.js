@@ -13,6 +13,7 @@ import { default as Skeleton } from "../entities/creatures/Skeleton.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 
 import { default as Fireball } from "../abilities/Fireball.js";
+import { default as ForceDart } from "../abilities/ForceDart.js";
 
 import { default as EntityTable } from "../entities/EntityTable.js";
 
@@ -152,6 +153,7 @@ export default class RandomMapDungeonFactory {
             case "Wizard":
                 player.setMeleeWeapon(new Stick(dungeon));
                 player.addAbility(new Fireball());
+                player.addAbility(new ForceDart());
                 break;
         }
 

@@ -2,6 +2,10 @@
     display: block;
 }
 
+.theme-default .abilities button .hotkey {
+    color: #777;
+}
+
 .theme-default .abilities button[data-targetting="true"] {
     background-color: red;
 }

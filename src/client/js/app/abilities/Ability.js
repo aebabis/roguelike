@@ -12,6 +12,9 @@ export default class Ability {
         if(this.isTargetted() && !(optionalTargetTile instanceof Tile)) {
             return "This ability requires a target tile";
         }
+        if(this.isTargetted() && this.isTargetCreature() && !optionalTargetTile.getCreature()) {
+            return "Target tile has no creature";
+        }
         if(creature.getTile().getDirectDistance(optionalTargetTile) > this.getRange()) {
             return "Target not in range";
         }
@@ -33,6 +36,10 @@ export default class Ability {
         throw new Error('Abstract method not implemented');
     }
 
+    isTargetCreature() {
+        throw new Error('Abstract method not implemented');
+    }
+
     getRange() {
         // Default for self-target abilities
         return 0;
@@ -49,18 +56,6 @@ export default class Ability {
 
     getDescription() {
         throw new Error('Abstract method not implemented');
-    }
-
-    getCooldown() {
-        throw new Error('Abstract method not implemented');
-    }
-
-    isOffCooldown(dungeon) {
-        return dungeon.getCurrentTimestep() - this.lastUsed >= this.getCooldown();
-    }
-
-    onUse(dungeon) {
-        this._lastUsed = dungeon.getCurrentTimestep();
     }
 
     toString() {

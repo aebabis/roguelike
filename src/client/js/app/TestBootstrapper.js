@@ -12,7 +12,7 @@ import { default as GraphicalViewKeyboardController } from "./controllers/Graphi
 import { default as GraphicalViewMouseController } from "./controllers/GraphicalViewMouseController.js";
 import { default as GraphicalViewSharedData } from "./controllers/GraphicalViewSharedData.js";
 
-export default function(CharacterClass, newSeed) {
+export default function(newSeed, CharacterClass) {
     var gameSection = document.querySelector('section');
     gameSection.innerHTML = '';
     var container = document.createElement('div');

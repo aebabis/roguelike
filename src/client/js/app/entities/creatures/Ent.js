@@ -21,7 +21,7 @@ class EntAttack extends Weapon {
     }
 
     getDamage() {
-        return 10;
+        return 8;
     }
 }
 
@@ -52,6 +52,6 @@ export default class Ent extends Creature {
     }
 
     getBaseHP() {
-        return 10;
+        return 8;
     }
 }

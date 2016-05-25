@@ -14,8 +14,7 @@ export default class MenuBar {
         this._dom = template()
         .on('click', '.newgame', function() {
             new CharacterBuilder().getCharacter().then(function(CharacterClass) {
-                console.log(CharacterClass);
-                TestBootstrapper(CharacterClass, true);
+                TestBootstrapper(true, CharacterClass);
             })
         }).on('click', '.restart', function() {
             TestBootstrapper(false);

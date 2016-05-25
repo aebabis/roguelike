@@ -1,6 +1,6 @@
 import { default as Dungeon } from "./Dungeon.js";
 
-import { default as PlayableCharacter } from "../entities/creatures/PlayableCharacter.js";
+import { default as Classes } from "../entities/creatures/classes/Classes.js";
 
 import { default as Tile } from "../tiles/Tile.js";
 import { default as WallTile } from "../tiles/WallTile.js";
@@ -128,16 +128,20 @@ export default class RandomMapDungeonFactory {
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
             var tile = emptyTiles[position];
-            console.log(item, 'at', tile);
             tile.addItem(item);
         });
 
-        var player = new (CharacterClass || PlayableCharacter)(dungeon);
+        if(!CharacterClass) {
+            var classes = Object.keys(Classes);
+            var index = Math.floor(Math.random() * classes.length);
+            CharacterClass = Classes[classes[index]];
+        }
+        var player = new CharacterClass(dungeon);
 
         // Starting items
         switch(player.toString()) {
             case "Fighter":
-                player.setMeleeWeapon(new Longsword(dungeon));
+                player.setMeleeWeapon(new Shortsword(dungeon));
                 player.setArmor(new MediumArmor(dungeon));
                 break;
             case "Rogue":

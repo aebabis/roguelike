@@ -32,7 +32,7 @@ export default class EntityTable {
             return null;
         }
         var totalWeight = available.reduce(function(prev, item) {
-            return prev + item.cost
+            return prev + item.weight;
         }, 0);
         var target = Random.real(0, totalWeight)(prng);
         var runningTotal = 0;

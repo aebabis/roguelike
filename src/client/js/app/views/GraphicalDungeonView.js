@@ -189,7 +189,7 @@ export default class GraphicDungeonView {
                 Array.from(grid.querySelectorAll('[data-event-name]')).forEach(function(tile) {
                     tile.removeAttribute('data-event-name');
                 });
-                this._synchronizeView();
+                //this._synchronizeView();
                 this._lastHumanMovingEvent = event;
             } else {
                 this._queueAnimation(event);

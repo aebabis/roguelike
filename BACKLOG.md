@@ -1,5 +1,7 @@
 # Backlog
 - High
+  - Treasure win condition
+  - Partition dungeon to prevent player spawning near stuff
   - CompositeStrategy that attempts strategies in sequence until one returns a moves
   - RandomActionMove
   - Puzzles/Level-Select
@@ -9,6 +11,7 @@
   - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
 - Med
+  - Range indicators
   - Ranged attack animation
   - Keybindings Overlay
   - Click to focus grid?
@@ -25,6 +28,7 @@
   - Keyboard and mouse instructions
   - Add Item to inheritance hierarchy?
   - Should creature be responsible for receiving damage?
+  - Delay death and damage animations til after attack has started
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
@@ -34,6 +38,7 @@
    - Animation speed
    - Make action bars orange if their next action will be before player's
    - Consider splitting source/target events into two events
+   - Icon to indicate an enemy about to take a double-move
 
 # Bugs
 - GraphicalDungeonView glitches when enemy immediately moves onto tile of another slain enemy

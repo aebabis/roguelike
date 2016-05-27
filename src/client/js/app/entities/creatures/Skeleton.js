@@ -1,6 +1,6 @@
 import { default as Creature } from "./Creature.js";
 import { default as PlayableCharacter } from "./PlayableCharacter.js";
-import { default as ChaseStrategy } from "./strategies/ChaseStrategy.js";
+import { default as Strategies } from "./strategies/Strategies.js";
 
 import { default as Armor } from "../armor/Armor.js";
 import { default as Weapon } from "../weapons/Weapon.js";
@@ -32,7 +32,10 @@ export default class Skeleton extends Creature {
      */
     constructor(dungeon) {
         super(dungeon);
-        this.setStrategy(new ChaseStrategy(this));
+        this.setStrategy(new Strategies.CompositeStrategy(
+            new Strategies.ChaseStrategy(),
+            new Strategies.IdleStrategy()
+        ));
     }
 
     getMeleeWeapon() {

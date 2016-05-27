@@ -1,6 +1,6 @@
 import { default as AStar } from "../../../../../../../bower_components/es6-a-star/es6-a-star.js";
 
-import { default as Move } from "../moves/Move.js";
+import { default as Moves } from "../moves/Moves.js";
 
 export default {
     getMoveToward: function(dungeon, start, target) {
@@ -26,12 +26,9 @@ export default {
         if(pathfinding.status === 'success') {
             var nextTile = pathfinding.path[1];
             if(nextTile) {
-                return new Move.MovementMove(Math.sign(nextTile.getX() - x), Math.sign(nextTile.getY() - y));
-            } else {
-                return new Move.WaitMove();
+                return new Moves.MovementMove(Math.sign(nextTile.getX() - x), Math.sign(nextTile.getY() - y));
             }
-        } else {
-            return null;
         }
+        return null;
     }
 };

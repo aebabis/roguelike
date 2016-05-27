@@ -32,6 +32,15 @@ export default class Dungeon extends Observable {
         this._timestep = 0;
     }
 
+    getRng() {
+        var rng = this._rng;
+        if(!rng) {
+            rng = this._rng = Random.engines.mt19937();
+            rng.seed(this._seed);
+        }
+        return rng;
+    }
+
     setTile(tile, x, y) {
         if(!tile instanceof Tile) {
             throw new Error('First parameter must be a tile');

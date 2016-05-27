@@ -34,6 +34,7 @@ export default class Skeleton extends Creature {
         super(dungeon);
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.ChaseStrategy(),
+            new Strategies.RandomWalkStrategy(),
             new Strategies.IdleStrategy()
         ));
     }

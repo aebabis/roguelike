@@ -1,6 +1,6 @@
-import { default as Entity } from "../Entity.js";
+import { default as Item } from "../Item.js";
 
-export default class Weapon extends Entity {
+export default class Weapon extends Item {
     /**
       * @class Weapon
       * @description Base class for a weapon. Can be wielded by player or enemy

@@ -1,6 +1,6 @@
-import { default as Entity } from "../Entity.js";
+import { default as Item } from "../Item.js";
 
-export default class Armor extends Entity {
+export default class Armor extends Item {
     /**
       * @class Armor
       * @description Base class for armor. Can be worn by player or enemy

@@ -7,7 +7,7 @@
     background-size: 100%;
 }
 
-.grid.theme-default .cell .weapon {
+.grid.theme-default .cell .item {
     z-index: 1;
 }
 
@@ -45,7 +45,9 @@
 }
 
 .grid.theme-default .cell[data-tile-type="EntranceTile"] {
-    background: #666;
+    background-color: #FFD700;
+    box-shadow: inset 0 0 10px 10px orange;
+    border-radius: 5px;
 }
 
 .grid.theme-default .cell [data-creature-name="Fighter"],
@@ -81,10 +83,18 @@
     background-image: url(../images/small/SlingshotImp.png);
 }
 
-.grid.theme-default .cell .weapon[data-weapon-name="Stick"] {
+.grid.theme-default .cell .item[data-item-name] {
+    background-image: url(../images/small/ThisIsAThing.png);
+}
+
+.grid.theme-default .cell .item[data-item-name="Stick"] {
     background-image: url(../images/small/Stick.png);
 }
 
-.grid.theme-default .cell .weapon[data-weapon-name="Dagger"] {
+.grid.theme-default .cell .item[data-item-name="Dagger"] {
     background-image: url(../images/small/Dagger.png);
+}
+
+.grid.theme-default .cell .item[data-item-name="TheTreasure"] {
+    background-image: url(../images/small/TreasureChest.png);
 }

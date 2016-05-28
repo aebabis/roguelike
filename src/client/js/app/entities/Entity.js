@@ -28,6 +28,10 @@ export default class Entity {
         return false;
     }
 
+    isItem() {
+        return false;
+    }
+
     getTile() {
         return this.getDungeon().getTile(this);
     }

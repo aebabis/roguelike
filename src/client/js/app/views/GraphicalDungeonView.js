@@ -159,7 +159,7 @@ export default class GraphicDungeonView {
             this._createDelay(function() {
                 let location = event.getCreature().getTile();
                 let cell = grid.querySelector('[data-x="'+location.getX()+'"][data-y="'+location.getY()+'"]');
-                cell.removeChild(self._getDomForWeapon(event.getItem()));
+                cell.removeChild(self._getDomForItem(event.getItem()));
             }, delay);
         } else if(event instanceof GameEvents.HitpointsEvent) {
             let creature = event.getCreature();
@@ -220,7 +220,7 @@ export default class GraphicDungeonView {
                 cell.setAttribute('data-visible', player.canSee(tile));
             }
             tile.getItems().forEach(function(item) {
-                cell.appendChild(self._getDomForWeapon(item));
+                cell.appendChild(self._getDomForItem(item));
             });
         });
     }
@@ -257,17 +257,17 @@ export default class GraphicDungeonView {
         }
     }
 
-    _getDomForWeapon(weapon) {
-        var id = weapon.getId();
+    _getDomForItem(item) {
+        var id = item.getId();
         var node = this.getDom().querySelector('[data-id="'+id+'"]');
         if(node) {
             return node;
         } else {
             var div = document.createElement('div');
             div.setAttribute('data-id', id);
-            div.setAttribute('data-weapon-name', weapon.toString());
+            div.setAttribute('data-item-name', item.toString());
             div.classList.add('entity');
-            div.classList.add('weapon');
+            div.classList.add('item');
 
             return div;
         }

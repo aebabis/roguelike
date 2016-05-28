@@ -44,6 +44,10 @@
     background-size: 100%;
 }
 
+.grid.theme-default .cell[data-tile-type="EntranceTile"] {
+    background: #666;
+}
+
 .grid.theme-default .cell [data-creature-name="Fighter"],
 .grid.theme-default .cell [data-creature-name="Wizard"] {
     background-image: url(../images/small/HeroFemale.png);

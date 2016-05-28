@@ -4,6 +4,7 @@ import { default as Classes } from "../entities/creatures/classes/Classes.js";
 
 import { default as Tile } from "../tiles/Tile.js";
 import { default as WallTile } from "../tiles/WallTile.js";
+import { default as EntranceTile } from "../tiles/EntranceTile.js";
 
 import { default as BasicGameConditions } from "../conditions/BasicGameConditions.js";
 import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
@@ -157,11 +158,15 @@ export default class RandomMapDungeonFactory {
                 break;
         }
 
+        var playerLocation = locations.shift();
+        dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
+        dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
+
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 30);
-        creatures.unshift(player);
+        var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
         creatures.forEach(function(creature) {
-            var loc = locations.shift();
+            var loc = enemyLocations.shift();
             dungeon.setCreature(creature, loc.getX(), loc.getY());
         });
 

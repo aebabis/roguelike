@@ -18,13 +18,4 @@ export default class BasicGameConditions extends GameConditions {
         // Last Creature standing
         return !this.hasPlayerLost(dungeon) && dungeon.getCreatures().length === 1;
     }
-
-    /**
-     * @function hasPlayerLost
-     * @description Tells if the player has won
-     * @returns {Boolean}
-     */
-    hasPlayerLost(dungeon) {
-        return dungeon.getPlayableCharacter().isDead();
-    }
 }

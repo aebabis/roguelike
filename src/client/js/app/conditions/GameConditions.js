@@ -17,10 +17,11 @@ export default class GameConditions {
     }
 
     /**
-     * @class hasPlayerLost
-     * @description Returns true if the PlayableCharacter has lost the dungeon
+     * @function hasPlayerLost
+     * @description Tells if the player has won
+     * @returns {Boolean}
      */
     hasPlayerLost(dungeon) {
-        throw new Error('Abstract function not implemented');
+        return dungeon.getPlayableCharacter().isDead();
     }
 }

@@ -43,7 +43,7 @@ var Inventory = class Inventory {
     }
 
     addItem(item) {
-        if(!(item instanceof Weapon)) {
+        if(!item.isItem()) {
             throw new Error('First parameter must be an item');
         }
         var backpack = this._backpack;

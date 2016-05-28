@@ -1,3 +1,4 @@
+import { default as Armor } from "../entities/armor/Armor.js";
 import { default as Weapon } from "../entities/weapons/Weapon.js";
 
 var lib;
@@ -5,6 +6,10 @@ export default lib = {
     getItemDom: function(item, index) {
         if(item instanceof Weapon) {
             return lib.getWeaponDom(item, index)
+        } else if(item instanceof Armor) {
+            return lib.getArmorDom(item, index)
+        } else if(item){
+            return $(`<li class="slot" tabindex="0" data-index="${index}">${item.getName()}</li>`)[0];
         } else {
             return $(`<li class="slot empty" tabindex="0" data-index="${index}">(Empty slot)</li>`)[0];
         }

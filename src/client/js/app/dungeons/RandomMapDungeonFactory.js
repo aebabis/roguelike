@@ -7,6 +7,7 @@ import { default as WallTile } from "../tiles/WallTile.js";
 import { default as EntranceTile } from "../tiles/EntranceTile.js";
 
 import { default as BasicGameConditions } from "../conditions/BasicGameConditions.js";
+import { default as GetTheTreasureConditions } from "../conditions/GetTheTreasureConditions.js";
 import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
 import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
 import { default as Ent } from "../entities/creatures/Ent.js";
@@ -17,6 +18,7 @@ import { default as Fireball } from "../abilities/Fireball.js";
 import { default as ForceDart } from "../abilities/ForceDart.js";
 
 import { default as EntityTable } from "../entities/EntityTable.js";
+import { default as TheTreasure } from "../entities/TheTreasure.js";
 
 import { default as Stick } from "../entities/weapons/Stick.js";
 import { default as Dagger } from "../entities/weapons/Dagger.js";
@@ -170,7 +172,10 @@ export default class RandomMapDungeonFactory {
             dungeon.setCreature(creature, loc.getX(), loc.getY());
         });
 
-        dungeon.setGameConditions(new BasicGameConditions());
+        var treasureLocation = Random.picker(enemyLocations)(prng);
+        treasureLocation.addItem(new TheTreasure(dungeon));
+
+        dungeon.setGameConditions(new GetTheTreasureConditions());
 
         return dungeon;
     }

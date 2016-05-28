@@ -2,11 +2,11 @@ import { default as Classes } from '../entities/creatures/classes/Classes.js';
 
 function template() {
     return $(`
-        <dialog>
+        <dialog class="character-builder">
             <form method="dialog">
                 ${Object.keys(Classes).sort().map(function(className) {
-                    return `<input type="radio" name="class" value="${className}"> ${className}`
-                })}
+                    return `<label><input type="radio" name="class" value="${className}"> ${className}</label>`
+                }).join('')}
                 <input type="submit" value="OK">
             </form>
         </dialog>`);
@@ -23,6 +23,7 @@ export default class CharacterBuilder {
             var data = new FormData($form[0]);
             this._resolve(Classes[data.get('class')]);
         });
+        $form.find('input').eq(0).click();
         $dialog[0].showModal();
     }
 

@@ -11,6 +11,7 @@
   - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
 - Med
+  - Snare status effect
   - Range indicators
   - Ranged attack animation
   - Keybindings Overlay

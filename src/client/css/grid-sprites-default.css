@@ -102,3 +102,7 @@
 .grid.theme-default .cell .item[data-item-name="TheTreasure"] {
     background-image: url(../images/small/TreasureChest.png);
 }
+
+.grid.theme-default .effect[data-effect-name="Fireball"] {
+    background-image: url(../images/small/Fireball.png);
+}

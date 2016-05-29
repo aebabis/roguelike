@@ -30,8 +30,9 @@ export default {
                     var tile = event.getTile();
                     var $div = buildRenderingDiv(tile.getX(), tile.getY())
                     .appendTo(grid.getDom().querySelector('.grid'))
+                    .addClass('effect')
+                    .attr('data-effect-name', 'Fireball')
                     .css({
-                        backgroundImage: 'url("images/small/Fireball.png")',
                         pointerEvents: 'none',
                         transition: '.3s transform, .5s opacity',
                         opacity: 1,

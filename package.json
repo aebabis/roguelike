@@ -4,7 +4,7 @@
   "description": "A Free HTML5 Roguelike",
   "main": "index.js",
   "scripts": {
-    "install": "node node_modules/bower/bin/bower install",
+    "install": "webpack",
     "test": "node node_modules/mocha/bin/mocha",
     "start": "node src/server/server.js"
   },

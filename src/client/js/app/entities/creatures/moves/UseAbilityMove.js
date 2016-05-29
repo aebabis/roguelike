@@ -5,9 +5,12 @@ import { default as AbilityEvent } from "../../../events/AbilityEvent.js";
 export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     constructor(index, x, y) {
         super();
-        this._index = index;
-        this._x = x;
-        this._y = y;
+        if(!Number.isInteger(+index) || !Number.isInteger(+x) || !Number.isInteger(+y)) {
+            throw new Error('Parameters must be integers: ' + arguments)
+        }
+        this._index = +index;
+        this._x = +x;
+        this._y = +y;
     }
 
     isLegal(dungeon, creature) {

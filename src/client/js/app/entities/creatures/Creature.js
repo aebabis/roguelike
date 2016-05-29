@@ -60,6 +60,14 @@ export default class Creature extends Entity {
         return this._abilities.slice();
     }
 
+    getAbilityIndex(param) {
+        if(param.prototype instanceof Ability) {
+            return this._abilities.findIndex((ability)=>ability.constructor.name===param.name);
+        } else {
+            throw new Error('Parameter must be an Ability constructor');
+        }
+    }
+
     _incrementActions() {
         this.numActions = (this.numActions || 0) + 1;
     }

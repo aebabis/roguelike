@@ -13,6 +13,7 @@ import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/Clunky
 import { default as Ent } from "../entities/creatures/Ent.js";
 import { default as Skeleton } from "../entities/creatures/Skeleton.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
+import { default as Witch } from "../entities/creatures/Witch.js";
 
 import { default as Fireball } from "../abilities/Fireball.js";
 import { default as ForceDart } from "../abilities/ForceDart.js";
@@ -48,15 +49,19 @@ var table = new EntityTable([{
 }, {
     entity: Ent,
     weight: 6,
-    cost: 5
+    cost: 9
 }, {
     entity: Skeleton,
     weight: 8,
-    cost: 7
+    cost: 5
 }, {
     entity: SlingshotImp,
     weight: 5,
     cost: 4
+}, {
+    entity: Witch,
+    weight: 5,
+    cost: 10
 }]);
 
 export default class RandomMapDungeonFactory {

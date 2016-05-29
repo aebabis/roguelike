@@ -83,6 +83,10 @@
     background-image: url(../images/small/SlingshotImp.png);
 }
 
+.grid.theme-default .cell [data-creature-name="Witch"] {
+    background-image: url(../images/small/LittleGreenWitch.png);
+}
+
 .grid.theme-default .cell .item[data-item-name] {
     background-image: url(../images/small/ThisIsAThing.png);
 }

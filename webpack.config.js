@@ -26,7 +26,7 @@ module.exports = {
                 loader: 'babel-loader',
                 include: [
                     path.resolve(__dirname, 'src'),
-                    path.resolve(__dirname, 'bower_components', 'es6-a-star', 'es6-a-star.js')
+                    path.resolve(__dirname, 'node_modules', 'es6-a-star', 'es6-a-star.js')
                 ],
 
                 test: /\.js$/,

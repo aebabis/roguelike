@@ -4,6 +4,8 @@ req.keys().forEach(function(key){
     req(key);
 });
 
+require('../../../../../node_modules/normalize.css/normalize.css');
+
 import { default as MenuBar } from "./MenuBar.js";
 import { default as TestBootstrapper } from '../TestBootstrapper.js';
 import { default as Classes } from '../entities/creatures/classes/Classes.js';

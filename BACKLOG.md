@@ -31,6 +31,7 @@
   - Add Item to inheritance hierarchy?
   - Should creature be responsible for receiving damage?
   - Delay death and damage animations til after attack has started
+  - Don't bundle jQuery with webpack
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
@@ -42,6 +43,7 @@
    - Consider splitting source/target events into two events
    - Icon to indicate an enemy about to take a double-move
    - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
+   - Make es6-a-star import in Path work without path
 
 # Bugs
 - GraphicalDungeonView glitches when enemy immediately moves onto tile of another slain enemy

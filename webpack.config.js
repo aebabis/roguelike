@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 var path = require('path');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -8,14 +9,25 @@ module.exports = {
         path: path.join(__dirname, '/dist'),
         filename: "bundle.js"
     },
-    plugins: [new HtmlWebpackPlugin({
-        template: './src/client/index.html'
-    })],
+    plugins: [
+        new HtmlWebpackPlugin(),
+        new webpack.ProvidePlugin({
+            // http://stackoverflow.com/a/34354301/2993478
+            $: "jquery",
+            jQuery: "jquery"
+        }),
+        new webpack.ProvidePlugin({
+            Random: "random-js"
+        })
+    ],
     module: {
         loaders: [
             {
                 loader: 'babel-loader',
-                //include: [path.resolve(__dirname, 'src')],
+                include: [
+                    path.resolve(__dirname, 'src'),
+                    path.resolve(__dirname, 'bower_components', 'es6-a-star', 'es6-a-star.js')
+                ],
 
                 test: /\.js$/,
                 query: {

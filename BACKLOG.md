@@ -1,15 +1,16 @@
 # Backlog
 - High
-  - Treasure win condition
-  - Partition dungeon to prevent player spawning near stuff
-  - CompositeStrategy that attempts strategies in sequence until one returns a moves
-  - RandomActionMove
+  - RandomStrategyStrategy
+  - RandomAbilityStrategy
+  - RunAwayStrategy
+  - AbilityStrategy
   - Puzzles/Level-Select
   - Better dungeon generator
   - Using keyboard to look at tiles
   - Decouple Dungeon from Entity
   - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
+  - Item auto-pickup
 - Med
   - Snare status effect
   - Range indicators
@@ -40,7 +41,9 @@
    - Make action bars orange if their next action will be before player's
    - Consider splitting source/target events into two events
    - Icon to indicate an enemy about to take a double-move
+   - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
 
 # Bugs
 - GraphicalDungeonView glitches when enemy immediately moves onto tile of another slain enemy
 - Prevent player from hover-viewing tiles the character can't see
+- Items aren't visible the first turn

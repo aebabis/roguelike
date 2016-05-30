@@ -28,10 +28,10 @@
   - Make all views get Dungeon from shared data
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
-  - Add Item to inheritance hierarchy?
   - Should creature be responsible for receiving damage?
   - Delay death and damage animations til after attack has started
   - Don't bundle jQuery with webpack
+  - Health potions
 - Low
    - CSS Layout
    - Come up with a better name for "speed"
@@ -44,8 +44,8 @@
    - Icon to indicate an enemy about to take a double-move
    - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
    - Make es6-a-star import in Path work without path
+   - Use template pattern for Move validation
 
 # Bugs
-- GraphicalDungeonView glitches when enemy immediately moves onto tile of another slain enemy
 - Prevent player from hover-viewing tiles the character can't see
 - Items aren't visible the first turn

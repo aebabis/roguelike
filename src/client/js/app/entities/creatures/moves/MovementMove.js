@@ -25,26 +25,33 @@ export default Move.MovementMove = class MovementMove extends Move {
         return this._dy;
     }
 
-    isLegal() {
-        throw new Error('Abstract method not implemented');
-    }
-
     getCostMultiplier() {
         return 1;
     }
 
-    execute(dungeon, creature) {
+    getReasonIllegal(dungeon, creature) {
         var tile = dungeon.getTile(creature);
-        var x = tile.getX() + this._dx;
-        var y = tile.getY() + this._dy;
+        var x = tile.getX() + this.getDx();
+        var y = tile.getY() + this.getDy();
         var newLocation = dungeon.getTile(x, y);
         if(!creature.canOccupy(newLocation)) {
-            throw new Error(`${creature} cannot legally occupy new location [${x}, ${y}]`);
+            return `${creature} cannot legally occupy new location [${x}, ${y}]`;
         }
         var occupant = newLocation.getCreature();
         if(occupant) {
-            throw new Error('Cannot move to occupied tile', occupant);
+            return 'Cannot move to occupied tile';
         }
+        return null;
+    }
+
+    execute(dungeon, creature) {
+        var reason = this.getReasonIllegal(dungeon, creature);
+        if(reason) {
+            throw new Error(reason);
+        }
+        var tile = dungeon.getTile(creature);
+        var x = tile.getX() + this.getDx();
+        var y = tile.getY() + this.getDy();
         tile.removeCreature();
         dungeon.setCreature(creature, x, y);
         dungeon.fireEvent(new MoveEvent(dungeon, creature, x, y));

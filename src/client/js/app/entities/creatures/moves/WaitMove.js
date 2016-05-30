@@ -2,8 +2,8 @@ import { default as Move } from './Move.js';
 import { default as CustomEvent } from '../../../events/CustomEvent.js';
 
 export default Move.WaitMove = class WaitMove extends Move {
-    isLegal() {
-        return true;
+    getReasonIllegal(dungeon, creature) {
+        return null;
     }
 
     execute(dungeon, creature) {

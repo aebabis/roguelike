@@ -13,9 +13,33 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
         this._y = +y;
     }
 
-    isLegal(dungeon, creature) {
-        // TODO: implement
-        return true;
+    getIndex() {
+        return this._index;
+    }
+
+    getX() {
+        return this._x;
+    }
+
+    getY() {
+        return this._y;
+    }
+
+    getReasonIllegal(dungeon, creature) {
+        var ability = creature.getAbilities()[this.getIndex()];
+        if(ability.getManaCost() > creature.getCurrentMana()) {
+            return 'Not enough mana';
+        }
+        if(ability.isTargetted()) {
+            var tile = dungeon.getTile(this.getX(), this.getY());
+            if(!creature.canSee(tile)) {
+                return 'Can\t see target';
+            }
+            if(creature.getTile().getEuclideanDistance(tile) > ability.getRange()) {
+                return 'Target out of range';
+            }
+        }
+        return null;
     }
 
     getCostMultiplier() {
@@ -23,6 +47,10 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     }
 
     execute(dungeon, creature) {
+        var reason = this.getReasonIllegal(dungeon, creature);
+        if(reason) {
+            throw new Error(reason);
+        }
         var index = this._index;
         var ability = creature.getAbilities()[index];
         if(ability.isTargetted()) {

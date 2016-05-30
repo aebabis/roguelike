@@ -18,34 +18,28 @@ export default Move.AttackMove = class AttackMove extends Move {
         }
     }
 
-    isLegal(dungeon, creature) {
+    getReasonIllegal(dungeon, creature) {
         var targetTile = dungeon.getTile(this._x, this._y);
         var target = targetTile.getCreature();
         if(!creature.canSee(targetTile)) {
-            this._setReasonIllegal('Can\'t see the target location');
-            return false;
+            return 'Can\'t see the target location';
         } else if(!target) {
-            this._setReasonIllegal('Nothing to attack');
-            return false;
+            return 'Nothing to attack';
         } else if(creature === target) {
-            this._setReasonIllegal('Creature can\'t attack itself');
-            return false;
+            return 'Creature can\'t attack itself';
         }
 
         var targetDistance = dungeon.getTile(creature).getDirectDistance(targetTile);
         var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
         if(!(weapon && weapon instanceof Weapon)) {
-            this._setReasonIllegal('No weapon to attack that target with');
-            return false;
+            return 'No weapon to attack that target with';
         } else if(targetDistance > weapon.getRange()) {
-            this._setReasonIllegal('Target not in range');
-            return false;
+            return 'Target not in range';
         } else if(!weapon.isUseable()) {
-            this._setReasonIllegal('Weapon not currently useable');
-            return false;
+            return 'Weapon not currently useable';
         }
 
-        return true;
+        return null;
     }
 
     getCostMultiplier() {
@@ -53,6 +47,10 @@ export default Move.AttackMove = class AttackMove extends Move {
     }
 
     execute(dungeon, creature) {
+        var reason = this.getReasonIllegal(dungeon, creature);
+        if(reason) {
+            throw new Error(reason);
+        }
         var x = this._x;
         var y = this._y;
         var targetTile = dungeon.getTile(x, y);

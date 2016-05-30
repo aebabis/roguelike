@@ -14,23 +14,18 @@ export default Move.UseItemMove = class UseItemMove extends Move {
         }
     }
 
-    isLegal(dungeon, creature) {
+    getReasonIllegal(dungeon, creature) {
         var position = this.getItemPosition();
         var targetLocation = this.getTargetLocation();
-        if(targetLocation) {
-            var targetTile = dungeon.getTile(targetLocation.x, targetLocation.y);
-            if(targetTile == null) {
-                this._setReasonIllegal('Illegal target tile');
-                return false;
-            }
+        if(targetLocation && dungeon.getTile(targetLocation.x, targetLocation.y) == null) {
+            return 'Illegal target tile';
         }
         var inventory = creature.getInventory();
         var item = inventory.getItem(position);
         if(!item) {
-            this._setReasonIllegal('No item at position: ' + position);
-            return false;
+            return 'No item at position: ' + position;
         }
-        return true;
+        return null;
     }
 
     getCostMultiplier() {
@@ -46,6 +41,10 @@ export default Move.UseItemMove = class UseItemMove extends Move {
     }
 
     execute(dungeon, creature) {
+        var reason = this.getReasonIllegal(dungeon, creature);
+        if(reason) {
+            throw new Error(reason);
+        }
         var position = this.getItemPosition();
         var targetLocation = this.getTargetLocation();
         if(targetLocation) {

@@ -19,22 +19,28 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         return 0.5;
     }
 
-    isLegal(dungeon, creature) {
+    getReasonIllegal(dungeon, creature) {
         var inventory = creature.getInventory();
         var location = creature.getTile();
         var item = location.getItems()[this.getItemIndex()];
         if(!item) {
-            return false;
+            return 'No item to take';
         } else if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
-            return true;
+            return null;
         } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
-            return true;
+            return null;
+        } else if(inventory.isBackpackFull()){
+            return 'No room';
         } else {
-            return !inventory.isBackpackFull();
+            return null;
         }
     }
 
     execute(dungeon, creature) {
+        var reason = this.getReasonIllegal(dungeon, creature);
+        if(reason) {
+            throw new Error(reason);
+        }
         var item = creature.getTile().removeItem(this.getItemIndex());
         var inventory = creature.getInventory();
         if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {

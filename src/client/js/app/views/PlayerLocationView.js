@@ -55,7 +55,7 @@ export default class PlayerLocationView {
             return {
                 name: item.getName(),
                 index: index,
-                takeable: new Move.TakeItemMove(index).isLegal(dungeon, player)
+                takeable: !(new Move.TakeItemMove(index).getReasonIllegal(dungeon, player))
             }
         });
 

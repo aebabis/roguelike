@@ -37,3 +37,6 @@ doc
 
 #build
 dist
+
+#test
+.nyc_output

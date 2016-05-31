@@ -1,17 +1,12 @@
-var System = require('es6-module-loader').System;
+import { default as Dungeon } from '../src/client/js/app/dungeons/Dungeon.js';
+import { default as TestDungeonFactory } from '../src/client/js/app/dungeons/TestDungeonFactory.js';
+import { default as Creature } from '../src/client/js/app/entities/creatures/Creature.js';
+import { default as PlayableCharacter } from '../src/client/js/app/entities/creatures/PlayableCharacter.js';
+import { default as WallTile } from '../src/client/js/app/tiles/WallTile.js';
+
 var expect = require('chai').expect;
 
 describe('Creature', function() {
-    beforeEach(function(done) {
-        es6Inject([
-            'src/client/js/app/dungeons/Dungeon.js',
-            'src/client/js/app/dungeons/TestDungeonFactory.js',
-            'src/client/js/app/entities/creatures/Creature.js',
-            'src/client/js/app/entities/creatures/PlayableCharacter.js',
-            'src/client/js/app/tiles/WallTile.js'
-        ]).then(done, done);
-    });
-
     it('should be able to see an adjacent tile', function() {
         var dungeon = new TestDungeonFactory().getEmptyDungeon();
         var creature = dungeon.getPlayableCharacter();

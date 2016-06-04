@@ -32,6 +32,8 @@
   - Delay death and damage animations til after attack has started
   - Don't bundle jQuery with webpack
   - Health potions
+  - Make coverage use all files
+  - Webpack integration of coverage
 - Low
    - CSS Layout
    - Come up with a better name for "speed"

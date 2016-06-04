@@ -1,25 +1,27 @@
-.theme-default .sidebar .sidebar-subcontainer {
-    font-size: 12px;
-    padding: 7px;
-    position: relative;
-    background-color: #668;
-}
+.theme-default .sidebar {
+    .sidebar-subcontainer {
+        font-size: 12px;
+        padding: 7px;
+        position: relative;
+        background-color: #668;
 
-.theme-default .sidebar .sidebar-subcontainer h2 {
-    position: absolute;
-    font-size: 14px;
-    top: -8px;
-    line-height: 1em;
-    padding: 0 3px;
-    left: 4px;
-    color: #666;
-    border: solid 1px #668;
-}
+        h2 {
+            position: absolute;
+            font-size: 14px;
+            top: -8px;
+            line-height: 1em;
+            padding: 0 3px;
+            left: 4px;
+            color: #666;
+            border: solid 1px #668;
+        }
 
-.theme-default .sidebar .sidebar-subcontainer > * {
-    background-color: white;
-}
+        > * {
+            background-color: white;
+        }
 
-.theme-default .sidebar .sidebar-subcontainer + .sidebar-subcontainer {
-    margin-top: 15px;
+        + .sidebar-subcontainer {
+            margin-top: 15px;
+        }
+    }
 }

@@ -1,8 +1,10 @@
-.tile-info > div {
-    min-height: 5em;
-}
+.tile-info {
+    > div {
+        min-height: 5em;
+    }
 
-.tile-info ul {
-    margin: 0;
-    list-style: none;
+    ul {
+        margin: 0;
+        list-style: none;
+    }
 }

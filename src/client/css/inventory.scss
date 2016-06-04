@@ -1,33 +1,33 @@
-.theme-default .inventory h3 {
-    color: white;
-}
-
-.inventory {
+.theme-default .inventory {
     list-style: none;
     padding: 0;
     font-size: 12px;
-}
 
-.inventory .subinventory {
-    padding: 7px;
-    position: relative;
-    background-color: #668;
-}
+    h3 {
+        color: white;
+    }
 
-.theme-default .inventory li.slot {
-    height: 3em;
+    .subinventory {
+        padding: 7px;
+        position: relative;
+        background-color: #668;
+    }
 
-    vertical-align: middle;
-    line-height: 1.5em;
-    border: solid 1px #666;
-    background-color: white;
-}
+    li.slot {
+        height: 3em;
 
-.theme-default .inventory li.slot + li.slot {
-    margin-top: .5em;
-}
+        vertical-align: middle;
+        line-height: 1.5em;
+        border: solid 1px #666;
+        background-color: white;
+    }
 
-.theme-default .inventory li.slot.empty {
-    color: #999;
-    font-style: italicized;
+    li.slot + li.slot {
+        margin-top: .5em;
+    }
+
+    li.slot.empty {
+        color: #999;
+        font-style: italicized;
+    }
 }

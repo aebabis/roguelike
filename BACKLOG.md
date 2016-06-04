@@ -50,5 +50,6 @@
   - Further optimize vision algorithm
 
 # Bugs
-- Prevent player from hover-viewing tiles the character can't see
-- Items aren't visible the first turn
+  - Prevent player from hover-viewing tiles the character can't see
+  - Items aren't visible the first turn
+  - Monsters on the same initiative collide?

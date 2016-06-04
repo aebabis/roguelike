@@ -5,22 +5,22 @@
     font-size: 2em;
     padding: 1em;
     margin: -5em;
-}
 
-.theme-default dialog.character-builder::backdrop {
-    background-color: rgba(0, 0, 0, .3);
-}
+    &::backdrop {
+        background-color: rgba(0, 0, 0, .3);
+    }
 
-.theme-default dialog.character-builder label {
-    display: block;
-}
+    label {
+        display: block;
+    }
 
-.theme-default dialog.character-builder input[type="radio"] {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-}
+    input[type="radio"] {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+    }
 
-.theme-default dialog.character-builder input[type="submit"] {
-    margin-top: 1em;
+    input[type="submit"] {
+        margin-top: 1em;
+    }
 }

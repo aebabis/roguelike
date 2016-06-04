@@ -64,7 +64,7 @@
     opacity: .5;
 }
 
-.grid .cell:not([data-visible="true"]) > div {
+.grid .cell:not([data-visible="true"]) > .creature {
     display: none;
 }
 

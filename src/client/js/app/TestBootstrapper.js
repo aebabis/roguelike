@@ -51,6 +51,5 @@ export default function(newSeed, CharacterClass) {
     sidebar.appendChild(inventoryView.getDom());
     sidebar.appendChild(eventLogView.getDom());
 
-setTimeout(function() {
-    dungeon.resolveUntilBlocked();});
+    setTimeout(function() { dungeon.resolveUntilBlocked(); });
 };

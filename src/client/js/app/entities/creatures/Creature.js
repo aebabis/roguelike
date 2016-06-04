@@ -14,6 +14,8 @@ import { default as Weapon } from "../weapons/Weapon.js";
 
 import { default as Geometry } from "../../util/Geometry.js";
 
+var visionCache = {};
+
 export default class Creature extends Entity {
     /**
       * @class Creature
@@ -169,11 +171,8 @@ export default class Creature extends Entity {
         }
         var dungeon = this.getDungeon();
         var location = this.getTile();
-        if(!location) { // Creature hasn't been placed yet.
-            // TODO: Should this check be necessary?
-            return false;
-        }
-        if(tile.getEuclideanDistance(location) > 5) {
+
+        if(tile.getEuclideanDistance(location) > 5.5) {
             return false;
         }
 
@@ -182,55 +181,63 @@ export default class Creature extends Entity {
         var y0 = location.getY();
         var x1 = tile.getX();
         var y1 = tile.getY();
+        var dx = x1 - x0;
+        var dy = y1 - y0;
+        var checkList = visionCache[dx + ',' + dy];
+        if(!checkList) {
+            checkList = [];
 
-        // Line of sight is between tile centers
-        var los0 = {
-            x: x0 + .5,
-            y: y0 + .5
-        };
-        var los1 = {
-            x: x1 + .5,
-            y: y1 + .5
+            // Line of sight is between tile centers
+            var los0 = {
+                x: x0 + .5,
+                y: y0 + .5
+            };
+            var los1 = {
+                x: x1 + .5,
+                y: y1 + .5
+            }
+
+            // Currently visited tile
+            var x = x0;
+            var y = y0;
+
+            var fromDirections = [];
+            var directionOpposites = [2, 3, 0, 1]; // Plus 2, Mod 4
+
+            while(x !== x1 || y !== y1) {
+                var newFromDirections = [];
+                checkList.push({
+                    dx: x - x0,
+                    dy: y - y0
+                });
+            	var segments = [
+                    {p0: {x: x, y: y},     p1: {x: x + 1, y: y},     dx: 0, dy: -1, direction: 0},
+                    {p0: {x: x + 1, y: y}, p1: {x: x + 1, y: y + 1}, dx: 1, dy: 0,  direction: 1},
+                    {p0: {x: x, y: y + 1}, p1: {x: x + 1, y: y + 1}, dx: 0, dy: 1,  direction: 2},
+                    {p0: {x: x, y: y},     p1: {x: x, y: y + 1},     dx: -1, dy: 0, direction: 3}
+                ].filter((segment)=>(fromDirections.indexOf(segment.direction)<0));
+
+                var segments = segments.filter(function(segment) {
+                    return Geometry.intersects(los0, los1, segment.p0, segment.p1);
+                })
+
+                segments.forEach(function(segment) {
+                    newFromDirections.push(directionOpposites[segment.direction]);
+                    x += segment.dx;
+                    y += segment.dy;
+                });
+
+                // Indicate where ray came from
+                fromDirections = newFromDirections;
+            }
+
+            visionCache[dx + ',' + dy] = checkList;
         }
-
-        // Currently visited tile
-        var x = x0;
-        var y = y0;
-
-        var fromDirections = [];
-        var directionOpposites = [2, 3, 0, 1]; // Plus 2, Mod 4
-
-        var limit = 20;
-
-        while(x !== x1 || y !== y1) {
-            if(!limit--) {
+        for(var i = 0; i < checkList.length; i++) {
+            var loc = checkList[i];
+            if(this.visionObsuredBy(dungeon.getTile(loc.dx + x0, loc.dy + y0))) {
                 return false;
             }
-
-            //debugger;
-            var newFromDirections = [];
-            if(this.visionObsuredBy(dungeon.getTile(x, y))) {
-                return false;
-            }
-        	var segments = [
-                {p0: {x: x, y: y},     p1: {x: x + 1, y: y},     dx: 0, dy: -1, direction: 0},
-                {p0: {x: x + 1, y: y}, p1: {x: x + 1, y: y + 1}, dx: 1, dy: 0,  direction: 1},
-                {p0: {x: x, y: y + 1}, p1: {x: x + 1, y: y + 1}, dx: 0, dy: 1,  direction: 2},
-                {p0: {x: x, y: y},     p1: {x: x, y: y + 1},     dx: -1, dy: 0, direction: 3}
-            ].filter((segment)=>(fromDirections.indexOf(segment.direction)<0));
-
-            var segments = segments.filter(function(segment) {
-                return Geometry.intersects(los0, los1, segment.p0, segment.p1);
-            })
-
-            segments.forEach(function(segment) {
-                newFromDirections.push(directionOpposites[segment.direction]);
-                x += segment.dx;
-                y += segment.dy;
-            });
-
-            // Indicate where ray came from
-            fromDirections = newFromDirections;
         }
         return true;
     }

@@ -35,18 +35,19 @@
   - Make coverage use all files
   - Webpack integration of coverage
 - Low
-   - CSS Layout
-   - Come up with a better name for "speed"
-   - Option to hide health and action bars
-   - Promote theme class to UI wrapper
-   - Site icon
-   - Animation speed
-   - Make action bars orange if their next action will be before player's
-   - Consider splitting source/target events into two events
-   - Icon to indicate an enemy about to take a double-move
-   - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
-   - Make es6-a-star import in Path work without path
-   - Use template pattern for Move validation
+  - CSS Layout
+  - Come up with a better name for "speed"
+  - Option to hide health and action bars
+  - Promote theme class to UI wrapper
+  - Site icon
+  - Animation speed
+  - Make action bars orange if their next action will be before player's
+  - Consider splitting source/target events into two events
+  - Icon to indicate an enemy about to take a double-move
+  - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
+  - Make es6-a-star import in Path work without path
+  - Use template pattern for Move validation
+  - Further optimize vision algorithm
 
 # Bugs
 - Prevent player from hover-viewing tiles the character can't see

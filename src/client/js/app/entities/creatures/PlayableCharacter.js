@@ -15,11 +15,6 @@ export default class PlayableCharacter extends Creature {
         this._inventory = new Inventory(this.getBackpackSize());
     }
 
-    move(dx, dy)  {
-        super.move(dx, dy);
-        this._updateVisionMap();
-    }
-
     _updateVisionMap() {
         var self = this;
         var dungeon = this.getDungeon();

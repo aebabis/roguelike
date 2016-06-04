@@ -14,7 +14,7 @@ import { default as Weapon } from "../weapons/Weapon.js";
 
 import { default as Geometry } from "../../util/Geometry.js";
 
-var visionCache = {};
+var visionLookup = {};
 
 export default class Creature extends Entity {
     /**
@@ -183,7 +183,7 @@ export default class Creature extends Entity {
         var y1 = tile.getY();
         var dx = x1 - x0;
         var dy = y1 - y0;
-        var checkList = visionCache[dx + ',' + dy];
+        var checkList = visionLookup[dx + ',' + dy];
         if(!checkList) {
             checkList = [];
 
@@ -231,7 +231,7 @@ export default class Creature extends Entity {
                 fromDirections = newFromDirections;
             }
 
-            visionCache[dx + ',' + dy] = checkList;
+            visionLookup[dx + ',' + dy] = checkList;
         }
         for(var i = 0; i < checkList.length; i++) {
             var loc = checkList[i];

@@ -1,5 +1,5 @@
 // http://stackoverflow.com/a/31770875/2993478
-var req = require.context("../../../css", true, /^(.*\.(css$))[^.]*$/igm);
+var req = require.context("../../../css", true, /\.scss$/);
 req.keys().forEach(function(key){
     req(key);
 });

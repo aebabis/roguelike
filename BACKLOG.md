@@ -11,6 +11,7 @@
   - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
   - Item auto-pickup
+  - Vim bindings for movement
 - Med
   - Snare status effect
   - Range indicators
@@ -18,7 +19,6 @@
   - Keybindings Overlay
   - Click to focus grid?
   - Tile Contents Panel (Use + and - to navigate?)
-  - Set up SASS
   - Consider switching to NPM only (no bower)
   - Serialization for saving games (and as POC for client-server games)
   - Button panel for actions other than move
@@ -50,6 +50,5 @@
   - Further optimize vision algorithm
 
 # Bugs
-  - Prevent player from hover-viewing tiles the character can't see
   - Items aren't visible the first turn
   - Monsters on the same initiative collide?

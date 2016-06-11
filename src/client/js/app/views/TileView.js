@@ -30,31 +30,33 @@ export default class TileView {
         var template;
         var sharedData = this._sharedData;
         var dungeon = sharedData.getDungeon();
-        var location = sharedData.getInspectedTile();
-        if(location) {
-            var tile = dungeon.getTile(location.x, location.y);
-            var tileName = tile.getName();
-            var creature = tile.getCreature();
-            var items = tile.getItems();
+        var location = sharedData.getInspectedTile() || {x: 0, y: 0};
+        var tile = dungeon.getTile(location.x, location.y);
+        var tileName = tile.getName();
+        var creature = tile.getCreature();
+        var items = tile.getItems();
 
-            template = $(`
-            <h2>${tile.getName()} (${tile.getX()}, ${tile.getY()})</h2>
-            <div class="wrap">
-                ${
-                    creature ? `
-                    <div class="creature">
-                        <div class="name">${creature.getName()}</div>
-                        <div class="hp">HP: ${creature.getCurrentHP()} / ${creature.getBaseHP()}</div>
-                        <div class="action">Action: ${creature.getTimeToNextMove()} / ${creature.getSpeed()}</div>
-                    </div>` : ''
-                }
-                <ul class="items">
-                    ${items.map((item)=>`<li>${item.getName()}</li>`)}
-                </ul>
-            </div>`);
-        } else {
-            template = 'X'
+        if(!dungeon.getPlayableCharacter().canSee(tile)) {
+            tileName = "Unknown";
+            creature = null;
+            items = [];
         }
+
+        template = $(`
+        <h2>${tileName} (${tile.getX()}, ${tile.getY()})</h2>
+        <div class="wrap">
+            ${
+                creature ? `
+                <div class="creature">
+                    <div class="name">${creature.getName()}</div>
+                    <div class="hp">HP: ${creature.getCurrentHP()} / ${creature.getBaseHP()}</div>
+                    <div class="action">Action: ${creature.getTimeToNextMove()} / ${creature.getSpeed()}</div>
+                </div>` : ''
+            }
+            <ul class="items">
+                ${items.map((item)=>`<li>${item.getName()}</li>`)}
+            </ul>
+        </div>`);
         $(this.getDom()).empty().append(template);
     }
 

@@ -38,7 +38,7 @@ export default class Entity {
 
     getName() {
         // Split camelcasing
-        return this.constructor.name.replace(/([^A-Z])(A-Z)/, '$1 $2');
+        return this.constructor.name.replace(/([^A-Z])([A-Z])/, '$1 $2');
     }
 
     toString() {

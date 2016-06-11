@@ -120,7 +120,7 @@ export default class Tile {
     }
 
     getName() {
-        return this.constructor.name;
+        return this.constructor.name.replace(/([^A-Z])([A-Z])/, '$1 $2');
     }
 
     toString() {

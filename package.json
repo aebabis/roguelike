@@ -7,7 +7,8 @@
     "install": "webpack",
     "start": "node src/server/server.js",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-register --colors --reporter dot",
-    "test": "npm run cover && istanbul check-coverage --statements 30 --branches 30 --functions 30 ./coverage/coverage.raw.json"
+    "test": "npm run cover && istanbul check-coverage --statements 30 --branches 30 --functions 30 ./coverage/coverage.raw.json",
+    "develop": "webpack-dev-server"
   },
   "author": "Alex Babis <acbabis@gmail.com>",
   "license": "MIT",

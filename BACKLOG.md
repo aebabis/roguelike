@@ -11,7 +11,7 @@
   - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
   - Item auto-pickup
-  - Vim bindings for movement
+  - Check move legality before dispatching
 - Med
   - Snare status effect
   - Range indicators
@@ -48,6 +48,7 @@
   - Make es6-a-star import in Path work without path
   - Use template pattern for Move validation
   - Further optimize vision algorithm
+  - Use `fetch`
 
 # Bugs
   - Items aren't visible the first turn

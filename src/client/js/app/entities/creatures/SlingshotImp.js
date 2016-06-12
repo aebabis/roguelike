@@ -23,7 +23,7 @@ export default class SlingshotImp extends Creature {
         super(dungeon);
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.ChaseStrategy(),
-            new Strategies.RandomWalkStrategy(),
+            new Strategies.FleeStrategy(),
             new Strategies.IdleStrategy()
         ));
     }

@@ -259,6 +259,10 @@ export default class Creature extends Entity {
         return !tile.isSolid();
     }
 
+    canOccupyNow(tile) {
+        return this.canOccupy(tile) && !tile.getCreature();
+    }
+
     getVisibleTiles() {
         return this.getDungeon().getTiles((tile)=>this.canSee(tile));
     }

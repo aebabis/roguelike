@@ -34,6 +34,10 @@
   - Health potions
   - Make coverage use all files
   - Webpack integration of coverage
+  - Pit tile
+  - Spell scrolls
+  - Auto-pickup
+  - Trash/drop (playtest trashing)
 - Low
   - CSS Layout
   - Come up with a better name for "speed"
@@ -53,3 +57,16 @@
 # Bugs
   - Items aren't visible the first turn
   - Monsters on the same initiative collide?
+
+# Art
+  - Tangle vines
+  - Snail icon
+  - Rabbit icon
+  - Horse archer
+  - Horseless archer
+  - Bow
+  - Armor and Robes
+  - Healer enemy
+  - Druid
+  - Stairs tile
+  - Shoving enemy

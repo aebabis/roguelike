@@ -1,19 +1,21 @@
+@import '_theme-default.colors';
+
 .theme-default .sidebar {
     .sidebar-subcontainer {
         font-size: 12px;
         padding: 7px;
         position: relative;
-        background-color: #668;
+        background-color: $dark-red;
 
         h2 {
             position: absolute;
             font-size: 14px;
-            top: -8px;
+            top: -12px;
             line-height: 1em;
-            padding: 0 3px;
+            padding: 2px 3px;
             left: 4px;
-            color: #666;
-            border: solid 1px #668;
+            color: $dark-red;
+            border: solid 1px $dark-red;
         }
 
         > * {

@@ -13,7 +13,7 @@ import { default as Classes } from '../entities/creatures/classes/Classes.js';
 window.addEventListener('load', function() {
     $('body').addClass('theme-default').append(`
         <header></header>
-        <section class="game"></section>
+        <section class="game" tabindex="0"></section>
         <footer></footer>`);
     var menu = new MenuBar();
     $('header').append(menu.getDom());

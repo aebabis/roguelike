@@ -18,7 +18,6 @@ export default class GraphicDungeonView {
         var grid = this._grid = document.createElement('div');
         grid.classList.add('grid');
         grid.classList.add('theme-default');
-        grid.setAttribute('tabindex', 0);
         grid.setAttribute('role', 'grid');
         grid.setAttribute('aria-readonly', true);
         scrollPane.appendChild(grid);
@@ -30,7 +29,6 @@ export default class GraphicDungeonView {
             for(var x = 0; x < width; x++) {
                 var cell = document.createElement('div');
                 cell.classList.add('cell');
-                //cell.setAttribute('tabindex', 0);
                 cell.setAttribute('data-x', x);
                 cell.setAttribute('data-y', y);
                 cell.setAttribute('role', 'gridcell');
@@ -38,14 +36,6 @@ export default class GraphicDungeonView {
             }
         }
         this._synchronizeView();
-
-        grid.addEventListener('focus', function() {
-            scrollPane.classList.add('grid-focused');
-        });
-
-        grid.addEventListener('blur', function() {
-            scrollPane.classList.remove('grid-focused');
-        });
 
         dungeon.addObserver(function observer(event) {
             self.update(event);

@@ -1,5 +1,5 @@
 body {
-    padding: 20px;
+    background-color: black;
 }
 
 * {
@@ -8,9 +8,14 @@ body {
     box-sizing: border-box;
 }
 
+section.game {
+    outline: 0;
+}
+
 .game-ui-container {
+    margin: 1em;
+    display: flex;
     overflow: visible;
-    border: solid 1px #ddd;
 }
 
 .grid-scroll {

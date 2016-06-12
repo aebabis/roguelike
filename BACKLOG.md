@@ -70,3 +70,4 @@
   - Druid
   - Stairs tile
   - Shoving enemy
+  - Trash can icon

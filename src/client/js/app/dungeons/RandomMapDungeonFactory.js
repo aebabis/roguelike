@@ -17,6 +17,7 @@ import { default as Witch } from "../entities/creatures/Witch.js";
 
 import { default as Fireball } from "../abilities/Fireball.js";
 import { default as ForceDart } from "../abilities/ForceDart.js";
+import { default as LesserSnare } from "../abilities/LesserSnare.js";
 
 import { default as EntityTable } from "../entities/EntityTable.js";
 import { default as TheTreasure } from "../entities/TheTreasure.js";
@@ -167,6 +168,7 @@ export default class RandomMapDungeonFactory {
                 player.setMeleeWeapon(new Stick(dungeon));
                 player.addAbility(new Fireball());
                 player.addAbility(new ForceDart());
+                player.addAbility(new LesserSnare());
                 break;
         }
 

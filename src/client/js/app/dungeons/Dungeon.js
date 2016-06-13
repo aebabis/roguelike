@@ -187,6 +187,7 @@ export default class Dungeon extends Observable {
     }
 
     resolveNextStep() {
+        var self = this;
         if(this.hasEnded()) {
             throw new Error('Dungeon has ended. No more steps allowed');
         }
@@ -221,7 +222,7 @@ export default class Dungeon extends Observable {
         } else {
             this._timestep++;
             this.getCreatures().forEach(function(creature) {
-                creature.timestep();
+                creature.timestep(self);
             });
         }
 

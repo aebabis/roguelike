@@ -2,12 +2,16 @@ import { default as Entity } from "../Entity.js";
 import { default as Tile } from "../../tiles/Tile.js";
 import { default as MoveEvent } from "../../events/MoveEvent.js";
 import { default as AttackEvent } from "../../events/AttackEvent.js";
+import { default as BuffAppliedEvent } from "../../events/BuffAppliedEvent.js";
+import { default as BuffEndedEvent } from "../../events/BuffEndedEvent.js";
 import { default as CustomEvent } from "../../events/CustomEvent.js";
 import { default as HitpointsEvent } from "../../events/HitpointsEvent.js";
 
 import { default as Inventory } from "./Inventory.js";
 
 import { default as Ability } from "../../abilities/Ability.js";
+
+import { default as Buff } from "./buffs/Buff.js";
 
 import { default as Strategy } from "./strategies/Strategy.js";
 import { default as Weapon } from "../weapons/Weapon.js";
@@ -28,6 +32,7 @@ export default class Creature extends Entity {
         this._currentMana = this.getBaseMana();
         this._inventory = new Inventory();
         this._abilities = [];
+        this._buffs = [];
     }
 
     _delay(multiplier) {
@@ -68,6 +73,18 @@ export default class Creature extends Entity {
         } else {
             throw new Error('Parameter must be an Ability constructor');
         }
+    }
+
+    applyBuff(dungeon, buff) {
+        if(!(buff instanceof Buff)) {
+            throw new Error("Second parameter must be a buff");
+        }
+        this._buffs.push(buff);
+        dungeon.fireEvent(new BuffAppliedEvent(dungeon, this, buff));
+    }
+
+    getBuffs() {
+        return this._buffs.slice();
     }
 
     _incrementActions() {
@@ -325,7 +342,16 @@ export default class Creature extends Entity {
         return 500;
     }
 
-    timestep() {
+    timestep(dungeon) {
         this._timeToNextMove--;
+        this._buffs = this._buffs.filter((buff)=>{
+            if(buff.isDone(dungeon)) {
+                dungeon.fireEvent(new BuffEndedEvent(dungeon, this, buff));
+                return false;
+            } else {
+                return true;
+            }
+        });
+        this._buffs.forEach((buff)=>buff.timestep(dungeon, this));
     }
 }

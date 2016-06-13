@@ -161,6 +161,12 @@ export default class GraphicDungeonView {
                     dom.setAttribute('data-is-dead', true);
                 }
             }, delay);
+        } else if(event instanceof GameEvents.BuffAppliedEvent || event instanceof GameEvents.BuffEndedEvent) {
+            this._createDelay(function() {
+                var creature = event.getCreature();
+                var dom = self._getDomForCreature(creature);
+                dom.setAttribute('buffs', creature.getBuffs().map((buff)=>buff.toString()).join(' '));
+            }, delay);
         }
 
         this._createDelay(function() {

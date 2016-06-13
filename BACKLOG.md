@@ -12,6 +12,7 @@
   - Button to focus abilities. Arrows to move between
   - Item auto-pickup
   - Check move legality before dispatching
+  - Fixed container size. Autoscroll during move
 - Med
   - Snare status effect
   - Range indicators
@@ -38,6 +39,7 @@
   - Spell scrolls
   - Auto-pickup
   - Trash/drop (playtest trashing)
+  - Try flow or Typescript
 - Low
   - CSS Layout
   - Come up with a better name for "speed"

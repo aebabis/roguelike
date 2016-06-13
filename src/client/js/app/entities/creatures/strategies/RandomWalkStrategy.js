@@ -18,10 +18,12 @@ export default class RandomWalkStrategy extends Strategy {
         }
         var tiles = creature.getTile().getNeighbors8().filter((tile)=>creature.canOccupy(tile) && !tile.getCreature());
         if(tiles.length) {
-            return Pather.getMoveToward(dungeon, creature.getTile(), Random.pick(dungeon.getRng(), tiles));
-        } else {
-            return null;
+            var move = Pather.getMoveToward(dungeon, creature.getTile(), Random.pick(dungeon.getRng(), tiles));
+            if(!move.getReasonIllegal(dungeon, creature)) {
+                return move;
+            }
         }
+        return null;
     }
 
     observeMove(dungeon, observer, actor, move) {

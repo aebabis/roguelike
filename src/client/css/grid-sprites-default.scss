@@ -103,6 +103,17 @@
     .item[data-item-name="TheTreasure"] {
         background-image: url(../images/small/TreasureChest.png);
     }
+
+    [buffs~="SnareDebuff"]:after {
+        content: ' ';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(../images/small/TangleVine.png);
+        background-size: 100%;
+    }
 }
 
 .grid.theme-default .effect {

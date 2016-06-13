@@ -51,11 +51,17 @@ export default class ChaseStrategy extends Strategy {
             if(rangedWeapon && rangedWeapon.getRange() >= tile.getDirectDistance(rangedTarget.getTile())) {
                 return new Moves.AttackMove(rangedTarget);
             } else {
-                return Pather.getMoveToward(dungeon, tile, rangedTarget.getTile());
+                var move = Pather.getMoveToward(dungeon, tile, rangedTarget.getTile());
+                if(!move.getReasonIllegal(dungeon, creature)) {
+                    return move;
+                }
             }
         } else if(this._lastKnownEnemyLocation) {
             // TODO: Write a unit test for waiting when there's no path
-            return Pather.getMoveToward(dungeon, tile, this._lastKnownEnemyLocation);
+            var move = Pather.getMoveToward(dungeon, tile, this._lastKnownEnemyLocation);
+            if(!move.getReasonIllegal(dungeon, creature)) {
+                return move;
+            }
         }
 
         return null;

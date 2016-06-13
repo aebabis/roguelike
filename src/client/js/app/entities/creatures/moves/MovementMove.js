@@ -37,6 +37,12 @@ export default Move.MovementMove = class MovementMove extends Move {
         if(!creature.canOccupy(newLocation)) {
             return `${creature} cannot legally occupy new location [${x}, ${y}]`;
         }
+        if(creature.getBuffs().length) {
+            console.log('BUFFS', creature, creature.getBuffs(), creature.getBuffs().map((buff)=>buff.getProperties()));
+        }
+        if(creature.getBuffs().find((buff)=>buff.getProperties().preventsMovement)) {
+            return 'A debuff is preventing movement';
+        }
         var occupant = newLocation.getCreature();
         if(occupant) {
             return 'Cannot move to occupied tile';

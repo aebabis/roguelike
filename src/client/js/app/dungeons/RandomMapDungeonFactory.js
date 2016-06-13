@@ -56,7 +56,7 @@ var table = new EntityTable([{
     cost: 5
 }, {
     entity: SlingshotImp,
-    weight: 5000,
+    weight: 5,
     cost: 4
 }, {
     entity: Witch,
@@ -66,8 +66,8 @@ var table = new EntityTable([{
 
 export default class RandomMapDungeonFactory {
     getRandomMap(prng, CharacterClass) {
-        var width = Random.integer(15, 20)(prng);
-        var height = Random.integer(10, 15)(prng);
+        var width = Random.integer(17, 22)(prng);
+        var height = Random.integer(12, 18)(prng);
 
         var numTiles = width * height;
         var minOpenTiles = Math.floor(.2 * numTiles);
@@ -83,7 +83,7 @@ export default class RandomMapDungeonFactory {
             }
         }
 
-        var tile = dungeon.getTile(Random.integer(0, width - 1)(prng), Random.integer(0, height - 1)(prng));
+        var tile = dungeon.getTile(Random.integer(1, width - 2)(prng), Random.integer(1, height - 2)(prng));
         var doneList = {};
         var adjacentList = {};
         var descheduledList = {};
@@ -94,7 +94,12 @@ export default class RandomMapDungeonFactory {
             var tile = new Tile(dungeon, x, y);
             dungeon.setTile(tile, x, y);
             doneList[x+','+y] = true;
-            tile.getNeighbors4().forEach(function(tile) {
+            tile.getNeighbors4().filter(function(tile) {
+                // Edge tiles must be wall
+                var x = tile.getX();
+                var y = tile.getY();
+                return x !== 0 && y !== 0 && x !== width - 1 && y !== height - 1;
+            }).forEach(function(tile) {
                 var nX = tile.getX();
                 var nY = tile.getY();
                 var dX = nX - x;

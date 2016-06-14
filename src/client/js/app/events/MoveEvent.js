@@ -14,7 +14,7 @@ export default class MoveEvent extends GameEvent {
             throw new Error('Second and third parameters must be numbers');
         }
         this._creature = creature;
-        var location = creature.getTile();
+        var location = dungeon.getTile(creature);
         this._from = Object.freeze({
             x: location.getX(),
             y: location.getY()

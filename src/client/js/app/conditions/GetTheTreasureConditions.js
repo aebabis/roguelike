@@ -14,6 +14,6 @@ export default class GetTheTreasureConditions extends GameConditions {
         // Last Creature standing
         return !this.hasPlayerLost(dungeon) &&
                 player.getInventory().getBackpack().find((item) => item instanceof TheTreasure) &&
-                player.getTile() instanceof EntranceTile;
+                dungeon.getTile(player) instanceof EntranceTile;
     }
 }

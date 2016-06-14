@@ -69,7 +69,7 @@ export default class GraphicDungeonView {
             cell.setAttribute('data-tile-type', tile.constructor.name);
             if(player) {
                 cell.setAttribute('data-explored', player.hasSeen(tile));
-                cell.setAttribute('data-visible', player.canSee(tile));
+                cell.setAttribute('data-visible', player.canSee(dungeon, tile));
                 var creature = tile.getCreature();
                 if(creature) {
                     var dom = self._getDomForCreature(creature);
@@ -147,7 +147,7 @@ export default class GraphicDungeonView {
             }, delay);
         } else if(event instanceof GameEvents.TakeItemEvent) {
             this._createDelay(function() {
-                let location = event.getCreature().getTile();
+                let location = dungeon.getTile(event.getCreature());
                 let cell = grid.querySelector('[data-x="'+location.getX()+'"][data-y="'+location.getY()+'"]');
                 cell.removeChild(self._getDomForItem(event.getItem()));
             }, delay);
@@ -202,7 +202,7 @@ export default class GraphicDungeonView {
         dungeon.getCreatures().filter(function(creature) {
             return creature.constructor.name === 'ClunkyNinetiesCellPhone';
         }).forEach(function(creature) {
-            self._getDomForCreature(creature).setAttribute('data-phone-charged', creature.getRangedWeapon().isCharged());
+            self._getDomForCreature(creature).setAttribute('data-phone-charged', creature.getRangedWeapon().isCharged(dungeon));
         });
 
         // TODO: Consider if visibility needs to be animated
@@ -213,7 +213,7 @@ export default class GraphicDungeonView {
             cell.setAttribute('data-tile-type', tile.constructor.name);
             if(player) {
                 cell.setAttribute('data-explored', player.hasSeen(tile));
-                cell.setAttribute('data-visible', player.canSee(tile));
+                cell.setAttribute('data-visible', player.canSee(dungeon, tile));
             }
             tile.getItems().forEach(function(item) {
                 cell.appendChild(self._getDomForItem(item));

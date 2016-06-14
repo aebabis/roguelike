@@ -30,8 +30,8 @@ export default class Skeleton extends Creature {
      * @class Skeleton
      * @description Medium-speed melee chaser
      */
-    constructor(dungeon) {
-        super(dungeon);
+    constructor() {
+        super();
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.ChaseStrategy(),
             new Strategies.RandomWalkStrategy(),
@@ -40,7 +40,7 @@ export default class Skeleton extends Creature {
     }
 
     getMeleeWeapon() {
-        return super.getMeleeWeapon() || new SkeletonPunch(this.getDungeon());
+        return super.getMeleeWeapon() || new SkeletonPunch();
     }
 
     getRangedWeapon() {
@@ -48,7 +48,7 @@ export default class Skeleton extends Creature {
     }
 
     getArmor() {
-        return new SkeletonArmor(this.getDungeon());
+        return new SkeletonArmor();
     }
 
     getSpeed() {

@@ -5,7 +5,6 @@
   - Puzzles/Level-Select
   - Better dungeon generator
   - Using keyboard to look at tiles
-  - Decouple Dungeon from Entity
   - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
   - Item auto-pickup

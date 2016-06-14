@@ -16,9 +16,9 @@ export default class RandomWalkStrategy extends Strategy {
         } else if(!(creature instanceof Creature)) {
             throw new Error("Second parameter must be a Creature");
         }
-        var tiles = creature.getTile().getNeighbors8().filter((tile)=>creature.canOccupy(tile) && !tile.getCreature());
+        var tiles = dungeon.getTile(creature).getNeighbors8().filter((tile)=>creature.canOccupyNow(tile));
         if(tiles.length) {
-            var move = Pather.getMoveToward(dungeon, creature.getTile(), Random.pick(dungeon.getRng(), tiles));
+            var move = Pather.getMoveToward(dungeon, dungeon.getTile(creature), Random.pick(dungeon.getRng(), tiles));
             if(!move.getReasonIllegal(dungeon, creature)) {
                 return move;
             }

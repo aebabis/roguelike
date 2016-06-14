@@ -19,8 +19,8 @@ export default class BlackVoidSphere extends Creature {
      * @class BlackVoidSphere
      * @description Basic melee enemy. Chases the player
      */
-    constructor(dungeon) {
-        super(dungeon);
+    constructor() {
+        super();
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.ChaseStrategy(),
             new Strategies.RandomWalkStrategy(),
@@ -29,7 +29,7 @@ export default class BlackVoidSphere extends Creature {
     }
 
     getMeleeWeapon() {
-        return new VoidSphereAttack(this.getDungeon());
+        return new VoidSphereAttack();
     }
 
     getRangedWeapon() {

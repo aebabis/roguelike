@@ -19,8 +19,8 @@ export default class SlingshotImp extends Creature {
       * @class SlingshotImp
       * @description Basic ranged enemy. Stands in place an shoots enemies
       */
-    constructor(dungeon) {
-        super(dungeon);
+    constructor() {
+        super();
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.ChaseStrategy(),
             new Strategies.FleeStrategy(),
@@ -33,7 +33,7 @@ export default class SlingshotImp extends Creature {
     }
 
     getRangedWeapon() {
-        return new ImpSlingshot(this.getDungeon());
+        return new ImpSlingshot();
     }
 
     getBaseHP() {

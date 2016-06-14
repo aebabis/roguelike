@@ -11,6 +11,7 @@ import { default as Fireball } from "../../../abilities/Fireball.js";
  */
 export default class AggressiveFireballStrategy extends Strategy {
     getNextMove(dungeon, creature) {
+    console.log('tryin');
         if(!(dungeon instanceof Dungeon)) {
             throw new Error("First parameter must be a Dungeon")
         } else if(!(creature instanceof Creature)) {

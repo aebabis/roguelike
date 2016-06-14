@@ -36,7 +36,7 @@ export default class TileView {
         var creature = tile.getCreature();
         var items = tile.getItems();
 
-        if(!dungeon.getPlayableCharacter().canSee(tile)) {
+        if(!dungeon.getPlayableCharacter().canSee(dungeon, tile)) {
             tileName = "Unknown";
             creature = null;
             items = [];

@@ -32,10 +32,10 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
         }
         if(ability.isTargetted()) {
             var tile = dungeon.getTile(this.getX(), this.getY());
-            if(!creature.canSee(tile)) {
+            if(!creature.canSee(dungeon, tile)) {
                 return 'Can\t see target';
             }
-            if(creature.getTile().getEuclideanDistance(tile) > ability.getRange()) {
+            if(dungeon.getTile(creature).getEuclideanDistance(tile) > ability.getRange()) {
                 return 'Target out of range';
             }
         }

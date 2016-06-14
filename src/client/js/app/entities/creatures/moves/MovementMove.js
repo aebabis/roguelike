@@ -64,10 +64,10 @@ export default Move.MovementMove = class MovementMove extends Move {
     }
 
     isSeenBy(dungeon, actor, observer) {
-        var actorTile = actor.getTile();
+        var actorTile = dungeon.getTile(actor);
         var actorX = actorTile.getX();
         var actorY = actorTile.getY();
-        return observer.canSee(actorTile) ||
-                observer.canSee(dungeon.getTile(actorX + this._dx, actorY + this._dy));
+        return observer.canSee(dungeon, actorTile) ||
+                observer.canSee(dungeon, dungeon.getTile(actorX + this._dx, actorY + this._dy));
     }
 };

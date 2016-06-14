@@ -99,7 +99,7 @@ export default class Dungeon extends Observable {
             this._creatureMap.set(creature, tile);
             if(creature instanceof PlayableCharacter) {
                 this._player = creature;
-                creature._updateVisionMap(); // TODO: Figure out a way for player to know to update itself
+                creature._updateVisionMap(this); // TODO: Figure out a way for player to know to update itself
             }
         } else {
             throw new Error('First parameter must be a creature: ' + creature);

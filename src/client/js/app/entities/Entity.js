@@ -8,20 +8,12 @@ export default class Entity {
       * @class Entity
       * @description Base class for entities that can occupy tiles
       */
-    constructor(dungeon) {
-        if(!(dungeon instanceof Dungeon)) {
-            throw new Error('Must pass a dungeon as the first parameter');
-        }
+    constructor() {
         this._id = idGen++;
-        this._dungeon = dungeon;
     }
 
     getId() {
         return this._id;
-    }
-
-    getDungeon() {
-        return this._dungeon;
     }
 
     isEquipable() {
@@ -30,10 +22,6 @@ export default class Entity {
 
     isItem() {
         return false;
-    }
-
-    getTile() {
-        return this.getDungeon().getTile(this);
     }
 
     getName() {

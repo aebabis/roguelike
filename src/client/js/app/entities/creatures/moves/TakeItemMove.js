@@ -21,7 +21,7 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
 
     getReasonIllegal(dungeon, creature) {
         var inventory = creature.getInventory();
-        var location = creature.getTile();
+        var location = dungeon.getTile(creature);
         var item = location.getItems()[this.getItemIndex()];
         if(!item) {
             return 'No item to take';
@@ -41,7 +41,7 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         if(reason) {
             throw new Error(reason);
         }
-        var item = creature.getTile().removeItem(this.getItemIndex());
+        var item = dungeon.getTile(creature).removeItem(this.getItemIndex());
         var inventory = creature.getInventory();
         if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
             inventory.equipItem(item);
@@ -54,6 +54,6 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
     }
 
     isSeenBy(dungeon, actor, observer) {
-        return observer.canSee(actor.getTile());
+        return observer.canSee(dungeon, dungeon.getTile(actor));
     }
 };

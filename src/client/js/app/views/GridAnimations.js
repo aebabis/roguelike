@@ -27,7 +27,7 @@ export default {
         if(event instanceof GameEvents.AbilityEvent) {
             switch(event.getAbility().getName()) {
                 case 'Fireball':
-                    var tile = event.getTile();
+                    var tile = event.getTile(dungeon);
                     var $div = buildRenderingDiv(tile.getX(), tile.getY())
                     .appendTo(grid.getDom().querySelector('.grid'))
                     .addClass('effect')

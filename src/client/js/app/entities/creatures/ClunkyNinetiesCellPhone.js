@@ -11,24 +11,24 @@ import { default as UseItemMove } from "./moves/UseItemMove.js";
 import { default as WaitMove } from "./moves/WaitMove.js";
 
 class CellPhoneZap extends Weapon {
-    charge() {
-        this._chargeTimestamp = this.getDungeon().getCurrentTimestep();
+    charge(dungeon) {
+        this._chargeTimestamp = dungeon.getCurrentTimestep();
     }
 
-    isCharged() {
-        return (this.getDungeon().getCurrentTimestep() - this._chargeTimestamp) < 500;
+    isCharged(dungeon) {
+        return (dungeon.getCurrentTimestep() - this._chargeTimestamp) < 500;
     }
 
-    use() {
-        this.charge();
+    use(dungeon) {
+        this.charge(dungeon);
     }
 
     getUseMessage(creature) {
         return creature +  " is charging its lazer";
     }
 
-    isUseable() {
-       return this.isCharged();
+    isUseable(dungeon) {
+       return this.isCharged(dungeon);
     }
 
     getRange() {
@@ -49,21 +49,20 @@ export default class ClunkyNinetiesCellPhone extends Creature {
       * @class ClunkyNinetiesCellPhone
       * @description Ranged enemy with attack that needs to charge
       */
-    constructor(dungeon) {
-        super(dungeon);
-        this.setRangedWeapon(new CellPhoneZap(dungeon));
+    constructor() {
+        super();
+        this.setRangedWeapon(new CellPhoneZap());
     }
 
-    getNextMove() {
-        var dungeon = this.getDungeon();
-        var tile = this.getTile();
-        var target = this.getVisibleEnemies().find(function(creature) {
-            return tile.getDirectDistance(creature.getTile()) > 1;
+    getNextMove(dungeon) {
+        var tile = dungeon.getTile(this);
+        var target = this.getVisibleEnemies(dungeon).find(function(creature) {
+            return tile.getDirectDistance(dungeon.getTile(creature)) > 1;
         });
         if(target) {
             var weapon = this.getRangedWeapon();
-            if(weapon.isCharged()) {
-                return new AttackMove(target);
+            if(weapon.isCharged(dungeon)) {
+                return new AttackMove(dungeon.getTile(target));
             } else {
                 return new UseItemMove(Inventory.RANGED_SLOT);
             }

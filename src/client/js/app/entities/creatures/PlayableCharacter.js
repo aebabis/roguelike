@@ -15,15 +15,14 @@ export default class PlayableCharacter extends Creature {
         this._inventory = new Inventory(this.getBackpackSize());
     }
 
-    _updateVisionMap() {
+    _updateVisionMap(dungeon) {
         var self = this;
-        var dungeon = this.getDungeon();
         var visionMap = this._visionMap;
         if(!visionMap) {
             visionMap = this._visionMap = this._visionMap = new Array(dungeon.getWidth()).fill(0).map(()=>new Array(dungeon.getHeight()));
         }
         dungeon.forEachTile(function(tile, x, y) {
-            visionMap[x][y] = visionMap[x][y] || self.canSee(tile);
+            visionMap[x][y] = visionMap[x][y] || self.canSee(dungeon, tile);
         });
     }
 

@@ -12,15 +12,15 @@ export default class FleeStrategy extends Strategy {
             throw new Error("Second parameter must be a Creature");
         }
         var self = this;
-        var tile = creature.getTile();
+        var tile = dungeon.getTile(creature);
 
-        var enemies = creature.getVisibleEnemies();
+        var enemies = creature.getVisibleEnemies(dungeon);
         if(enemies.length === 0) {
             return null;
         } else {
             var quarry = enemies.reduce(function(enemy1, enemy2) {
-                var d1 = tile.getDirectDistance(enemy1.getTile());
-                var d2 = tile.getDirectDistance(enemy2.getTile());
+                var d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
+                var d2 = tile.getDirectDistance(dungeon.getTile(enemy2));
                 if(d1 <= d2) {
                     return enemy1;
                 } else {

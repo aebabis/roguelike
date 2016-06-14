@@ -30,8 +30,8 @@ export default class Ent extends Creature {
      * @class Ent
      * @description Slow melee enemy. Chases the player
      */
-    constructor(dungeon) {
-        super(dungeon);
+    constructor() {
+        super();
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.ChaseStrategy(),
             new Strategies.RandomWalkStrategy(),
@@ -40,7 +40,7 @@ export default class Ent extends Creature {
     }
 
     getMeleeWeapon() {
-        return new EntAttack(this.getDungeon());
+        return new EntAttack();
     }
 
     getRangedWeapon() {
@@ -48,7 +48,7 @@ export default class Ent extends Creature {
     }
 
     getArmor() {
-        return new Bark(this.getDungeon());
+        return new Bark();
     }
 
     getSpeed() {

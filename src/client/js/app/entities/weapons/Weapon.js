@@ -5,10 +5,6 @@ export default class Weapon extends Item {
       * @class Weapon
       * @description Base class for a weapon. Can be wielded by player or enemy
       */
-    constructor(dungeon) {
-        super(dungeon);
-    }
-
     isEquipable() {
         return true;
     }

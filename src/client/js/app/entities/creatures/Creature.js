@@ -91,10 +91,6 @@ export default class Creature extends Entity {
         this.numActions = (this.numActions || 0) + 1;
     }
 
-    getTile() {
-        return this.getDungeon().getTile(this);
-    }
-
     getBaseHP() {
         throw new Error('Abstract method not implemented');
     }
@@ -111,14 +107,24 @@ export default class Creature extends Entity {
         return this._currentMana;
     }
 
-    modifyHP(amount) {
+    receiveDamage(dungeon, amount, isMagical) {
         if(!Number.isInteger(amount)) {
             throw new Error('amount must be an integer');
         }
+
+        if(amount < 0) {
+            var reduction = 0;
+            var armor = this.getArmor();
+            if(armor) {
+                reduction = isMagical ? armor.getMagicalReduction() : armor.getPhysicalReduction();
+            }
+            amount = Math.min(0, amount + reduction);
+        }
+
         var newValue = this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
-        this._dungeon.fireEvent(new HitpointsEvent(this.getDungeon(), this, amount));
+        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
         if(newValue <= 0) {
-            this.die();
+            this.die(dungeon);
         }
     }
 
@@ -132,10 +138,10 @@ export default class Creature extends Entity {
         this._currentMana = Math.min(this.getCurrentMana() + amount, this.getBaseMana());
     }
 
-    die() {
+    die(dungeon) {
         this._isDead = true;
-        this._dungeon.removeCreature(this);
-        this._dungeon.fireEvent(new CustomEvent(this.getDungeon(), this.toString() + " died"));
+        dungeon.removeCreature(this);
+        dungeon.fireEvent(new CustomEvent(dungeon, this.toString() + " died"));
     }
 
     isDead() {
@@ -181,13 +187,12 @@ export default class Creature extends Entity {
      * what's on it.
      * @return {Boolean} `true` if the Creature can see the tile; false otherwise
      */
-    canSee(tile) {
+    canSee(dungeon, tile) {
         // TODO: Allow creature
         if(!(tile instanceof Tile)) {
             throw new Error('Must pass a Tile to canSee');
         }
-        var dungeon = this.getDungeon();
-        var location = this.getTile();
+        var location = dungeon.getTile(this);
 
         if(tile.getEuclideanDistance(location) > 5.5) {
             return false;
@@ -280,16 +285,16 @@ export default class Creature extends Entity {
         return this.canOccupy(tile) && !tile.getCreature();
     }
 
-    getVisibleTiles() {
-        return this.getDungeon().getTiles((tile)=>this.canSee(tile));
+    getVisibleTiles(dungeon) {
+        return dungeon.getTiles((tile)=>this.canSee(dungeon, tile));
     }
 
-    getVisibleCreatures() {
-        return this.getVisibleTiles().filter((tile)=>(tile.getCreature()&&tile.getCreature()!==this)).map((tile)=>tile.getCreature());
+    getVisibleCreatures(dungeon) {
+        return this.getVisibleTiles(dungeon).filter((tile)=>(tile.getCreature()&&tile.getCreature()!==this)).map((tile)=>tile.getCreature());
     }
 
-    getVisibleEnemies() {
-        return this.getVisibleCreatures().filter((other)=>this.isEnemy(other));
+    getVisibleEnemies(dungeon) {
+        return this.getVisibleCreatures(dungeon).filter((other)=>this.isEnemy(other));
     }
 
     getFaction() {

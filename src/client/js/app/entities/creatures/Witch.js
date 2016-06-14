@@ -6,9 +6,9 @@ import { default as Stick } from "../weapons/Stick.js";
 import { default as Fireball } from "../../abilities/Fireball.js";
 
 export default class Witch extends Creature {
-    constructor(dungeon) {
-        super(dungeon);
-        this.setMeleeWeapon(new Stick(dungeon));
+    constructor() {
+        super();
+        this.setMeleeWeapon(new Stick());
         this.addAbility(new Fireball());
         this.setStrategy(new Strategies.CompositeStrategy(
             new Strategies.AggressiveFireballStrategy(),

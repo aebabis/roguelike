@@ -17,6 +17,6 @@ export default Move.WaitMove = class WaitMove extends Move {
 
 
     isSeenBy(dungeon, actor, observer) {
-        return observer.canSee(actor.getTile());
+        return observer.canSee(dungeon, dungeon.getTile(actor));
     }
 };

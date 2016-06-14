@@ -18,7 +18,7 @@ export default class EventLogView {
         dungeon.addObserver(function(event) {
             if(event && event.getText) {
                 var message = document.createElement('div');
-                message.textContent = "<" + event.getTimestamp() + "> " + event.getText();
+                message.textContent = "<" + event.getTimestamp() + "> " + event.getText(dungeon);
                 log.appendChild(message);
                 checkScroll();
             }

@@ -18,7 +18,7 @@ export default class GraphicalViewMouseController {
                 character.setNextMove(new Move.UseAbilityMove(abilityIndex, targetX, targetY));
                 sharedData.unsetTargettedAbility();
             } else if(creature && creature.isEnemy(character)) {
-                character.setNextMove(new Move.AttackMove(creature));
+                character.setNextMove(new Move.AttackMove(targetX, targetY));
             } else {
                 var dx = targetX - playerLocation.getX();
                 var dy = targetY - playerLocation.getY();

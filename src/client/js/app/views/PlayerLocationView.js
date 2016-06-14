@@ -37,7 +37,7 @@ export default class PlayerLocationView {
         var sharedData = this._sharedData;
         var dungeon = sharedData.getDungeon();
         var player = dungeon.getPlayableCharacter();
-        var tile = player.getTile();
+        var tile = dungeon.getTile(player);
 
         var tileName = tile.constructor.name;
         var x = tile.getX();

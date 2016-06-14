@@ -11,19 +11,21 @@ import { default as WaitMove } from "../entities/creatures/moves/WaitMove.js";
 
 export default class GraphicalViewKeyboardController {
     constructor(dungeon, sharedData, graphicalDungeonView) {
+        // TODO: Remove dungeon from parameters
         var dom = document.querySelector('section.game');
 
         console.log(dom);
 
         // Arrow key handler
         dom.addEventListener('keydown', function(event) {
+            var dungeon = sharedData.getDungeon();
             var active = document.activeElement;
             var code = event.keyCode;
 
             var preventDefault = true;
             var character = dungeon.getPlayableCharacter();
             function move(dx, dy) {
-                var tile = character.getTile();
+                var tile = dungeon.getTile(character);
                 var x = tile.getX() + dx;
                 var y = tile.getY() + dy;
                 var targetTile = dungeon.getTile(x, y);
@@ -58,7 +60,7 @@ export default class GraphicalViewKeyboardController {
             if(preventDefault) {
                 event.preventDefault();
             }
-            
+
             dungeon.resolveUntilBlocked();
         });
 

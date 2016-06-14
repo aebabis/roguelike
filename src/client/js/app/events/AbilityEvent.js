@@ -38,10 +38,10 @@ export default class AbilityEvent extends GameEvent {
         return this._tile;
     }
 
-    getText() {
+    getText(dungeon) {
         var creature = this.getCreature();
         var ability = this.getAbility();
-        var tile = this.getTile();
+        var tile = dungeon.getTile(creature);
         return `${creature} used ${ability}` + (tile ? ` on ${tile}` : '');
     }
 }

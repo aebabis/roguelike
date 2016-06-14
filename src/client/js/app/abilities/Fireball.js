@@ -8,7 +8,7 @@ export default class Fireball extends Ability {
         optionalTargetTile.getNeighbors8().concat(optionalTargetTile)
                 .map((tile)=>tile.getCreature()).filter(Boolean)
                 .forEach(function(creature) {
-            creature.modifyHP(-FIREBALL_DAMAGE);
+            creature.receiveDamage(dungeon, -FIREBALL_DAMAGE, true);
         });
     }
 

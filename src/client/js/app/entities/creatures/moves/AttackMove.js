@@ -6,10 +6,9 @@ import { default as AttackEvent } from "../../../events/AttackEvent.js";
 export default Move.AttackMove = class AttackMove extends Move {
     constructor(param1, param2) {
         super();
-        if(param1.getTile) {
-            var tile = param1.getTile();
-            this._x = tile.getX();
-            this._y = tile.getY();
+        if(param1.getX) {
+            this._x = param1.getX();
+            this._y = param1.getY();
         } else if(!isNaN(param1) && !isNaN(param2)) {
             this._x = param1;
             this._y = param2;
@@ -21,7 +20,7 @@ export default Move.AttackMove = class AttackMove extends Move {
     getReasonIllegal(dungeon, creature) {
         var targetTile = dungeon.getTile(this._x, this._y);
         var target = targetTile.getCreature();
-        if(!creature.canSee(targetTile)) {
+        if(!creature.canSee(dungeon, targetTile)) {
             return 'Can\'t see the target location';
         } else if(!target) {
             return 'Nothing to attack';
@@ -57,16 +56,11 @@ export default Move.AttackMove = class AttackMove extends Move {
         var target = targetTile.getCreature();
         var targetDistance = dungeon.getTile(creature).getDirectDistance(targetTile);
         var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
-        var reduction = 0;
-        var armor = target.getArmor();
-        if(armor) {
-            reduction = weapon.isMagical() ? armor.getMagicalReduction() : armor.getPhysicalReduction();
-        }
-        target.modifyHP(-(weapon.getDamage() - reduction));
+        target.receiveDamage(dungeon, -weapon.getDamage(), weapon.isMagical());
         dungeon.fireEvent(new AttackEvent(dungeon, creature, target, weapon));
     }
 
     isSeenBy(dungeon, actor, observer) {
-        return observer.canSee(actor.getTile()) || observer.canSee(dungeon.getTile(this._x, this._y));
+        return observer.canSee(dungeon, dungeon.getTile(actor)) || observer.canSee(dungeon, dungeon.getTile(this._x, this._y));
     }
 };

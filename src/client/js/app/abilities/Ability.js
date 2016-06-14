@@ -15,7 +15,7 @@ export default class Ability {
         if(this.isTargetted() && this.isTargetCreature() && !optionalTargetTile.getCreature()) {
             return "Target tile has no creature";
         }
-        if(creature.getTile().getDirectDistance(optionalTargetTile) > this.getRange()) {
+        if(dungeon.getTile(creature).getDirectDistance(optionalTargetTile) > this.getRange()) {
             return "Target not in range";
         }
         if(this.getManaCost() > creature.getCurrentMana()) {

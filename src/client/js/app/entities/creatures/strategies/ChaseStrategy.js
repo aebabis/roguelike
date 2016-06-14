@@ -17,13 +17,13 @@ export default class ChaseStrategy extends Strategy {
             throw new Error("Second parameter must be a Creature");
         }
         var self = this;
-        var tile = creature.getTile();
+        var tile = dungeon.getTile(creature);
         var meleeWeapon = creature.getMeleeWeapon();
         var rangedWeapon = creature.getRangedWeapon();
         var quarry;
-        var enemies = creature.getVisibleEnemies().sort(function(enemy1, enemy2) {
-            var d1 = tile.getDirectDistance(enemy1.getTile());
-            var d2 = tile.getDirectDistance(enemy2.getTile());
+        var enemies = creature.getVisibleEnemies(dungeon).sort(function(enemy1, enemy2) {
+            var d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
+            var d2 = tile.getDirectDistance(dungeon.getTile(enemy2));
             if(d1 < d2) {
                 return 1;
             } else if(d1 > d2) {
@@ -36,22 +36,22 @@ export default class ChaseStrategy extends Strategy {
         var meleeTarget;
         var rangedTarget;
 
-        if(enemies[0] && enemies[0].getTile().getDirectDistance(tile) === 1) {
+        if(enemies[0] && dungeon.getTile(enemies[0]).getDirectDistance(tile) === 1) {
             meleeTarget = enemies[0];
         }
         rangedTarget = enemies.find(function(enemy) {
-            return tile.getDirectDistance(enemy.getTile()) > 1;
+            return tile.getDirectDistance(dungeon.getTile(enemy)) > 1;
         });
 
         if(meleeTarget) {
             if(meleeWeapon) {
-                return new Moves.AttackMove(meleeTarget);
+                return new Moves.AttackMove(dungeon.getTile(meleeTarget));
             }
         } else if(rangedTarget) {
-            if(rangedWeapon && rangedWeapon.getRange() >= tile.getDirectDistance(rangedTarget.getTile())) {
-                return new Moves.AttackMove(rangedTarget);
+            if(rangedWeapon && rangedWeapon.getRange() >= tile.getDirectDistance(dungeon.getTile(rangedTarget))) {
+                return new Moves.AttackMove(dungeon.getTile(rangedTarget));
             } else {
-                var move = Pather.getMoveToward(dungeon, tile, rangedTarget.getTile());
+                var move = Pather.getMoveToward(dungeon, tile, dungeon.getTile(rangedTarget));
                 if(!move.getReasonIllegal(dungeon, creature)) {
                     return move;
                 }

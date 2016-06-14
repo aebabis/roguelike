@@ -1,10 +1,8 @@
 .theme-default dialog.character-builder {
-    left: 50%;
-    top: 50%;
-    width: 10em;
+    width: 20em;
     font-size: 2em;
     padding: 1em;
-    margin: -5em;
+    margin: auto;
 
     &::backdrop {
         background-color: rgba(0, 0, 0, .3);
@@ -14,7 +12,8 @@
         display: block;
     }
 
-    input[type="radio"] {
+    input[type="radio"],
+    input[type="checkbox"] {
         width: 1em;
         height: 1em;
         vertical-align: middle;

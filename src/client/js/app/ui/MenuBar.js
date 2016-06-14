@@ -13,11 +13,13 @@ export default class MenuBar {
     constructor() {
         this._dom = template()
         .on('click', '.newgame', function() {
-            new CharacterBuilder().getCharacter().then(function(CharacterClass) {
-                TestBootstrapper(true, CharacterClass);
-            })
+            new CharacterBuilder().getCharacter().then(function(character) {
+                TestBootstrapper(true, character);
+            });
         }).on('click', '.restart', function() {
-            TestBootstrapper(false);
+            new CharacterBuilder().getCharacter().then(function(character) {
+                TestBootstrapper(false, character);
+            });
         });
     }
 

@@ -66,7 +66,7 @@ var table = new EntityTable([{
 }]);
 
 export default class RandomMapDungeonFactory {
-    getRandomMap(prng, CharacterClass) {
+    getRandomMap(prng, player) {
         var width = Random.integer(17, 22)(prng);
         var height = Random.integer(12, 18)(prng);
 
@@ -145,32 +145,6 @@ export default class RandomMapDungeonFactory {
             var tile = emptyTiles[position];
             tile.addItem(item);
         });
-
-        if(!CharacterClass) {
-            var classes = Object.keys(Classes);
-            var index = Math.floor(Math.random() * classes.length);
-            CharacterClass = Classes[classes[index]];
-        }
-        var player = new CharacterClass(dungeon);
-
-        // Starting items
-        switch(player.toString()) {
-            case "Fighter":
-                player.setMeleeWeapon(new Shortsword(dungeon));
-                player.setArmor(new MediumArmor(dungeon));
-                break;
-            case "Rogue":
-                player.setMeleeWeapon(new Dagger(dungeon));
-                player.setRangedWeapon(new Shortbow(dungeon));
-                player.setArmor(new LightArmor(dungeon));
-                break;
-            case "Wizard":
-                player.setMeleeWeapon(new Stick(dungeon));
-                player.addAbility(new Fireball());
-                player.addAbility(new ForceDart());
-                player.addAbility(new LesserSnare());
-                break;
-        }
 
         var playerLocation = locations.shift();
         dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());

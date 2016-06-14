@@ -5,6 +5,7 @@ req.keys().forEach(function(key){
 });
 
 require('../../../../../node_modules/normalize.css/normalize.css');
+import { default as CharacterBuilder } from './CharacterBuilder.js';
 
 import { default as MenuBar } from "./MenuBar.js";
 import { default as TestBootstrapper } from '../TestBootstrapper.js';
@@ -17,5 +18,7 @@ window.addEventListener('load', function() {
         <footer></footer>`);
     var menu = new MenuBar();
     $('header').append(menu.getDom());
-    TestBootstrapper(false);
+    new CharacterBuilder().getCharacter().then(function(character) {
+        TestBootstrapper(false, character);
+    });
 });

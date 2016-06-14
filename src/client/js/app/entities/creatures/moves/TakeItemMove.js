@@ -25,11 +25,7 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         var item = location.getItems()[this.getItemIndex()];
         if(!item) {
             return 'No item to take';
-        } else if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
-            return null;
-        } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
-            return null;
-        } else if(inventory.isBackpackFull()){
+        } else if(!creature.canAddItem(item)) {
             return 'No room';
         } else {
             return null;
@@ -42,14 +38,7 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
             throw new Error(reason);
         }
         var item = dungeon.getTile(creature).removeItem(this.getItemIndex());
-        var inventory = creature.getInventory();
-        if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
-            inventory.equipItem(item);
-        } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
-            inventory.equipItem(item);
-        } else {
-            inventory.addItem(item);
-        }
+        creature.getInventory().addItem(item);
         dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
     }
 

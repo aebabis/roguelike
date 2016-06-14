@@ -52,8 +52,39 @@ export default class Creature extends Entity {
         return this._inventory;
     }
 
-    addItem(item) {
-        this._inventory.addItem(item);
+    addItem(item, backpackOnly = false) {
+        if(backpackOnly) {
+            if(!this.canAddItem(item, backpackOnly)) {
+                throw new Error('Backpack full');
+            }
+        } else {
+            if(!this.canAddItem(item, backpackOnly)) {
+                throw new Error('No available slot');
+            }
+            var inventory = this.getInventory();
+            if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+                inventory.equipItem(item);
+            } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+                inventory.equipItem(item);
+            } else {
+                inventory.addItem(item);
+            }
+        }
+    }
+
+    canAddItem(item, backpackOnly) {
+        var inventory = this.getInventory();
+        if(backpackOnly) {
+            return !inventory().isBackpackFull();
+        } else {
+            if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+                return true;
+            } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+                return true;
+            } else {
+                return !inventory.isBackpackFull();
+            }
+        }
     }
 
     addAbility(ability) {

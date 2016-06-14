@@ -137,14 +137,6 @@ export default class CharacterBuilder {
                     var item = new Purchaseables[purchaseableName]();
                     if(item.getManaCost) {
                         player.addAbility(item);
-                    } else if(item.getRange) {
-                        if(item.getRange() === 1) {
-                            player.setMeleeWeapon(item);
-                        } else {
-                            player.setRangedWeapon(item);
-                        }
-                    } else if(item.getPhysicalReduction) {
-                        player.setArmor(item);
                     } else {
                         player.addItem(item);
                     }

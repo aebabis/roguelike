@@ -27,10 +27,10 @@ describe('ChaseStrategy', function() {
         var enemy = new Ent(dungeon);
         dungeon.setCreature(player, 0, 0);
         dungeon.setCreature(enemy, 0, 2);
-        var enemyStartingPosition = enemy.getTile();
+        var enemyStartingPosition = dungeon.getTile(enemy);
 
         //TestDungeonFactory.showDungeon(dungeon);
-        expect(enemy.canSee(player.getTile())).to.be.true;
+        expect(enemy.canSee(dungeon, dungeon.getTile(player))).to.be.true;
 
         player.setNextMove(new Moves.MovementMove(1, 0));
         player.setNextMove(new Moves.MovementMove(1, 0));
@@ -39,7 +39,7 @@ describe('ChaseStrategy', function() {
 
         dungeon.resolveUntilBlocked();
 
-        var enemyPosition  = enemy.getTile();
+        var enemyPosition  = dungeon.getTile(enemy);
         expect(enemyPosition).not.to.equal(enemyStartingPosition);
     });
 });

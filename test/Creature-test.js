@@ -11,30 +11,30 @@ describe('Creature', function() {
         var dungeon = new TestDungeonFactory().getEmptyDungeon();
         var creature = dungeon.getPlayableCharacter();
 
-        expect(creature.canSee(dungeon.getTile(0, 1))).to.equal(true);
+        expect(creature.canSee(dungeon, dungeon.getTile(0, 1))).to.equal(true);
     });
 
     it('should be able to see in a straight line', function() {
         var dungeon = new TestDungeonFactory().getEmptyDungeon();
         var creature = dungeon.getPlayableCharacter();
 
-        expect(creature.canSee(dungeon.getTile(4, 1))).to.equal(true);
+        expect(creature.canSee(dungeon, dungeon.getTile(4, 1))).to.equal(true);
     });
 
     it('should not see through walls', function() {
         var dungeon = new TestDungeonFactory().getLineDungeon();
         var creature = dungeon.getPlayableCharacter();
 
-        expect(creature.canSee(dungeon.getTile(0, 0))).to.equal(false);
+        expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(false);
     });
 
     it('should be able to see across corners', function() {
         var dungeon = new TestDungeonFactory().getODungeon();
         var creature = dungeon.getPlayableCharacter();
 
-        expect(creature.canSee(dungeon.getTile(0, 0))).to.equal(true);
-        expect(creature.canSee(dungeon.getTile(0, 2))).to.equal(true);
-        expect(creature.canSee(dungeon.getTile(2, 0))).to.equal(true);
-        expect(creature.canSee(dungeon.getTile(2, 2))).to.equal(true);
+        expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(true);
+        expect(creature.canSee(dungeon, dungeon.getTile(0, 2))).to.equal(true);
+        expect(creature.canSee(dungeon, dungeon.getTile(2, 0))).to.equal(true);
+        expect(creature.canSee(dungeon, dungeon.getTile(2, 2))).to.equal(true);
     });
 });

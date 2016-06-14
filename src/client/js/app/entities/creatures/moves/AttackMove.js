@@ -34,7 +34,7 @@ export default Move.AttackMove = class AttackMove extends Move {
             return 'No weapon to attack that target with';
         } else if(targetDistance > weapon.getRange()) {
             return 'Target not in range';
-        } else if(!weapon.isUseable()) {
+        } else if(!weapon.isUseable(dungeon)) {
             return 'Weapon not currently useable';
         }
 

@@ -60,7 +60,7 @@ export default Move.UseItemMove = class UseItemMove extends Move {
             inventory.equipItem(position);
             dungeon.fireEvent(new CustomEvent(dungeon, creature + " equipped " + item));
         } else {
-            item.use();
+            item.use(dungeon);
             dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(this, targetTile)));
         }
     }

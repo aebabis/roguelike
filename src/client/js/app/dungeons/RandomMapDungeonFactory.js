@@ -11,6 +11,7 @@ import { default as GetTheTreasureConditions } from "../conditions/GetTheTreasur
 import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
 import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
 import { default as Ent } from "../entities/creatures/Ent.js";
+import { default as FireSprite } from "../entities/creatures/FireSprite.js";
 import { default as Skeleton } from "../entities/creatures/Skeleton.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 import { default as Witch } from "../entities/creatures/Witch.js";
@@ -51,6 +52,10 @@ var table = new EntityTable([{
     entity: Ent,
     weight: 6,
     cost: 9
+}, {
+    entity: FireSprite,
+    weight: 6,
+    cost: 6
 }, {
     entity: Skeleton,
     weight: 8,

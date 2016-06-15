@@ -2,7 +2,9 @@ import { default as Tile } from "../../../tiles/Tile.js";
 
 import { default as Move } from "./Move.js";
 
-import { default as MoveEvent } from "../../../events/MoveEvent.js";
+import { default as GameEvents } from "../../../events/GameEvents.js";
+
+import { default as PlayableCharacter } from "../PlayableCharacter.js";
 
 export default Move.MovementMove = class MovementMove extends Move {
     constructor(param1, param2) {
@@ -60,7 +62,17 @@ export default Move.MovementMove = class MovementMove extends Move {
         var y = tile.getY() + this.getDy();
         tile.removeCreature();
         dungeon.setCreature(creature, x, y);
-        dungeon.fireEvent(new MoveEvent(dungeon, creature, x, y));
+        dungeon.fireEvent(new GameEvents.MoveEvent(dungeon, creature, x, y));
+        if(creature instanceof PlayableCharacter) {
+            var newLocation = dungeon.getTile(x, y);
+            newLocation.getItems().forEach(function(item) {
+                if(creature.canAddItem(item)) {
+                    newLocation.removeItem(item);
+                    creature.addItem(item);
+                    dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
+                }
+            });
+        }
     }
 
     isSeenBy(dungeon, actor, observer) {

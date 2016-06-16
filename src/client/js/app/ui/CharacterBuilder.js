@@ -1,8 +1,8 @@
-import { default as Classes } from '../entities/creatures/classes/Classes.js';
+import Classes from '../entities/creatures/classes/Classes.js';
 
-import { default as Abilities } from "../abilities/Abilities.js";
-import { default as Armors } from "../entities/armor/Armors.js";
-import { default as Weapons } from "../entities/weapons/Weapons.js";
+import Abilities from "../abilities/Abilities.js";
+import Armors from "../entities/armor/Armors.js";
+import Weapons from "../entities/weapons/Weapons.js";
 
 var Purchaseables = Object.assign({}, Abilities, Armors, Weapons);
 

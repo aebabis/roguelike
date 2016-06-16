@@ -1,20 +1,20 @@
-import { default as Dungeon } from "./Dungeon.js";
+import Dungeon from "./Dungeon.js";
 
-import { default as PlayableCharacter } from "../entities/creatures/PlayableCharacter.js";
+import PlayableCharacter from "../entities/creatures/PlayableCharacter.js";
 
-import { default as Tile } from "../tiles/Tile.js";
-import { default as WallTile } from "../tiles/WallTile.js";
+import Tile from "../tiles/Tile.js";
+import WallTile from "../tiles/WallTile.js";
 
-import { default as BasicGameConditions } from "../conditions/BasicGameConditions.js";
-import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
-import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
-import { default as Ent } from "../entities/creatures/Ent.js";
-import { default as Skeleton } from "../entities/creatures/Skeleton.js";
-import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
+import BasicGameConditions from "../conditions/BasicGameConditions.js";
+import BlackVoidSphere from "../entities/creatures/BlackVoidSphere.js";
+import ClunkyNinetiesCellPhone from "../entities/creatures/ClunkyNinetiesCellPhone.js";
+import Ent from "../entities/creatures/Ent.js";
+import Skeleton from "../entities/creatures/Skeleton.js";
+import SlingshotImp from "../entities/creatures/SlingshotImp.js";
 
-import { default as Dagger } from "../entities/weapons/Dagger.js";
-import { default as Shortbow } from "../entities/weapons/Shortbow.js";
-import { default as Stick } from "../entities/weapons/Stick.js";
+import Dagger from "../entities/weapons/Dagger.js";
+import Shortbow from "../entities/weapons/Shortbow.js";
+import Stick from "../entities/weapons/Stick.js";
 
 export default class TestDungeonFactory {
     static showDungeon(dungeon) {

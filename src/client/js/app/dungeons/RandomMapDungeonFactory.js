@@ -1,37 +1,37 @@
-import { default as Dungeon } from "./Dungeon.js";
+import Dungeon from "./Dungeon.js";
 
-import { default as Classes } from "../entities/creatures/classes/Classes.js";
+import Classes from "../entities/creatures/classes/Classes.js";
 
-import { default as Tile } from "../tiles/Tile.js";
-import { default as WallTile } from "../tiles/WallTile.js";
-import { default as EntranceTile } from "../tiles/EntranceTile.js";
+import Tile from "../tiles/Tile.js";
+import WallTile from "../tiles/WallTile.js";
+import EntranceTile from "../tiles/EntranceTile.js";
 
-import { default as BasicGameConditions } from "../conditions/BasicGameConditions.js";
-import { default as GetTheTreasureConditions } from "../conditions/GetTheTreasureConditions.js";
-import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSphere.js";
-import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
-import { default as Ent } from "../entities/creatures/Ent.js";
-import { default as FireSprite } from "../entities/creatures/FireSprite.js";
-import { default as FlyingSerpent } from "../entities/creatures/FlyingSerpent.js";
-import { default as Skeleton } from "../entities/creatures/Skeleton.js";
-import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
-import { default as Witch } from "../entities/creatures/Witch.js";
+import BasicGameConditions from "../conditions/BasicGameConditions.js";
+import GetTheTreasureConditions from "../conditions/GetTheTreasureConditions.js";
+import BlackVoidSphere from "../entities/creatures/BlackVoidSphere.js";
+import ClunkyNinetiesCellPhone from "../entities/creatures/ClunkyNinetiesCellPhone.js";
+import Ent from "../entities/creatures/Ent.js";
+import FireSprite from "../entities/creatures/FireSprite.js";
+import FlyingSerpent from "../entities/creatures/FlyingSerpent.js";
+import Skeleton from "../entities/creatures/Skeleton.js";
+import SlingshotImp from "../entities/creatures/SlingshotImp.js";
+import Witch from "../entities/creatures/Witch.js";
 
-import { default as Fireball } from "../abilities/Fireball.js";
-import { default as ForceDart } from "../abilities/ForceDart.js";
-import { default as LesserSnare } from "../abilities/LesserSnare.js";
+import Fireball from "../abilities/Fireball.js";
+import ForceDart from "../abilities/ForceDart.js";
+import LesserSnare from "../abilities/LesserSnare.js";
 
-import { default as EntityTable } from "../entities/EntityTable.js";
-import { default as TheTreasure } from "../entities/TheTreasure.js";
+import EntityTable from "../entities/EntityTable.js";
+import TheTreasure from "../entities/TheTreasure.js";
 
-import { default as Stick } from "../entities/weapons/Stick.js";
-import { default as Dagger } from "../entities/weapons/Dagger.js";
-import { default as Shortsword } from "../entities/weapons/Shortsword.js";
-import { default as Longsword } from "../entities/weapons/Longsword.js";
-import { default as Shortbow } from "../entities/weapons/Shortbow.js";
+import Stick from "../entities/weapons/Stick.js";
+import Dagger from "../entities/weapons/Dagger.js";
+import Shortsword from "../entities/weapons/Shortsword.js";
+import Longsword from "../entities/weapons/Longsword.js";
+import Shortbow from "../entities/weapons/Shortbow.js";
 
-import { default as LightArmor } from "../entities/armor/LightArmor.js";
-import { default as MediumArmor } from "../entities/armor/MediumArmor.js";
+import LightArmor from "../entities/armor/LightArmor.js";
+import MediumArmor from "../entities/armor/MediumArmor.js";
 
 function getLoot(prng, dungeon) {
     return Random.picker([

@@ -1,22 +1,22 @@
-import { default as Entity } from "../Entity.js";
-import { default as Tile } from "../../tiles/Tile.js";
-import { default as MoveEvent } from "../../events/MoveEvent.js";
-import { default as AttackEvent } from "../../events/AttackEvent.js";
-import { default as BuffAppliedEvent } from "../../events/BuffAppliedEvent.js";
-import { default as BuffEndedEvent } from "../../events/BuffEndedEvent.js";
-import { default as CustomEvent } from "../../events/CustomEvent.js";
-import { default as HitpointsEvent } from "../../events/HitpointsEvent.js";
+import Entity from "../Entity.js";
+import Tile from "../../tiles/Tile.js";
+import MoveEvent from "../../events/MoveEvent.js";
+import AttackEvent from "../../events/AttackEvent.js";
+import BuffAppliedEvent from "../../events/BuffAppliedEvent.js";
+import BuffEndedEvent from "../../events/BuffEndedEvent.js";
+import CustomEvent from "../../events/CustomEvent.js";
+import HitpointsEvent from "../../events/HitpointsEvent.js";
 
-import { default as Inventory } from "./Inventory.js";
+import Inventory from "./Inventory.js";
 
-import { default as Ability } from "../../abilities/Ability.js";
+import Ability from "../../abilities/Ability.js";
 
-import { default as Buff } from "./buffs/Buff.js";
+import Buff from "./buffs/Buff.js";
 
-import { default as Strategy } from "./strategies/Strategy.js";
-import { default as Weapon } from "../weapons/Weapon.js";
+import Strategy from "./strategies/Strategy.js";
+import Weapon from "../weapons/Weapon.js";
 
-import { default as Geometry } from "../../util/Geometry.js";
+import Geometry from "../../util/Geometry.js";
 
 var visionLookup = {};
 

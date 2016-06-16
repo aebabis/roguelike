@@ -1,6 +1,6 @@
-import { default as LightArmor } from "./LightArmor.js";
-import { default as MediumArmor } from "./MediumArmor.js";
-import { default as HeavyArmor } from "./HeavyArmor.js";
+import LightArmor from "./LightArmor.js";
+import MediumArmor from "./MediumArmor.js";
+import HeavyArmor from "./HeavyArmor.js";
 
 export default {
     LightArmor: LightArmor,

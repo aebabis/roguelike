@@ -1,5 +1,5 @@
-import { default as Creature } from "../entities/creatures/Creature.js";
-import { default as GameEvent } from "./GameEvent.js";
+import Creature from "../entities/creatures/Creature.js";
+import GameEvent from "./GameEvent.js";
 
 export default class MoveEvent extends GameEvent {
     /**

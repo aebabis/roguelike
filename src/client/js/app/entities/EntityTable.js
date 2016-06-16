@@ -1,4 +1,4 @@
-import { default as Entity } from "./Entity.js";
+import Entity from "./Entity.js";
 
 export default class EntityTable {
     /**

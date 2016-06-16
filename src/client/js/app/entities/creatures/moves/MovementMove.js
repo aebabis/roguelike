@@ -1,10 +1,10 @@
-import { default as Tile } from "../../../tiles/Tile.js";
+import Tile from "../../../tiles/Tile.js";
 
-import { default as Move } from "./Move.js";
+import Move from "./Move.js";
 
-import { default as GameEvents } from "../../../events/GameEvents.js";
+import GameEvents from "../../../events/GameEvents.js";
 
-import { default as PlayableCharacter } from "../PlayableCharacter.js";
+import PlayableCharacter from "../PlayableCharacter.js";
 
 export default Move.MovementMove = class MovementMove extends Move {
     constructor(param1, param2) {

@@ -1,5 +1,5 @@
-import { default as Dungeon } from "../dungeons/Dungeon.js";
-import { default as CustomEvent } from "../events/CustomEvent.js";
+import Dungeon from "../dungeons/Dungeon.js";
+import CustomEvent from "../events/CustomEvent.js";
 
 var idGen = 1;
 

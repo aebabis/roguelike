@@ -1,4 +1,4 @@
-import { default as Armor } from "./Armor.js";
+import Armor from "./Armor.js";
 
 export default class Heavy extends Armor {
     getPhysicalReduction() {

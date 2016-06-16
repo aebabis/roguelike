@@ -1,4 +1,4 @@
-import { default as Ability } from "./Ability.js";
+import Ability from "./Ability.js";
 
 const FIREBALL_DAMAGE = 5;
 

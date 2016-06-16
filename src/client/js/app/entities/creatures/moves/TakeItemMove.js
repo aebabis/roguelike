@@ -1,6 +1,6 @@
-import { default as GameEvents } from "../../../events/GameEvents.js";
+import GameEvents from "../../../events/GameEvents.js";
 
-import { default as Move } from "./Move.js";
+import Move from "./Move.js";
 
 export default Move.TakeItemMove = class TakeItemMove extends Move {
     constructor(itemIndex) {

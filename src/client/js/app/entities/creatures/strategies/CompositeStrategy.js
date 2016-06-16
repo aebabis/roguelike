@@ -1,6 +1,6 @@
-import { default as Strategy } from "./Strategy.js";
-import { default as Creature } from "../Creature.js";
-import { default as Dungeon } from "../../../dungeons/Dungeon.js";
+import Strategy from "./Strategy.js";
+import Creature from "../Creature.js";
+import Dungeon from "../../../dungeons/Dungeon.js";
 
 /**
  * @class CompositeStrategy

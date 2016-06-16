@@ -1,4 +1,4 @@
-import { default as Weapon } from "./Weapon.js";
+import Weapon from "./Weapon.js";
 
 export default class Shortbow extends Weapon {
     getDamage() {

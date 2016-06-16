@@ -1,8 +1,8 @@
-import { default as Tile } from "../tiles/Tile.js";
-import { default as GameEvent } from "../events/GameEvent.js";
-import { default as GameEvents } from "../events/GameEvents.js";
+import Tile from "../tiles/Tile.js";
+import GameEvent from "../events/GameEvent.js";
+import GameEvents from "../events/GameEvents.js";
 
-import { default as GridAnimations } from "./GridAnimations.js";
+import GridAnimations from "./GridAnimations.js";
 
 var ANIMATE_BARS = false;
 

@@ -1,10 +1,10 @@
-import { default as GameEvent } from "../events/GameEvent.js";
+import GameEvent from "../events/GameEvent.js";
 
-import { default as Weapon } from "../entities/weapons/Weapon.js";
+import Weapon from "../entities/weapons/Weapon.js";
 
-import { default as ItemDomFactory } from "./ItemDomFactory.js";
+import ItemDomFactory from "./ItemDomFactory.js";
 
-import { default as Move } from "../entities/creatures/moves/Move.js";
+import Move from "../entities/creatures/moves/Move.js";
 
 export default class AbilitiesView {
     /**

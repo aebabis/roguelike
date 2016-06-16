@@ -1,5 +1,5 @@
-import { default as Move } from './Move.js';
-import { default as CustomEvent } from '../../../events/CustomEvent.js';
+import Move from './Move.js';
+import CustomEvent from '../../../events/CustomEvent.js';
 
 export default Move.WaitMove = class WaitMove extends Move {
     getReasonIllegal(dungeon, creature) {

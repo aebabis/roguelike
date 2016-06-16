@@ -1,16 +1,16 @@
-import { default as Dungeon } from "./dungeons/Dungeon.js";
-import { default as RandomMapDungeonFactory } from "./dungeons/RandomMapDungeonFactory.js";
+import Dungeon from "./dungeons/Dungeon.js";
+import RandomMapDungeonFactory from "./dungeons/RandomMapDungeonFactory.js";
 
-import { default as GraphicalDungeonView } from "./views/GraphicalDungeonView.js";
-import { default as EventLogView } from "./views/EventLogView.js";
-import { default as AbilitiesView } from "./views/AbilitiesView.js";
-import { default as InventoryView } from "./views/InventoryView.js";
-import { default as PlayerLocationView } from "./views/PlayerLocationView.js";
-import { default as TileView } from "./views/TileView.js";
+import GraphicalDungeonView from "./views/GraphicalDungeonView.js";
+import EventLogView from "./views/EventLogView.js";
+import AbilitiesView from "./views/AbilitiesView.js";
+import InventoryView from "./views/InventoryView.js";
+import PlayerLocationView from "./views/PlayerLocationView.js";
+import TileView from "./views/TileView.js";
 
-import { default as GraphicalViewKeyboardController } from "./controllers/GraphicalViewKeyboardController.js";
-import { default as GraphicalViewMouseController } from "./controllers/GraphicalViewMouseController.js";
-import { default as GraphicalViewSharedData } from "./controllers/GraphicalViewSharedData.js";
+import GraphicalViewKeyboardController from "./controllers/GraphicalViewKeyboardController.js";
+import GraphicalViewMouseController from "./controllers/GraphicalViewMouseController.js";
+import GraphicalViewSharedData from "./controllers/GraphicalViewSharedData.js";
 
 export default function(newSeed, character) {
     var gameSection = document.querySelector('section');

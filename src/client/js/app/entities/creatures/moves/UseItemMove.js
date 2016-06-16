@@ -1,6 +1,6 @@
-import { default as CustomEvent } from "../../../events/CustomEvent.js";
+import CustomEvent from "../../../events/CustomEvent.js";
 
-import { default as Move } from "./Move.js";
+import Move from "./Move.js";
 
 export default Move.UseItemMove = class UseItemMove extends Move {
     constructor(position, targetTile) {

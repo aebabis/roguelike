@@ -1,16 +1,16 @@
-import { default as Observable } from "../util/Observable.js";
-import { default as Tile } from "../tiles/Tile.js";
-import { default as Creature } from "../entities/creatures/Creature.js";
-import { default as Move } from "../entities/creatures/moves/Move.js";
-import { default as GameConditions } from "../conditions/GameConditions.js";
+import Observable from "../util/Observable.js";
+import Tile from "../tiles/Tile.js";
+import Creature from "../entities/creatures/Creature.js";
+import Move from "../entities/creatures/moves/Move.js";
+import GameConditions from "../conditions/GameConditions.js";
 
-import { default as PlayableCharacter } from "../entities/creatures/PlayableCharacter.js";
+import PlayableCharacter from "../entities/creatures/PlayableCharacter.js";
 
-import { default as CustomEvent } from "../events/CustomEvent.js";
-import { default as HumanToMoveEvent } from "../events/HumanToMoveEvent.js";
-import { default as HumanMovingEvent } from "../events/HumanMovingEvent.js";
+import CustomEvent from "../events/CustomEvent.js";
+import HumanToMoveEvent from "../events/HumanToMoveEvent.js";
+import HumanMovingEvent from "../events/HumanMovingEvent.js";
 
-import { default as WallTile } from "../tiles/WallTile.js";
+import WallTile from "../tiles/WallTile.js";
 
 export default class Dungeon extends Observable {
     constructor(width, height) {

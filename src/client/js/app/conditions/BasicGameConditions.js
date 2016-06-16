@@ -1,4 +1,4 @@
-import { default as GameConditions } from './GameConditions.js';
+import GameConditions from './GameConditions.js';
 
 export default class BasicGameConditions extends GameConditions {
     /**

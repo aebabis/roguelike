@@ -1,4 +1,4 @@
-import { default as Ability } from "./Ability.js";
+import Ability from "./Ability.js";
 
 export default class ForceDart extends Ability {
     use(dungeon, creature, optionalTargetTile) {

@@ -1,5 +1,5 @@
-import { default as Armor } from "../entities/armor/Armor.js";
-import { default as Weapon } from "../entities/weapons/Weapon.js";
+import Armor from "../entities/armor/Armor.js";
+import Weapon from "../entities/weapons/Weapon.js";
 
 var lib;
 export default lib = {

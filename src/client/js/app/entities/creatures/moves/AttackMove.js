@@ -1,7 +1,7 @@
-import { default as Move } from "./Move.js";
-import { default as Creature } from "../Creature.js";
-import { default as Weapon } from "../../weapons/Weapon.js";
-import { default as AttackEvent } from "../../../events/AttackEvent.js";
+import Move from "./Move.js";
+import Creature from "../Creature.js";
+import Weapon from "../../weapons/Weapon.js";
+import AttackEvent from "../../../events/AttackEvent.js";
 
 export default Move.AttackMove = class AttackMove extends Move {
     constructor(param1, param2) {

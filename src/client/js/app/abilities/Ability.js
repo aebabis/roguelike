@@ -1,4 +1,4 @@
-import { default as Tile } from "../tiles/Tile.js";
+import Tile from "../tiles/Tile.js";
 
 export default class Ability {
     /**

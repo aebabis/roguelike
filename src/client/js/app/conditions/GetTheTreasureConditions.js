@@ -1,6 +1,6 @@
-import { default as GameConditions } from './GameConditions.js';
-import { default as TheTreasure } from '../entities/TheTreasure.js';
-import { default as EntranceTile } from '../tiles/EntranceTile.js';
+import GameConditions from './GameConditions.js';
+import TheTreasure from '../entities/TheTreasure.js';
+import EntranceTile from '../tiles/EntranceTile.js';
 
 export default class GetTheTreasureConditions extends GameConditions {
     /**

@@ -1,4 +1,4 @@
-import { default as Dungeon } from '../dungeons/Dungeon.js';
+import Dungeon from '../dungeons/Dungeon.js';
 
 export default class GameEvent {
     /**

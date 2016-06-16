@@ -1,5 +1,5 @@
-import { default as TestBootstrapper } from '../TestBootstrapper.js';
-import { default as CharacterBuilder } from './CharacterBuilder.js';
+import TestBootstrapper from '../TestBootstrapper.js';
+import CharacterBuilder from './CharacterBuilder.js';
 
 function template() {
     return $(`

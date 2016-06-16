@@ -1,14 +1,14 @@
-import { default as Creature } from "./Creature.js";
-import { default as Inventory } from "./Inventory.js";
-import { default as PlayableCharacter } from "./PlayableCharacter.js";
+import Creature from "./Creature.js";
+import Inventory from "./Inventory.js";
+import PlayableCharacter from "./PlayableCharacter.js";
 
-import { default as CustomEvent } from "../../events/CustomEvent.js";
+import CustomEvent from "../../events/CustomEvent.js";
 
-import { default as Weapon } from "../weapons/Weapon.js";
+import Weapon from "../weapons/Weapon.js";
 
-import { default as AttackMove } from "./moves/AttackMove.js";
-import { default as UseItemMove } from "./moves/UseItemMove.js";
-import { default as WaitMove } from "./moves/WaitMove.js";
+import AttackMove from "./moves/AttackMove.js";
+import UseItemMove from "./moves/UseItemMove.js";
+import WaitMove from "./moves/WaitMove.js";
 
 class CellPhoneZap extends Weapon {
     charge(dungeon) {

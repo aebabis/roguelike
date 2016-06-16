@@ -1,5 +1,5 @@
-import { default as Ability } from "./Ability.js";
-import { default as SnareDebuff } from "../entities/creatures/buffs/SnareDebuff.js";
+import Ability from "./Ability.js";
+import SnareDebuff from "../entities/creatures/buffs/SnareDebuff.js";
 
 export default class LesserSnare extends Ability {
     use(dungeon, creature, optionalTargetTile) {

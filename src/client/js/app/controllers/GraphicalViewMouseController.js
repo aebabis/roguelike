@@ -1,4 +1,4 @@
-import { default as Move } from "../entities/creatures/moves/Move.js";
+import Move from "../entities/creatures/moves/Move.js";
 
 export default class GraphicalViewMouseController {
     constructor(dungeon, sharedData, graphicalDungeonView) {

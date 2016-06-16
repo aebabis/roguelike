@@ -5,11 +5,11 @@ req.keys().forEach(function(key){
 });
 
 require('../../../../../node_modules/normalize.css/normalize.css');
-import { default as CharacterBuilder } from './CharacterBuilder.js';
+import CharacterBuilder from './CharacterBuilder.js';
 
-import { default as MenuBar } from "./MenuBar.js";
-import { default as TestBootstrapper } from '../TestBootstrapper.js';
-import { default as Classes } from '../entities/creatures/classes/Classes.js';
+import MenuBar from "./MenuBar.js";
+import TestBootstrapper from '../TestBootstrapper.js';
+import Classes from '../entities/creatures/classes/Classes.js';
 
 window.addEventListener('load', function() {
     $('body').addClass('theme-default').append(`

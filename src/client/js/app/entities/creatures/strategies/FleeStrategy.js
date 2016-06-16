@@ -1,8 +1,8 @@
-import { default as Strategy } from "./Strategy.js";
-import { default as Creature } from "../Creature.js";
-import { default as Dungeon } from "../../../dungeons/Dungeon.js";
+import Strategy from "./Strategy.js";
+import Creature from "../Creature.js";
+import Dungeon from "../../../dungeons/Dungeon.js";
 
-import { default as Moves } from "../moves/Moves.js";
+import Moves from "../moves/Moves.js";
 
 export default class FleeStrategy extends Strategy {
     getNextMove(dungeon, creature) {

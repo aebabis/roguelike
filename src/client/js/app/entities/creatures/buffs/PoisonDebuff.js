@@ -1,5 +1,5 @@
-import { default as Buff } from "./Buff.js";
-import { default as GameEvents } from "../../../events/GameEvents.js";
+import Buff from "./Buff.js";
+import GameEvents from "../../../events/GameEvents.js";
 
 export default class PoisonDebuff extends Buff {
     /**

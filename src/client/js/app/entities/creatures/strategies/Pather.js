@@ -147,7 +147,7 @@ var AStar = (function() {
     return aStar;
 }());
 
-import { default as Moves } from "../moves/Moves.js";
+import Moves from "../moves/Moves.js";
 
 export default {
     getMoveToward: function(dungeon, start, target) {

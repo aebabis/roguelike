@@ -1,6 +1,6 @@
-import { default as Move } from "./Move.js";
+import Move from "./Move.js";
 
-import { default as AbilityEvent } from "../../../events/AbilityEvent.js";
+import AbilityEvent from "../../../events/AbilityEvent.js";
 
 export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     constructor(index, x, y) {

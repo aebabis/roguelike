@@ -1,13 +1,13 @@
-import { default as Tile } from "../tiles/Tile.js";
-import { default as Moves } from "../entities/creatures/moves/Moves.js";
+import Tile from "../tiles/Tile.js";
+import Moves from "../entities/creatures/moves/Moves.js";
 
 
-import { default as AttackMove } from "../entities/creatures/moves/AttackMove.js";
-import { default as MovementMove } from "../entities/creatures/moves/MovementMove.js";
-import { default as TakeItemMove } from "../entities/creatures/moves/TakeItemMove.js";
-import { default as UseAbilityMove } from "../entities/creatures/moves/UseAbilityMove.js";
-import { default as UseItemMove } from "../entities/creatures/moves/UseItemMove.js";
-import { default as WaitMove } from "../entities/creatures/moves/WaitMove.js";
+import AttackMove from "../entities/creatures/moves/AttackMove.js";
+import MovementMove from "../entities/creatures/moves/MovementMove.js";
+import TakeItemMove from "../entities/creatures/moves/TakeItemMove.js";
+import UseAbilityMove from "../entities/creatures/moves/UseAbilityMove.js";
+import UseItemMove from "../entities/creatures/moves/UseItemMove.js";
+import WaitMove from "../entities/creatures/moves/WaitMove.js";
 
 export default class GraphicalViewKeyboardController {
     constructor(dungeon, sharedData, graphicalDungeonView) {

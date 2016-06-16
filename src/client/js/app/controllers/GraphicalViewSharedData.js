@@ -1,6 +1,6 @@
-import { default as Observable } from "../util/Observable.js";
+import Observable from "../util/Observable.js";
 
-import { default as Dungeon } from "../dungeons/Dungeon.js";
+import Dungeon from "../dungeons/Dungeon.js";
 
 export default class GraphicalViewSharedData extends Observable {
     constructor(dungeon) {

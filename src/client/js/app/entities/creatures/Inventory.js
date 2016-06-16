@@ -1,7 +1,7 @@
-import { default as Armor } from "../armor/Armor.js";
-import { default as Weapon } from "../weapons/Weapon.js";
+import Armor from "../armor/Armor.js";
+import Weapon from "../weapons/Weapon.js";
 
-import { default as Item } from "../Item.js";
+import Item from "../Item.js";
 
 var DEFAULT_BACKPACE_SIZE = 2;
 

@@ -1,4 +1,4 @@
-import { default as Creature } from "../Creature.js";
+import Creature from "../Creature.js";
 
 export default class Strategy {
     getNextMove(dungeon, creature) {

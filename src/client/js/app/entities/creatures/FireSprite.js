@@ -1,9 +1,9 @@
-import { default as Creature } from "./Creature.js";
-import { default as Strategies } from "./strategies/Strategies.js";
+import Creature from "./Creature.js";
+import Strategies from "./strategies/Strategies.js";
 
 
-import { default as Armor } from "../armor/Armor.js";
-import { default as Weapon } from "../weapons/Weapon.js";
+import Armor from "../armor/Armor.js";
+import Weapon from "../weapons/Weapon.js";
 
 // TODO: This should be a buff
 class FireSpriteArmor extends Armor {

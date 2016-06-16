@@ -1,4 +1,4 @@
-import { default as PlayableCharacter } from "../PlayableCharacter.js";
+import PlayableCharacter from "../PlayableCharacter.js";
 
 export default class Wizard extends PlayableCharacter {
     getBackpackSize() {

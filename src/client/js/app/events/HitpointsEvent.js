@@ -1,7 +1,7 @@
-import { default as GameEvent } from './GameEvent.js';
+import GameEvent from './GameEvent.js';
 
-import { default as Dungeon } from '../dungeons/Dungeon.js';
-import { default as Creature } from '../entities/creatures/Creature.js';
+import Dungeon from '../dungeons/Dungeon.js';
+import Creature from '../entities/creatures/Creature.js';
 
 export default class HitpointsEvent extends GameEvent {
     /**

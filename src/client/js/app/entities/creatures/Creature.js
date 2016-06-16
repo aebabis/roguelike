@@ -336,6 +336,18 @@ export default class Creature extends Entity {
         return this.getVisibleCreatures(dungeon).filter((other)=>this.isEnemy(other));
     }
 
+    getClosestEnemy(dungeon) {
+        return this.getVisibleEnemies(dungeon).reduce(function(enemy1, enemy2) {
+            if(enemy1) {
+                var d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
+                var d2 = tile.getDirectDistance(dungeon.getTile(enemy2));
+                return d1 < d2 ? enemy1 : enemy2;
+            } else {
+                return enemy2;
+            }
+        }, null);
+    }
+
     getFaction() {
         return 'Guards';
     }

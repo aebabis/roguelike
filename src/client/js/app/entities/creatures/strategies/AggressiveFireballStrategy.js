@@ -16,10 +16,18 @@ export default class AggressiveFireballStrategy extends Strategy {
         } else if(!(creature instanceof Creature)) {
             throw new Error("Second parameter must be a Creature");
         }
-        if(this._lastKnownEnemyLocation) {
+        var creatureTile = dungeon.getTile(creature);
+        var enemy = creature.getClosestEnemy(dungeon);
+        var location = enemy && dungeon.getTile(enemy);
+        if(!location && this._lastKnownEnemyLocation) {
+            location = [this._lastKnownEnemyLocation].concat(this._lastKnownEnemyLocation.getNeighbors8())
+                    .filter((tile)=>creature.canSee(dungeon, tile))
+                    .sort((tileA, tileB)=>creatureTile.getDirectDistance(tileA) - creatureTile.getDirectDistance(tileB))[0];
+        }
+        if(location) {
             var fireballIndex = creature.getAbilityIndex(Fireball);
             if(fireballIndex >= 0) {
-                var move = new Moves.UseAbilityMove(fireballIndex, this._lastKnownEnemyLocation.getX(), this._lastKnownEnemyLocation.getY());
+                var move = new Moves.UseAbilityMove(fireballIndex, location.getX(), location.getY());
                 if(!move.getReasonIllegal(dungeon, creature)) {
                     return move;
                 }

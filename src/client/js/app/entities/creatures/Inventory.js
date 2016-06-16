@@ -1,6 +1,8 @@
 import { default as Armor } from "../armor/Armor.js";
 import { default as Weapon } from "../weapons/Weapon.js";
 
+import { default as Item } from "../Item.js";
+
 var DEFAULT_BACKPACE_SIZE = 2;
 
 var Inventory = class Inventory {
@@ -43,7 +45,7 @@ var Inventory = class Inventory {
     }
 
     addItem(item) {
-        if(!item.isItem()) {
+        if(!(item instanceof Item)) {
             throw new Error('First parameter must be an item');
         }
         var backpack = this._backpack;
@@ -83,17 +85,14 @@ var Inventory = class Inventory {
     }
 
     equipItem(param) {
-        if(param.isUseable) { // TODO: Make an Item class
-            var item = param;
-            if(item instanceof Weapon) {
-                if(item.getRange() === 1) {
-                    this.setMeleeWeapon(item);
-                } else {
-                    this.setRangedWeapon(item);
-                }
-            } else if(item instanceof Armor) {
-                this.setArmor(param);
+        if(param instanceof Weapon) {
+            if(param.getRange() === 1) {
+                this.setMeleeWeapon(param);
+            } else {
+                this.setRangedWeapon(param);
             }
+        } else if(param instanceof Armor) {
+            this.setArmor(param);
         } else if(!isNaN(param)) {
             var index = param;
             var backpack = this._backpack;
@@ -114,7 +113,7 @@ var Inventory = class Inventory {
             } else if(item instanceof Armor) {
                 var oldArmor = this.getArmor();
                 this.setArmor(item);
-                backback[index] = oldArmor;
+                backpack[index] = oldArmor;
             }
         } else {
             throw new Error('First parameter must be a number or Item');

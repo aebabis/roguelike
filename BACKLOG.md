@@ -1,7 +1,5 @@
 # Backlog
 - High
-  - RandomStrategyStrategy
-  - RandomAbilityStrategy
   - Puzzles/Level-Select
   - Better dungeon generator
   - Using keyboard to look at tiles
@@ -10,6 +8,7 @@
   - Item auto-pickup
   - Check move legality before dispatching
   - Fixed container size. Autoscroll during move
+  - Animate attackers
 - Med
   - Range indicators
   - Ranged attack animation
@@ -33,6 +32,7 @@
   - Auto-pickup
   - Trash/drop (playtest trashing)
   - Try flow or Typescript
+  - DamageEvent for subtracting health. No animation for 0 damage
 - Low
   - CSS Layout
   - Come up with a better name for "speed"
@@ -47,6 +47,9 @@
   - Use template pattern for Move validation
   - Further optimize vision algorithm
   - Use `fetch`
+  - RandomStrategyStrategy
+  - RandomAbilityStrategy
+  - Color code damage types in UI
 
 # Bugs
   - Items aren't visible the first turn

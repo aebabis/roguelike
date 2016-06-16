@@ -58,6 +58,7 @@ export default Move.AttackMove = class AttackMove extends Move {
         var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
         target.receiveDamage(dungeon, -weapon.getDamage(), weapon.isMagical());
         dungeon.fireEvent(new AttackEvent(dungeon, creature, target, weapon));
+        weapon.onHit(dungeon, creature, target);
     }
 
     isSeenBy(dungeon, actor, observer) {

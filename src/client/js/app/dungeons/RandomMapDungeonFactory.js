@@ -12,6 +12,7 @@ import { default as BlackVoidSphere } from "../entities/creatures/BlackVoidSpher
 import { default as ClunkyNinetiesCellPhone } from "../entities/creatures/ClunkyNinetiesCellPhone.js";
 import { default as Ent } from "../entities/creatures/Ent.js";
 import { default as FireSprite } from "../entities/creatures/FireSprite.js";
+import { default as FlyingSerpent } from "../entities/creatures/FlyingSerpent.js";
 import { default as Skeleton } from "../entities/creatures/Skeleton.js";
 import { default as SlingshotImp } from "../entities/creatures/SlingshotImp.js";
 import { default as Witch } from "../entities/creatures/Witch.js";
@@ -56,6 +57,10 @@ var table = new EntityTable([{
     entity: FireSprite,
     weight: 6,
     cost: 6
+}, {
+    entity: FlyingSerpent,
+    weight: 6,
+    cost: 4
 }, {
     entity: Skeleton,
     weight: 8,
@@ -156,7 +161,7 @@ export default class RandomMapDungeonFactory {
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
 
         // Test game configuration
-        var creatures = table.rollEntries(dungeon, prng, 30);
+        var creatures = table.rollEntries(dungeon, prng, 40);
         var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
         creatures.forEach(function(creature) {
             var loc = enemyLocations.shift();

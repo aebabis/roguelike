@@ -34,4 +34,8 @@ export default class Weapon extends Item {
     isUseable() {
         return true;
     }
+
+    onHit(dungeon, attacker, defender) {
+        // Do nothing
+    }
 }

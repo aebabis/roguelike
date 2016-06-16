@@ -66,6 +66,8 @@ export default class Creature extends Entity {
                 inventory.equipItem(item);
             } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
                 inventory.equipItem(item);
+            } else if(item.getPhysicalReduction && !inventory.getArmor()) {
+                inventory.equipItem(item);
             } else {
                 inventory.addItem(item);
             }
@@ -80,6 +82,8 @@ export default class Creature extends Entity {
             if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
                 return true;
             } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+                return true;
+            } else if(item.getPhysicalReduction && !inventory.getArmor()) {
                 return true;
             } else {
                 return !inventory.isBackpackFull();
@@ -152,11 +156,15 @@ export default class Creature extends Entity {
             amount = Math.min(0, amount + reduction);
         }
 
-        var newValue = this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
-        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
-        if(newValue <= 0) {
-            this.die(dungeon);
+        if(amount !== 0) {
+            var newValue = this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
+            dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
+            if(newValue <= 0) {
+                this.die(dungeon);
+            }
         }
+
+        return amount;
     }
 
     modifyMana(amount) {

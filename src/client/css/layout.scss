@@ -27,3 +27,8 @@ section.game {
     vertical-align: top;
     margin-left: 10px;
 }
+
+.screenreader {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+}

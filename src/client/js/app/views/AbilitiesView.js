@@ -54,7 +54,13 @@ export default class AbilitiesView {
         <h2>Abilities</h2>
         <div class="wrap">
             ${player.getAbilities().map((item, index)=>
-                    `<button class="ability" data-index="${index}" data-targetting="${targettedIndex === index}"><span class="hotkey">(${index + 1})</span> ${item.getName()} (${item.getManaCost()} mana)</button>`).join('')}
+                    `<button class="ability" data-index="${index}" data-targetting="${targettedIndex === index}" data-name="${item.getName()}">
+                        <div class="inner">
+                            <span class="name">${item.getName()}</span>
+                            <span class="cost">${item.getManaCost()}<span class="screenreader"> mana</span></span>
+                            <span class="hotkey">${index + 1}</span>
+                        </div>
+                    </button>`).join('')}
         </div>`);
         $(this.getDom()).empty().append(template);
     }

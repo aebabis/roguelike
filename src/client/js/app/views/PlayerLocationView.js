@@ -60,9 +60,8 @@ export default class PlayerLocationView {
         });
 
         var template = $(`
-        <h2>${tileName} (${x}, ${y})</h2>
+        <h2>${name}</h2>
         <div class="player">
-            <div class="name">${name}</div>
             <div class="hp">HP: ${hp} / ${baseHP}</div>
             <div class="mana">Mana: ${mana} / ${baseMana}</div>
             <div class="action">Action: ${time} / ${speed}</div>

@@ -1,11 +1,64 @@
 .theme-default .abilities {
+    * {
+        box-sizing: border-box;
+    }
+
     button {
-        display: block;
+        display: inline-block;
+
+        margin: 1em 0 1em 1em;
+        padding: .5em;
+
+        border: solid 1px #642;
+        border-radius: .5em;
+
+        &[data-targetting="true"] {
+            background-color: royalblue;
+        }
+
+        .inner {
+            position: relative;
+            border: solid 1px #642;
+            border-radius: .3em;
+            width: 6em;
+            height: 6em;
+            background-image: url(../images/small/ThisIsAThing.png);
+            background-color: black;
+            background-size: 90%;
+            background-position-x: center;
+            background-position-y: .6em;
+            background-repeat: no-repeat;
+        }
+
+        .name {
+            position: absolute;
+            top: .1em;
+            left: .1em;
+            display: block;
+            color: white;
+            font-weight: bold;
+        }
+
+        .cost {
+            position: absolute;
+            bottom: .1em;
+            right: .1em;
+            display: block;
+            color: cornflowerblue;
+            font-weight: bold;
+        }
+
         .hotkey {
+            position: absolute;
+            bottom: .1em;
+            left: .1em;
+            display: block;
             color: #777;
         }
-        &[data-targetting="true"] {
-            background-color: red;
+
+
+        &[data-name="Fireball"] .inner {
+            background-image: url(../images/small/Fireball.png);
         }
     }
 }

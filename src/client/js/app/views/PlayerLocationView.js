@@ -46,13 +46,13 @@ export default class PlayerLocationView {
         var name = player.constructor.name;
         var hp = player.getCurrentHP();
         var baseHP = player.getBaseHP();
-        var hpPercentage = hp * 100 / baseHP;
+        var hpPercentage = Math.max(0, hp * 100 / baseHP);
         var mana = player.getCurrentMana();
         var baseMana = player.getBaseMana();
-        var manaPercentage = mana * 100 / baseMana;
+        var manaPercentage = Math.max(0, mana * 100 / baseMana);
         var time = player.getTimeToNextMove();
         var speed = player.getSpeed();
-        var speedPercentage = time * 100 / speed;
+        var speedPercentage = Math.max(0, time * 100 / speed);
 
         var items = tile.getItems().map(function(item, index) {
             return {

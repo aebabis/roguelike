@@ -51,7 +51,7 @@ export default class Ability {
 
     getName() {
         // Split camelcasing
-        return this.constructor.name.replace(/([^A-Z])(A-Z)/g, '$1 $2');
+        return this.constructor.name.replace(/([^A-Z])([A-Z])/g, '$1 $2');
     }
 
     getDescription() {

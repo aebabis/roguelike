@@ -1,0 +1,15 @@
+.menu-bar {
+    background-color: #000033;
+    padding: .5em;
+
+    button {
+        border: 0;
+        background: steelblue;
+        color: #ddd;
+        padding: .2em;
+        font-size: 1.5em;
+        + button {
+            margin-left: .2em;
+        }
+    }
+}

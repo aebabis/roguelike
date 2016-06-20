@@ -1,16 +1,23 @@
-.theme-default .abilities {
+.theme-default .abilities-buttons {
     * {
         box-sizing: border-box;
     }
 
-    button {
-        display: inline-block;
+    position: absolute;
+    top: 10em;
+    left: 0;
 
-        margin: 1em 0 1em 1em;
+    button {
+        display: block;
+
         padding: .5em;
 
         border: solid 1px #642;
         border-radius: .5em;
+
+        + button {
+            margin-top: 1em;
+        }
 
         &[data-targetting="true"] {
             background-color: royalblue;

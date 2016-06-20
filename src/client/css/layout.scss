@@ -1,5 +1,6 @@
 body {
     background-color: black;
+    font-size: 10px;
 }
 
 * {
@@ -16,6 +17,7 @@ section.game {
     margin: 1em;
     display: flex;
     overflow: visible;
+    position: relative;
 }
 
 .grid-scroll {

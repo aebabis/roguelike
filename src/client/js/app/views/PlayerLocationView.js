@@ -17,7 +17,7 @@ export default class PlayerLocationView {
      */
     constructor(sharedData) {
         var self = this;
-        var dom = this._dom = $('<div class="sidebar-subcontainer player-location-view">');
+        var dom = this._dom = $('<div class="player-location-view">');
         this._sharedData = sharedData;
 
         sharedData.addObserver((event)=>this.update());
@@ -46,10 +46,13 @@ export default class PlayerLocationView {
         var name = player.constructor.name;
         var hp = player.getCurrentHP();
         var baseHP = player.getBaseHP();
+        var hpPercentage = hp * 100 / baseHP;
         var mana = player.getCurrentMana();
         var baseMana = player.getBaseMana();
+        var manaPercentage = mana * 100 / baseMana;
         var time = player.getTimeToNextMove();
         var speed = player.getSpeed();
+        var speedPercentage = time * 100 / speed;
 
         var items = tile.getItems().map(function(item, index) {
             return {
@@ -60,11 +63,21 @@ export default class PlayerLocationView {
         });
 
         var template = $(`
-        <h2>${name}</h2>
+        <div role="presentation" class="portrait"></div>
         <div class="player">
-            <div class="hp">HP: ${hp} / ${baseHP}</div>
-            <div class="mana">Mana: ${mana} / ${baseMana}</div>
-            <div class="action">Action: ${time} / ${speed}</div>
+            <h2>${name}</h2>
+            <div class="bar hp" title="Hitpoints">
+                <span class="text">${hp} / ${baseHP}</span>
+                <div class="inner" style="width: ${hpPercentage}%"></div>
+            </div>
+            <div class="bar mana" title="Mana">
+                <div class="inner" style="width: ${manaPercentage}%"></div>
+                <span class="text">${mana} / ${baseMana}</span>
+            </div>
+            <!--div class="bar action" title="Ticks to Next Move">
+                <div class="inner" style="width: ${speedPercentage}%"></div>
+                <span class="text">${time} / ${speed}</span>
+            </div-->
         </div>
         <div class="items">
             ${items.map((item)=>`

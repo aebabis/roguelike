@@ -3,8 +3,13 @@
 .log-scroll {
     margin-top: 1em;
     width: 30em;
-    height: 10em;
+    height: 30em;
     overflow-y: auto;
     background-color: white;
     border: solid 1em $dark-red;
+
+    > * {
+        padding: .3em;
+        font-size: 1.2em;
+    }
 }

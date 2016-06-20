@@ -71,7 +71,8 @@ function template() {
 
     $dialog.on('click', 'input', update);
 
-    update();
+    // Wait for autocomplete
+    setTimeout(update);
 
     return $dialog;
 }

@@ -13,7 +13,7 @@ export default class AbilitiesView {
      */
     constructor(sharedData) {
         var self = this;
-        var dom = this._dom = $('<div class="sidebar-subcontainer abilities">');
+        var dom = this._dom = $('<div class="abilities-buttons">');
         this._sharedData = sharedData;
 
         sharedData.addObserver((event)=>this.update());

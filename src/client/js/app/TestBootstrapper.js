@@ -45,9 +45,9 @@ export default function(newSeed, character) {
     var sidebar = document.createElement('div');
     sidebar.classList.add('sidebar');
     container.appendChild(sidebar);
-    sidebar.appendChild(playerLocationView.getDom());
+    container.appendChild(playerLocationView.getDom());
+    container.appendChild(abilitiesView.getDom());
     sidebar.appendChild(tileView.getDom());
-    sidebar.appendChild(abilitiesView.getDom());
     sidebar.appendChild(inventoryView.getDom());
     sidebar.appendChild(eventLogView.getDom());
 

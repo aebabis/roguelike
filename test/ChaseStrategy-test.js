@@ -32,10 +32,10 @@ describe('ChaseStrategy', function() {
         //TestDungeonFactory.showDungeon(dungeon);
         expect(enemy.canSee(dungeon, dungeon.getTile(player))).to.be.true;
 
-        player.setNextMove(new Moves.MovementMove(1, 0));
-        player.setNextMove(new Moves.MovementMove(1, 0));
-        player.setNextMove(new Moves.MovementMove(0, 1));
-        player.setNextMove(new Moves.MovementMove(0, 1));
+        player.setNextMove(new Moves.MovementMove(dungeon.getTile(player), 1, 0));
+        player.setNextMove(new Moves.MovementMove(dungeon.getTile(player), 1, 0));
+        player.setNextMove(new Moves.MovementMove(dungeon.getTile(player), 0, 1));
+        player.setNextMove(new Moves.MovementMove(dungeon.getTile(player), 0, 1));
 
         dungeon.resolveUntilBlocked();
 

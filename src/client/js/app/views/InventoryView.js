@@ -41,7 +41,7 @@ export default class InventoryView {
             var creature = self.getCreature();
             var index = $(this).attr('data-index');
             // TODO: Assumes PlayableCharacter anyway?
-            creature.setNextMove(new Move.UseItemMove(index));
+            creature.setNextMove(new Move.UseItemMove(dungeon.getTile(creature), index));
             dungeon.resolveUntilBlocked();
         });
 

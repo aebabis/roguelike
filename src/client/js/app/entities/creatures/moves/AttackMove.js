@@ -4,8 +4,8 @@ import Weapon from "../../weapons/Weapon.js";
 import AttackEvent from "../../../events/AttackEvent.js";
 
 export default Move.AttackMove = class AttackMove extends Move {
-    constructor(param1, param2) {
-        super();
+    constructor(actorTile, param1, param2) {
+        super(actorTile);
         if(param1.getX) {
             this._x = param1.getX();
             this._y = param1.getY();
@@ -61,7 +61,7 @@ export default Move.AttackMove = class AttackMove extends Move {
         weapon.onHit(dungeon, creature, target);
     }
 
-    isSeenBy(dungeon, actor, observer) {
-        return observer.canSee(dungeon, dungeon.getTile(actor)) || observer.canSee(dungeon, dungeon.getTile(this._x, this._y));
+    isSeenBy(dungeon, observer) {
+        return observer.canSee(dungeon, dungeon.getTile(this._x, this._y));
     }
 };

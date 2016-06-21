@@ -8,6 +8,7 @@ import HumanMovingEvent from "./HumanMovingEvent.js";
 import HumanToMoveEvent from "./HumanToMoveEvent.js";
 import MoveEvent from "./MoveEvent.js";
 import TakeItemEvent from "./TakeItemEvent.js";
+import WaitEvent from "./WaitEvent.js";
 
 export default {
     AbilityEvent: AbilityEvent,
@@ -19,5 +20,6 @@ export default {
     HumanMovingEvent: HumanMovingEvent,
     HumanToMoveEvent: HumanToMoveEvent,
     MoveEvent: MoveEvent,
-    TakeItemEvent: TakeItemEvent
+    TakeItemEvent: TakeItemEvent,
+    WaitEvent: WaitEvent
 };

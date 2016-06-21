@@ -31,9 +31,9 @@ export default class GraphicalViewKeyboardController {
                 var targetTile = dungeon.getTile(x, y);
                 var creature = targetTile.getCreature();
                 if(creature && creature.isEnemy(character)) {
-                    character.setNextMove(new Moves.AttackMove(x, y));
+                    character.setNextMove(new Moves.AttackMove(tile, x, y));
                 } else if(character.canOccupy(targetTile)) {
-                    character.setNextMove(new Moves.MovementMove(dx, dy));
+                    character.setNextMove(new Moves.MovementMove(tile, dx, dy));
                 }
             }
 
@@ -47,7 +47,7 @@ export default class GraphicalViewKeyboardController {
                 case 98:  case 74: move( 0, 1); break;
                 case 99:  case 78: move( 1, 1); break;
                 case 100: case 72: move(-1, 0); break;
-                case 101: case 190: character.setNextMove(new Moves.WaitMove()); break;
+                case 101: case 190: character.setNextMove(new Moves.WaitMove(tile)); break;
                 case 102: case 76: move( 1, 0); break;
                 case 103: case 89: move(-1,-1); break;
                 case 104: case 75: move( 0,-1); break;

@@ -7,8 +7,8 @@ import GameEvents from "../../../events/GameEvents.js";
 import PlayableCharacter from "../PlayableCharacter.js";
 
 export default Move.MovementMove = class MovementMove extends Move {
-    constructor(param1, param2) {
-        super();
+    constructor(actorTile, param1, param2) {
+        super(actorTile);
         if(Number.isInteger(param1) && Number.isInteger(param2)
                 && Math.abs(param1) <= 1 && Math.abs(param2) <= 1
                 && (Math.abs(param1) === 1 || Math.abs(param2) === 1)) {
@@ -75,11 +75,10 @@ export default Move.MovementMove = class MovementMove extends Move {
         }
     }
 
-    isSeenBy(dungeon, actor, observer) {
-        var actorTile = dungeon.getTile(actor);
-        var actorX = actorTile.getX();
-        var actorY = actorTile.getY();
-        return observer.canSee(dungeon, actorTile) ||
-                observer.canSee(dungeon, dungeon.getTile(actorX + this._dx, actorY + this._dy));
+    isSeenBy(dungeon, observer) {
+        var actorX = this.getActorX();
+        var actorY = this.getActorY();
+        return observer.canSee(dungeon, dungeon.getTile(actorX, actorY)) ||
+                observer.canSee(dungeon, dungeon.getTile(actorX + this.getDx(), actorY + this.getDy()));
     }
 };

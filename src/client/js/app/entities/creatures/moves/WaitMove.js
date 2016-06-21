@@ -1,5 +1,5 @@
 import Move from './Move.js';
-import CustomEvent from '../../../events/CustomEvent.js';
+import GameEvents from '../../../events/GameEvents.js';
 
 export default Move.WaitMove = class WaitMove extends Move {
     getReasonIllegal(dungeon, creature) {
@@ -8,7 +8,7 @@ export default Move.WaitMove = class WaitMove extends Move {
 
     execute(dungeon, creature) {
         // Does modify game state
-        dungeon.fireEvent(new CustomEvent(dungeon, 'Creature waited'));
+        dungeon.fireEvent(new GameEvents.WaitEvent(dungeon, creature));
     }
 
     getCostMultiplier() {
@@ -16,7 +16,7 @@ export default Move.WaitMove = class WaitMove extends Move {
     }
 
 
-    isSeenBy(dungeon, actor, observer) {
-        return observer.canSee(dungeon, dungeon.getTile(actor));
+    isSeenBy(dungeon, observer) {
+        return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
 };

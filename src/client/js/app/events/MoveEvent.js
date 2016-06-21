@@ -41,4 +41,11 @@ export default class MoveEvent extends GameEvent {
         var to = this.getToCoords();
         return this._creature.toString() + ' moved to (' + to.x + ', ' + to.y + ')';
     }
+
+    isSeenBy(dungeon, creature) {
+        var from = this.getFromCoords();
+        var to = this.getToCoords();
+        return creature.canSee(dungeon, dungeon.getTile(from.x, from.y)) ||
+                creature.canSee(dungeon, dungeon.getTile(to.x, to.y));
+    }
 }

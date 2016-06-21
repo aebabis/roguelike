@@ -3,8 +3,8 @@ import GameEvents from "../../../events/GameEvents.js";
 import Move from "./Move.js";
 
 export default Move.TakeItemMove = class TakeItemMove extends Move {
-    constructor(itemIndex) {
-        super();
+    constructor(actorTile, itemIndex) {
+        super(actorTile);
         if(isNaN(itemIndex)) {
             throw new Error('Must pass two integer parameters or a Creature');
         }
@@ -42,7 +42,7 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
         dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
     }
 
-    isSeenBy(dungeon, actor, observer) {
-        return observer.canSee(dungeon, dungeon.getTile(actor));
+    isSeenBy(dungeon, observer) {
+        return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
 };

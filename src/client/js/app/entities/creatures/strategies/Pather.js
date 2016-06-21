@@ -171,7 +171,7 @@ export default {
         if(pathfinding.status === 'success') {
             var nextTile = pathfinding.path[1];
             if(nextTile) {
-                return new Moves.MovementMove(Math.sign(nextTile.getX() - x), Math.sign(nextTile.getY() - y));
+                return new Moves.MovementMove(start, Math.sign(nextTile.getX() - x), Math.sign(nextTile.getY() - y));
             }
         }
         return null;

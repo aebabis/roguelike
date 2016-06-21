@@ -29,4 +29,8 @@ export default class GameEvent {
     getText() {
         throw new Error('Abstract function not implemented');
     }
+
+    isSeenBy(dungeon, creature) {
+        return true;
+    }
 }

@@ -62,12 +62,12 @@ export default class ClunkyNinetiesCellPhone extends Creature {
         if(target) {
             var weapon = this.getRangedWeapon();
             if(weapon.isCharged(dungeon)) {
-                return new AttackMove(dungeon.getTile(target));
+                return new AttackMove(dungeon.getTile(this), dungeon.getTile(target));
             } else {
-                return new UseItemMove(Inventory.RANGED_SLOT);
+                return new UseItemMove(dungeon.getTile(this), Inventory.RANGED_SLOT);
             }
         } else {
-            return new WaitMove();
+            return new WaitMove(dungeon.getTile(this));
         }
     }
 

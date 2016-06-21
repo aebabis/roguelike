@@ -45,11 +45,11 @@ export default class ChaseStrategy extends Strategy {
 
         if(meleeTarget) {
             if(meleeWeapon) {
-                return new Moves.AttackMove(dungeon.getTile(meleeTarget));
+                return new Moves.AttackMove(tile, dungeon.getTile(meleeTarget));
             }
         } else if(rangedTarget) {
             if(rangedWeapon && rangedWeapon.getRange() >= tile.getDirectDistance(dungeon.getTile(rangedTarget))) {
-                return new Moves.AttackMove(dungeon.getTile(rangedTarget));
+                return new Moves.AttackMove(tile, dungeon.getTile(rangedTarget));
             } else {
                 var move = Pather.getMoveToward(dungeon, tile, dungeon.getTile(rangedTarget));
                 if(move && !move.getReasonIllegal(dungeon, creature)) {

@@ -50,6 +50,7 @@
   - RandomStrategyStrategy
   - RandomAbilityStrategy
   - Color code damage types in UI
+  - Make ClunkyNintiesCellPhone use predefined strategies
 
 # Bugs
   - Items aren't visible the first turn

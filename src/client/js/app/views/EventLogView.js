@@ -5,7 +5,7 @@ export default class EventLogView {
      * @class EventLogView
      * @description Event feed widget
      */
-    constructor(dungeon) {
+    constructor(sharedData) {
         var self = this;
         var scrollPane = this._scrollPane = document.createElement('div');
         scrollPane.classList.add('log-scroll');
@@ -15,14 +15,20 @@ export default class EventLogView {
         log.setAttribute('data-locked-bottom', true);
         scrollPane.appendChild(log);
 
-        dungeon.addObserver(function(event) {
-            if(event && event.getText) {
-                var message = document.createElement('div');
-                message.textContent = "<" + event.getTimestamp() + "> " + event.getText(dungeon);
-                log.appendChild(message);
-                checkScroll();
+        function observer(event) {
+            if(event && event.getText && !(event instanceof GameEvents.HumanToMoveEvent)
+                    && !(event instanceof GameEvents.HumanMovingEvent)) {
+                var dungeon = sharedData.getDungeon();
+                if(dungeon && (!event.isSeenBy || event.isSeenBy(dungeon, dungeon.getPlayableCharacter()))) {
+                    var message = document.createElement('div');
+                    message.textContent = /*"<" + event.getTimestamp() + "> " +*/ event.getText(dungeon);
+                    log.appendChild(message);
+                    checkScroll();
+                }
             }
-        });
+        }
+
+        sharedData.getDungeon().addObserver(observer);
 
         scrollPane.addEventListener('scroll', function(event) {
             log.setAttribute('data-locked-bottom', scrollPane.scrollTop + scrollPane.clientHeight === scrollPane.scrollHeight);

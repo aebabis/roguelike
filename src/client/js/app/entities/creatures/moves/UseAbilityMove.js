@@ -3,8 +3,8 @@ import Move from "./Move.js";
 import AbilityEvent from "../../../events/AbilityEvent.js";
 
 export default Move.UseAbilityMove = class UseAbilityMove extends Move {
-    constructor(index, x, y) {
-        super();
+    constructor(actorTile, index, x, y) {
+        super(actorTile);
         if(!Number.isInteger(+index) || !Number.isInteger(+x) || !Number.isInteger(+y)) {
             throw new Error('Parameters must be integers: ' + arguments)
         }
@@ -65,7 +65,7 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
         }
     }
 
-    isSeenBy(dungeon, actor, observer) {
-        return true;
+    isSeenBy(dungeon, observer) {
+        return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
 };

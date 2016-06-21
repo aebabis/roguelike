@@ -15,17 +15,17 @@ export default class GraphicalViewMouseController {
             var creature = dungeon.getTile(targetX, targetY).getCreature();
             var abilityIndex = sharedData.getTargettedAbility();
             if(abilityIndex !== null) {
-                character.setNextMove(new Move.UseAbilityMove(abilityIndex, targetX, targetY));
+                character.setNextMove(new Move.UseAbilityMove(playerLocation, abilityIndex, targetX, targetY));
                 sharedData.unsetTargettedAbility();
             } else if(creature && creature.isEnemy(character)) {
-                character.setNextMove(new Move.AttackMove(targetX, targetY));
+                character.setNextMove(new Move.AttackMove(playerLocation, targetX, targetY));
             } else {
                 var dx = targetX - playerLocation.getX();
                 var dy = targetY - playerLocation.getY();
                 if(dx === 0 && dy === 0) {
-                    character.setNextMove(new Move.WaitMove());
+                    character.setNextMove(new Move.WaitMove(playerLocation));
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
-                    character.setNextMove(new Move.MovementMove(dx, dy));
+                    character.setNextMove(new Move.MovementMove(playerLocation, dx, dy));
                 }
             }
             dungeon.resolveUntilBlocked();

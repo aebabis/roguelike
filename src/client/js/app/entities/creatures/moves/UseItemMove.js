@@ -3,8 +3,8 @@ import CustomEvent from "../../../events/CustomEvent.js";
 import Move from "./Move.js";
 
 export default Move.UseItemMove = class UseItemMove extends Move {
-    constructor(position, targetTile) {
-        super();
+    constructor(actorTile, position, targetTile) {
+        super(actorTile);
         this._position = position;
         if(targetTile) {
             this._target = {
@@ -65,7 +65,7 @@ export default Move.UseItemMove = class UseItemMove extends Move {
         }
     }
 
-    isSeenBy(dungeon, actor, observer) {
-        return false; // TODO: Implement
+    isSeenBy(dungeon, observer) {
+        return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
 };

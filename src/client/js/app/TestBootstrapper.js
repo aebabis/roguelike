@@ -34,7 +34,7 @@ export default function(newSeed, character) {
     var sharedData = new GraphicalViewSharedData(dungeon);
 
     var mapView = new GraphicalDungeonView(dungeon); // TODO: Use sharedData instead of dungeon
-    var eventLogView = new EventLogView(dungeon);
+    var eventLogView = new EventLogView(sharedData);
     var inventoryView = new InventoryView(dungeon);
     var abilitiesView = new AbilitiesView(sharedData);
     var playerLocationView = new PlayerLocationView(sharedData);

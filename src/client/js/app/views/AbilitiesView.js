@@ -31,7 +31,7 @@ export default class AbilitiesView {
                 if(ability.isTargetted()) {
                     sharedData.setTargettedAbility(index);
                 } else {
-                    player.setNextMove(new Move.UseAbilityMove(index));
+                    player.setNextMove(new Move.UseAbilityMove(dungeon.getTile(player), index));
                 }
             }
         });

@@ -27,7 +27,7 @@ export default class AggressiveFireballStrategy extends Strategy {
         if(location) {
             var fireballIndex = creature.getAbilityIndex(Fireball);
             if(fireballIndex >= 0) {
-                var move = new Moves.UseAbilityMove(fireballIndex, location.getX(), location.getY());
+                var move = new Moves.UseAbilityMove(dungeon.getTile(creature), fireballIndex, location.getX(), location.getY());
                 if(!move.getReasonIllegal(dungeon, creature)) {
                     return move;
                 }

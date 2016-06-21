@@ -22,7 +22,7 @@ export default class TileView {
             var index = $(this).attr('data-index');
             var dungeon = sharedData.getDungeon();
             var player = dungeon.getPlayableCharacter();
-            player.setNextMove(new Move.TakeItemMove(index));
+            player.setNextMove(dungeon.getTile(player), new Move.TakeItemMove(index));
         });
     }
 

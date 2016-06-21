@@ -1,4 +1,17 @@
 export default class Move {
+    constructor(actorTile) {
+        this._actorX = actorTile.getX();
+        this._actorY = actorTile.getY();
+    }
+
+    getActorX() {
+        return this._actorX;
+    }
+
+    getActorY() {
+        return this._actorY;
+    }
+
     getReasonIllegal(dungeon, creature) {
         throw new Error('Abstract method not implemented');
     }
@@ -11,7 +24,7 @@ export default class Move {
         throw new Error('Abstract method not implemented');
     }
 
-    isSeenBy(dungeon, creature) {
+    isSeenBy(dungeon, observer) {
         throw new Error('Abstract method not implemented');
     }
 };

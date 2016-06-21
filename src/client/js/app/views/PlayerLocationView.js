@@ -27,7 +27,7 @@ export default class PlayerLocationView {
             var dungeon = sharedData.getDungeon();
             if(dungeon) {
                 var player = dungeon.getPlayableCharacter();
-                player.setNextMove(new Move.TakeItemMove(index));
+                player.setNextMove(dungeon.getTile(player), new Move.TakeItemMove(index));
                 dungeon.resolveUntilBlocked();
             }
         });
@@ -58,7 +58,7 @@ export default class PlayerLocationView {
             return {
                 name: item.getName(),
                 index: index,
-                takeable: !(new Move.TakeItemMove(index).getReasonIllegal(dungeon, player))
+                takeable: !(new Move.TakeItemMove(tile, index).getReasonIllegal(dungeon, player))
             }
         });
 

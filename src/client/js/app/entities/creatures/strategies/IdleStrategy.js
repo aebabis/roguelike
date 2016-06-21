@@ -14,7 +14,7 @@ export default class IdleStrategy extends Strategy {
         } else if(!(creature instanceof Creature)) {
             throw new Error("Second parameter must be a Creature");
         }
-        return new Moves.WaitMove();
+        return new Moves.WaitMove(dungeon.getTile(creature));
     }
 
     observeMove(dungeon, observer, actor, move) {

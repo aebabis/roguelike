@@ -47,7 +47,7 @@ export default class FleeStrategy extends Strategy {
                 var dx = target.getX() - tile.getX();
                 var dy = target.getY() - tile.getY();
 
-                return new Moves.MovementMove(dx, dy);
+                return new Moves.MovementMove(tile, dx, dy);
             }
         }
     }

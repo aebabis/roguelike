@@ -209,14 +209,14 @@ export default class Dungeon extends Observable {
             try {
                 var dungeon = this;
                 this.getCreatures().forEach(function(creature) {
-                    if(activeCreature !== creature && move.isSeenBy(dungeon, activeCreature, creature)) {
+                    if(activeCreature !== creature && move.isSeenBy(dungeon, creature)) {
                         creature.observeMove(dungeon, activeCreature, move);
                     }
                 });
                 activeCreature.executeMove(this, move);
             } catch(error) {
                 console.error(error);
-                activeCreature.executeMove(this, new Move.WaitMove());
+                activeCreature.executeMove(this, new Move.WaitMove(this.getTile(activeCreature)));
                 //activeCreature.wait();
             }
         } else {

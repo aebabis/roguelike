@@ -27,6 +27,6 @@ export default class AttackEvent extends GameEvent {
     }
 
     getText() {
-        return this.getAttacker().toString() + ' attacked ' + this.getTarget().toString();
+        return this.getAttacker().getName() + ' attacked ' + this.getTarget().getName();
     }
 }

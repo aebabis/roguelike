@@ -15,6 +15,6 @@ export default class HumanMovingEvent extends GameEvent {
     }
 
     getText() {
-        return this._player.toString() + ' moving.';
+        return this._player.getName() + ' moving.';
     }
 }

@@ -192,10 +192,12 @@ export default class GraphicDungeonView {
             }
         }
 
-        dungeon.getCreatures().forEach(function(creature) {
-            // TODO: Animate HP by moving this to AttackEvent handling
-            self._animateBars(creature);
-        });
+        if(event instanceof GameEvents.HumanToMoveEvent || event instanceof GameEvents.HitpointsEvent) {
+            dungeon.getCreatures().forEach(function(creature) {
+                // TODO: Animate HP by moving this to AttackEvent handling
+                self._animateBars(creature);
+            });
+        }
 
         // Tempory
         // Sync phone charge state

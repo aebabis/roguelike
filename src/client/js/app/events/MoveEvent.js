@@ -39,7 +39,7 @@ export default class MoveEvent extends GameEvent {
 
     getText() {
         var to = this.getToCoords();
-        return this._creature.toString() + ' moved to (' + to.x + ', ' + to.y + ')';
+        return this._creature.getName() + ' moved to (' + to.x + ', ' + to.y + ')';
     }
 
     isSeenBy(dungeon, creature) {

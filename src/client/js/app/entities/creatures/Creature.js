@@ -180,7 +180,7 @@ export default class Creature extends Entity {
     die(dungeon) {
         this._isDead = true;
         dungeon.removeCreature(this);
-        dungeon.fireEvent(new CustomEvent(dungeon, this.toString() + " died"));
+        dungeon.fireEvent(new CustomEvent(dungeon, this.getName() + " died"));
     }
 
     isDead() {

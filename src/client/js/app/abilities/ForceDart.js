@@ -4,7 +4,7 @@ import DamageTypes from "../entities/DamageTypes.js";
 export default class ForceDart extends Ability {
     use(dungeon, creature, optionalTargetTile) {
         super.use(dungeon, creature, optionalTargetTile);
-        optionalTargetTile.getCreature().receiveDamage(dungeon, -2, DamageTypes.ENERGY);
+        optionalTargetTile.getCreature().receiveDamage(dungeon, 2, DamageTypes.ENERGY);
     }
 
     isTargetted() {

@@ -143,28 +143,29 @@ export default class Creature extends Entity {
     }
 
     receiveDamage(dungeon, amount, type) {
-        if(!Number.isInteger(amount)) {
-            throw new Error('amount must be an integer');
+        if(!Number.isInteger(amount) || amount <= 0) {
+            throw new Error('amount must be a positive integer');
         }
 
+        var reduction = 0;
         if(amount < 0) {
-            var reduction = 0;
             var armor = this.getArmor();
             if(armor) {
                 reduction = armor.getReduction(type);
             }
-            amount = Math.min(0, amount + reduction);
         }
 
-        if(amount !== 0) {
-            var newValue = this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
-            dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
+        var modifiedAmount = amount - reduction;
+
+        if(modifiedAmount > 0) {
+            var newValue = this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
+            dungeon.fireEvent(new HitpointsEvent(dungeon, this, -modifiedAmount));
             if(newValue <= 0) {
                 this.die(dungeon);
             }
         }
 
-        return amount;
+        return modifiedAmount;
     }
 
     heal(dungeon, amount) {

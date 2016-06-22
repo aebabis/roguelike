@@ -45,7 +45,7 @@ export default class PoisonDebuff extends Buff {
 
     timestep(dungeon, creature) {
         if(dungeon.getCurrentTimestep() % this.getPeriod() === 0) {
-            var damage = creature.receiveDamage(dungeon, -this.getDamage(), DamageTypes.POISON);
+            var damage = creature.receiveDamage(dungeon, this.getDamage(), DamageTypes.POISON);
             if(damage < 0) {
                 dungeon.fireEvent(new GameEvents.CustomEvent(dungeon, `${creature} recieved ${-damage} from ${this.getName()}`));
             }

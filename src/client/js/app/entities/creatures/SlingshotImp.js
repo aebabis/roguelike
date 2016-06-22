@@ -3,6 +3,7 @@ import PlayableCharacter from "./PlayableCharacter.js";
 import Strategies from "./strategies/Strategies.js";
 
 import Weapon from "../weapons/Weapon.js";
+import DamageTypes from "../DamageTypes.js";
 
 class ImpSlingshot extends Weapon {
     getRange() {
@@ -11,6 +12,10 @@ class ImpSlingshot extends Weapon {
 
     getDamage() {
         return 2;
+    }
+
+    getDamageType() {
+        return DamageTypes.RANGED_PHYSICAL;
     }
 }
 

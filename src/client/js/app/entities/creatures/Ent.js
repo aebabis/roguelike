@@ -4,14 +4,19 @@ import Strategies from "./strategies/Strategies.js";
 
 import Armor from "../armor/Armor.js";
 import Weapon from "../weapons/Weapon.js";
+import DamageTypes from "../DamageTypes.js";
 
 class Bark extends Armor {
-    getPhysicalReduction() {
-        return 2;
-    }
-
-    getMagicalReduction() {
-        return 1;
+    getReduction(type) {
+        if(type === DamageTypes.MELEE_PHYSICAL) {
+            return 2;
+        } else if(type === DamageTypes.RANGED_PHYSICAL) {
+            return 3;
+        } else if(type === DamageTypes.FIRE) {
+            return -3; // Weakness
+        } else {
+            return 0;
+        }
     }
 }
 
@@ -22,6 +27,10 @@ class EntAttack extends Weapon {
 
     getDamage() {
         return 8;
+    }
+
+    getDamageType() {
+        return DamageTypes.MELEE_PHYSICAL;
     }
 }
 

@@ -21,7 +21,7 @@ export default lib = {
                 name: weapon.constructor.name,
                 damage: weapon.getDamage(),
                 range: weapon.getRange(),
-                isMagical: weapon.isMagical()
+                damageType: weapon.getDamageType()
             }
             return $(`
                 <li class="slot item weapon" tabindex="0" data-index="${index}">
@@ -29,7 +29,7 @@ export default lib = {
                     <div class="stats">
                         <span class="damage-icon">Damage: </span> <span class="damage-text">${data.damage}</span>,
                         <span class="range-icon">Range: </span> <span class="range-text">${data.range}</span>,
-                        <span class="damage-type">${data.isMagical ? 'Magical' : 'Physical'}</span>
+                        <span class="damage-type">${data.damageType}</span>
                     </div>
                 </li>
             `)[0];

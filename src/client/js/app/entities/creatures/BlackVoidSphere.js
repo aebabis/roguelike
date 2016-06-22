@@ -3,6 +3,7 @@ import PlayableCharacter from "./PlayableCharacter.js";
 import Strategies from "./strategies/Strategies.js";
 
 import Weapon from "../weapons/Weapon.js";
+import DamageTypes from "../DamageTypes.js";
 
 class VoidSphereAttack extends Weapon {
     getRange() {
@@ -11,6 +12,10 @@ class VoidSphereAttack extends Weapon {
 
     getDamage() {
         return 3;
+    }
+
+    getDamageType() {
+        return DamageTypes.MELEE_PHYSICAL;
     }
 }
 

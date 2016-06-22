@@ -1,5 +1,6 @@
 import Buff from "./Buff.js";
 import GameEvents from "../../../events/GameEvents.js";
+import DamageTypes from "../../DamageTypes.js";
 
 export default class PoisonDebuff extends Buff {
     /**
@@ -44,7 +45,7 @@ export default class PoisonDebuff extends Buff {
 
     timestep(dungeon, creature) {
         if(dungeon.getCurrentTimestep() % this.getPeriod() === 0) {
-            var damage = creature.receiveDamage(dungeon, -this.getDamage(), true);
+            var damage = creature.receiveDamage(dungeon, -this.getDamage(), DamageTypes.POISON);
             if(damage < 0) {
                 dungeon.fireEvent(new GameEvents.CustomEvent(dungeon, `${creature} recieved ${-damage} from ${this.getName()}`));
             }

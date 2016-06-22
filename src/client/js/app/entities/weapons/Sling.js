@@ -1,4 +1,5 @@
 import Weapon from "./Weapon.js";
+import DamageTypes from "../DamageTypes.js";
 
 export default class Sling extends Weapon {
     getDamage() {
@@ -7,5 +8,9 @@ export default class Sling extends Weapon {
 
     getRange() {
         return 3;
+    }
+
+    getDamageType() {
+        return DamageTypes.RANGED_PHYSICAL;
     }
 }

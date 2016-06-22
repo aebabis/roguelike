@@ -5,14 +5,12 @@ import Strategies from "./strategies/Strategies.js";
 import Armor from "../armor/Armor.js";
 import Weapon from "../weapons/Weapon.js";
 
+import DamageTypes from "../DamageTypes.js";
+
 // TODO: This should be a buff
 class FireSpriteArmor extends Armor {
-    getPhysicalReduction() {
-        return Infinity;
-    }
-
-    getMagicalReduction() {
-        return 0;
+    getReduction(type) {
+        return (type === DamageTypes.MELEE_PHYSICAL || type === DamageTypes.RANGED_PHYSICAL) ? Infinity : 0;
     }
 }
 
@@ -25,8 +23,8 @@ class FireSpriteAttack extends Weapon {
         return 1;
     }
 
-    isMagical() {
-        return true;
+    getDamageType() {
+        return DamageTypes.FIRE;
     }
 }
 

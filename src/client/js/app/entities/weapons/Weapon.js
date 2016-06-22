@@ -24,8 +24,8 @@ export default class Weapon extends Item {
     /**
      * Magical damage is less likely to be reduced
      */
-    isMagical() {
-        return false;
+    getDamageType() {
+        throw new Error('Abstract method not implemented');
     }
 
     /**

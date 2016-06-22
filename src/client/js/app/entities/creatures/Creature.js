@@ -142,7 +142,7 @@ export default class Creature extends Entity {
         return this._currentMana;
     }
 
-    receiveDamage(dungeon, amount, isMagical) {
+    receiveDamage(dungeon, amount, type) {
         if(!Number.isInteger(amount)) {
             throw new Error('amount must be an integer');
         }
@@ -151,7 +151,7 @@ export default class Creature extends Entity {
             var reduction = 0;
             var armor = this.getArmor();
             if(armor) {
-                reduction = isMagical ? armor.getMagicalReduction() : armor.getPhysicalReduction();
+                reduction = armor.getReduction(type);
             }
             amount = Math.min(0, amount + reduction);
         }

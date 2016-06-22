@@ -5,6 +5,7 @@ import Armor from "../armor/Armor.js";
 import Weapon from "../weapons/Weapon.js";
 
 import PoisonDebuff from "./buffs/PoisonDebuff.js";
+import DamageTypes from "../DamageTypes.js";
 
 class FlyingSerpentAttack extends Weapon {
     getRange() {
@@ -13,6 +14,10 @@ class FlyingSerpentAttack extends Weapon {
 
     getDamage() {
         return 2;
+    }
+
+    getDamageType() {
+        return DamageTypes.MELEE_PHYSICAL;
     }
 
     onHit(dungeon, attacker, defender) {

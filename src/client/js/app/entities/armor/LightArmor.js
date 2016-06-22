@@ -1,11 +1,8 @@
 import Armor from "./Armor.js";
+import DamageTypes from "../DamageTypes.js";
 
 export default class LightArmor extends Armor {
-    getPhysicalReduction() {
-        return 1;
-    }
-
-    getMagicalReduction() {
-        return 0;
+    getReduction(type) {
+        return (type === DamageTypes.MELEE_PHYSICAL || type === DamageTypes.RANGED_PHYSICAL) ? 3 : 0;
     }
 }

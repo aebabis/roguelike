@@ -10,6 +10,8 @@ import AttackMove from "./moves/AttackMove.js";
 import UseItemMove from "./moves/UseItemMove.js";
 import WaitMove from "./moves/WaitMove.js";
 
+import DamageTypes from "../DamageTypes.js";
+
 class CellPhoneZap extends Weapon {
     charge(dungeon) {
         this._chargeTimestamp = dungeon.getCurrentTimestep();
@@ -39,8 +41,8 @@ class CellPhoneZap extends Weapon {
         return 7;
     }
 
-    isMagical() {
-        return true;
+    getDamageType() {
+        return DamageTypes.ELECTRICAL;
     }
 }
 

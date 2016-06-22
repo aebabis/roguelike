@@ -1,4 +1,5 @@
 import Weapon from "./Weapon.js";
+import DamageTypes from "../DamageTypes.js";
 
 export default class Longsword extends Weapon {
     getDamage() {
@@ -7,5 +8,9 @@ export default class Longsword extends Weapon {
 
     getRange() {
         return 1;
+    }
+
+    getDamageType() {
+        return DamageTypes.MELEE_PHYSICAL;
     }
 }

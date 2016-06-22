@@ -1,4 +1,5 @@
 import Ability from "./Ability.js";
+import DamageTypes from "../entities/DamageTypes.js";
 
 const FIREBALL_DAMAGE = 5;
 
@@ -8,7 +9,7 @@ export default class Fireball extends Ability {
         optionalTargetTile.getNeighbors8().concat(optionalTargetTile)
                 .map((tile)=>tile.getCreature()).filter(Boolean)
                 .forEach(function(creature) {
-            creature.receiveDamage(dungeon, -FIREBALL_DAMAGE, true);
+            creature.receiveDamage(dungeon, -FIREBALL_DAMAGE, DamageTypes.FIRE);
         });
     }
 

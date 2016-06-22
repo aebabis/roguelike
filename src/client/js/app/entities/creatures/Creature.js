@@ -167,6 +167,11 @@ export default class Creature extends Entity {
         return amount;
     }
 
+    heal(dungeon, amount) {
+        this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
+        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
+    }
+
     modifyMana(amount) {
         if(!Number.isInteger(amount)) {
             throw new Error('amount must be an integer');

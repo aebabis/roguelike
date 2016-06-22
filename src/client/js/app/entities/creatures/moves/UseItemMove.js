@@ -2,6 +2,8 @@ import CustomEvent from "../../../events/CustomEvent.js";
 
 import Move from "./Move.js";
 
+import Consumable from "../../consumables/Consumable.js"
+
 export default Move.UseItemMove = class UseItemMove extends Move {
     constructor(actorTile, position, targetTile) {
         super(actorTile);
@@ -24,6 +26,12 @@ export default Move.UseItemMove = class UseItemMove extends Move {
         var item = inventory.getItem(position);
         if(!item) {
             return 'No item at position: ' + position;
+        } else {
+            if(targetLocation && !item.isTargetted()) {
+                throw new Error('Target given for untargetted item');
+            } else if(!targetLocation && item.isTargetted()){
+                throw new Error('Target not given for targetted item');
+            }
         }
         return null;
     }
@@ -60,8 +68,11 @@ export default Move.UseItemMove = class UseItemMove extends Move {
             inventory.equipItem(position);
             dungeon.fireEvent(new CustomEvent(dungeon, creature + " equipped " + item));
         } else {
-            item.use(dungeon);
-            dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(this, targetTile)));
+            item.use(dungeon, creature, targetLocation);
+            dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(dungeon, creature, targetTile)));
+            if(item instanceof Consumable) {
+                inventory.removeItem(position);
+            }
         }
     }
 

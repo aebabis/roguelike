@@ -9,7 +9,7 @@ export default lib = {
         } else if(item instanceof Armor) {
             return lib.getArmorDom(item, index)
         } else if(item){
-            return $(`<li class="slot" tabindex="0" data-index="${index}">${item.getName()}</li>`)[0];
+            return $(`<li class="slot item" tabindex="0" data-index="${index}">${item.getName()}</li>`)[0];
         } else {
             return $(`<li class="slot empty" tabindex="0" data-index="${index}">(Empty slot)</li>`)[0];
         }
@@ -41,17 +41,17 @@ export default lib = {
     getArmorDom: function(armor, index) {
         if(armor) {
             var data = {
-                name: armor.getName(),
+                name: armor.getName()/*,
                 physical: armor.getPhysicalReduction(),
-                magical: armor.getMagicalReduction()
+                magical: armor.getMagicalReduction()*/
             }
             return $(`
                 <li class="slot item armor" tabindex="0" data-index="${index}">
                     <div class="name">${data.name}</div>
-                    <div class="stats">
+                    <!--div class="stats">
                         <span class="physical-dr-text">-${data.physical} physical damage</span>,
                         <span class="magical-dr-text">-${data.magical} magic damage</span>,
-                    </div>
+                    </div-->
                 </li>
             `)[0];
         } else {

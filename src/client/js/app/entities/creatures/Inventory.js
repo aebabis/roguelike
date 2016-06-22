@@ -57,6 +57,23 @@ var Inventory = class Inventory {
         }
     }
 
+    removeItem(position) {
+        var item;
+        if(isNaN(position)) {
+            // Assume that its an equipment constant
+            item = this._equipment[position];
+            this._equipment[position] = null;
+        } else {
+            item = this._backpack[position];
+            this._backpack[position] = null;
+        }
+        if(item === undefined) {
+            throw new Error('Illegal item slot: ' + position);
+        } else {
+            return item;
+        }
+    }
+
     getItem(position) {
         var item;
         if(isNaN(position)) {

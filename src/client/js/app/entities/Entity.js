@@ -20,10 +20,6 @@ export default class Entity {
         return false;
     }
 
-    isItem() {
-        return false;
-    }
-
     getName() {
         // Split camelcasing
         return this.constructor.name.replace(/([^A-Z])([A-Z])/g, '$1 $2');

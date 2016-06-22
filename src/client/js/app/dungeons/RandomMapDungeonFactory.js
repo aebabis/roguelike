@@ -33,6 +33,9 @@ import Shortbow from "../entities/weapons/Shortbow.js";
 import LightArmor from "../entities/armor/LightArmor.js";
 import MediumArmor from "../entities/armor/MediumArmor.js";
 
+import CherrySoda from "../entities/consumables/CherrySoda.js";
+import BlueberrySoda from "../entities/consumables/BlueberrySoda.js";
+
 function getLoot(prng, dungeon) {
     return Random.picker([
         new Dagger(dungeon),
@@ -159,6 +162,8 @@ export default class RandomMapDungeonFactory {
         var playerLocation = locations.shift();
         dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
+        player.getInventory().addItem(new CherrySoda());
+        player.getInventory().addItem(new BlueberrySoda());
 
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 40);

@@ -41,6 +41,10 @@ class CellPhoneZap extends Weapon {
         return 7;
     }
 
+    isTargetted() {
+        return true;
+    }
+
     getDamageType() {
         return DamageTypes.ELECTRICAL;
     }

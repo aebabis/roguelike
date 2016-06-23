@@ -47,7 +47,7 @@ export default class GraphicalViewKeyboardController {
                 case 98:  case 74: move( 0, 1); break;
                 case 99:  case 78: move( 1, 1); break;
                 case 100: case 72: move(-1, 0); break;
-                case 101: case 190: character.setNextMove(new Moves.WaitMove(tile)); break;
+                case 101: case 190: character.setNextMove(new Moves.WaitMove(dungeon.getTile(character))); break;
                 case 102: case 76: move( 1, 0); break;
                 case 103: case 89: move(-1,-1); break;
                 case 104: case 75: move( 0,-1); break;

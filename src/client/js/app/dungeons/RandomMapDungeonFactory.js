@@ -17,32 +17,34 @@ import Skeleton from "../entities/creatures/Skeleton.js";
 import SlingshotImp from "../entities/creatures/SlingshotImp.js";
 import Witch from "../entities/creatures/Witch.js";
 
-import Fireball from "../abilities/Fireball.js";
-import ForceDart from "../abilities/ForceDart.js";
-import LesserSnare from "../abilities/LesserSnare.js";
+import Abilities from "../abilities/Abilities.js";
 
 import EntityTable from "../entities/EntityTable.js";
 import TheTreasure from "../entities/TheTreasure.js";
 
-import Stick from "../entities/weapons/Stick.js";
-import Dagger from "../entities/weapons/Dagger.js";
-import Shortsword from "../entities/weapons/Shortsword.js";
-import Longsword from "../entities/weapons/Longsword.js";
-import Shortbow from "../entities/weapons/Shortbow.js";
-
-import LightArmor from "../entities/armor/LightArmor.js";
-import MediumArmor from "../entities/armor/MediumArmor.js";
+import Weapons from "../entities/weapons/Weapons.js";
+import Armors from "../entities/armor/Armors.js";
 
 import CherrySoda from "../entities/consumables/CherrySoda.js";
 import BlueberrySoda from "../entities/consumables/BlueberrySoda.js";
 
-function getLoot(prng, dungeon) {
+function getLoot(prng) {
     return Random.picker([
-        new Dagger(),
-        new Shortbow(),
-        new Stick(),
+        new Weapons.Stick(),
+        new Weapons.Dagger(),
+        new Weapons.Shortsword(),
+        new Weapons.Longsword(),
+        new Weapons.Sling(),
+        new Weapons.Shortbow(),
+        new Weapons.Longbow(),
         new CherrySoda(),
-        new BlueberrySoda()
+        new BlueberrySoda(),
+        Abilities.Fireball.asConsumable(),
+        Abilities.ForceDart.asConsumable(),
+        Abilities.LesserSnare.asConsumable(),
+        new Armors.LightArmor(),
+        new Armors.MediumArmor(),
+        new Armors.HeavyArmor()
     ])(prng);
 }
 
@@ -151,11 +153,12 @@ export default class RandomMapDungeonFactory {
         var locations = Random.shuffle(prng, emptyTiles);
 
         var drops = [
-            new Dagger(),
-            new Shortbow(),
-            new Stick(),
-            new CherrySoda(),
-            new BlueberrySoda()
+            getLoot(prng),
+            getLoot(prng),
+            getLoot(prng),
+            getLoot(prng),
+            getLoot(prng),
+            getLoot(prng)
         ];
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
@@ -166,7 +169,6 @@ export default class RandomMapDungeonFactory {
         var playerLocation = locations.shift();
         dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
-        player.addItem(Fireball.asConsumable());
 
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 40);

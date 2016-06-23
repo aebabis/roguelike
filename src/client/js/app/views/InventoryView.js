@@ -54,7 +54,7 @@ export default class InventoryView {
                     sharedData.unsetTargettedItem();
                 }
             } else {
-                creature.setNextMove(new Move.UseItemMove(dungeon.getTile(player), index));
+                player.setNextMove(new Move.UseItemMove(dungeon.getTile(player), index));
             }
             dungeon.resolveUntilBlocked();
         });

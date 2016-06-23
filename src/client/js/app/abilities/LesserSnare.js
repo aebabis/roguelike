@@ -2,8 +2,8 @@ import Ability from "./Ability.js";
 import SnareDebuff from "../entities/creatures/buffs/SnareDebuff.js";
 
 export default class LesserSnare extends Ability {
-    use(dungeon, creature, optionalTargetTile) {
-        super.use(dungeon, creature, optionalTargetTile);
+    use(dungeon, creature, optionalTargetTile, isFree) {
+        super.use(dungeon, creature, optionalTargetTile, isFree);
         optionalTargetTile.getCreature().applyBuff(dungeon, new SnareDebuff(dungeon));
         console.log(optionalTargetTile.getCreature());
     }

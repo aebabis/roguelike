@@ -14,9 +14,13 @@ export default class GraphicalViewMouseController {
             var targetY = tile.getAttribute('data-y');
             var creature = dungeon.getTile(targetX, targetY).getCreature();
             var abilityIndex = sharedData.getTargettedAbility();
+            var itemIndex = sharedData.getTargettedItem();
             if(abilityIndex !== null) {
                 character.setNextMove(new Move.UseAbilityMove(playerLocation, abilityIndex, targetX, targetY));
                 sharedData.unsetTargettedAbility();
+            } else if(itemIndex !== null) {
+                character.setNextMove(new Move.UseItemMove(playerLocation, itemIndex, dungeon.getTile(targetX, targetY)));
+                sharedData.unsetTargettedItem();
             } else if(creature && creature.isEnemy(character)) {
                 character.setNextMove(new Move.AttackMove(playerLocation, targetX, targetY));
             } else {

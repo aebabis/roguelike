@@ -45,6 +45,8 @@
             &.mana {
                 border: solid 1px #0000aa;
                 color: skyblue;
+
+                &[data-has-mana="false"] {display: none}
             }
 
             &.hp .inner {background: linear-gradient(135deg, #a90329 0%, #8f0222 60%, #3f0009 100%);}

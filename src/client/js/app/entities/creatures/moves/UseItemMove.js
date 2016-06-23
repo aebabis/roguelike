@@ -68,7 +68,7 @@ export default Move.UseItemMove = class UseItemMove extends Move {
             inventory.equipItem(position);
             dungeon.fireEvent(new CustomEvent(dungeon, creature + " equipped " + item));
         } else {
-            item.use(dungeon, creature, targetLocation);
+            item.use(dungeon, creature, targetTile);
             dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(dungeon, creature, targetTile)));
             if(item instanceof Consumable) {
                 inventory.removeItem(position);

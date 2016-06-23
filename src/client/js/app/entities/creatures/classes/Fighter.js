@@ -10,7 +10,7 @@ export default class Fighter extends PlayableCharacter {
     }
 
     getBaseMana() {
-        return 8;
+        return 0;
     }
 
     getSpeed() {

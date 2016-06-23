@@ -4,8 +4,8 @@ import DamageTypes from "../entities/DamageTypes.js";
 const FIREBALL_DAMAGE = 5;
 
 export default class Fireball extends Ability {
-    use(dungeon, creature, optionalTargetTile) {
-        super.use(dungeon, creature, optionalTargetTile);
+    use(dungeon, creature, optionalTargetTile, isFree) {
+        super.use(dungeon, creature, optionalTargetTile, isFree);
         optionalTargetTile.getNeighbors8().concat(optionalTargetTile)
                 .map((tile)=>tile.getCreature()).filter(Boolean)
                 .forEach(function(creature) {

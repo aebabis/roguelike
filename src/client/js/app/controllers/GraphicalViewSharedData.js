@@ -8,7 +8,8 @@ export default class GraphicalViewSharedData extends Observable {
         if(dungeon) {
             this.setDungeon(dungeon);
         }
-        this._targettedIndex = null;
+        this._targettedAbilityIndex = null;
+        this._targettedItemIndex = null;
     }
 
     setDungeon(dungeon) {
@@ -46,7 +47,7 @@ export default class GraphicalViewSharedData extends Observable {
     }
 
     unsetTargettedAbility() {
-        this._targettedIndex = null;
+        this._targettedAbilityIndex = null;
         this._notifyObservers();
     }
 
@@ -54,11 +55,30 @@ export default class GraphicalViewSharedData extends Observable {
         if(!Number.isInteger(+index)) {
             throw new Error('index must be an integer');
         }
-        this._targettedIndex = +index;
+        this._targettedAbilityIndex = +index;
+        this.unsetTargettedItem();
         this._notifyObservers();
     }
 
     getTargettedAbility() {
-        return this._targettedIndex;
+        return this._targettedAbilityIndex;
+    }
+
+    unsetTargettedItem() {
+        this._targettedItemIndex = null;
+        this._notifyObservers();
+    }
+
+    setTargettedItem(index) {
+        if(!Number.isInteger(+index)) {
+            throw new Error('index must be an integer');
+        }
+        this._targettedItemIndex = +index;
+        this.unsetTargettedAbility();
+        this._notifyObservers();
+    }
+
+    getTargettedItem() {
+        return this._targettedItemIndex;
     }
 }

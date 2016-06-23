@@ -70,7 +70,7 @@ export default class PlayerLocationView {
                 <span class="text">${hp} / ${baseHP}</span>
                 <div class="inner" style="width: ${hpPercentage}%"></div>
             </div>
-            <div class="bar mana" title="Mana">
+            <div class="bar mana" title="Mana" data-has-mana="${baseMana > 0}">
                 <div class="inner" style="width: ${manaPercentage}%"></div>
                 <span class="text">${mana} / ${baseMana}</span>
             </div>

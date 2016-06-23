@@ -3,13 +3,13 @@ import Weapon from "../entities/weapons/Weapon.js";
 
 var lib;
 export default lib = {
-    getItemDom: function(item, index) {
+    getItemDom: function(item, index, isTargetting) {
         if(item instanceof Weapon) {
             return lib.getWeaponDom(item, index)
         } else if(item instanceof Armor) {
             return lib.getArmorDom(item, index)
         } else if(item){
-            return $(`<li class="slot item" tabindex="0" data-index="${index}" data-item="${item.toString()}">
+            return $(`<li class="slot item" tabindex="0" data-index="${index}" data-item="${item.toString()}" data-is-targetting="${!!isTargetting}">
                 <div class="icon"></div>
                 <div class="info">
                     <span class="name">${item.getName()}</span>

@@ -8,7 +8,7 @@ import ItemDomFactory from "./ItemDomFactory.js";
 
 import Creature from "../entities/creatures/Creature.js";
 
-function getInventoryDom(creature) {
+function getInventoryDom(creature, targettedIndex) {
     var meleeWeapon = creature.getMeleeWeapon();
     var rangedWeapon = creature.getRangedWeapon();
     var armor = creature.getArmor();
@@ -24,7 +24,9 @@ function getInventoryDom(creature) {
         .append(
             $('<div class="subinventory backpack">')
                 .append('<h3>Backpack</h2>')
-                .append(items.map(ItemDomFactory.getItemDom))
+                .append(items.map(function(item, index) {
+                    return ItemDomFactory.getItemDom(item, index, index === targettedIndex);
+                }))
         ));
 }
 
@@ -33,39 +35,37 @@ export default class InventoryView {
      * @class InventoryView
      * @description Event feed widget
      */
-    constructor(dungeon) {
+    constructor(sharedData) {
         var self = this;
-        var dom = this._dom = $('<div class="sidebar-subcontainer">')
+        var dom = this._dom = $('<div class="sidebar-subcontainer">');
+        this._sharedData = sharedData;
+
+        var dungeon = sharedData.getDungeon();
 
         $(dom).on('click', '.item', function() {
-            var creature = self.getCreature();
+            var player = dungeon.getPlayableCharacter();
             var index = $(this).attr('data-index');
-            // TODO: Assumes PlayableCharacter anyway?
-            creature.setNextMove(new Move.UseItemMove(dungeon.getTile(creature), index));
+            var item = player.getInventory().getItem(index);
+            if(item.isTargetted()) {
+                var targetIndex = sharedData.getTargettedItem();
+                if(targetIndex !== index) {
+                    sharedData.setTargettedItem(index);
+                } else {
+                    sharedData.unsetTargettedItem();
+                }
+            } else {
+                creature.setNextMove(new Move.UseItemMove(dungeon.getTile(player), index));
+            }
             dungeon.resolveUntilBlocked();
         });
 
         dungeon.addObserver((event)=>this.update());
-        console.log(dungeon);
-
-        this.setCreature(dungeon.getPlayableCharacter());
+        sharedData.addObserver(()=>this.update());
     }
 
     update() {
-        $(this._dom).empty().append(getInventoryDom(this.getCreature()));
+        $(this._dom).empty().append(getInventoryDom(this._sharedData.getDungeon().getPlayableCharacter(), this._sharedData.getTargettedItem()));
     }
-
-    getCreature(creature) {
-        return this._creature;
-    };
-
-    setCreature(creature) {
-        if(!(creature instanceof Creature)) {
-            throw new Error('First parameter must be a creature');
-        }
-        this._creature = creature;
-        this.update();
-    };
 
     getDom() {
         return this._dom[0];

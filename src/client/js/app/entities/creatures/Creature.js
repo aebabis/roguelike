@@ -148,7 +148,7 @@ export default class Creature extends Entity {
         }
 
         var reduction = 0;
-        if(amount < 0) {
+        if(amount > 0) {
             var armor = this.getArmor();
             if(armor) {
                 reduction = armor.getReduction(type);

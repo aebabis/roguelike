@@ -60,7 +60,7 @@ var table = new EntityTable([{
     cost: 9
 }, {
     entity: FireSprite,
-    weight: 6000,
+    weight: 6,
     cost: 6
 }, {
     entity: FlyingSerpent,

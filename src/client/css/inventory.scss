@@ -3,7 +3,6 @@
 .theme-default .inventory {
     list-style: none;
     padding: 0;
-    font-size: 12px;
 
     h3 {
         color: white;
@@ -16,20 +15,62 @@
     }
 
     li.slot {
-        height: 3em;
-
-        vertical-align: middle;
-        line-height: 1.5em;
+        padding: .2em;
+        display: flex;
+        align-items: center;
         border: solid 1px dark-red;
         background-color: tan;
-    }
 
-    li.slot + li.slot {
-        margin-top: .5em;
-    }
+        + li.slot {
+            margin-top: .5em;
+        }
 
-    li.slot.empty {
-        color: #999;
-        font-style: italicized;
+        &.empty {
+            color: #666;
+            font-style: italicized;
+            .icon {
+                visibility: hidden;
+            }
+        }
+
+        .icon, .info {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .name {
+            font-size: 1.2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .desc {
+            font-size: 1em;
+        }
+
+        .icon {
+            margin-right: .2em;
+            width: 3em;
+            height: 3em;
+            background-size: 100%;
+            border: solid 1px #963;
+            background-image: url(../images/small/ThisIsAThing.png);
+        }
+
+        &[data-item="BlueberrySoda"] .icon {
+            background-image: url(../images/small/BlueberrySoda.png);
+        }
+
+        &[data-item="CherrySoda"] .icon {
+            background-image: url(../images/small/CherrySoda.png);
+        }
+
+        &[data-item="Dagger"] .icon {
+            background-image: url(../images/small/Dagger.png);
+        }
+
+        &[data-item="TheTreasure"] .icon {
+            background-image: url(../images/small/TreasureChest.png);
+        }
     }
 }

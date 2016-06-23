@@ -1,9 +1,11 @@
 import Weapon from "./Weapon.js";
 import DamageTypes from "../DamageTypes.js";
 
+var AMOUNT = 2;
+
 export default class Sling extends Weapon {
     getDamage() {
-        return 2;
+        return AMOUNT;
     }
 
     getRange() {
@@ -12,5 +14,9 @@ export default class Sling extends Weapon {
 
     getDamageType() {
         return DamageTypes.RANGED_PHYSICAL;
+    }
+
+    getFriendlyDescription() {
+        return `Deals ${AMOUNT} damage to non-adjacent enemy`;
     }
 }

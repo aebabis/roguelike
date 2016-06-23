@@ -1,9 +1,11 @@
 import Weapon from "./Weapon.js";
 import DamageTypes from "../DamageTypes.js";
 
+var AMOUNT = 4;
+
 export default class Shortsword extends Weapon {
     getDamage() {
-        return 4;
+        return AMOUNT;
     }
 
     getRange() {
@@ -12,5 +14,9 @@ export default class Shortsword extends Weapon {
 
     getDamageType() {
         return DamageTypes.MELEE_PHYSICAL;
+    }
+
+    getFriendlyDescription() {
+        return `Does ${DAMAGE} damage to adjacent enemy`
     }
 }

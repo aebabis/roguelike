@@ -1,9 +1,11 @@
 import Weapon from "./Weapon.js";
 import DamageTypes from "../DamageTypes.js";
 
+var AMOUNT = 5;
+
 export default class Longsword extends Weapon {
     getDamage() {
-        return 5;
+        return AMOUNT;
     }
 
     getRange() {
@@ -12,5 +14,9 @@ export default class Longsword extends Weapon {
 
     getDamageType() {
         return DamageTypes.MELEE_PHYSICAL;
+    }
+
+    getFriendlyDescription() {
+        return `Does ${DAMAGE} damage to adjacent enemy`
     }
 }

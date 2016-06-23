@@ -33,6 +33,8 @@
   - Trash/drop (playtest trashing)
   - Try flow or Typescript
   - DamageEvent for subtracting health. No animation for 0 damage
+  - Path-to-entrance button?
+  - Path-to feature
 - Low
   - CSS Layout
   - Come up with a better name for "speed"

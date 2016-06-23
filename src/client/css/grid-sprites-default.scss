@@ -112,6 +112,14 @@
         background-image: url(../images/small/TreasureChest.png);
     }
 
+    .item[data-item-name="CherrySoda"] {
+        background-image: url(../images/small/CherrySoda.png);
+    }
+
+    .item[data-item-name="BlueberrySoda"] {
+        background-image: url(../images/small/BlueberrySoda.png);
+    }
+
     [buffs~="SnareDebuff"]:after {
         content: ' ';
         position: absolute;

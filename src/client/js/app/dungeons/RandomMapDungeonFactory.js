@@ -38,9 +38,11 @@ import BlueberrySoda from "../entities/consumables/BlueberrySoda.js";
 
 function getLoot(prng, dungeon) {
     return Random.picker([
-        new Dagger(dungeon),
-        new Shortbow(dungeon),
-        new Stick(dungeon)
+        new Dagger(),
+        new Shortbow(),
+        new Stick(),
+        new CherrySoda(),
+        new BlueberrySoda()
     ])(prng);
 }
 
@@ -149,9 +151,11 @@ export default class RandomMapDungeonFactory {
         var locations = Random.shuffle(prng, emptyTiles);
 
         var drops = [
-            new Dagger(dungeon),
-            new Shortbow(dungeon),
-            new Stick(dungeon)
+            new Dagger(),
+            new Shortbow(),
+            new Stick(),
+            new CherrySoda(),
+            new BlueberrySoda()
         ];
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
@@ -162,8 +166,6 @@ export default class RandomMapDungeonFactory {
         var playerLocation = locations.shift();
         dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
-        player.getInventory().addItem(new CherrySoda());
-        player.getInventory().addItem(new BlueberrySoda());
 
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 40);

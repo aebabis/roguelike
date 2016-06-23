@@ -1,9 +1,11 @@
 import Weapon from "./Weapon.js";
 import DamageTypes from "../DamageTypes.js";
 
+var DAMAGE = 3;
+
 export default class Dagger extends Weapon {
     getDamage() {
-        return 3;
+        return DAMAGE;
     }
 
     getRange() {
@@ -12,5 +14,9 @@ export default class Dagger extends Weapon {
 
     getDamageType() {
         return DamageTypes.MELEE_PHYSICAL;
+    }
+
+    getFriendlyDescription() {
+        return `Does ${DAMAGE} damage to adjacent enemy`
     }
 }

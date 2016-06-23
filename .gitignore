@@ -40,3 +40,6 @@ dist
 
 #test
 .nyc_output
+
+# Windows thumbnail cache
+Thumbs.db

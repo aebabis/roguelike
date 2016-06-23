@@ -57,15 +57,14 @@
   - Monsters on the same initiative collide?
 
 # Art
-  - Tangle vines
   - Snail icon
   - Rabbit icon
   - Horse archer
   - Horseless archer
   - Bow
   - Armor and Robes
-  - Healer enemy
   - Druid
   - Stairs tile
   - Shoving enemy
   - Trash can icon
+  - Parchment scroll background image for game log

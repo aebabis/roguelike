@@ -25,8 +25,8 @@ export default class Creature extends Entity {
       * @class Creature
       * @description Represents an entity that can act
       */
-    constructor(dungeon) {
-        super(dungeon);
+    constructor() {
+        super();
         this._delay();
         this._currentHP = this.getBaseHP();
         this._currentMana = this.getBaseMana();

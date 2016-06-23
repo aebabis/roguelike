@@ -25,6 +25,7 @@ import TheTreasure from "../entities/TheTreasure.js";
 import Weapons from "../entities/weapons/Weapons.js";
 import Armors from "../entities/armor/Armors.js";
 
+import AbilityConsumable from "../entities/consumables/AbilityConsumable.js";
 import CherrySoda from "../entities/consumables/CherrySoda.js";
 import BlueberrySoda from "../entities/consumables/BlueberrySoda.js";
 
@@ -39,9 +40,9 @@ function getLoot(prng) {
         new Weapons.Longbow(),
         new CherrySoda(),
         new BlueberrySoda(),
-        Abilities.Fireball.asConsumable(),
-        Abilities.ForceDart.asConsumable(),
-        Abilities.LesserSnare.asConsumable(),
+        new AbilityConsumable(new Abilities.Fireball()),
+        new AbilityConsumable(new Abilities.ForceDart()),
+        new AbilityConsumable(new Abilities.LesserSnare()),
         new Armors.LightArmor(),
         new Armors.MediumArmor(),
         new Armors.HeavyArmor()

@@ -9,8 +9,8 @@ export default class PlayableCharacter extends Creature {
       * @class PlayableCharacter
       * @description The creature controlled by the player
       */
-    constructor(dungeon) {
-        super(dungeon);
+    constructor() {
+        super();
         this._moveQueue = [];
         this._inventory = new Inventory(this.getBackpackSize());
     }

@@ -23,8 +23,8 @@ describe('ChaseStrategy', function() {
             [false, true,  false],
             [false, true,  false]
         ]));
-        var player = new PlayableCharacter(dungeon);
-        var enemy = new Ent(dungeon);
+        var player = new PlayableCharacter();
+        var enemy = new Ent();
         dungeon.setCreature(player, 0, 0);
         dungeon.setCreature(enemy, 0, 2);
         var enemyStartingPosition = dungeon.getTile(enemy);

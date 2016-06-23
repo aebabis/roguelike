@@ -46,7 +46,7 @@ export default class TestDungeonFactory {
 
     getEmptyDungeon() {
         var dungeon = new Dungeon(5, 5);
-        dungeon.setCreature(new PlayableCharacter(dungeon), 1, 1);
+        dungeon.setCreature(new PlayableCharacter(), 1, 1);
         return dungeon;
     }
 
@@ -74,7 +74,7 @@ export default class TestDungeonFactory {
         });
 
         // Test game configuration
-        dungeon.setCreature(new PlayableCharacter(dungeon), 3, 3);
+        dungeon.setCreature(new PlayableCharacter(), 3, 3);
 
         return dungeon;
     }
@@ -89,7 +89,7 @@ export default class TestDungeonFactory {
         });
 
         // Test game configuration
-        dungeon.setCreature(new PlayableCharacter(dungeon), 1, 1);
+        dungeon.setCreature(new PlayableCharacter(), 1, 1);
 
         return dungeon;
     }
@@ -97,7 +97,7 @@ export default class TestDungeonFactory {
     getLineDungeon() {
         var dungeon = new Dungeon(3, 1);
         dungeon.setTile(new WallTile(dungeon, 1, 0), 1, 0);
-        dungeon.setCreature(new PlayableCharacter(dungeon), 2, 0);
+        dungeon.setCreature(new PlayableCharacter(), 2, 0);
         return dungeon;
     }
 
@@ -145,9 +145,9 @@ export default class TestDungeonFactory {
         var locations = Random.shuffle(prng, emptyTiles);
 
         var drops = [
-            new Dagger(dungeon),
-            new Shortbow(dungeon),
-            new Stick(dungeon)
+            new Dagger(),
+            new Shortbow(),
+            new Stick()
         ];
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
@@ -156,20 +156,20 @@ export default class TestDungeonFactory {
             tile.addItem(item);
         });
 
-        var player = new PlayableCharacter(dungeon);
+        var player = new PlayableCharacter();
 
-        player.setMeleeWeapon(new Dagger(dungeon));
-        player.addItem(new Shortbow(dungeon));
-        player.addItem(new Stick(dungeon));
+        player.setMeleeWeapon(new Dagger());
+        player.addItem(new Shortbow());
+        player.addItem(new Stick());
 
         // Test game configuration
         var creatures = [
             player,
-            new BlackVoidSphere(dungeon),
-            new SlingshotImp(dungeon),
-            new Ent(dungeon),
-            new ClunkyNinetiesCellPhone(dungeon),
-            new Skeleton(dungeon)
+            new BlackVoidSphere(),
+            new SlingshotImp(),
+            new Ent(),
+            new ClunkyNinetiesCellPhone(),
+            new Skeleton()
         ];
         creatures.forEach(function(creature) {
             var loc = locations.shift();

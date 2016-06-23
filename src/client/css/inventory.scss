@@ -33,6 +33,10 @@
             }
         }
 
+        &[data-is-targetting="true"] {
+            background-color: skyblue;
+        }
+
         .icon, .info {
             display: inline-block;
             vertical-align: top;

@@ -46,7 +46,7 @@ export default class InventoryView {
             var player = dungeon.getPlayableCharacter();
             var index = $(this).attr('data-index');
             var item = player.getInventory().getItem(index);
-            if(item.isTargetted()) {
+            if(item.isTargetted && item.isTargetted()) {
                 var targetIndex = sharedData.getTargettedItem();
                 if(targetIndex !== index) {
                     sharedData.setTargettedItem(index);

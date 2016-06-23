@@ -29,7 +29,7 @@ export default Move.UseItemMove = class UseItemMove extends Move {
         } else {
             if(targetLocation && !item.isTargetted()) {
                 throw new Error('Target given for untargetted item');
-            } else if(!targetLocation && item.isTargetted()){
+            } else if(!targetLocation && item.isTargetted && item.isTargetted()) {
                 throw new Error('Target not given for targetted item');
             }
         }

@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+}
+
 body {
     background-color: black;
     font-size: 10px;
@@ -11,13 +15,16 @@ body {
 
 section.game {
     outline: 0;
+    height: 100%;
+    padding-top: 3em;
 }
 
 .game-ui-container {
-    margin: 1em;
+    padding: 1em;
     display: flex;
     overflow: visible;
     position: relative;
+    height: 100%;
 }
 
 .grid-scroll {
@@ -26,8 +33,15 @@ section.game {
 
 .sidebar {
     display: inline-block;
+    height: 100%;
     vertical-align: top;
     margin-left: 10px;
+
+    .sidebar-inner {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .screenreader {

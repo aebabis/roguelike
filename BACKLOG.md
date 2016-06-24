@@ -9,6 +9,7 @@
   - Check move legality before dispatching
   - Fixed container size. Autoscroll during move
   - Animate attackers
+  - Tile tooltips
 - Med
   - Range indicators
   - Ranged attack animation

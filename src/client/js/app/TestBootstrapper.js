@@ -43,13 +43,16 @@ export default function(newSeed, character) {
     var mouseController = new GraphicalViewMouseController(dungeon, sharedData, mapView);
     container.appendChild(mapView.getDom());
     var sidebar = document.createElement('div');
+    var sidebarInner = document.createElement('div');
+    sidebarInner.classList.add('sidebar-inner');
     sidebar.classList.add('sidebar');
+    sidebar.appendChild(sidebarInner);
     container.appendChild(sidebar);
     container.appendChild(playerLocationView.getDom());
     container.appendChild(abilitiesView.getDom());
-    sidebar.appendChild(tileView.getDom());
-    sidebar.appendChild(inventoryView.getDom());
-    sidebar.appendChild(eventLogView.getDom());
+    sidebarInner.appendChild(tileView.getDom());
+    sidebarInner.appendChild(inventoryView.getDom());
+    sidebarInner.appendChild(eventLogView.getDom());
 
     setTimeout(function() { dungeon.resolveUntilBlocked(); });
 };

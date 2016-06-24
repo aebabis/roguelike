@@ -37,8 +37,8 @@ export default lib = {
                     <div class="info">
                         <div class="name">${data.name}</div>
                         <div class="desc">
-                            <span class="damage-icon">Damage: </span> <span class="damage-text">${data.damage}</span>,
-                            <span class="range-icon">Range: </span> <span class="range-text">${data.range}</span>
+                            <span class="damage-icon"></span> <span class="damage-text">${data.damage}\u2694</span>
+                            <span class="range-icon"></span> <span class="range-text">${data.range > 1 ? data.range + '\u25CE' : ''}</span>
                         </div>
                     </div>
                 </li>

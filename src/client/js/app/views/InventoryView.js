@@ -13,7 +13,7 @@ function getInventoryDom(creature, targettedIndex) {
     var rangedWeapon = creature.getRangedWeapon();
     var armor = creature.getArmor();
     var items = creature.getInventory().getBackpack();
-    return $('<h2>Inventory</h2>').add($('<ul class="inventory">')
+    return $('<ul class="inventory">')
         .append(
             $('<div class="subinventory equipment">')
                 .append('<h3>Equipment</h2>')
@@ -27,7 +27,7 @@ function getInventoryDom(creature, targettedIndex) {
                 .append(items.map(function(item, index) {
                     return ItemDomFactory.getItemDom(item, index, index === targettedIndex);
                 }))
-        ));
+        );
 }
 
 export default class InventoryView {
@@ -37,7 +37,7 @@ export default class InventoryView {
      */
     constructor(sharedData) {
         var self = this;
-        var dom = this._dom = $('<div class="sidebar-subcontainer">');
+        var dom = this._dom = $('<div>');
         this._sharedData = sharedData;
 
         var dungeon = sharedData.getDungeon();

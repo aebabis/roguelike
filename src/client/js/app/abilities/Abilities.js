@@ -3,7 +3,7 @@ import ForceDart from "./ForceDart.js";
 import LesserSnare from "./LesserSnare.js";
 
 export default {
-    Fireball,
-    ForceDart,
-    LesserSnare
+    Fireball: Fireball,
+    ForceDart: ForceDart,
+    LesserSnare: LesserSnare
 };

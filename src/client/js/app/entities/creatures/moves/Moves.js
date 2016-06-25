@@ -6,10 +6,10 @@ import UseItemMove from "./UseItemMove.js";
 import WaitMove from "./WaitMove.js";
 
 export default {
-    AttackMove,
-    MovementMove,
-    TakeItemMove,
-    UseAbilityMove,
-    UseItemMove,
-    WaitMove
+    AttackMove: AttackMove,
+    MovementMove: MovementMove,
+    TakeItemMove: TakeItemMove,
+    UseAbilityMove: UseAbilityMove,
+    UseItemMove: UseItemMove,
+    WaitMove: WaitMove
 };

@@ -3,7 +3,7 @@ import MediumArmor from "./MediumArmor.js";
 import HeavyArmor from "./HeavyArmor.js";
 
 export default {
-    LightArmor,
-    MediumArmor,
-    HeavyArmor
+    LightArmor: LightArmor,
+    MediumArmor: MediumArmor,
+    HeavyArmor: HeavyArmor
 };

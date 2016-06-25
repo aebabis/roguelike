@@ -11,15 +11,15 @@ import TakeItemEvent from "./TakeItemEvent.js";
 import WaitEvent from "./WaitEvent.js";
 
 export default {
-    AbilityEvent: AbilityEvent,
-    AttackEvent: AttackEvent,
-    BuffAppliedEvent: BuffAppliedEvent,
-    BuffEndedEvent: BuffEndedEvent,
-    CustomEvent: CustomEvent,
-    HitpointsEvent: HitpointsEvent,
-    HumanMovingEvent: HumanMovingEvent,
-    HumanToMoveEvent: HumanToMoveEvent,
-    MoveEvent: MoveEvent,
-    TakeItemEvent: TakeItemEvent,
-    WaitEvent: WaitEvent
+    AbilityEvent,
+    AttackEvent,
+    BuffAppliedEvent,
+    BuffEndedEvent,
+    CustomEvent,
+    HitpointsEvent,
+    HumanMovingEvent,
+    HumanToMoveEvent,
+    MoveEvent,
+    TakeItemEvent,
+    WaitEvent
 };

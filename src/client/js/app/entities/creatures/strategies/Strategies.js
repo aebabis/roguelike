@@ -6,10 +6,10 @@ import IdleStrategy from "./IdleStrategy.js";
 import RandomWalkStrategy from "./RandomWalkStrategy.js";
 
 export default {
-    AggressiveFireballStrategy: AggressiveFireballStrategy,
-    ChaseStrategy: ChaseStrategy,
-    CompositeStrategy: CompositeStrategy,
-    FleeStrategy: FleeStrategy,
-    IdleStrategy: IdleStrategy,
-    RandomWalkStrategy: RandomWalkStrategy
+    AggressiveFireballStrategy,
+    ChaseStrategy,
+    CompositeStrategy,
+    FleeStrategy,
+    IdleStrategy,
+    RandomWalkStrategy
 };

@@ -3,20 +3,18 @@
   - Puzzles/Level-Select
   - Better dungeon generator
   - Using keyboard to look at tiles
-  - Keep unseen events out of log
   - Button to focus abilities. Arrows to move between
-  - Item auto-pickup
   - Check move legality before dispatching
   - Fixed container size. Autoscroll during move
   - Animate attackers
   - Tile tooltips
+  - Item trashing
 - Med
   - Range indicators
   - Ranged attack animation
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
   - Serialization for saving games (and as POC for client-server games)
-  - Highlighting to indicate if action is legal
   - Handle legal noPath situations
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
   - Make all views get Dungeon from shared data
@@ -25,29 +23,21 @@
   - Should creature be responsible for receiving damage?
   - Delay death and damage animations til after attack has started
   - Don't bundle jQuery with webpack
-  - Health potions
   - Make coverage use all files
   - Webpack integration of coverage
   - Pit tile
-  - Spell scrolls
-  - Auto-pickup
-  - Trash/drop (playtest trashing)
   - Try flow or Typescript
   - DamageEvent for subtracting health. No animation for 0 damage
-  - Path-to-entrance button?
-  - Path-to feature
+  - Path-to
 - Low
-  - CSS Layout
   - Come up with a better name for "speed"
   - Option to hide health and action bars
   - Promote theme class to UI wrapper
   - Site icon
   - Animation speed
-  - Make action bars orange if their next action will be before player's
   - Consider splitting source/target events into two events
   - Icon to indicate an enemy about to take a double-move
   - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
-  - Use template pattern for Move validation
   - Further optimize vision algorithm
   - Use `fetch`
   - RandomStrategyStrategy
@@ -58,6 +48,7 @@
 # Bugs
   - Items aren't visible the first turn
   - Monsters on the same initiative collide?
+  - Witch isn't fireballing
 
 # Art
   - Snail icon

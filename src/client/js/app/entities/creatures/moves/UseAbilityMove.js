@@ -25,21 +25,9 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
         return this._y;
     }
 
-    getReasonIllegal(dungeon, creature) {
+    getReasonIllegal(dungeon, creature, optionalTargetTile) {
         var ability = creature.getAbilities()[this.getIndex()];
-        if(ability.getManaCost() > creature.getCurrentMana()) {
-            return 'Not enough mana';
-        }
-        if(ability.isTargetted()) {
-            var tile = dungeon.getTile(this.getX(), this.getY());
-            if(!creature.canSee(dungeon, tile)) {
-                return 'Can\'t see target';
-            }
-            if(dungeon.getTile(creature).getEuclideanDistance(tile) > ability.getRange()) {
-                return 'Target out of range';
-            }
-        }
-        return null;
+        return ability.getReasonIllegal(dungeon, creature, optionalTargetTile);
     }
 
     getCostMultiplier() {
@@ -47,16 +35,16 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     }
 
     execute(dungeon, creature) {
-        var reason = this.getReasonIllegal(dungeon, creature);
+        var x = this.getX();
+        var y = this.getY();
+        var tile = dungeon.getTile(x, y);
+        var reason = this.getReasonIllegal(dungeon, creature, tile);
         if(reason) {
             throw new Error(reason);
         }
         var index = this._index;
         var ability = creature.getAbilities()[index];
         if(ability.isTargetted()) {
-            var x = this._x;
-            var y = this._y;
-            var tile = dungeon.getTile(x, y);
             ability.use(dungeon, creature, tile);
             dungeon.fireEvent(new AbilityEvent(dungeon, creature, ability, tile));
         } else {

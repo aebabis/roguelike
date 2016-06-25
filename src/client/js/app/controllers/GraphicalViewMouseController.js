@@ -14,10 +14,8 @@ export default class GraphicalViewMouseController {
             var abilityIndex = sharedData.getTargettedAbility();
             var itemIndex = sharedData.getTargettedItem();
             if(abilityIndex !== null) {
-                sharedData.unsetTargettedAbility();
                 return new Move.UseAbilityMove(playerLocation, abilityIndex, targetX, targetY);
             } else if(itemIndex !== null) {
-                sharedData.unsetTargettedItem();
                 return new Move.UseItemMove(playerLocation, itemIndex, dungeon.getTile(targetX, targetY));
             } else if(creature && creature.isEnemy(player)) {
                 return new Move.AttackMove(playerLocation, targetX, targetY);
@@ -32,38 +30,52 @@ export default class GraphicalViewMouseController {
             }
         }
 
+        function getTileFor(tileDom) {
+            var dungeon = sharedData.getDungeon();
+            var targetX = tileDom.getAttribute('data-x');
+            var targetY = tileDom.getAttribute('data-y');
+            return dungeon.getTile(targetX, targetY);
+        }
+
+        function updateHoverAttribute(tileDom) {
+            var dungeon = sharedData.getDungeon();
+            var player = dungeon.getPlayableCharacter();
+            var move = getMoveFor(tileDom);
+            if(move && !move.getReasonIllegal(dungeon, player, getTileFor(tileDom))) {
+                tileDom.setAttribute('data-move', move.constructor.name);
+            } else {
+                tileDom.setAttribute('data-move', '');
+            }
+        }
+
         // Arrow key handler
         $(dom).on('click', '.cell', function(event) {
             var move = getMoveFor(this);
             if(move) {
                 var dungeon = sharedData.getDungeon();
                 var player = dungeon.getPlayableCharacter();
-                var reason = move.getReasonIllegal(dungeon, player);
+                var reason = move.getReasonIllegal(dungeon, player, getTileFor(this));
                 if(reason) {
                     console.warn(reason);
                 } else {
                     player.setNextMove(move);
                     dungeon.resolveUntilBlocked();
+                    sharedData.unsetTargettedAbility();
+                    sharedData.unsetTargettedItem();
                 }
             }
         });
 
+        var lastHoverTile;
         $(dom).on('mouseover', '.cell', function() {
-            var x = $(this).attr('data-x');
-            var y = $(this).attr('data-y');
-            sharedData.setInspectedTile(x, y);
+            var tileDom = lastHoverTile = this;
+            var targetX = tileDom.getAttribute('data-x');
+            var targetY = tileDom.getAttribute('data-y');
+            sharedData.setInspectedTile(targetX, targetY);
+            updateHoverAttribute(tileDom);
         });
 
-        $(dom).on('mouseout', '.grid', function() {
-            /*var character = dungeon.getPlayableCharacter();
-            var location = character.getTile(character);
-            var x = location.getX();
-            var y = location.getY();
-            sharedData.setInspectedTile(x, y);*/
-        });
-
-        // Arrow key handler
-        dom.addEventListener('mouseover', function(event) {
-        });
+        sharedData.getDungeon().addObserver(()=>lastHoverTile && updateHoverAttribute(lastHoverTile));
+        sharedData.addObserver(()=>lastHoverTile && updateHoverAttribute(lastHoverTile));
     }
 }

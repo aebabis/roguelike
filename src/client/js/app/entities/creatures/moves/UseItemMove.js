@@ -19,7 +19,8 @@ export default Move.UseItemMove = class UseItemMove extends Move {
     getReasonIllegal(dungeon, creature) {
         var position = this.getItemPosition();
         var targetLocation = this.getTargetLocation();
-        if(targetLocation && dungeon.getTile(targetLocation.x, targetLocation.y) == null) {
+        var tile;
+        if(targetLocation && (tile = dungeon.getTile(targetLocation.x, targetLocation.y)) == null) {
             return 'Illegal target tile';
         }
         var inventory = creature.getInventory();
@@ -27,10 +28,16 @@ export default Move.UseItemMove = class UseItemMove extends Move {
         if(!item) {
             return 'No item at position: ' + position;
         } else {
-            if(targetLocation && !item.isTargetted()) {
-                throw new Error('Target given for untargetted item');
-            } else if(!targetLocation && item.isTargetted && item.isTargetted()) {
-                throw new Error('Target not given for targetted item');
+            if(item.isTargetted && item.isTargetted()) {
+                if(targetLocation) {
+                    if(item.isTargetCreature && item.isTargetCreature() && !tile.getCreature()) {
+                        return 'Target must be a creature';
+                    }
+                } else {
+                    return 'Target not given for targetted item';
+                }
+            } else if(targetLocation) {
+                return 'Target given for untargetted item';
             }
         }
         return null;

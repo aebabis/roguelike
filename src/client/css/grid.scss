@@ -46,6 +46,26 @@
             left: 0;
             width: 100%;
             height: 100%;
+            box-shadow: #555 0px 0px 3px 1px;
+        }
+
+        &[data-move="AttackMove"]:hover:after {
+            box-shadow: firebrick 0px 0px 10px 3px;
+        }
+
+        &[data-move="MovementMove"]:hover:after {
+            box-shadow: #36f 0px 0px 10px 3px;
+        }
+
+        &[data-move="UseAbilityMove"]:hover:after {
+            box-shadow: darkviolet 0px 0px 10px 3px;
+        }
+
+        &[data-move="UseItemMove"]:hover:after {
+            box-shadow: violet 0px 0px 10px 3px;
+        }
+
+        &[data-move="WaitMove"]:hover:after {
             box-shadow: #36f 0px 0px 10px 3px;
         }
 

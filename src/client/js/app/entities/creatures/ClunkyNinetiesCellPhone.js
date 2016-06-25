@@ -42,7 +42,7 @@ class CellPhoneZap extends Weapon {
     }
 
     isTargetted() {
-        return true;
+        return false;
     }
 
     getDamageType() {

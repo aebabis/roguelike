@@ -9,7 +9,26 @@
     }
 
     label {
-        display: block;
+        display: flex;
+    }
+
+    .select label {
+        .label-text {
+            flex-basis: 150px;
+        }
+        select {
+            margin-left: 7px;
+            flex-grow: 1;
+        }
+    }
+
+    input + .label-text {
+        margin-left: 7px;
+    }
+
+    input[type="number"] {
+        height: 1em;
+        width: 2em;
     }
 
     input[type="radio"],

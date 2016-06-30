@@ -1,8 +1,7 @@
-import Tile from "../tiles/Tile.js";
-import GameEvent from "../events/GameEvent.js";
-import GameEvents from "../events/GameEvents.js";
+import GameEvent from '../events/GameEvent.js';
+import GameEvents from '../events/GameEvents.js';
 
-import GridAnimations from "./GridAnimations.js";
+import GridAnimations from './GridAnimations.js';
 
 var ANIMATE_BARS = false;
 
@@ -153,8 +152,8 @@ export default class GraphicDungeonView {
             }, delay);
         } else if(event instanceof GameEvents.HitpointsEvent) {
             let creature = event.getCreature();
-            let tile = this._dungeon.getTile(creature);
-            let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
+            //let tile = this._dungeon.getTile(creature);
+            //let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
             this._createDelay(function() {
                 let dom = self._getDomForCreature(creature);
                 if(creature.isDead()) {

@@ -1,5 +1,5 @@
-import Armor from "./Armor.js";
-import DamageTypes from "../DamageTypes.js";
+import Armor from './Armor.js';
+import DamageTypes from '../DamageTypes.js';
 
 var AMOUNT = 2;
 

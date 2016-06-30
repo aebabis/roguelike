@@ -1,23 +1,24 @@
-import Dungeon from "./Dungeon.js";
+import Dungeon from './Dungeon.js';
 
-import PlayableCharacter from "../entities/creatures/PlayableCharacter.js";
+import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
 
-import Tile from "../tiles/Tile.js";
-import WallTile from "../tiles/WallTile.js";
+import Tile from '../tiles/Tile.js';
+import WallTile from '../tiles/WallTile.js';
 
-import BasicGameConditions from "../conditions/BasicGameConditions.js";
-import BlackVoidSphere from "../entities/creatures/BlackVoidSphere.js";
-import ClunkyNinetiesCellPhone from "../entities/creatures/ClunkyNinetiesCellPhone.js";
-import Ent from "../entities/creatures/Ent.js";
-import Skeleton from "../entities/creatures/Skeleton.js";
-import SlingshotImp from "../entities/creatures/SlingshotImp.js";
+import BasicGameConditions from '../conditions/BasicGameConditions.js';
+import BlackVoidSphere from '../entities/creatures/BlackVoidSphere.js';
+import ClunkyNinetiesCellPhone from '../entities/creatures/ClunkyNinetiesCellPhone.js';
+import Ent from '../entities/creatures/Ent.js';
+import Skeleton from '../entities/creatures/Skeleton.js';
+import SlingshotImp from '../entities/creatures/SlingshotImp.js';
 
-import Dagger from "../entities/weapons/Dagger.js";
-import Shortbow from "../entities/weapons/Shortbow.js";
-import Stick from "../entities/weapons/Stick.js";
+import Dagger from '../entities/weapons/Dagger.js';
+import Shortbow from '../entities/weapons/Shortbow.js';
+import Stick from '../entities/weapons/Stick.js';
 
 export default class TestDungeonFactory {
     static showDungeon(dungeon) {
+        /* eslint-disable no-console */
         var width = dungeon.getWidth();
         var height = dungeon.getHeight();
         // Transpose dungeon coordinates and print
@@ -42,6 +43,7 @@ export default class TestDungeonFactory {
             console.log(row.join(''));
         }
         console.log('\u2516' + Array(width + 1).join('\u2501') + '\u251A');
+        /* eslint-enable no-console */
     }
 
     getEmptyDungeon() {
@@ -50,7 +52,7 @@ export default class TestDungeonFactory {
         return dungeon;
     }
 
-    buildCustomWalledDungeon(wallMap, transpose) {
+    buildCustomWalledDungeon(wallMap) {
         var width = wallMap.length;
         var height = wallMap[0].length;
         var dungeon = new Dungeon(width, height);
@@ -59,7 +61,7 @@ export default class TestDungeonFactory {
                 if(hasWall) {
                     dungeon.setTile(new WallTile(dungeon, x, y), x, y);
                 }
-            })
+            });
         });
         return dungeon;
     }
@@ -126,7 +128,7 @@ export default class TestDungeonFactory {
         for(var times = 0; times < numOpenTiles; times++) {
             let x = tile.getX();
             let y = tile.getY();
-            var tile = new Tile(dungeon, x, y);
+            tile = new Tile(dungeon, x, y);
             dungeon.setTile(tile, x, y);
             doneList[x+','+y] = true;
             tile.getNeighbors4().forEach(function(tile) {
@@ -152,7 +154,6 @@ export default class TestDungeonFactory {
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
             var tile = emptyTiles[position];
-            console.log(item, 'at', tile);
             tile.addItem(item);
         });
 

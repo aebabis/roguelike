@@ -1,16 +1,16 @@
-import Observable from "../util/Observable.js";
-import Tile from "../tiles/Tile.js";
-import Creature from "../entities/creatures/Creature.js";
-import Move from "../entities/creatures/moves/Move.js";
-import GameConditions from "../conditions/GameConditions.js";
+import Observable from '../util/Observable.js';
+import Tile from '../tiles/Tile.js';
+import Creature from '../entities/creatures/Creature.js';
+import Move from '../entities/creatures/moves/Move.js';
+import GameConditions from '../conditions/GameConditions.js';
 
-import PlayableCharacter from "../entities/creatures/PlayableCharacter.js";
+import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
 
-import CustomEvent from "../events/CustomEvent.js";
-import HumanToMoveEvent from "../events/HumanToMoveEvent.js";
-import HumanMovingEvent from "../events/HumanMovingEvent.js";
+import CustomEvent from '../events/CustomEvent.js';
+import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
+import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
-import WallTile from "../tiles/WallTile.js";
+import WallTile from '../tiles/WallTile.js';
 
 export default class Dungeon extends Observable {
     constructor(width, height) {
@@ -170,11 +170,11 @@ export default class Dungeon extends Observable {
     }
 
     resolveUntilBlocked() {
-        console.time("Timestep");
+        console.time('Timestep');
         while(this.canAdvance()) {
             this.resolveNextStep();
         }
-        console.timeEnd("Timestep");
+        console.timeEnd('Timestep');
     }
 
     getActiveCreature() {
@@ -200,7 +200,7 @@ export default class Dungeon extends Observable {
             }
             var move = activeCreature.getNextMove(this);
             if(!(move instanceof Move)) {
-                throw new Error("Expected move from " + activeCreature + ", got " + move);
+                throw new Error('Expected move from ' + activeCreature + ', got ' + move);
             }
             if(activeCreature instanceof PlayableCharacter) {
                 this.fireEvent(new HumanMovingEvent(this, activeCreature));
@@ -229,9 +229,9 @@ export default class Dungeon extends Observable {
         var conditions = this._gameConditions;
         if(conditions) {
             if(conditions.hasPlayerWon(this)) {
-                this.fireEvent(new CustomEvent(this, "Victory"));
+                this.fireEvent(new CustomEvent(this, 'Victory'));
             } else if(conditions.hasPlayerLost(this)) {
-                this.fireEvent(new CustomEvent(this, "Defeat"));
+                this.fireEvent(new CustomEvent(this, 'Defeat'));
 
             }
         }

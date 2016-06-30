@@ -1,5 +1,5 @@
-import Ability from "./Ability.js";
-import DamageTypes from "../entities/DamageTypes.js";
+import Ability from './Ability.js';
+import DamageTypes from '../entities/DamageTypes.js';
 
 export default class ForceDart extends Ability {
     use(dungeon, creature, optionalTargetTile, isFree) {
@@ -24,6 +24,6 @@ export default class ForceDart extends Ability {
     }
 
     getDescription() {
-        return "Does 2 magic damage to a target";
+        return 'Does 2 magic damage to a target';
     }
 }

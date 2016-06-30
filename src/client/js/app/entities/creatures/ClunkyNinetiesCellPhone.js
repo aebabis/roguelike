@@ -1,16 +1,11 @@
-import Creature from "./Creature.js";
-import Inventory from "./Inventory.js";
-import PlayableCharacter from "./PlayableCharacter.js";
+import Creature from './Creature.js';
+import Inventory from './Inventory.js';
+import Weapon from '../weapons/Weapon.js';
+import AttackMove from './moves/AttackMove.js';
+import UseItemMove from './moves/UseItemMove.js';
+import WaitMove from './moves/WaitMove.js';
 
-import CustomEvent from "../../events/CustomEvent.js";
-
-import Weapon from "../weapons/Weapon.js";
-
-import AttackMove from "./moves/AttackMove.js";
-import UseItemMove from "./moves/UseItemMove.js";
-import WaitMove from "./moves/WaitMove.js";
-
-import DamageTypes from "../DamageTypes.js";
+import DamageTypes from '../DamageTypes.js';
 
 class CellPhoneZap extends Weapon {
     charge(dungeon) {
@@ -26,11 +21,11 @@ class CellPhoneZap extends Weapon {
     }
 
     getUseMessage(creature) {
-        return creature +  " is charging its lazer";
+        return creature +  ' is charging its lazer';
     }
 
     isUseable(dungeon) {
-       return this.isCharged(dungeon);
+        return this.isCharged(dungeon);
     }
 
     getRange() {

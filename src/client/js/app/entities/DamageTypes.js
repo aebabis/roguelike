@@ -13,7 +13,7 @@ var TYPE_MAP = TYPES.reduce((obj, type) => {
     return obj;
 }, {});
 
-var TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
+TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
     get: function(obj, prop) {
         var value = obj[prop];
         if(typeof value === 'undefined') {

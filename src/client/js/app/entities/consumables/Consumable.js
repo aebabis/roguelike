@@ -1,4 +1,4 @@
-import Item from "../Item.js";
+import Item from '../Item.js';
 
 export default class Consumable extends Item {
     isUseable() {
@@ -9,7 +9,7 @@ export default class Consumable extends Item {
         return false;
     }
 
-    use(dungeon, creature, optionalTargetTile) {
+    use(dungeon, creature) {
         throw new Error('Abstract method not implemented');
     }
 }

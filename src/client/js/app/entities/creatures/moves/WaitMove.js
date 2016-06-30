@@ -2,7 +2,8 @@ import Move from './Move.js';
 import GameEvents from '../../../events/GameEvents.js';
 
 export default Move.WaitMove = class WaitMove extends Move {
-    getReasonIllegal(dungeon, creature) {
+    getReasonIllegal() {
+        // Waiting is always legal
         return null;
     }
 

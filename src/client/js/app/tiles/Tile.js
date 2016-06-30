@@ -1,5 +1,5 @@
-import Dungeon from "../dungeons/Dungeon.js";
-import Creature from "../entities/creatures/Creature.js";
+import Dungeon from '../dungeons/Dungeon.js';
+import Creature from '../entities/creatures/Creature.js';
 
 export default class Tile {
     /**
@@ -8,7 +8,7 @@ export default class Tile {
       */
     constructor(dungeon, x, y) {
         if(!(dungeon instanceof Dungeon)) {
-            throw new Error("First parameter must be a Dungeon");
+            throw new Error('First parameter must be a Dungeon');
         }
         if(!Number.isInteger(x) || !Number.isInteger(y)) {
             throw new Error('Must pass an x and y coordinate');
@@ -124,6 +124,6 @@ export default class Tile {
     }
 
     toString() {
-        return this.constructor.name + "<" + this.getX() + "," + this.getY() + ">";
+        return this.constructor.name + '<' + this.getX() + ',' + this.getY() + '>';
     }
 }

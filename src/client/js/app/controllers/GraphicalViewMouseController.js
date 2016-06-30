@@ -1,4 +1,4 @@
-import Move from "../entities/creatures/moves/Move.js";
+import Move from '../entities/creatures/moves/Move.js';
 
 export default class GraphicalViewMouseController {
     constructor(dungeon, sharedData, graphicalDungeonView) {
@@ -49,7 +49,8 @@ export default class GraphicalViewMouseController {
         }
 
         // Arrow key handler
-        $(dom).on('click', '.cell', function(event) {
+        /*eslint-env jquery*/
+        $(dom).on('click', '.cell', function() {
             var move = getMoveFor(this);
             if(move) {
                 var dungeon = sharedData.getDungeon();

@@ -1,5 +1,5 @@
-import PlayableCharacter from "../entities/creatures/PlayableCharacter.js";
-import GameEvent from "./GameEvent.js";
+import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
+import GameEvent from './GameEvent.js';
 
 export default class HumanMovingEvent extends GameEvent {
     /**

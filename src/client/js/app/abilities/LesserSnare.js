@@ -1,5 +1,5 @@
-import Ability from "./Ability.js";
-import SnareDebuff from "../entities/creatures/buffs/SnareDebuff.js";
+import Ability from './Ability.js';
+import SnareDebuff from '../entities/creatures/buffs/SnareDebuff.js';
 
 export default class LesserSnare extends Ability {
     use(dungeon, creature, optionalTargetTile, isFree) {
@@ -24,6 +24,6 @@ export default class LesserSnare extends Ability {
     }
 
     getDescription() {
-        return "Snares a target for a brief duration (about 2 actions)";
+        return 'Snares a target for a brief duration (about 2 actions)';
     }
 }

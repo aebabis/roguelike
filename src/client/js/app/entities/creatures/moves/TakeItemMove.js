@@ -1,6 +1,6 @@
-import GameEvents from "../../../events/GameEvents.js";
+import GameEvents from '../../../events/GameEvents.js';
 
-import Move from "./Move.js";
+import Move from './Move.js';
 
 export default Move.TakeItemMove = class TakeItemMove extends Move {
     constructor(actorTile, itemIndex) {
@@ -20,7 +20,6 @@ export default Move.TakeItemMove = class TakeItemMove extends Move {
     }
 
     getReasonIllegal(dungeon, creature) {
-        var inventory = creature.getInventory();
         var location = dungeon.getTile(creature);
         var item = location.getItems()[this.getItemIndex()];
         if(!item) {

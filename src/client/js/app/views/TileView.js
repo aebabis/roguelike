@@ -1,10 +1,4 @@
-import GameEvent from "../events/GameEvent.js";
-
-import Weapon from "../entities/weapons/Weapon.js";
-
-import ItemDomFactory from "./ItemDomFactory.js";
-
-import Move from "../entities/creatures/moves/Move.js";
+import Move from '../entities/creatures/moves/Move.js';
 
 export default class TileView {
     /**
@@ -12,11 +6,10 @@ export default class TileView {
      * @description View for providing information about an arbitary tile
      */
     constructor(sharedData) {
-        var self = this;
         var dom = this._dom = $('<div class="sidebar-subcontainer tile-info">');
         this._sharedData = sharedData;
 
-        sharedData.addObserver((event)=>this.update());
+        sharedData.addObserver(()=>this.update());
 
         $(dom).on('click', 'button.item', function() {
             var index = $(this).attr('data-index');
@@ -37,7 +30,7 @@ export default class TileView {
         var items = tile.getItems();
 
         if(!dungeon.getPlayableCharacter().canSee(dungeon, tile)) {
-            tileName = "Unknown";
+            tileName = 'Unknown';
             creature = null;
             items = [];
         }

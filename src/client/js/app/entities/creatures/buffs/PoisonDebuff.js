@@ -1,6 +1,6 @@
-import Buff from "./Buff.js";
-import GameEvents from "../../../events/GameEvents.js";
-import DamageTypes from "../../DamageTypes.js";
+import Buff from './Buff.js';
+import GameEvents from '../../../events/GameEvents.js';
+import DamageTypes from '../../DamageTypes.js';
 
 export default class PoisonDebuff extends Buff {
     /**
@@ -32,7 +32,7 @@ export default class PoisonDebuff extends Buff {
     }
 
     getName() {
-        return this._name || "Poisoned";
+        return this._name || 'Poisoned';
     }
 
     isNegative() {

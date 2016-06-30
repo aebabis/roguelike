@@ -1,4 +1,4 @@
-import Tile from "../tiles/Tile.js";
+import Tile from '../tiles/Tile.js';
 
 export default class Ability {
     /**
@@ -10,16 +10,16 @@ export default class Ability {
 
     getReasonIllegal(dungeon, creature, optionalTargetTile, isFree) {
         if(this.isTargetted() && !(optionalTargetTile instanceof Tile)) {
-            return "This ability requires a target tile";
+            return 'This ability requires a target tile';
         }
         if(this.isTargetted() && this.isTargetCreature() && !optionalTargetTile.getCreature()) {
-            return "Target tile has no creature";
+            return 'Target tile has no creature';
         }
         if(dungeon.getTile(creature).getDirectDistance(optionalTargetTile) > this.getRange()) {
-            return "Target not in range";
+            return 'Target not in range';
         }
         if(!isFree && this.getManaCost() > creature.getCurrentMana()) {
-            return "Not enough mana";
+            return 'Not enough mana';
         }
         return null;
     }

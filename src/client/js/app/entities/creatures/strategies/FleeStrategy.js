@@ -1,17 +1,16 @@
-import Strategy from "./Strategy.js";
-import Creature from "../Creature.js";
-import Dungeon from "../../../dungeons/Dungeon.js";
+import Strategy from './Strategy.js';
+import Creature from '../Creature.js';
+import Dungeon from '../../../dungeons/Dungeon.js';
 
-import Moves from "../moves/Moves.js";
+import Moves from '../moves/Moves.js';
 
 export default class FleeStrategy extends Strategy {
     getNextMove(dungeon, creature) {
         if(!(dungeon instanceof Dungeon)) {
-            throw new Error("First parameter must be a Dungeon")
+            throw new Error('First parameter must be a Dungeon');
         } else if(!(creature instanceof Creature)) {
-            throw new Error("Second parameter must be a Creature");
+            throw new Error('Second parameter must be a Creature');
         }
-        var self = this;
         var tile = dungeon.getTile(creature);
 
         var enemies = creature.getVisibleEnemies(dungeon);
@@ -33,7 +32,7 @@ export default class FleeStrategy extends Strategy {
             }).filter((tile) => {
                 // Fleeing creature won't stand next to enemy
                 return !tile.getNeighbors8().find((tile)=>tile.getCreature() && tile.getCreature().isEnemy(creature));
-            })
+            });
 
             if(surroundingTiles.length === 0) {
                 return null;

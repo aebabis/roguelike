@@ -1,7 +1,7 @@
-import Armor from "../armor/Armor.js";
-import Weapon from "../weapons/Weapon.js";
+import Armor from '../armor/Armor.js';
+import Weapon from '../weapons/Weapon.js';
 
-import Item from "../Item.js";
+import Item from '../Item.js';
 
 var DEFAULT_BACKPACE_SIZE = 2;
 
@@ -141,7 +141,7 @@ var Inventory = class Inventory {
         if(!(weapon instanceof Weapon)) {
             throw new Error('Parameter must be a Weapon');
         } else if(weapon.getRange() > 1) {
-            throw new Error('Weapon is not melee')
+            throw new Error('Weapon is not melee');
         }
         this.getEquipment()[Inventory.MELEE_SLOT] = weapon;
     }
@@ -150,7 +150,7 @@ var Inventory = class Inventory {
         if(!(weapon instanceof Weapon)) {
             throw new Error('Parameter must be a Weapon');
         } else if(weapon.getRange() === 1) {
-            throw new Error('Weapon is not ranged')
+            throw new Error('Weapon is not ranged');
         }
         this.getEquipment()[Inventory.RANGED_SLOT] = weapon;
     }
@@ -173,6 +173,6 @@ var Inventory = class Inventory {
     getArmor() {
         return this._equipment[Inventory.ARMOR_SLOT];
     }
-}
+};
 
 export default Inventory;

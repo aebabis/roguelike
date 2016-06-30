@@ -1,4 +1,4 @@
-import PlayableCharacter from "../PlayableCharacter.js";
+import PlayableCharacter from '../PlayableCharacter.js';
 
 export default class Fighter extends PlayableCharacter {
     getBackpackSize() {

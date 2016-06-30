@@ -1,5 +1,5 @@
-import Weapon from "./Weapon.js";
-import DamageTypes from "../DamageTypes.js";
+import Weapon from './Weapon.js';
+import DamageTypes from '../DamageTypes.js';
 
 var AMOUNT = 5;
 
@@ -17,6 +17,6 @@ export default class Longsword extends Weapon {
     }
 
     getFriendlyDescription() {
-        return `Does ${DAMAGE} damage to adjacent enemy`
+        return `Does ${AMOUNT} damage to adjacent enemy`;
     }
 }

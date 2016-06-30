@@ -1,5 +1,3 @@
-import Entity from "./Entity.js";
-
 export default class EntityTable {
     /**
       * @class EntityTable

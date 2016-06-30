@@ -1,4 +1,4 @@
-import Tile from "./Tile.js";
+import Tile from './Tile.js';
 
 export default class WallTile extends Tile {
     /**

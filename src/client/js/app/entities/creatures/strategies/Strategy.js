@@ -1,5 +1,3 @@
-import Creature from "../Creature.js";
-
 export default class Strategy {
     getNextMove(dungeon, creature) {
         throw new Error('Default method not implemented');

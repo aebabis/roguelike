@@ -1,5 +1,4 @@
-import Creature from "../entities/creatures/Creature.js";
-import GameEvent from "./GameEvent.js";
+import GameEvent from './GameEvent.js';
 
 export default class WaitEvent extends GameEvent {
     /**

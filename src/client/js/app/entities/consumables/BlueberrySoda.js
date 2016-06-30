@@ -1,13 +1,13 @@
-import Consumable from "./Consumable.js";
+import Consumable from './Consumable.js';
 
 var AMOUNT = 3;
 
 export default class BlueberrySoda extends Consumable {
-    use(dungeon, creature, optionalTargetTile) {
+    use(dungeon, creature) {
         creature.modifyMana(3);
     }
 
-    getUseMessage(dungeon, creature, optionalTargetTile) {
+    getUseMessage(dungeon, creature) {
         return `${creature} drank a blueberry soda`
     }
 

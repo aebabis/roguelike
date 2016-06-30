@@ -1,5 +1,5 @@
-import Consumable from "./Consumable.js";
-import GameEvents from "../../events/GameEvents.js";
+import Consumable from './Consumable.js';
+import GameEvents from '../../events/GameEvents.js';
 
 export default class AbilityConsumable extends Consumable {
     constructor(ability, name) {
@@ -25,7 +25,7 @@ export default class AbilityConsumable extends Consumable {
         return `A scroll containing the ${this._ability.getName()} spell`;
     }
 
-    getUseMessage(dungeon, creature, optionalTargetTile) {
+    getUseMessage(dungeon, creature) {
         return `${creature} used a ${this.getName()}`;
     }
 

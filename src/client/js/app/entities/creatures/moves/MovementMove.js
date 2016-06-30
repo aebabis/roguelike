@@ -1,10 +1,8 @@
-import Tile from "../../../tiles/Tile.js";
+import Move from './Move.js';
 
-import Move from "./Move.js";
+import GameEvents from '../../../events/GameEvents.js';
 
-import GameEvents from "../../../events/GameEvents.js";
-
-import PlayableCharacter from "../PlayableCharacter.js";
+import PlayableCharacter from '../PlayableCharacter.js';
 
 export default Move.MovementMove = class MovementMove extends Move {
     constructor(actorTile, param1, param2) {
@@ -38,9 +36,6 @@ export default Move.MovementMove = class MovementMove extends Move {
         var newLocation = dungeon.getTile(x, y);
         if(!creature.canOccupy(newLocation)) {
             return `${creature} cannot legally occupy new location [${x}, ${y}]`;
-        }
-        if(creature.getBuffs().length) {
-            console.log('BUFFS', creature, creature.getBuffs(), creature.getBuffs().map((buff)=>buff.getProperties()));
         }
         if(creature.getBuffs().find((buff)=>buff.getProperties().preventsMovement)) {
             return 'A debuff is preventing movement';

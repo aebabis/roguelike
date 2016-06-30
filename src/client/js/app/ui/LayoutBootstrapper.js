@@ -1,5 +1,5 @@
 // http://stackoverflow.com/a/31770875/2993478
-var req = require.context("../../../css", true, /\.scss$/);
+var req = require.context('../../../css', true, /\.scss$/);
 req.keys().forEach(function(key){
     req(key);
 });
@@ -7,14 +7,13 @@ req.keys().forEach(function(key){
 require('../../../../../node_modules/normalize.css/normalize.css');
 import CharacterBuilder from './CharacterBuilder.js';
 
-import MenuBar from "./MenuBar.js";
+import MenuBar from './MenuBar.js';
 import TestBootstrapper from '../TestBootstrapper.js';
-import Classes from '../entities/creatures/classes/Classes.js';
 
 window.addEventListener('load', function() {
     $('body').addClass('theme-default').append(`
         <header></header>
-        <section class="game" tabindex="0"></section>
+        <section class='game' tabindex='0'></section>
         <footer></footer>`);
     var menu = new MenuBar();
     $('header').append(menu.getDom());

@@ -1,6 +1,5 @@
 import GameEvent from './GameEvent.js';
 
-import Dungeon from '../dungeons/Dungeon.js';
 import Creature from '../entities/creatures/Creature.js';
 
 export default class HitpointsEvent extends GameEvent {

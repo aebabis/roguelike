@@ -1,33 +1,30 @@
-import Dungeon from "./Dungeon.js";
+import Dungeon from './Dungeon.js';
 
-import Classes from "../entities/creatures/classes/Classes.js";
+import Tile from '../tiles/Tile.js';
+import WallTile from '../tiles/WallTile.js';
+import EntranceTile from '../tiles/EntranceTile.js';
 
-import Tile from "../tiles/Tile.js";
-import WallTile from "../tiles/WallTile.js";
-import EntranceTile from "../tiles/EntranceTile.js";
+import GetTheTreasureConditions from '../conditions/GetTheTreasureConditions.js';
+import BlackVoidSphere from '../entities/creatures/BlackVoidSphere.js';
+import ClunkyNinetiesCellPhone from '../entities/creatures/ClunkyNinetiesCellPhone.js';
+import Ent from '../entities/creatures/Ent.js';
+import FireSprite from '../entities/creatures/FireSprite.js';
+import FlyingSerpent from '../entities/creatures/FlyingSerpent.js';
+import Skeleton from '../entities/creatures/Skeleton.js';
+import SlingshotImp from '../entities/creatures/SlingshotImp.js';
+import Witch from '../entities/creatures/Witch.js';
 
-import BasicGameConditions from "../conditions/BasicGameConditions.js";
-import GetTheTreasureConditions from "../conditions/GetTheTreasureConditions.js";
-import BlackVoidSphere from "../entities/creatures/BlackVoidSphere.js";
-import ClunkyNinetiesCellPhone from "../entities/creatures/ClunkyNinetiesCellPhone.js";
-import Ent from "../entities/creatures/Ent.js";
-import FireSprite from "../entities/creatures/FireSprite.js";
-import FlyingSerpent from "../entities/creatures/FlyingSerpent.js";
-import Skeleton from "../entities/creatures/Skeleton.js";
-import SlingshotImp from "../entities/creatures/SlingshotImp.js";
-import Witch from "../entities/creatures/Witch.js";
+import Abilities from '../abilities/Abilities.js';
 
-import Abilities from "../abilities/Abilities.js";
+import EntityTable from '../entities/EntityTable.js';
+import TheTreasure from '../entities/TheTreasure.js';
 
-import EntityTable from "../entities/EntityTable.js";
-import TheTreasure from "../entities/TheTreasure.js";
+import Weapons from '../entities/weapons/Weapons.js';
+import Armors from '../entities/armor/Armors.js';
 
-import Weapons from "../entities/weapons/Weapons.js";
-import Armors from "../entities/armor/Armors.js";
-
-import AbilityConsumable from "../entities/consumables/AbilityConsumable.js";
-import CherrySoda from "../entities/consumables/CherrySoda.js";
-import BlueberrySoda from "../entities/consumables/BlueberrySoda.js";
+import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
+import CherrySoda from '../entities/consumables/CherrySoda.js';
+import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
 
 function getLoot(prng) {
     return Random.picker([
@@ -110,7 +107,7 @@ export default class RandomMapDungeonFactory {
         for(var times = 0; times < numOpenTiles; times++) {
             let x = tile.getX();
             let y = tile.getY();
-            var tile = new Tile(dungeon, x, y);
+            tile = new Tile(dungeon, x, y);
             dungeon.setTile(tile, x, y);
             doneList[x+','+y] = true;
             tile.getNeighbors4().filter(function(tile) {

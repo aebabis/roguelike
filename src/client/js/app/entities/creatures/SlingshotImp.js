@@ -1,9 +1,8 @@
-import Creature from "./Creature.js";
-import PlayableCharacter from "./PlayableCharacter.js";
-import Strategies from "./strategies/Strategies.js";
+import Creature from './Creature.js';
+import Strategies from './strategies/Strategies.js';
 
-import Weapon from "../weapons/Weapon.js";
-import DamageTypes from "../DamageTypes.js";
+import Weapon from '../weapons/Weapon.js';
+import DamageTypes from '../DamageTypes.js';
 
 class ImpSlingshot extends Weapon {
     getRange() {

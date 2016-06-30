@@ -1,4 +1,4 @@
-import GameEvents from "../events/GameEvents.js";
+import GameEvents from '../events/GameEvents.js';
 
 export default class EventLogView {
     /**
@@ -6,7 +6,6 @@ export default class EventLogView {
      * @description Event feed widget
      */
     constructor(sharedData) {
-        var self = this;
         var scrollPane = this._scrollPane = document.createElement('div');
         scrollPane.classList.add('log-scroll');
         var log = document.createElement('div');
@@ -30,7 +29,7 @@ export default class EventLogView {
 
         sharedData.getDungeon().addObserver(observer);
 
-        scrollPane.addEventListener('scroll', function(event) {
+        scrollPane.addEventListener('scroll', function() {
             log.setAttribute('data-locked-bottom', scrollPane.scrollTop + scrollPane.clientHeight === scrollPane.scrollHeight);
         });
 

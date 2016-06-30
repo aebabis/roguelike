@@ -1,16 +1,16 @@
-import Dungeon from "./dungeons/Dungeon.js";
-import RandomMapDungeonFactory from "./dungeons/RandomMapDungeonFactory.js";
+import Dungeon from './dungeons/Dungeon.js';
+import RandomMapDungeonFactory from './dungeons/RandomMapDungeonFactory.js';
 
-import GraphicalDungeonView from "./views/GraphicalDungeonView.js";
-import EventLogView from "./views/EventLogView.js";
-import AbilitiesView from "./views/AbilitiesView.js";
-import InventoryView from "./views/InventoryView.js";
-import PlayerLocationView from "./views/PlayerLocationView.js";
-import TileView from "./views/TileView.js";
+import GraphicalDungeonView from './views/GraphicalDungeonView.js';
+import EventLogView from './views/EventLogView.js';
+import AbilitiesView from './views/AbilitiesView.js';
+import InventoryView from './views/InventoryView.js';
+import PlayerLocationView from './views/PlayerLocationView.js';
+import TileView from './views/TileView.js';
 
-import GraphicalViewKeyboardController from "./controllers/GraphicalViewKeyboardController.js";
-import GraphicalViewMouseController from "./controllers/GraphicalViewMouseController.js";
-import GraphicalViewSharedData from "./controllers/GraphicalViewSharedData.js";
+import GraphicalViewKeyboardController from './controllers/GraphicalViewKeyboardController.js';
+import GraphicalViewMouseController from './controllers/GraphicalViewMouseController.js';
+import GraphicalViewSharedData from './controllers/GraphicalViewSharedData.js';
 
 export default function(newSeed, character) {
     var gameSection = document.querySelector('section');
@@ -39,8 +39,10 @@ export default function(newSeed, character) {
     var abilitiesView = new AbilitiesView(sharedData);
     var playerLocationView = new PlayerLocationView(sharedData);
     var tileView = new TileView(sharedData);
-    var keyboardController = new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
-    var mouseController = new GraphicalViewMouseController(dungeon, sharedData, mapView);
+
+    new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
+    new GraphicalViewMouseController(dungeon, sharedData, mapView);
+
     container.appendChild(mapView.getDom());
     var sidebar = document.createElement('div');
     var sidebarInner = document.createElement('div');
@@ -55,4 +57,4 @@ export default function(newSeed, character) {
     sidebarInner.appendChild(eventLogView.getDom());
 
     setTimeout(function() { dungeon.resolveUntilBlocked(); });
-};
+}

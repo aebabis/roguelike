@@ -1,7 +1,7 @@
-import Move from "./Move.js";
-import Creature from "../Creature.js";
-import Weapon from "../../weapons/Weapon.js";
-import AttackEvent from "../../../events/AttackEvent.js";
+import Move from './Move.js';
+import Creature from '../Creature.js';
+import Weapon from '../../weapons/Weapon.js';
+import AttackEvent from '../../../events/AttackEvent.js';
 
 export default Move.AttackMove = class AttackMove extends Move {
     constructor(actorTile, param1, param2) {

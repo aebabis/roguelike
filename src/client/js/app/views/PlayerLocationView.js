@@ -1,14 +1,4 @@
-import GameEvent from "../events/GameEvent.js";
-
-import Weapon from "../entities/weapons/Weapon.js";
-
-import ItemDomFactory from "./ItemDomFactory.js";
-
-import Move from "../entities/creatures/moves/Move.js";
-
-function getItemsDom(dungeon, items) {
-    return $('<div class="items">');
-}
+import Move from '../entities/creatures/moves/Move.js';
 
 export default class PlayerLocationView {
     /**
@@ -16,11 +6,10 @@ export default class PlayerLocationView {
      * @description View summarizing the tile where the player is standing
      */
     constructor(sharedData) {
-        var self = this;
         var dom = this._dom = $('<div class="player-location-view">');
         this._sharedData = sharedData;
 
-        sharedData.addObserver((event)=>this.update());
+        sharedData.addObserver(()=>this.update());
 
         $(dom).on('click', 'button.item', function() {
             var index = $(this).attr('data-index');
@@ -39,9 +28,9 @@ export default class PlayerLocationView {
         var player = dungeon.getPlayableCharacter();
         var tile = dungeon.getTile(player);
 
-        var tileName = tile.constructor.name;
+        /*var tileName = tile.constructor.name;
         var x = tile.getX();
-        var y = tile.getY();
+        var y = tile.getY();*/
 
         var name = player.constructor.name;
         var hp = player.getCurrentHP();
@@ -59,7 +48,7 @@ export default class PlayerLocationView {
                 name: item.getName(),
                 index: index,
                 takeable: !(new Move.TakeItemMove(tile, index).getReasonIllegal(dungeon, player))
-            }
+            };
         });
 
         var template = $(`

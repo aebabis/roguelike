@@ -1,11 +1,11 @@
 import Classes from '../entities/creatures/classes/Classes.js';
 
-import Abilities from "../abilities/Abilities.js";
-import Armors from "../entities/armor/Armors.js";
-import Consumables from "../entities/consumables/Consumables.js";
-import Weapons from "../entities/weapons/Weapons.js";
+import Abilities from '../abilities/Abilities.js';
+import Armors from '../entities/armor/Armors.js';
+import Consumables from '../entities/consumables/Consumables.js';
+import Weapons from '../entities/weapons/Weapons.js';
 
-import AbilityConsumable from "../entities/consumables/AbilityConsumable.js";
+import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
 
 var Purchaseables = Object.assign({}, Abilities, Armors, Consumables, Weapons);
 
@@ -53,15 +53,15 @@ var ABILITY_CONSUMEABLE_COSTS = {
 var STARTING_EQUIPMENT = {
     Fighter: {
         money: 80,
-        items: ["MediumArmor", "Longsword"]
+        items: ['MediumArmor', 'Longsword']
     },
     Rogue: {
         money: 70,
-        items: ["Sling", "Dagger", "Light Armor"]
+        items: ['Sling', 'Dagger', 'Light Armor']
     },
     Wizard: {
         money: 65,
-        items: ["Stick", "ForceDart"]
+        items: ['Stick', 'ForceDart']
     }
 };
 
@@ -69,69 +69,69 @@ var COSTS = Object.assign({}, MELEE_WEAPON_COSTS, RANGED_WEAPON_COSTS, ARMOR_COS
 
 function template() {
     var $dialog = $(`
-        <dialog class="character-builder">
-            <form method="dialog">
-                <div class="class">
+        <dialog class='character-builder'>
+            <form method='dialog'>
+                <div class='class'>
                     ${Object.keys(Classes).sort().map(function(className) {
-                        return `<label><input type="radio" name="class" value="${new Classes[className]().getName()}"> ${className}</label>`;
+                        return `<label><input type='radio' name='class' value='${new Classes[className]().getName()}'> ${className}</label>`;
                     }).join('')}
                 </div>
-                <div class="item melee-weapon select">
+                <div class='item melee-weapon select'>
                     <label>
-                        <span class="label-text">Melee Weapon</span>
-                        <select name="melee-weapon">
+                        <span class='label-text'>Melee Weapon</span>
+                        <select name='melee-weapon'>
                             <option>None</option>
                             ${Object.keys(MELEE_WEAPON_COSTS).map(function(className) {
-                                return `<option value="${className}"> ${new Purchaseables[className]().getName()} (<span class="cost">${COSTS[className]}</span>)</label>`;
+                                return `<option value='${className}'> ${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</label>`;
                             }).join('')}
                         </select>
                     </label>
                 </div>
-                <div class="item ranged-weapon select">
+                <div class='item ranged-weapon select'>
                     <label>
-                        <span class="label-text">Ranged Weapon</span>
-                        <select name="ranged-weapon">
+                        <span class='label-text'>Ranged Weapon</span>
+                        <select name='ranged-weapon'>
                             <option>None</option>
                             ${Object.keys(RANGED_WEAPON_COSTS).map(function(className) {
-                                return `<option value="${className}"> ${new Purchaseables[className]().getName()} (<span class="cost">${COSTS[className]}</span>)</label>`;
+                                return `<option value='${className}'> ${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</label>`;
                             }).join('')}
                         </select>
                     </label>
                 </div>
-                <div class="item armors select">
+                <div class='item armors select'>
                     <label>
-                        <span class="label-text">Armor</span>
-                        <select name="armor">
+                        <span class='label-text'>Armor</span>
+                        <select name='armor'>
                             <option>None</option>
                             ${Object.keys(ARMOR_COSTS).map(function(className) {
-                                return `<option value="${className}"> ${new Purchaseables[className]().getName()} (<span class="cost">${COSTS[className]}</span>)</label>`;
+                                return `<option value='${className}'> ${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</label>`;
                             }).join('')}
                         </select>
                     </label>
                 </div>
-                <div class="items abilities">
+                <div class='items abilities'>
                     ${Object.keys(Abilities).map(function(className) {
                         return `<label>
-                            <input type="checkbox" name="${className}">
-                            <span class="label-text">${new Purchaseables[className]().getName()} (<span class="cost">${COSTS[className]}</span>)</span>
+                            <input type='checkbox' name='${className}'>
+                            <span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span>
                         </label>`;
                     }).join('')}
                 </div>
-                <div class="items consumables">
+                <div class='items consumables'>
                     ${Object.keys(Consumables).map(function(className) {
-                        return `<label><input type="number" name="${className}" value="0"><span class="label-text">${new Purchaseables[className]().getName()} (<span class="cost">${COSTS[className]}</span>)</span></label>`;
+                        return `<label><input type='number' name='${className}' value='0'><span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span></label>`;
                     }).join('')}
                 </div>
-                <div class="items ability-consumables">
+                <div class='items ability-consumables'>
                     ${Object.keys(Abilities).map(function(className) {
                         return `<label>
-                            <input type="number" name="${className}_consumable" value="0">
-                            <span class="label-text">${new AbilityConsumable(new Abilities[className]).getName()} (<span class="cost">${ABILITY_CONSUMEABLE_COSTS[className]}</span>)</span>
+                            <input type='number' name='${className}_consumable' value='0'>
+                            <span class='label-text'>${new AbilityConsumable(new Abilities[className]).getName()} (<span class='cost'>${ABILITY_CONSUMEABLE_COSTS[className]}</span>)</span>
                         </label>`;
                     }).join('')}
                 </div>
-                <div class="total"></div>
-                <input type="submit" value="OK">
+                <div class='total'></div>
+                <input type='submit' value='OK'>
             </form>
         </dialog>`);
 
@@ -200,7 +200,7 @@ export default class CharacterBuilder {
             this._reject = reject;
         });
         var $dialog = template().appendTo('body');
-        var $form = $dialog.find('form').on('submit', (event) => {
+        var $form = $dialog.find('form').on('submit', () => {
             var data = new FormData($form[0]);
 
             var player = new Classes[data.get('class')]();
@@ -211,7 +211,7 @@ export default class CharacterBuilder {
 
             [MeleeWeaponClass, RangedWeaponClass, ArmorClass].filter(Boolean).forEach(function(Class) {
                 player.addItem(new Class());
-            })
+            });
 
             Object.keys(Purchaseables).forEach(function(purchaseableName) {
                 var value = data.get(purchaseableName);
@@ -233,7 +233,7 @@ export default class CharacterBuilder {
                 for(var i = 0; i < value; i++) {
                     player.addItem(new AbilityConsumable(new Abilities[purchaseableName]));
                 }
-            })
+            });
 
             this._resolve(player);
         });

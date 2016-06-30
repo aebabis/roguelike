@@ -1,12 +1,12 @@
-import Move from "./Move.js";
+import Move from './Move.js';
 
-import AbilityEvent from "../../../events/AbilityEvent.js";
+import AbilityEvent from '../../../events/AbilityEvent.js';
 
 export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     constructor(actorTile, index, x, y) {
         super(actorTile);
         if(!Number.isInteger(+index) || !Number.isInteger(+x) || !Number.isInteger(+y)) {
-            throw new Error('Parameters must be integers: ' + arguments)
+            throw new Error('Parameters must be integers: ' + arguments);
         }
         this._index = +index;
         this._x = +x;

@@ -1,11 +1,10 @@
-import Creature from "./Creature.js";
-import Strategies from "./strategies/Strategies.js";
+import Creature from './Creature.js';
+import Strategies from './strategies/Strategies.js';
 
-import Armor from "../armor/Armor.js";
-import Weapon from "../weapons/Weapon.js";
+import Weapon from '../weapons/Weapon.js';
 
-import PoisonDebuff from "./buffs/PoisonDebuff.js";
-import DamageTypes from "../DamageTypes.js";
+import PoisonDebuff from './buffs/PoisonDebuff.js';
+import DamageTypes from '../DamageTypes.js';
 
 class FlyingSerpentAttack extends Weapon {
     getRange() {
@@ -21,7 +20,7 @@ class FlyingSerpentAttack extends Weapon {
     }
 
     onHit(dungeon, attacker, defender) {
-        defender.applyBuff(dungeon, new PoisonDebuff(dungeon, 2, 500, 3, "serpent venom"));
+        defender.applyBuff(dungeon, new PoisonDebuff(dungeon, 2, 500, 3, 'serpent venom'));
     }
 }
 

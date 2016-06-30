@@ -1,8 +1,8 @@
-import Creature from "./Creature.js";
+import Creature from './Creature.js';
 
-import Move from "./moves/Move.js";
+import Move from './moves/Move.js';
 
-import Inventory from "./Inventory.js";
+import Inventory from './Inventory.js';
 
 export default class PlayableCharacter extends Creature {
     /**
@@ -28,7 +28,7 @@ export default class PlayableCharacter extends Creature {
 
     setNextMove(move) {
         if(!(move instanceof Move)) {
-            throw new Error(move + " is not a Move");
+            throw new Error(move + ' is not a Move');
         }
         this._moveQueue.push(move);
     }

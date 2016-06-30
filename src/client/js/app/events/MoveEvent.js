@@ -1,5 +1,5 @@
-import Creature from "../entities/creatures/Creature.js";
-import GameEvent from "./GameEvent.js";
+import Creature from '../entities/creatures/Creature.js';
+import GameEvent from './GameEvent.js';
 
 export default class MoveEvent extends GameEvent {
     /**
@@ -22,7 +22,7 @@ export default class MoveEvent extends GameEvent {
         this._to = Object.freeze({
             x: x,
             y: y
-        })
+        });
     }
 
     getCreature() {

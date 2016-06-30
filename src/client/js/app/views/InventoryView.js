@@ -1,12 +1,6 @@
-import GameEvent from "../events/GameEvent.js";
+import Move from '../entities/creatures/moves/Move.js';
 
-import Weapon from "../entities/weapons/Weapon.js";
-
-import Move from "../entities/creatures/moves/Move.js";
-
-import ItemDomFactory from "./ItemDomFactory.js";
-
-import Creature from "../entities/creatures/Creature.js";
+import ItemDomFactory from './ItemDomFactory.js';
 
 function getInventoryDom(creature, targettedIndex) {
     var meleeWeapon = creature.getMeleeWeapon();
@@ -36,7 +30,6 @@ export default class InventoryView {
      * @description Event feed widget
      */
     constructor(sharedData) {
-        var self = this;
         var dom = this._dom = $('<div>');
         this._sharedData = sharedData;
 
@@ -59,7 +52,7 @@ export default class InventoryView {
             dungeon.resolveUntilBlocked();
         });
 
-        dungeon.addObserver((event)=>this.update());
+        dungeon.addObserver(()=>this.update());
         sharedData.addObserver(()=>this.update());
     }
 

@@ -1,5 +1,5 @@
-import Weapon from "./Weapon.js";
-import DamageTypes from "../DamageTypes.js";
+import Weapon from './Weapon.js';
+import DamageTypes from '../DamageTypes.js';
 
 var AMOUNT = 3;
 

@@ -1,22 +1,19 @@
-import Entity from "../Entity.js";
-import Tile from "../../tiles/Tile.js";
-import MoveEvent from "../../events/MoveEvent.js";
-import AttackEvent from "../../events/AttackEvent.js";
-import BuffAppliedEvent from "../../events/BuffAppliedEvent.js";
-import BuffEndedEvent from "../../events/BuffEndedEvent.js";
-import CustomEvent from "../../events/CustomEvent.js";
-import HitpointsEvent from "../../events/HitpointsEvent.js";
+import Entity from '../Entity.js';
+import Tile from '../../tiles/Tile.js';
+import BuffAppliedEvent from '../../events/BuffAppliedEvent.js';
+import BuffEndedEvent from '../../events/BuffEndedEvent.js';
+import CustomEvent from '../../events/CustomEvent.js';
+import HitpointsEvent from '../../events/HitpointsEvent.js';
 
-import Inventory from "./Inventory.js";
+import Inventory from './Inventory.js';
 
-import Ability from "../../abilities/Ability.js";
+import Ability from '../../abilities/Ability.js';
 
-import Buff from "./buffs/Buff.js";
+import Buff from './buffs/Buff.js';
 
-import Strategy from "./strategies/Strategy.js";
-import Weapon from "../weapons/Weapon.js";
+import Strategy from './strategies/Strategy.js';
 
-import Geometry from "../../util/Geometry.js";
+import Geometry from '../../util/Geometry.js';
 
 var visionLookup = {};
 
@@ -112,7 +109,7 @@ export default class Creature extends Entity {
 
     applyBuff(dungeon, buff) {
         if(!(buff instanceof Buff)) {
-            throw new Error("Second parameter must be a buff");
+            throw new Error('Second parameter must be a buff');
         }
         this._buffs.push(buff);
         dungeon.fireEvent(new BuffAppliedEvent(dungeon, this, buff));
@@ -186,7 +183,7 @@ export default class Creature extends Entity {
     die(dungeon) {
         this._isDead = true;
         dungeon.removeCreature(this);
-        dungeon.fireEvent(new CustomEvent(dungeon, this.getName() + " died"));
+        dungeon.fireEvent(new CustomEvent(dungeon, this.getName() + ' died'));
     }
 
     isDead() {
@@ -262,7 +259,7 @@ export default class Creature extends Entity {
             var los1 = {
                 x: x1 + .5,
                 y: y1 + .5
-            }
+            };
 
             // Currently visited tile
             var x = x0;
@@ -277,16 +274,16 @@ export default class Creature extends Entity {
                     dx: x - x0,
                     dy: y - y0
                 });
-            	var segments = [
+                var segments = [
                     {p0: {x: x, y: y},     p1: {x: x + 1, y: y},     dx: 0, dy: -1, direction: 0},
                     {p0: {x: x + 1, y: y}, p1: {x: x + 1, y: y + 1}, dx: 1, dy: 0,  direction: 1},
                     {p0: {x: x, y: y + 1}, p1: {x: x + 1, y: y + 1}, dx: 0, dy: 1,  direction: 2},
                     {p0: {x: x, y: y},     p1: {x: x, y: y + 1},     dx: -1, dy: 0, direction: 3}
                 ].filter((segment)=>(fromDirections.indexOf(segment.direction)<0));
 
-                var segments = segments.filter(function(segment) {
+                segments = segments.filter(function(segment) {
                     return Geometry.intersects(los0, los1, segment.p0, segment.p1);
-                })
+                });
 
                 segments.forEach(function(segment) {
                     newFromDirections.push(directionOpposites[segment.direction]);
@@ -343,6 +340,7 @@ export default class Creature extends Entity {
     }
 
     getClosestEnemy(dungeon) {
+        var tile = dungeon.getTile(this);
         return this.getVisibleEnemies(dungeon).reduce(function(enemy1, enemy2) {
             if(enemy1) {
                 var d1 = tile.getDirectDistance(dungeon.getTile(enemy1));

@@ -1,15 +1,15 @@
-import AggressiveFireballStrategy from "./AggressiveFireballStrategy.js";
-import ChaseStrategy from "./ChaseStrategy.js";
-import CompositeStrategy from "./CompositeStrategy.js";
-import FleeStrategy from "./FleeStrategy.js";
-import IdleStrategy from "./IdleStrategy.js";
-import RandomWalkStrategy from "./RandomWalkStrategy.js";
+import AggressiveFireballStrategy from './AggressiveFireballStrategy.js';
+import ChaseStrategy from './ChaseStrategy.js';
+import CompositeStrategy from './CompositeStrategy.js';
+import FleeStrategy from './FleeStrategy.js';
+import IdleStrategy from './IdleStrategy.js';
+import RandomWalkStrategy from './RandomWalkStrategy.js';
 
 export default {
-    AggressiveFireballStrategy: AggressiveFireballStrategy,
-    ChaseStrategy: ChaseStrategy,
-    CompositeStrategy: CompositeStrategy,
-    FleeStrategy: FleeStrategy,
-    IdleStrategy: IdleStrategy,
-    RandomWalkStrategy: RandomWalkStrategy
+    AggressiveFireballStrategy,
+    ChaseStrategy,
+    CompositeStrategy,
+    FleeStrategy,
+    IdleStrategy,
+    RandomWalkStrategy
 };

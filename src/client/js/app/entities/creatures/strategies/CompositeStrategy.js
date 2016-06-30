@@ -1,6 +1,4 @@
-import Strategy from "./Strategy.js";
-import Creature from "../Creature.js";
-import Dungeon from "../../../dungeons/Dungeon.js";
+import Strategy from './Strategy.js';
 
 /**
  * @class CompositeStrategy
@@ -17,7 +15,7 @@ export default class CompositeStrategy extends Strategy {
             if(!(arg instanceof Strategy)) {
                 throw new Error('Illegal argument: ' + arg);
             }
-        })
+        });
     }
 
     getNextMove(dungeon, creature) {

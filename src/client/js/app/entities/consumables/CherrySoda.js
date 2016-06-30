@@ -1,13 +1,13 @@
-import Consumable from "./Consumable.js";
+import Consumable from './Consumable.js';
 
 var AMOUNT = 4;
 
 export default class CherrySoda extends Consumable {
-    use(dungeon, creature, optionalTargetTile) {
+    use(dungeon, creature) {
         creature.heal(dungeon, AMOUNT);
     }
 
-    getUseMessage(dungeon, creature, optionalTargetTile) {
+    getUseMessage(dungeon, creature) {
         return `${creature} drank a cherry soda`
     }
 

@@ -1,8 +1,8 @@
-import CustomEvent from "../../../events/CustomEvent.js";
+import CustomEvent from '../../../events/CustomEvent.js';
 
-import Move from "./Move.js";
+import Move from './Move.js';
 
-import Consumable from "../../consumables/Consumable.js"
+import Consumable from '../../consumables/Consumable.js';
 
 export default Move.UseItemMove = class UseItemMove extends Move {
     constructor(actorTile, position, targetTile) {
@@ -12,7 +12,7 @@ export default Move.UseItemMove = class UseItemMove extends Move {
             this._target = {
                 x: targetTile.getX(),
                 y: targetTile.getY()
-            }
+            };
         }
     }
 
@@ -73,7 +73,7 @@ export default Move.UseItemMove = class UseItemMove extends Move {
         if(item.isEquipable() && !isNaN(position)) {
             // Equipable items in backpack are used by equipping them
             inventory.equipItem(position);
-            dungeon.fireEvent(new CustomEvent(dungeon, creature + " equipped " + item));
+            dungeon.fireEvent(new CustomEvent(dungeon, creature + ' equipped ' + item));
         } else {
             item.use(dungeon, creature, targetTile);
             dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(dungeon, creature, targetTile)));

@@ -1,4 +1,4 @@
-import Buff from "./Buff.js";
+import Buff from './Buff.js';
 
 export default class SnareDebuff extends Buff {
     getProperties() {

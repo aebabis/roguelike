@@ -1,6 +1,3 @@
-import Dungeon from "../dungeons/Dungeon.js";
-import CustomEvent from "../events/CustomEvent.js";
-
 var idGen = 1;
 
 export default class Entity {

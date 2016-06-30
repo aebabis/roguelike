@@ -1,10 +1,4 @@
-import GameEvent from "../events/GameEvent.js";
-
-import Weapon from "../entities/weapons/Weapon.js";
-
-import ItemDomFactory from "./ItemDomFactory.js";
-
-import Move from "../entities/creatures/moves/Move.js";
+import Move from '../entities/creatures/moves/Move.js';
 
 export default class AbilitiesView {
     /**
@@ -12,11 +6,10 @@ export default class AbilitiesView {
      * @description List view for the player's abilities
      */
     constructor(sharedData) {
-        var self = this;
         var dom = this._dom = $('<div class="abilities-buttons">');
         this._sharedData = sharedData;
 
-        sharedData.addObserver((event)=>this.update());
+        sharedData.addObserver(()=>this.update());
 
         $(dom).on('click', 'button', function() {
             var index = +$(this).attr('data-index');

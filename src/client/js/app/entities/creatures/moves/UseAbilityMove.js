@@ -2,7 +2,7 @@ import Move from './Move.js';
 
 import AbilityEvent from '../../../events/AbilityEvent.js';
 
-export default Move.UseAbilityMove = class UseAbilityMove extends Move {
+export default class UseAbilityMove extends Move {
     constructor(actorTile, index, x, y) {
         super(actorTile);
         if(!Number.isInteger(+index) || !Number.isInteger(+x) || !Number.isInteger(+y)) {
@@ -56,4 +56,4 @@ export default Move.UseAbilityMove = class UseAbilityMove extends Move {
     isSeenBy(dungeon, observer) {
         return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
-};
+}

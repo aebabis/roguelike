@@ -15,6 +15,7 @@ export default lib = {
                     <span class="name">${item.getName()}</span>
                     <span class="desc">${item.getFriendlyDescription()}</span>
                 </div>
+                ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
             </li>`)[0];
         } else {
             return $(`<li class="slot empty" tabindex="0" data-index="${index}">
@@ -41,6 +42,7 @@ export default lib = {
                             <span class="range-icon"></span> <span class="range-text">${data.range > 1 ? data.range + '\u25CE' : ''}</span>
                         </div>
                     </div>
+                    ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
                 </li>
             `)[0];
         } else {
@@ -68,6 +70,7 @@ export default lib = {
                             <span class="magical-dr-text">-${data.magical} magic damage</span>,
                         </div-->
                     </div>
+                    ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
                 </li>
             `)[0];
         } else {

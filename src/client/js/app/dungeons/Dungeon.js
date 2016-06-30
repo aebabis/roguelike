@@ -2,6 +2,7 @@ import Observable from '../util/Observable.js';
 import Tile from '../tiles/Tile.js';
 import Creature from '../entities/creatures/Creature.js';
 import Move from '../entities/creatures/moves/Move.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 import GameConditions from '../conditions/GameConditions.js';
 
 import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
@@ -214,7 +215,7 @@ export default class Dungeon extends Observable {
                 activeCreature.executeMove(this, move);
             } catch(error) {
                 console.error(error);
-                activeCreature.executeMove(this, new Move.WaitMove(this.getTile(activeCreature)));
+                activeCreature.executeMove(this, new Moves.WaitMove(this.getTile(activeCreature)));
                 //activeCreature.wait();
             }
         } else {

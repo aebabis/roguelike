@@ -1,4 +1,4 @@
-import Move from '../entities/creatures/moves/Move.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 
 import ItemDomFactory from './ItemDomFactory.js';
 
@@ -47,8 +47,17 @@ export default class InventoryView {
                     sharedData.unsetTargettedItem();
                 }
             } else {
-                player.setNextMove(new Move.UseItemMove(dungeon.getTile(player), index));
+                player.setNextMove(new Moves.UseItemMove(dungeon.getTile(player), index));
             }
+            dungeon.resolveUntilBlocked();
+        });
+
+        $(dom).on('click', 'button.trash', function(event) {
+            event.stopPropagation(); // Prevent parent "button" from being clicked
+
+            var player = dungeon.getPlayableCharacter();
+            var index = $(this).parent('.item').attr('data-index');
+            player.setNextMove(new Moves.TrashItemMove(dungeon.getTile(player), index));
             dungeon.resolveUntilBlocked();
         });
 

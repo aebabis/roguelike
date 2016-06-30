@@ -1,4 +1,4 @@
-import Move from '../entities/creatures/moves/Move.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class AbilitiesView {
     /**
@@ -24,7 +24,7 @@ export default class AbilitiesView {
                 if(ability.isTargetted()) {
                     sharedData.setTargettedAbility(index);
                 } else {
-                    player.setNextMove(new Move.UseAbilityMove(dungeon.getTile(player), index));
+                    player.setNextMove(new Moves.UseAbilityMove(dungeon.getTile(player), index));
                 }
             }
         });

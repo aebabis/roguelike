@@ -1,7 +1,7 @@
 import Move from './Move.js';
 import GameEvents from '../../../events/GameEvents.js';
 
-export default Move.WaitMove = class WaitMove extends Move {
+export default class WaitMove extends Move {
     getReasonIllegal() {
         // Waiting is always legal
         return null;
@@ -20,4 +20,4 @@ export default Move.WaitMove = class WaitMove extends Move {
     isSeenBy(dungeon, observer) {
         return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
-};
+}

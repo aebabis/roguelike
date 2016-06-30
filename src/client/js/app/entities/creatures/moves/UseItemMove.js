@@ -4,7 +4,7 @@ import Move from './Move.js';
 
 import Consumable from '../../consumables/Consumable.js';
 
-export default Move.UseItemMove = class UseItemMove extends Move {
+export default class UseItemMove extends Move {
     constructor(actorTile, position, targetTile) {
         super(actorTile);
         this._position = position;
@@ -86,4 +86,4 @@ export default Move.UseItemMove = class UseItemMove extends Move {
     isSeenBy(dungeon, observer) {
         return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }
-};
+}

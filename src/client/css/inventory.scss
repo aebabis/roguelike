@@ -21,6 +21,7 @@
     }
 
     li.slot {
+        position: relative;
         padding: .2em;
         display: flex;
         align-items: center;
@@ -72,6 +73,16 @@
             background-size: 100%;
             border: solid 1px #963;
             background-image: url(../images/small/ThisIsAThing.png);
+        }
+
+        button.trash {
+            position: absolute;
+            top: .2em;
+            right: .25em;
+            font-size: 2.5em;
+            line-height: .9em;
+            width: 1em;
+            height: 1em;
         }
 
         &[data-item="BlueberrySoda"] .icon {

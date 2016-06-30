@@ -1,4 +1,4 @@
-import Move from '../entities/creatures/moves/Move.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class GraphicalViewMouseController {
     constructor(dungeon, sharedData, graphicalDungeonView) {
@@ -14,18 +14,18 @@ export default class GraphicalViewMouseController {
             var abilityIndex = sharedData.getTargettedAbility();
             var itemIndex = sharedData.getTargettedItem();
             if(abilityIndex !== null) {
-                return new Move.UseAbilityMove(playerLocation, abilityIndex, targetX, targetY);
+                return new Moves.UseAbilityMove(playerLocation, abilityIndex, targetX, targetY);
             } else if(itemIndex !== null) {
-                return new Move.UseItemMove(playerLocation, itemIndex, dungeon.getTile(targetX, targetY));
+                return new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(targetX, targetY));
             } else if(creature && creature.isEnemy(player)) {
-                return new Move.AttackMove(playerLocation, targetX, targetY);
+                return new Moves.AttackMove(playerLocation, targetX, targetY);
             } else {
                 var dx = targetX - playerLocation.getX();
                 var dy = targetY - playerLocation.getY();
                 if(dx === 0 && dy === 0) {
-                    return new Move.WaitMove(playerLocation);
+                    return new Moves.WaitMove(playerLocation);
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
-                    return new Move.MovementMove(playerLocation, dx, dy);
+                    return new Moves.MovementMove(playerLocation, dx, dy);
                 }
             }
         }

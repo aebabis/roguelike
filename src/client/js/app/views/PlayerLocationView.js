@@ -1,4 +1,4 @@
-import Move from '../entities/creatures/moves/Move.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class PlayerLocationView {
     /**
@@ -16,7 +16,7 @@ export default class PlayerLocationView {
             var dungeon = sharedData.getDungeon();
             if(dungeon) {
                 var player = dungeon.getPlayableCharacter();
-                player.setNextMove(dungeon.getTile(player), new Move.TakeItemMove(index));
+                player.setNextMove(dungeon.getTile(player), new Moves.TakeItemMove(index));
                 dungeon.resolveUntilBlocked();
             }
         });
@@ -47,7 +47,7 @@ export default class PlayerLocationView {
             return {
                 name: item.getName(),
                 index: index,
-                takeable: !(new Move.TakeItemMove(tile, index).getReasonIllegal(dungeon, player))
+                takeable: !(new Moves.TakeItemMove(tile, index).getReasonIllegal(dungeon, player))
             };
         });
 

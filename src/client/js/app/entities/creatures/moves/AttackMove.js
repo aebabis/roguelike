@@ -1,9 +1,8 @@
 import Move from './Move.js';
-import Creature from '../Creature.js';
 import Weapon from '../../weapons/Weapon.js';
 import AttackEvent from '../../../events/AttackEvent.js';
 
-export default Move.AttackMove = class AttackMove extends Move {
+export default class AttackMove extends Move {
     constructor(actorTile, param1, param2) {
         super(actorTile);
         if(param1.getX) {
@@ -66,4 +65,4 @@ export default Move.AttackMove = class AttackMove extends Move {
     isSeenBy(dungeon, observer) {
         return observer.canSee(dungeon, dungeon.getTile(this._x, this._y));
     }
-};
+}

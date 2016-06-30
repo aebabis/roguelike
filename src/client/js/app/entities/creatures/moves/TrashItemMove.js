@@ -2,13 +2,13 @@ import GameEvents from '../../../events/GameEvents.js';
 
 import Move from './Move.js';
 
-export default class TakeItemMove extends Move {
+export default class TrashItemMove extends Move {
     constructor(actorTile, itemIndex) {
         super(actorTile);
-        if(isNaN(itemIndex)) {
-            throw new Error('Must pass two integer parameters or a Creature');
+        if(!Number.isInteger(+itemIndex)) {
+            throw new Error('Item index must be an integer');
         }
-        this._itemIndex = itemIndex;
+        this._itemIndex = +itemIndex;
     }
 
     getItemIndex() {
@@ -20,12 +20,10 @@ export default class TakeItemMove extends Move {
     }
 
     getReasonIllegal(dungeon, creature) {
-        var location = dungeon.getTile(creature);
-        var item = location.getItems()[this.getItemIndex()];
+        var inventory = creature.getInventory();
+        var item = inventory.getItem(this.getItemIndex());
         if(!item) {
-            return 'No item to take';
-        } else if(!creature.canAddItem(item)) {
-            return 'No room';
+            return `No item in slot ${this.getItemIndex()}`;
         } else {
             return null;
         }
@@ -36,9 +34,8 @@ export default class TakeItemMove extends Move {
         if(reason) {
             throw new Error(reason);
         }
-        var item = dungeon.getTile(creature).removeItem(this.getItemIndex());
-        creature.getInventory().addItem(item);
-        dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
+        var item = creature.getInventory().removeItem(this.getItemIndex());
+        dungeon.fireEvent(new GameEvents.TrashItemEvent(dungeon, creature, item));
     }
 
     isSeenBy(dungeon, observer) {

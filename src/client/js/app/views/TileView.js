@@ -1,4 +1,4 @@
-import Move from '../entities/creatures/moves/Move.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class TileView {
     /**
@@ -15,7 +15,7 @@ export default class TileView {
             var index = $(this).attr('data-index');
             var dungeon = sharedData.getDungeon();
             var player = dungeon.getPlayableCharacter();
-            player.setNextMove(dungeon.getTile(player), new Move.TakeItemMove(index));
+            player.setNextMove(dungeon.getTile(player), new Moves.TakeItemMove(index));
         });
     }
 

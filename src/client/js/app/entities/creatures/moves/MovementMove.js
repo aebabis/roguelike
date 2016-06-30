@@ -4,7 +4,7 @@ import GameEvents from '../../../events/GameEvents.js';
 
 import PlayableCharacter from '../PlayableCharacter.js';
 
-export default Move.MovementMove = class MovementMove extends Move {
+export default class MovementMove extends Move {
     constructor(actorTile, param1, param2) {
         super(actorTile);
         if(Number.isInteger(param1) && Number.isInteger(param2)

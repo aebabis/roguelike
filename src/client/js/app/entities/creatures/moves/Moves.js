@@ -3,6 +3,7 @@ import MovementMove from './MovementMove.js';
 import TakeItemMove from './TakeItemMove.js';
 import UseAbilityMove from './UseAbilityMove.js';
 import UseItemMove from './UseItemMove.js';
+import TrashItemMove from './TrashItemMove.js';
 import WaitMove from './WaitMove.js';
 
 export default {
@@ -11,5 +12,6 @@ export default {
     TakeItemMove,
     UseAbilityMove,
     UseItemMove,
+    TrashItemMove,
     WaitMove
 };

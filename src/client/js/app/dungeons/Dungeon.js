@@ -10,8 +10,6 @@ import CustomEvent from '../events/CustomEvent.js';
 import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
 import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
-import WallTile from '../tiles/WallTile.js';
-
 export default class Dungeon extends Observable {
     constructor(width, height) {
         super(width, height);

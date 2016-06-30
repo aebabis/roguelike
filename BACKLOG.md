@@ -4,13 +4,10 @@
   - Better dungeon generator
   - Using keyboard to look at tiles
   - Button to focus abilities. Arrows to move between
-  - Check move legality before dispatching
   - Fixed container size. Autoscroll during move
   - Animate attackers
   - Tile tooltips
-  - Item trashing
 - Med
-  - Range indicators
   - Ranged attack animation
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
@@ -32,7 +29,6 @@
 - Low
   - Come up with a better name for "speed"
   - Option to hide health and action bars
-  - Promote theme class to UI wrapper
   - Site icon
   - Animation speed
   - Consider splitting source/target events into two events
@@ -44,11 +40,10 @@
   - RandomAbilityStrategy
   - Color code damage types in UI
   - Make ClunkyNintiesCellPhone use predefined strategies
+  - Range indicators
 
 # Bugs
-  - Items aren't visible the first turn
   - Monsters on the same initiative collide?
-  - Witch isn't fireballing
 
 # Art
   - Snail icon

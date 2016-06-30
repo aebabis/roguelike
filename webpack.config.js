@@ -4,20 +4,20 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: "./src/client/js/app/ui/LayoutBootstrapper.js",
+    entry: './src/client/js/app/ui/LayoutBootstrapper.js',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: "bundle.js"
+        filename: 'bundle.js'
     },
     plugins: [
         new HtmlWebpackPlugin(),
         new webpack.ProvidePlugin({
             // http://stackoverflow.com/a/34354301/2993478
-            $: "jquery",
-            jQuery: "jquery"
+            $: 'jquery',
+            jQuery: 'jquery'
         }),
         new webpack.ProvidePlugin({
-            Random: "random-js"
+            Random: 'random-js'
         })
     ],
     module: {
@@ -34,11 +34,11 @@ module.exports = {
                     presets: ['es2015']
                 }
             }, {
-                //loader: "style!css",
-                loaders: ["style", "css", "sass"],
+                //loader: 'style!css',
+                loaders: ['style', 'css', 'sass'],
                 test: /\.s?css$/
             }, {
-                loader: "url-loader?limit=100000",
+                loader: 'url-loader?limit=100000',
                 test: /\.png$/
             }
         ]
@@ -48,7 +48,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.css'],
         modulesDirectories: [
-          'node_modules'
+            'node_modules'
         ]
     }
 };

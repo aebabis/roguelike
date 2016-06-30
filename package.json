@@ -8,7 +8,7 @@
     "start": "node src/server/server.js",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-register --colors --reporter dot",
     "test": "npm run cover && istanbul check-coverage --statements 30 --branches 30 --functions 30 ./coverage/coverage.raw.json",
-    "develop": "webpack-dev-server"
+    "develop": "webpack-dev-server --port 1337"
   },
   "author": "Alex Babis <acbabis@gmail.com>",
   "license": "MIT",
@@ -42,7 +42,8 @@
     "traceur": "0.0.93",
     "typescript": "1.7.3",
     "url-loader": "^0.5.7",
-    "webpack": "1.13.1"
+    "webpack": "1.13.1",
+    "webpack-dev-server": "^1.13.0"
   },
   "devDependencies": {
     "jsdoc": "^3.4.0",

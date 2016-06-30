@@ -6,6 +6,7 @@ function template() {
         <div class="menu-bar">
             <button class="newgame">New Game</button>
             <button class="restart">Restart</button>
+            <label>Remember Previous Level <input type="checkbox" ${localStorage.repeatPreviousLevel ? 'checked' : ''}></label>
         </div>`);
 }
 
@@ -20,6 +21,8 @@ export default class MenuBar {
             new CharacterBuilder().getCharacter().then(function(character) {
                 TestBootstrapper(false, character);
             });
+        }).on('click', 'input', function() {
+            localStorage.repeatPreviousLevel = $(this).prop('checked');
         });
     }
 

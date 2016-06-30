@@ -18,6 +18,6 @@ window.addEventListener('load', function() {
     var menu = new MenuBar();
     $('header').append(menu.getDom());
     new CharacterBuilder().getCharacter().then(function(character) {
-        TestBootstrapper(false, character);
+        TestBootstrapper(localStorage.repeatPreviousLevel === 'true', character);
     });
 });

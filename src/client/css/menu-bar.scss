@@ -16,4 +16,13 @@
             margin-left: .2em;
         }
     }
+
+    label {
+        display: inline-block;
+        vertical-align: top;
+        color: #ddd;
+        border: solid 1px steelblue;
+        height: 23px;
+        line-height: 1em;
+    }
 }

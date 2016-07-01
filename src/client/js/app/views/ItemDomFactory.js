@@ -10,11 +10,17 @@ export default lib = {
         } else if(item instanceof Armor) {
             return lib.getArmorDom(item, index);
         } else if(item){
-            return $(`<li class="slot item" tabindex="0" data-index="${index}" data-item="${item.toString()}" data-is-targetting="${!!isTargetting}">
+            return $(
+            `<li class="slot item"
+                 tabindex="0"
+                 data-index="${index}"
+                 data-item="${item.toString()}"
+                 data-is-targetting="${!!isTargetting}"
+                 title="${item.getFriendlyDescription()}">
                 <div class="icon"></div>
                 <div class="info">
                     <span class="name">${item.getName()}</span>
-                    <span class="desc" title="${item.getFriendlyDescription()}">${item.getFriendlyDescription()}</span>
+                    <span class="desc">${item.getFriendlyDescription()}</span>
                 </div>
                 ${(isNaN(index) || item instanceof TheTreasure) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
             </li>`)[0];

@@ -21,14 +21,21 @@
     }
 
     li.slot {
+        * {
+            cursor: default;
+        }
         position: relative;
         padding: .2em;
         display: flex;
         align-items: center;
-        border: solid 1px dark-red;
+        border: solid 1px #963;
         background-color: rgba(210, 180, 140, .85);
         width: 20em;
         // /background-color: tan;
+
+        &:hover {
+            border-color: #643;
+        }
 
         + li.slot {
             margin-top: .5em;

@@ -314,13 +314,18 @@ export default class Creature extends Entity {
         return tile.isOpaque();
     }
 
+    isFlying() {
+        return false;
+    }
+
     /**
      * @description Determines if the Creature could occupy the given tile based
      * on what kind of tile it is. Does not regard whether the tile is already occiped.
      * @return {Boolean} `true` if the Creature could occupy the tile; false otherwise
      */
     canOccupy(tile) {
-        return !tile.isSolid();
+        return !tile.isSolid() &&
+                (this.isFlying() || tile.hasFloor());
     }
 
     canOccupyNow(tile) {

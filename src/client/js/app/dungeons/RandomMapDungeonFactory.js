@@ -2,6 +2,7 @@ import Dungeon from './Dungeon.js';
 
 import Tile from '../tiles/Tile.js';
 import WallTile from '../tiles/WallTile.js';
+import PitTile from '../tiles/PitTile.js';
 import EntranceTile from '../tiles/EntranceTile.js';
 
 import GetTheTreasureConditions from '../conditions/GetTheTreasureConditions.js';
@@ -95,7 +96,11 @@ export default class RandomMapDungeonFactory {
 
         for(var x = 0; x < width; x++) {
             for(var y = 0; y < height; y++) {
-                dungeon.setTile(new WallTile(dungeon, x, y), x, y);
+                if(Random.bool(.2)(prng)) {
+                    dungeon.setTile(new PitTile(dungeon, x, y), x, y);
+                } else {
+                    dungeon.setTile(new WallTile(dungeon, x, y), x, y);
+                }
             }
         }
 
@@ -147,7 +152,7 @@ export default class RandomMapDungeonFactory {
             tile = dungeon.getTile(coords[0], coords[1]);
         }
 
-        var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid());
+        var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
         var locations = Random.shuffle(prng, emptyTiles);
 
         var drops = [

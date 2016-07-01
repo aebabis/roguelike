@@ -53,4 +53,8 @@ export default class FlyingSerpent extends Creature {
     getSpeed() {
         return 250;
     }
+
+    isFlying() {
+        return true;
+    }
 }

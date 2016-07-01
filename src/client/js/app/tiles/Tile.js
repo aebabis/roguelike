@@ -73,6 +73,10 @@ export default class Tile {
         return false;
     }
 
+    hasFloor() {
+        return true;
+    }
+
     getNeighbors4() {
         var dungeon = this._dungeon;
         var x = this._x;

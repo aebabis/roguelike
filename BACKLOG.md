@@ -17,15 +17,13 @@
   - Make all views get Dungeon from shared data
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
-  - Should creature be responsible for receiving damage?
   - Delay death and damage animations til after attack has started
   - Don't bundle jQuery with webpack
-  - Make coverage use all files
   - Webpack integration of coverage
-  - Pit tile
   - Try flow or Typescript
   - DamageEvent for subtracting health. No animation for 0 damage
   - Path-to
+  - You can see a solid tile if you can see any corner?
 - Low
   - Come up with a better name for "speed"
   - Option to hide health and action bars
@@ -57,3 +55,4 @@
   - Shoving enemy
   - Trash can icon
   - Parchment scroll background image for game log
+  - Knockback enemy

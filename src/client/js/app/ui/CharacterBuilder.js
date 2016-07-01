@@ -45,7 +45,7 @@ var CONSUMABLE_COSTS = {
 };
 
 var ABILITY_CONSUMEABLE_COSTS = {
-    Fireball: 15,
+    Fireball: 20,
     ForceDart: 10,
     LesserSnare: 10
 };

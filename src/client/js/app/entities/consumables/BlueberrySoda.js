@@ -1,10 +1,10 @@
 import Consumable from './Consumable.js';
 
-var AMOUNT = 3;
+var AMOUNT = 5;
 
 export default class BlueberrySoda extends Consumable {
     use(dungeon, creature) {
-        creature.modifyMana(3);
+        creature.modifyMana(AMOUNT);
     }
 
     getUseMessage(dungeon, creature) {

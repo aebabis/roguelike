@@ -10,7 +10,9 @@ module.exports = {
         filename: 'bundle.js'
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'Vaults of Git’recht'
+        }),
         new webpack.ProvidePlugin({
             // http://stackoverflow.com/a/34354301/2993478
             $: 'jquery',

@@ -1,4 +1,4 @@
-# HTML 5 Roguelike (Name pending)
+# Vaults of Git’recht
 
 ## About
 This is roguelike game made using new HTML 5 technologies. It uses

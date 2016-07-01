@@ -37,7 +37,7 @@ export default class InventoryView {
 
         $(dom).on('click', '.item', function() {
             var player = dungeon.getPlayableCharacter();
-            var index = $(this).attr('data-index');
+            var index = +$(this).attr('data-index');
             var item = player.getInventory().getItem(index);
             if(item.isTargetted && item.isTargetted()) {
                 var targetIndex = sharedData.getTargettedItem();

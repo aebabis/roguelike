@@ -42,6 +42,10 @@ function getLoot(prng) {
 }
 
 var table = new EntityTable([{
+    entity: Enemies.Archer,
+    weight: 7,
+    cost: 10
+}, {
     entity: Enemies.BlackVoidSphere,
     weight: 10,
     cost: 3
@@ -101,7 +105,6 @@ export default class RandomMapDungeonFactory {
         var tile = dungeon.getTile(Random.integer(1, width - 2)(prng), Random.integer(1, height - 2)(prng));
         var doneList = {};
         var adjacentList = {};
-        var descheduledList = {};
 
         for(var times = 0; times < numOpenTiles; times++) {
             let x = tile.getX();
@@ -168,7 +171,7 @@ export default class RandomMapDungeonFactory {
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
 
         // Test game configuration
-        var creatures = table.rollEntries(dungeon, prng, 40);
+        var creatures = table.rollEntries(dungeon, prng, 50);
         var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
         creatures.forEach(function(creature) {
             var loc = enemyLocations.shift();

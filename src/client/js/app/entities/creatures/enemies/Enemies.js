@@ -1,3 +1,4 @@
+import Archer from './Archer.js';
 import BlackVoidSphere from './BlackVoidSphere.js';
 import ClunkyNinetiesCellPhone from './ClunkyNinetiesCellPhone.js';
 import Ent from './Ent.js';
@@ -8,6 +9,7 @@ import SlingshotImp from './SlingshotImp.js';
 import Witch from './Witch.js';
 
 export default {
+    Archer,
     BlackVoidSphere,
     ClunkyNinetiesCellPhone,
     Ent,

@@ -126,15 +126,11 @@ export default class GraphicDungeonView {
         var dungeon = this._dungeon;
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof GameEvents.AttackEvent) {
-            let target = event.getTarget();
-            let tile = this._dungeon.getTile(target);
+            let attacker = event.getAttacker();
+            let tile = this._dungeon.getTile(attacker);
             let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
             this._createDelay(function() {
                 cell.setAttribute('data-event-name', 'AttackEvent');
-                let dom = self._getDomForCreature(target);
-                if(target.isDead()) {
-                    dom.setAttribute('data-is-dead', true);
-                }
             }, delay);
         } else if(event instanceof GameEvents.MoveEvent) {
             this._createDelay(function() {
@@ -152,9 +148,12 @@ export default class GraphicDungeonView {
             }, delay);
         } else if(event instanceof GameEvents.HitpointsEvent) {
             let creature = event.getCreature();
+            let tile = this._dungeon.getTile(creature);
+            let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
             //let tile = this._dungeon.getTile(creature);
             //let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
             this._createDelay(function() {
+                cell.setAttribute('data-event-name', 'HitpointsEvent');
                 let dom = self._getDomForCreature(creature);
                 if(creature.isDead()) {
                     dom.setAttribute('data-is-dead', true);

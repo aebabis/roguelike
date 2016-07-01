@@ -7,6 +7,7 @@
   - Fixed container size. Autoscroll during move
   - Animate attackers
   - Tile tooltips
+  - Special inventory slot for TheTreasure?
 - Med
   - Ranged attack animation
   - Keybindings Overlay

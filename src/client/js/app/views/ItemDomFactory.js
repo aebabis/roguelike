@@ -1,5 +1,6 @@
 import Armor from '../entities/armor/Armor.js';
 import Weapon from '../entities/weapons/Weapon.js';
+import TheTreasure from '../entities/TheTreasure.js';
 
 var lib;
 export default lib = {
@@ -13,9 +14,9 @@ export default lib = {
                 <div class="icon"></div>
                 <div class="info">
                     <span class="name">${item.getName()}</span>
-                    <span class="desc">${item.getFriendlyDescription()}</span>
+                    <span class="desc" title="${item.getFriendlyDescription()}">${item.getFriendlyDescription()}</span>
                 </div>
-                ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
+                ${(isNaN(index) || item instanceof TheTreasure) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
             </li>`)[0];
         } else {
             return $(`<li class="slot empty" tabindex="0" data-index="${index}">

@@ -119,13 +119,13 @@ function template() {
                 </div>
                 <div class='items consumables'>
                     ${Object.keys(Consumables).map(function(className) {
-                        return `<label><input type='number' name='${className}' value='0'><span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span></label>`;
+                        return `<label><input type='number' min="0" name='${className}' value='0'><span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span></label>`;
                     }).join('')}
                 </div>
                 <div class='items ability-consumables'>
                     ${Object.keys(Abilities).map(function(className) {
                         return `<label>
-                            <input type='number' name='${className}_consumable' value='0'>
+                            <input type='number' min="0" name='${className}_consumable' value='0'>
                             <span class='label-text'>${new AbilityConsumable(new Abilities[className]).getName()} (<span class='cost'>${ABILITY_CONSUMEABLE_COSTS[className]}</span>)</span>
                         </label>`;
                     }).join('')}

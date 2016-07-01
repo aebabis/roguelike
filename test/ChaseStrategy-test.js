@@ -2,7 +2,7 @@ import { default as Dungeon } from '../src/client/js/app/dungeons/Dungeon.js';
 import { default as TestDungeonFactory } from '../src/client/js/app/dungeons/TestDungeonFactory.js';
 import { default as Creature } from '../src/client/js/app/entities/creatures/Creature.js';
 import { default as PlayableCharacter } from '../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import { default as Ent } from '../src/client/js/app/entities/creatures/Ent.js';
+import { default as Ent } from '../src/client/js/app/entities/creatures/enemies/Ent.js';
 import { default as Moves } from '../src/client/js/app/entities/creatures/moves/Moves.js';
 
 var expect = require('chai').expect;

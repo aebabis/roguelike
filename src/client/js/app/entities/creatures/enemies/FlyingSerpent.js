@@ -1,10 +1,10 @@
-import Creature from './Creature.js';
-import Strategies from './strategies/Strategies.js';
+import Creature from '../Creature.js';
+import Strategies from '../strategies/Strategies.js';
 
-import Weapon from '../weapons/Weapon.js';
+import Weapon from '../../weapons/Weapon.js';
 
-import PoisonDebuff from './buffs/PoisonDebuff.js';
-import DamageTypes from '../DamageTypes.js';
+import PoisonDebuff from '../buffs/PoisonDebuff.js';
+import DamageTypes from '../../DamageTypes.js';
 
 class FlyingSerpentAttack extends Weapon {
     getRange() {

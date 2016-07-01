@@ -1,11 +1,11 @@
-import Creature from './Creature.js';
-import Inventory from './Inventory.js';
-import Weapon from '../weapons/Weapon.js';
-import AttackMove from './moves/AttackMove.js';
-import UseItemMove from './moves/UseItemMove.js';
-import WaitMove from './moves/WaitMove.js';
+import Creature from '../Creature.js';
+import Inventory from '../Inventory.js';
+import Weapon from '../../weapons/Weapon.js';
+import AttackMove from '../moves/AttackMove.js';
+import UseItemMove from '../moves/UseItemMove.js';
+import WaitMove from '../moves/WaitMove.js';
 
-import DamageTypes from '../DamageTypes.js';
+import DamageTypes from '../../DamageTypes.js';
 
 class CellPhoneZap extends Weapon {
     charge(dungeon) {

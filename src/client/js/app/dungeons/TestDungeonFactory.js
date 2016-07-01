@@ -6,11 +6,8 @@ import Tile from '../tiles/Tile.js';
 import WallTile from '../tiles/WallTile.js';
 
 import BasicGameConditions from '../conditions/BasicGameConditions.js';
-import BlackVoidSphere from '../entities/creatures/BlackVoidSphere.js';
-import ClunkyNinetiesCellPhone from '../entities/creatures/ClunkyNinetiesCellPhone.js';
-import Ent from '../entities/creatures/Ent.js';
-import Skeleton from '../entities/creatures/Skeleton.js';
-import SlingshotImp from '../entities/creatures/SlingshotImp.js';
+
+import Enemies from '../entities/creatures/enemies/Enemies.js';
 
 import Dagger from '../entities/weapons/Dagger.js';
 import Shortbow from '../entities/weapons/Shortbow.js';
@@ -166,11 +163,11 @@ export default class TestDungeonFactory {
         // Test game configuration
         var creatures = [
             player,
-            new BlackVoidSphere(),
-            new SlingshotImp(),
-            new Ent(),
-            new ClunkyNinetiesCellPhone(),
-            new Skeleton()
+            new Enemies.BlackVoidSphere(),
+            new Enemies.SlingshotImp(),
+            new Enemies.Ent(),
+            new Enemies.ClunkyNinetiesCellPhone(),
+            new Enemies.Skeleton()
         ];
         creatures.forEach(function(creature) {
             var loc = locations.shift();

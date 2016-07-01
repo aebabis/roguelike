@@ -6,14 +6,8 @@ import PitTile from '../tiles/PitTile.js';
 import EntranceTile from '../tiles/EntranceTile.js';
 
 import GetTheTreasureConditions from '../conditions/GetTheTreasureConditions.js';
-import BlackVoidSphere from '../entities/creatures/BlackVoidSphere.js';
-import ClunkyNinetiesCellPhone from '../entities/creatures/ClunkyNinetiesCellPhone.js';
-import Ent from '../entities/creatures/Ent.js';
-import FireSprite from '../entities/creatures/FireSprite.js';
-import FlyingSerpent from '../entities/creatures/FlyingSerpent.js';
-import Skeleton from '../entities/creatures/Skeleton.js';
-import SlingshotImp from '../entities/creatures/SlingshotImp.js';
-import Witch from '../entities/creatures/Witch.js';
+
+import Enemies from '../entities/creatures/enemies/Enemies.js';
 
 import Abilities from '../abilities/Abilities.js';
 
@@ -48,35 +42,35 @@ function getLoot(prng) {
 }
 
 var table = new EntityTable([{
-    entity: BlackVoidSphere,
+    entity: Enemies.BlackVoidSphere,
     weight: 10,
     cost: 3
 }, {
-    entity: ClunkyNinetiesCellPhone,
+    entity: Enemies.ClunkyNinetiesCellPhone,
     weight: 3,
     cost: 5
 }, {
-    entity: Ent,
+    entity: Enemies.Ent,
     weight: 6,
     cost: 9
 }, {
-    entity: FireSprite,
+    entity: Enemies.FireSprite,
     weight: 6,
     cost: 6
 }, {
-    entity: FlyingSerpent,
+    entity: Enemies.FlyingSerpent,
     weight: 6,
     cost: 4
 }, {
-    entity: Skeleton,
+    entity: Enemies.Skeleton,
     weight: 8,
     cost: 5
 }, {
-    entity: SlingshotImp,
+    entity: Enemies.SlingshotImp,
     weight: 5,
     cost: 4
 }, {
-    entity: Witch,
+    entity: Enemies.Witch,
     weight: 5,
     cost: 10
 }]);

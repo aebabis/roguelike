@@ -16,6 +16,7 @@ export default class AttackEvent extends GameEvent {
 
         this._attacker = attacker;
         this._target = target;
+        this._weapon = weapon;
     }
 
     getAttacker() {
@@ -24,6 +25,10 @@ export default class AttackEvent extends GameEvent {
 
     getTarget() {
         return this._target;
+    }
+
+    getWeapon() {
+        return this._weapon;
     }
 
     getText() {

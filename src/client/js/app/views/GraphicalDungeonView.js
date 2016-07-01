@@ -127,10 +127,22 @@ export default class GraphicDungeonView {
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof GameEvents.AttackEvent) {
             let attacker = event.getAttacker();
-            let tile = this._dungeon.getTile(attacker);
+            let target = event.getTarget();
+            let weapon = event.getWeapon();
+            let tile = dungeon.getTile(attacker);
             let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
             this._createDelay(function() {
-                cell.setAttribute('data-event-name', 'AttackEvent');
+                let targetTile = dungeon.getTile(target); // Get target position dynamically so shooting at moving targets looks ok
+                if(weapon.getRange() === 1) {
+                    // TODO: Always add AttackEvent and consider range in CSS
+                    cell.setAttribute('data-event-name', 'AttackEvent');
+                } else {
+                    $('<div class="projectile">').appendTo(grid.children[0])
+                        .css({left: `${tile.getX() * 5}em`, top: `${tile.getY() * 5}em`})
+                        .animate({left: `${targetTile.getX() * 5}em`, top: `${targetTile.getY() * 5}em`}, 200, function() {
+                            $(this).remove();
+                        });
+                }
             }, delay);
         } else if(event instanceof GameEvents.MoveEvent) {
             this._createDelay(function() {
@@ -158,7 +170,7 @@ export default class GraphicDungeonView {
                 if(creature.isDead()) {
                     dom.setAttribute('data-is-dead', true);
                 }
-            }, delay);
+            }, delay + 200); // Death needs to be delayed so it appears to follow its cause
         } else if(event instanceof GameEvents.BuffAppliedEvent || event instanceof GameEvents.BuffEndedEvent) {
             this._createDelay(function() {
                 var creature = event.getCreature();

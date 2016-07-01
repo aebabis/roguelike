@@ -42,3 +42,25 @@
         opacity: 0;
     }
 }
+
+.grid.theme-default .projectile {
+    position: absolute;
+    width: 5em;
+    height: 5em;
+    z-index: 3;
+
+    $projectile-size: .5em;
+    &::after {
+        content: ' ';
+        position: absolute;
+        width: $projectile-size;
+        height: $projectile-size;
+        margin-left: -($projectile-size / 2);
+        margin-top: -($projectile-size / 2);
+        background-color: black;
+        display: block;
+        left: 50%;
+        top: 50%;
+        border-radius: 50%;
+    }
+}

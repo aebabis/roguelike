@@ -32,7 +32,7 @@
         animation-duration: .15s;
     }
 
-    &[data-event-name="HitpointsEvent"] {
+    &[data-event-name="HitpointsEvent"][data-is-hp-change-negative="true"] {
         animation-name: shortTwistPulse;
         animation-duration: .10s;
     }

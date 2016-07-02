@@ -43,6 +43,7 @@
 
 # Bugs
   - Monsters on the same initiative collide?
+  - Healing does damage animation
 
 # Art
   - Snail icon

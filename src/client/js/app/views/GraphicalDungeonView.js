@@ -166,6 +166,7 @@ export default class GraphicDungeonView {
             //let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
             this._createDelay(function() {
                 cell.setAttribute('data-event-name', 'HitpointsEvent');
+                cell.setAttribute('data-is-hp-change-negative', event.getAmount() < 0);
                 let dom = self._getDomForCreature(creature);
                 if(creature.isDead()) {
                     dom.setAttribute('data-is-dead', true);

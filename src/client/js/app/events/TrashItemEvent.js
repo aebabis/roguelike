@@ -28,6 +28,6 @@ export default class TakeItemEvent extends GameEvent {
     getText() {
         var creature = this.getCreature();
         var item = this.getItem();
-        return `${creature} picked up ${item.getName()}`;
+        return `${creature} trashed ${item.getName()}`;
     }
 }

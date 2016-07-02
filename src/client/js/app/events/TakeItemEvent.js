@@ -26,6 +26,6 @@ export default class TrashItemEvent extends GameEvent {
     getText() {
         var creature = this.getCreature();
         var item = this.getItem();
-        return `${creature} trashed ${item.getName()}`;
+        return `${creature} picked up ${item.getName()}`;
     }
 }

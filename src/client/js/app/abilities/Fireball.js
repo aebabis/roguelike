@@ -1,7 +1,7 @@
 import Ability from './Ability.js';
 import DamageTypes from '../entities/DamageTypes.js';
 
-const FIREBALL_DAMAGE = 5;
+const AMOUNT = 5;
 
 export default class Fireball extends Ability {
     use(dungeon, creature, optionalTargetTile, isFree) {
@@ -9,7 +9,7 @@ export default class Fireball extends Ability {
         optionalTargetTile.getNeighbors8().concat(optionalTargetTile)
                 .map((tile)=>tile.getCreature()).filter(Boolean)
                 .forEach(function(creature) {
-                    creature.receiveDamage(dungeon, FIREBALL_DAMAGE, DamageTypes.FIRE);
+                    creature.receiveDamage(dungeon, AMOUNT, DamageTypes.FIRE);
                 });
     }
 
@@ -30,6 +30,6 @@ export default class Fireball extends Ability {
     }
 
     getDescription() {
-        return 'Does fire damage to creatures in a 3x3 area.';
+        return `Does ${AMOUNT} fire damage to creatures in a 3x3 area.`;
     }
 }

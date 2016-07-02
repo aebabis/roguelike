@@ -1,10 +1,15 @@
 import Buff from './Buff.js';
 
 export default class SnareDebuff extends Buff {
+    constructor(dungeon, duration) {
+        super(dungeon);
+        this._duration = +duration;
+    }
+
     getProperties() {
         return {
             preventsMovement: true
-        }
+        };
     }
 
     isNegative() {
@@ -12,10 +17,10 @@ export default class SnareDebuff extends Buff {
     }
 
     getDuration() {
-        return 1000;
+        return this._duration || 1000;
     }
 
-    timestep(dungeon, creature) {
+    timestep() {
         // Do nothing
     }
 }

@@ -1,8 +1,4 @@
 export default class Buff {
-    /**
-      * @class Creature
-      * @description Represents an entity that can act
-      */
     constructor(dungeon) {
         this._creationTimestamp = dungeon.getCurrentTimestep();
     }

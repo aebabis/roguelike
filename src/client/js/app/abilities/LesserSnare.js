@@ -1,10 +1,12 @@
 import Ability from './Ability.js';
 import SnareDebuff from '../entities/creatures/buffs/SnareDebuff.js';
 
+var DURATION = 1500;
+
 export default class LesserSnare extends Ability {
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-        optionalTargetTile.getCreature().applyBuff(dungeon, new SnareDebuff(dungeon));
+        optionalTargetTile.getCreature().applyBuff(dungeon, new SnareDebuff(dungeon, DURATION));
     }
 
     isTargetted() {
@@ -24,6 +26,6 @@ export default class LesserSnare extends Ability {
     }
 
     getDescription() {
-        return 'Snares a target for a brief duration (about 2 actions)';
+        return `Snares a target for ${DURATION / 1000} seconds (about 3 actions)`;
     }
 }

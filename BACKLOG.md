@@ -1,4 +1,5 @@
 # Backlog
+## Technical
 - High
   - Puzzles/Level-Select
   - Better dungeon generator
@@ -8,6 +9,8 @@
   - Animate attackers
   - Tile tooltips
   - Special inventory slot for TheTreasure?
+  - Change drop rates
+  - Make enemies drop their items
 - Med
   - Ranged attack animation
   - Keybindings Overlay
@@ -41,11 +44,16 @@
   - Make ClunkyNintiesCellPhone use predefined strategies
   - Range indicators
 
-# Bugs
+## Content
+  - Invisibility Spell
+  - Dash Attack
+  - Teleport Spell
+
+## Bugs
   - Monsters on the same initiative collide?
   - Healing does damage animation
 
-# Art
+## Art
   - Snail icon
   - Rabbit icon
   - Horse archer

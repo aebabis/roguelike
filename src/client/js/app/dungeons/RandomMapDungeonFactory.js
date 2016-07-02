@@ -72,7 +72,7 @@ var table = new EntityTable([{
 }, {
     entity: Enemies.SlingshotImp,
     weight: 5,
-    cost: 4
+    cost: 3
 }, {
     entity: Enemies.Witch,
     weight: 5,

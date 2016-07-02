@@ -1,3 +1,5 @@
+import Dungeon from '../dungeons/Dungeon.js';
+import Creature from '../entities/creatures/Creature.js';
 import Tile from '../tiles/Tile.js';
 
 export default class Ability {
@@ -9,19 +11,25 @@ export default class Ability {
     }
 
     getReasonIllegal(dungeon, creature, optionalTargetTile, isFree) {
-        if(this.isTargetted() && !(optionalTargetTile instanceof Tile)) {
-            return 'This ability requires a target tile';
-        }
-        if(this.isTargetted() && this.isTargetCreature() && !optionalTargetTile.getCreature()) {
-            return 'Target tile has no creature';
-        }
-        if(dungeon.getTile(creature).getDirectDistance(optionalTargetTile) > this.getRange()) {
-            return 'Target not in range';
-        }
-        if(!isFree && this.getManaCost() > creature.getCurrentMana()) {
+        if(!(dungeon instanceof Dungeon)) {
+            return 'No dungeon specified';
+        } else if(!(creature instanceof Creature)) {
+            return 'No creature specified';
+        } else if(!isFree && this.getManaCost() > creature.getCurrentMana()) {
             return 'Not enough mana';
+        } else if(this.isTargetted()) {
+            if(!(optionalTargetTile instanceof Tile)) {
+                return 'This ability requires a target tile';
+            } else if(this.mustTargetBeVisible() && !creature.canSee(dungeon, optionalTargetTile)) {
+                return 'Tile not visible';
+            } else if(this.isTargetCreature() && !optionalTargetTile.getCreature()) {
+                return 'Target tile has no creature';
+            } else if(dungeon.getTile(creature).getDirectDistance(optionalTargetTile) > this.getRange()) {
+                return 'Target not in range';
+            }
+        } else {
+            return null;
         }
-        return null;
     }
 
     use(dungeon, creature, optionalTargetTile, isFree) {
@@ -40,6 +48,11 @@ export default class Ability {
 
     isTargetCreature() {
         throw new Error('Abstract method not implemented');
+    }
+
+    // By default, ability targets must be visible
+    mustTargetBeVisible() {
+        return true;
     }
 
     getRange() {

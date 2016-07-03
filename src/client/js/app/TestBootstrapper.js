@@ -6,7 +6,6 @@ import EventLogView from './views/EventLogView.js';
 import AbilitiesView from './views/AbilitiesView.js';
 import InventoryView from './views/InventoryView.js';
 import PlayerLocationView from './views/PlayerLocationView.js';
-import TileView from './views/TileView.js';
 
 import GraphicalViewKeyboardController from './controllers/GraphicalViewKeyboardController.js';
 import GraphicalViewMouseController from './controllers/GraphicalViewMouseController.js';
@@ -38,7 +37,6 @@ export default function(newSeed, character) {
     var inventoryView = new InventoryView(sharedData);
     var abilitiesView = new AbilitiesView(sharedData);
     var playerLocationView = new PlayerLocationView(sharedData);
-    var tileView = new TileView(sharedData);
 
     new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
     new GraphicalViewMouseController(dungeon, sharedData, mapView);
@@ -52,7 +50,6 @@ export default function(newSeed, character) {
     container.appendChild(sidebar);
     container.appendChild(playerLocationView.getDom());
     container.appendChild(abilitiesView.getDom());
-    sidebarInner.appendChild(tileView.getDom());
     sidebarInner.appendChild(inventoryView.getDom());
     sidebarInner.appendChild(eventLogView.getDom());
 

@@ -38,6 +38,7 @@ export default {
                 var y = +$cell.attr('data-y');
                 var tile = dungeon.getTile(x, y);
                 var creature = tile.getCreature();
+                var items = tile.getItems();
 
                 var pc = dungeon.getPlayableCharacter();
                 var pcHasSeenTile = pc.hasSeen(tile);
@@ -47,12 +48,18 @@ export default {
                     return null;
                 } else {
                     return $(`
-                        <div>
+                        <div class="tooltip-wrap">
                             <div class="tile">${tile.getName()}</div>
                             ${
                                 (creature && pcCanSeeTile) ? (
                                     (creature === pc) ? 'You are here' : getMonsterDom(creature)
                                 ) : ''
+                            }
+                            ${
+                                (items.length > 0) ? `
+                                    <ul class="items">
+                                        ${items.map((item)=>`<ul>${item.getName()}</ul>`)}
+                                    </ul>` : ''
                             }
                         </div>
                     `);

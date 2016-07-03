@@ -7,9 +7,10 @@ import DungeonTooltips from './DungeonTooltips.js';
 var ANIMATE_BARS = false;
 
 export default class GraphicDungeonView {
-    constructor(dungeon) {
+    constructor(sharedData) {
         var self = this;
-        this._dungeon = dungeon;
+        this._sharedData = sharedData;
+        var dungeon = sharedData.getDungeon();
         var width = dungeon.getWidth();
         var height = dungeon.getHeight();
 
@@ -57,7 +58,7 @@ export default class GraphicDungeonView {
     _synchronizeView() {
         var self = this;
         var grid = this.getDom();
-        var dungeon = this._dungeon;
+        var dungeon = this._sharedData.getDungeon();
         var player = dungeon.getPlayableCharacter();
 
         this._resetAnimationQueue();
@@ -126,7 +127,7 @@ export default class GraphicDungeonView {
     _queueAnimation(event) {
         var self = this;
         var grid = this.getDom();
-        var dungeon = this._dungeon;
+        var dungeon = this._sharedData.getDungeon();
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof GameEvents.AttackEvent) {
             let attacker = event.getAttacker();
@@ -163,7 +164,7 @@ export default class GraphicDungeonView {
             }, delay);
         } else if(event instanceof GameEvents.HitpointsEvent) {
             let creature = event.getCreature();
-            let tile = this._dungeon.getTile(creature);
+            let tile = dungeon.getTile(creature);
             let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
             //let tile = this._dungeon.getTile(creature);
             //let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
@@ -191,7 +192,7 @@ export default class GraphicDungeonView {
     update(event) {
         var self = this;
         var grid = this.getDom();
-        var dungeon = this._dungeon;
+        var dungeon = this._sharedData.getDungeon();
         var player = dungeon.getPlayableCharacter();
 
         if(event instanceof GameEvent) {

@@ -32,14 +32,14 @@ export default function(newSeed, character) {
 
     var sharedData = new GraphicalViewSharedData(dungeon);
 
-    var mapView = new GraphicalDungeonView(dungeon); // TODO: Use sharedData instead of dungeon
+    var mapView = new GraphicalDungeonView(sharedData); // TODO: Use sharedData instead of dungeon
     var eventLogView = new EventLogView(sharedData);
     var inventoryView = new InventoryView(sharedData);
     var abilitiesView = new AbilitiesView(sharedData);
     var playerLocationView = new PlayerLocationView(sharedData);
 
-    new GraphicalViewKeyboardController(dungeon, sharedData, mapView);
-    new GraphicalViewMouseController(dungeon, sharedData, mapView);
+    new GraphicalViewKeyboardController(sharedData, mapView);
+    new GraphicalViewMouseController(sharedData, mapView);
 
     container.appendChild(mapView.getDom());
     var sidebar = document.createElement('div');

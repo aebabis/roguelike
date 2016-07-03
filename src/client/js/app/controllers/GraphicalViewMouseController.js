@@ -1,7 +1,7 @@
 import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class GraphicalViewMouseController {
-    constructor(dungeon, sharedData, graphicalDungeonView) {
+    constructor(sharedData, graphicalDungeonView) {
         var dom = graphicalDungeonView.getDom();
 
         function getMoveFor(tileDom) {

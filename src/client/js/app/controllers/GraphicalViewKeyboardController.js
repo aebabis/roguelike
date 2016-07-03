@@ -1,7 +1,7 @@
 import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class GraphicalViewKeyboardController {
-    constructor(dungeon, sharedData) {
+    constructor(sharedData) {
         // TODO: Remove dungeon from parameters
         var dom = document.querySelector('section.game');
 

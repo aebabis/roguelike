@@ -66,6 +66,10 @@ var table = new EntityTable([{
     weight: 6,
     cost: 4
 }, {
+    entity: Enemies.MongolianHorseArcher,
+    weight: 8,
+    cost: 20
+}, {
     entity: Enemies.Skeleton,
     weight: 8,
     cost: 5

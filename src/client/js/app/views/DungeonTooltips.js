@@ -31,6 +31,9 @@ function getMonsterDom(monster) {
 
 export default {
     bindTooltips: function(dungeon, grid) {
+        if(!$.tooltip) {
+            return; // TODO: Give unit tests access to jQuery UI
+        }
         $(grid).attr('title', 'Hi').tooltip({
             content: function() {
                 var $cell = $(this);

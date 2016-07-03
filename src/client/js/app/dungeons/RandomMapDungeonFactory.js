@@ -179,7 +179,9 @@ export default class RandomMapDungeonFactory {
         var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
         creatures.forEach(function(creature) {
             var loc = enemyLocations.shift();
-            dungeon.setCreature(creature, loc.getX(), loc.getY());
+            if(loc) {
+                dungeon.setCreature(creature, loc.getX(), loc.getY());
+            }
         });
 
         var treasureLocation = Random.picker(enemyLocations)(prng);

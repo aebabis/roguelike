@@ -12,4 +12,8 @@ export default class PitTile extends Tile {
     hasFloor() {
         return false;
     }
+
+    getName() {
+        return 'Spike Pit';
+    }
 }

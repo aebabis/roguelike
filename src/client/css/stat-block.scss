@@ -1,0 +1,44 @@
+.stat-block {
+    display: inline-block;
+
+    .bar {
+        position: relative;
+        width: 20em;
+        height: 1.5em;
+
+        margin-top: 6px;
+        + .bar { margin-top: 4px;}
+
+        .inner {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        &.hp {
+            border: solid 1px #660000;
+            color: pink;
+        }
+
+        &.mana {
+            border: solid 1px #0000aa;
+            color: skyblue;
+
+            &[data-has-mana="false"] {display: none}
+        }
+
+        &.hp .inner {background: linear-gradient(135deg, #a90329 0%, #8f0222 60%, #3f0009 100%);}
+        &.mana .inner {background: linear-gradient(135deg, #0329a8 0%, #02218e 60%, #00107f 100%);}
+        &.action .inner {background-color: yellow}
+
+        .text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            font-weight: bold;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+.grid-tooltip {
+    padding: 0 !important; // Override jQuery UI's 8px
+    font-family: Arial;
+
+    .tile {
+        padding: 4px 4px 2px 4px;
+        background-color: #321;
+    }
+
+    .stat-block {
+        padding: 8px;
+        font-size: .75em;
+        border-top: solid 1px #efec9f;
+    }
+}

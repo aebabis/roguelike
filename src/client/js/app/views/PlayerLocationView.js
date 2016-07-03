@@ -53,7 +53,7 @@ export default class PlayerLocationView {
 
         var template = $(`
         <div role="presentation" class="portrait"></div>
-        <div class="player">
+        <div class="stat-block player">
             <h2>${name}</h2>
             <div class="bar hp" title="Hitpoints">
                 <span class="text">${hp} / ${baseHP}</span>

@@ -2,6 +2,7 @@ import GameEvent from '../events/GameEvent.js';
 import GameEvents from '../events/GameEvents.js';
 
 import GridAnimations from './GridAnimations.js';
+import DungeonTooltips from './DungeonTooltips.js';
 
 var ANIMATE_BARS = false;
 
@@ -39,6 +40,8 @@ export default class GraphicDungeonView {
         dungeon.addObserver(function observer(event) {
             self.update(event);
         });
+
+        DungeonTooltips.bindTooltips(dungeon, grid);
     }
 
     getDom() {

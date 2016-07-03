@@ -16,4 +16,8 @@ export default class WallTile extends Tile {
     isOpaque() {
         return true;
     }
+
+    getName() {
+        return 'Wall';
+    }
 }

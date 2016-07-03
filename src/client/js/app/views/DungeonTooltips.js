@@ -40,15 +40,17 @@ export default {
                 var creature = tile.getCreature();
 
                 var pc = dungeon.getPlayableCharacter();
+                var pcHasSeenTile = pc.hasSeen(tile);
+                var pcCanSeeTile = pc.canSee(dungeon, tile);
 
-                if(!pc.canSee(dungeon, tile)) {
+                if(!pcHasSeenTile) {
                     return null;
                 } else {
                     return $(`
                         <div>
                             <div class="tile">${tile.getName()}</div>
                             ${
-                                creature ? (
+                                (creature && pcCanSeeTile) ? (
                                     (creature === pc) ? 'You are here' : getMonsterDom(creature)
                                 ) : ''
                             }
@@ -67,7 +69,7 @@ export default {
             },
 
             show: {
-                delay: 800
+                delay: 1200
             },
 
             close: function( event, ui ) {

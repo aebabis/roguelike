@@ -141,11 +141,7 @@ export default class GraphicDungeonView {
                     // TODO: Always add AttackEvent and consider range in CSS
                     cell.setAttribute('data-event-name', 'AttackEvent');
                 } else {
-                    $('<div class="projectile">').appendTo(grid.children[0])
-                        .css({left: `${tile.getX() * 5}em`, top: `${tile.getY() * 5}em`})
-                        .animate({left: `${targetTile.getX() * 5}em`, top: `${targetTile.getY() * 5}em`}, 200, function() {
-                            $(this).remove();
-                        });
+                    GridAnimations.animateProjectile(dungeon, grid, weapon, tile, targetTile);
                 }
             }, delay);
         } else if(event instanceof GameEvents.MoveEvent) {

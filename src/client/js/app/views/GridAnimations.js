@@ -48,5 +48,25 @@ export default {
                 break;
             }
         }
+    },
+
+    animateProjectile: function(dungeon, grid, cause, from, to) {
+        var x1 = from.getX();
+        var y1 = from.getY();
+        var x2 = to.getX();
+        var y2 = to.getY();
+        var angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        $(`<div class="projectile" data-projectile-name="${cause.getName()}">`).appendTo(grid.children[0])
+            .css({
+                left: `${x1 * 5}em`,
+                top: `${y1 * 5}em`,
+                transform: `rotate(${angle.toFixed()}deg)`
+            })
+            .animate({
+                left: `${x2 * 5}em`,
+                top: `${y2 * 5}em`
+            }, 200, function() {
+                $(this).remove();
+            });
     }
 };

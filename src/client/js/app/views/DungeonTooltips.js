@@ -80,8 +80,8 @@ export default {
             },
 
             show: {
-                delay: 1200
-            },
+                delay: 400
+            }/*,
 
             close: function( event, ui ) {
                 ui.tooltip.hover(function () {
@@ -90,7 +90,7 @@ export default {
                 }, function () {
                     $(this).fadeOut(400, function(){ $(this).remove(); });
                 });
-            }
+            }*/
         });
     }
 };

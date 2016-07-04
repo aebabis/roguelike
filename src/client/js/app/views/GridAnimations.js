@@ -56,7 +56,7 @@ export default {
         var x2 = to.getX();
         var y2 = to.getY();
         var angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
-        $(`<div class="projectile" data-projectile-name="${cause.getName()}">`).appendTo(grid.children[0])
+        $(`<div class="projectile" data-projectile-name="${cause.toString()}">`).appendTo(grid.children[0])
             .css({
                 left: `${x1 * 5}em`,
                 top: `${y1 * 5}em`,

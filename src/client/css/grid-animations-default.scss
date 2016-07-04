@@ -49,18 +49,18 @@
     height: 5em;
     z-index: 3;
 
-    $projectile-size: .5em;
     &::after {
         content: ' ';
         position: absolute;
-        width: $projectile-size;
-        height: $projectile-size;
-        margin-left: -($projectile-size / 2);
-        margin-top: -($projectile-size / 2);
-        background-color: black;
-        display: block;
-        left: 50%;
-        top: 50%;
-        border-radius: 50%;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 100%;
+        background-image: url(../images/small/Bullet.png);
+    }
+
+    &[data-projectile-name="ForceDart"]::after {
+        background-image: url(../images/small/ForceDart.png);
     }
 }

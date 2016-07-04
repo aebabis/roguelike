@@ -74,6 +74,6 @@ export default class Ability {
     }
 
     toString() {
-        return this.getName();
+        return this.constructor.name;
     }
 }

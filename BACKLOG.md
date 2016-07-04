@@ -51,7 +51,7 @@
 
 ## Bugs
   - Monsters on the same initiative collide?
-  - Healing does damage animation
+  - Tooltips don't update on state change
 
 ## Art
   - Snail icon
@@ -62,7 +62,6 @@
   - Armor and Robes
   - Druid
   - Stairs tile
-  - Shoving enemy
   - Trash can icon
   - Parchment scroll background image for game log
   - Knockback enemy

@@ -129,7 +129,18 @@ export default class GraphicDungeonView {
         var grid = this.getDom();
         var dungeon = this._sharedData.getDungeon();
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
-        if(event instanceof GameEvents.AttackEvent) {
+        if(event instanceof GameEvents.AbilityEvent) {
+            var ability = event.getAbility();
+            if(ability.getRange() > 1 && ability.isTargetted() && ability.isTargetCreature()) {
+                var caster = event.getCreature();
+                var casterLocation = dungeon.getTile(caster);
+                var target = event.getTile().getCreature();
+                this._createDelay(function() {
+                    let targetTile = (target && dungeon.getTile(target)) || event.getTile(); // Get target position dynamically so shooting at moving targets looks ok
+                    GridAnimations.animateProjectile(dungeon, grid, ability, casterLocation, targetTile);
+                }, delay);
+            }
+        } else if(event instanceof GameEvents.AttackEvent) {
             let attacker = event.getAttacker();
             let target = event.getTarget();
             let weapon = event.getWeapon();

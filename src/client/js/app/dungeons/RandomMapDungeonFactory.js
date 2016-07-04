@@ -21,25 +21,73 @@ import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
 import CherrySoda from '../entities/consumables/CherrySoda.js';
 import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
 
-function getLoot(prng) {
-    return Random.picker([
-        new Weapons.Stick(),
-        new Weapons.Dagger(),
-        new Weapons.Shortsword(),
-        new Weapons.Longsword(),
-        new Weapons.Sling(),
-        new Weapons.Shortbow(),
-        new Weapons.Longbow(),
-        new CherrySoda(),
-        new BlueberrySoda(),
-        new AbilityConsumable(new Abilities.Fireball()),
-        new AbilityConsumable(new Abilities.ForceDart()),
-        new AbilityConsumable(new Abilities.LesserSnare()),
-        new Armors.LightArmor(),
-        new Armors.MediumArmor(),
-        new Armors.HeavyArmor()
-    ])(prng);
-}
+var itemTable = new EntityTable([{
+    entity: Weapons.Stick,
+    weight: 3,
+    cost: 5
+}, {
+    entity: Weapons.Dagger,
+    weight: 5,
+    cost: 10
+}, {
+    entity: Weapons.Shortsword,
+    weight: 10,
+    cost: 20
+}, {
+    entity: Weapons.Longsword,
+    weight: 5,
+    cost: 30
+}, {
+    entity: Weapons.Sling,
+    weight: 10,
+    cost: 10
+}, {
+    entity: Weapons.Shortbow,
+    weight: 5,
+    cost: 30
+}, {
+    entity: Weapons.Longbow,
+    weight: 2,
+    cost: 60
+}, {
+    entity: CherrySoda,
+    weight: 40,
+    cost: 10
+}, {
+    entity: BlueberrySoda,
+    weight: 25,
+    cost: 10
+}, {
+    entity: function() {
+        return new AbilityConsumable(new Abilities.Fireball());
+    },
+    weight: 10,
+    cost: 20
+}, {
+    entity: function() {
+        return new AbilityConsumable(new Abilities.ForceDart());
+    },
+    weight: 30,
+    cost: 10
+}, {
+    entity: function() {
+        return new AbilityConsumable(new Abilities.LesserSnare());
+    },
+    weight: 5,
+    cost: 10
+}, {
+    entity: Armors.LightArmor,
+    weight: 5,
+    cost: 15
+}, {
+    entity: Armors.MediumArmor,
+    weight: 3,
+    cost: 25
+}, {
+    entity: Armors.HeavyArmor,
+    weight: 2,
+    cost: 40
+}]);
 
 var table = new EntityTable([{
     entity: Enemies.Archer,
@@ -156,14 +204,7 @@ export default class RandomMapDungeonFactory {
         var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
         var locations = Random.shuffle(prng, emptyTiles);
 
-        var drops = [
-            getLoot(prng),
-            getLoot(prng),
-            getLoot(prng),
-            getLoot(prng),
-            getLoot(prng),
-            getLoot(prng)
-        ];
+        var drops = itemTable.rollEntries(dungeon, prng, 110);
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
             var tile = emptyTiles[position];

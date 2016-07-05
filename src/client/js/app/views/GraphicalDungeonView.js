@@ -4,7 +4,7 @@ import GameEvents from '../events/GameEvents.js';
 import GridAnimations from './GridAnimations.js';
 import DungeonTooltips from './DungeonTooltips.js';
 
-var ANIMATE_BARS = false;
+//var ANIMATE_BARS = false;
 
 export default class GraphicDungeonView {
     constructor(sharedData) {
@@ -88,29 +88,13 @@ export default class GraphicDungeonView {
     }
 
     _animateBars(creature) {
-        var SCALE = 2;
+        //var SCALE = 2;
         if(creature.isDead()) {
             return;
         }
         var dom = this._getDomForCreature(creature);
         dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
-        var actionBar = $(dom).find('.action-bar');
-        var prevTime = actionBar.attr('data-last-width') || 0;
-        var time = creature.getTimeToNextMove();
-        var width = time * 100 / 1000 + '%';
-        if(ANIMATE_BARS) {
-            if(time < prevTime) {
-                actionBar.stop().animate({width: width}, (prevTime - time) * SCALE);
-            } else {
-                actionBar.stop().animate({width: 0}, prevTime * SCALE, function() {
-                    var speed = creature.getSpeed();
-                    var startingWidth = speed * 100 / 1000 + '%';
-                    actionBar.width(startingWidth).animate({width: width}, (speed - time) * SCALE);
-                });
-            }
-        } else {
-            actionBar.width(width);
-        }
+        dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
     }
 
     _resetAnimationQueue() {
@@ -157,11 +141,38 @@ export default class GraphicDungeonView {
             }, delay);
         } else if(event instanceof GameEvents.MoveEvent) {
             this._createDelay(function() {
+                let player = dungeon.getPlayableCharacter();
                 let to = event.getToCoords();
                 let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
                 let creature = event.getCreature();
                 let dom = self._getDomForCreature(creature);
                 cell.appendChild(dom);
+
+                // Update player vision
+                Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
+                    cell.setAttribute('data-visible', 'false');
+                });
+                if(player) {
+                    let playerLocation = dungeon.getTile(player);
+                    let visionRadius = Math.ceil(player.getVisionRadius());
+                    let startX = Math.max(0, playerLocation.getX() - visionRadius);
+                    let endX = Math.min(dungeon.getWidth() - 1, playerLocation.getX() + visionRadius);
+                    let startY = Math.max(0, playerLocation.getY() - visionRadius);
+                    let endY = Math.min(dungeon.getHeight() - 1, playerLocation.getY() + visionRadius);
+                    for(let x = startX; x <= endX; x++) {
+                        for(let y = startY; y <= endY; y++) {
+                            let tile = dungeon.getTile(x, y);
+                            let cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
+                            cell.setAttribute('data-tile-type', tile.constructor.name);
+                            cell.setAttribute('data-explored', player.hasSeen(tile));
+                            cell.setAttribute('data-visible', player.canSee(dungeon, tile));
+                            tile.getItems().forEach(function(item) {
+                                cell.appendChild(self._getDomForItem(item));
+                            });
+                        }
+                    }
+                }
+
             }, delay);
         } else if(event instanceof GameEvents.TakeItemEvent) {
             this._createDelay(function() {
@@ -200,7 +211,6 @@ export default class GraphicDungeonView {
         var self = this;
         var grid = this.getDom();
         var dungeon = this._sharedData.getDungeon();
-        var player = dungeon.getPlayableCharacter();
 
         if(event instanceof GameEvent) {
             if(event instanceof GameEvents.HumanMovingEvent) {
@@ -232,30 +242,6 @@ export default class GraphicDungeonView {
         // TODO: Consider if visibility needs to be animated
         // during events other than HumanMovingEvent
         // Should only be an issue in destructible environment
-        Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
-            cell.setAttribute('data-visible', 'false');
-        });
-
-        if(player) {
-            let playerLocation = dungeon.getTile(player);
-            let visionRadius = Math.ceil(player.getVisionRadius());
-            let startX = Math.max(0, playerLocation.getX() - visionRadius);
-            let endX = Math.min(dungeon.getWidth() - 1, playerLocation.getX() + visionRadius);
-            let startY = Math.max(0, playerLocation.getY() - visionRadius);
-            let endY = Math.min(dungeon.getHeight() - 1, playerLocation.getY() + visionRadius);
-            for(let x = startX; x < endX; x++) {
-                for(let y = startY; y < endY; y++) {
-                    let tile = dungeon.getTile(x, y);
-                    let cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
-                    cell.setAttribute('data-tile-type', tile.constructor.name);
-                    cell.setAttribute('data-explored', player.hasSeen(tile));
-                    cell.setAttribute('data-visible', player.canSee(dungeon, tile));
-                    tile.getItems().forEach(function(item) {
-                        cell.appendChild(self._getDomForItem(item));
-                    });
-                }
-            }
-        }
     }
 
     getSelectedTileCoordinates() {

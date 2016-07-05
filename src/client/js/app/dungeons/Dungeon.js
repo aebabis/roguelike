@@ -173,6 +173,10 @@ export default class Dungeon extends Observable {
         while(this.canAdvance()) {
             this.resolveNextStep();
         }
+        var activeCreature = this.getActiveCreature();
+        if(activeCreature instanceof PlayableCharacter) {
+            this.fireEvent(new HumanToMoveEvent(this, activeCreature));
+        }
         console.timeEnd('Timestep');
     }
 

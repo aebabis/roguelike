@@ -99,6 +99,10 @@ export default class Creature extends Entity {
         return this._abilities.slice();
     }
 
+    getAbility(index) {
+        return this._abilities[index];
+    }
+
     getAbilityIndex(param) {
         if(param.prototype instanceof Ability) {
             return this._abilities.findIndex((ability)=>ability.constructor.name===param.name);

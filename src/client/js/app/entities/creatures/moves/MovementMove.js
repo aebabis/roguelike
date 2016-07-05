@@ -76,4 +76,4 @@ export default class MovementMove extends Move {
         return observer.canSee(dungeon, dungeon.getTile(actorX, actorY)) ||
                 observer.canSee(dungeon, dungeon.getTile(actorX + this.getDx(), actorY + this.getDy()));
     }
-};
+}

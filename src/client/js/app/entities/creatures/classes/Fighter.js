@@ -1,6 +1,12 @@
 import PlayableCharacter from '../PlayableCharacter.js';
+import DashAttack from '../../../abilities/DashAttack';
 
 export default class Fighter extends PlayableCharacter {
+    constructor() {
+        super();
+        this.addAbility(new DashAttack());
+    }
+
     getBackpackSize() {
         return 3;
     }
@@ -10,7 +16,7 @@ export default class Fighter extends PlayableCharacter {
     }
 
     getBaseMana() {
-        return 0;
+        return 6;
     }
 
     getSpeed() {

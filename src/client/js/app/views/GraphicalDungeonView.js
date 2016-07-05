@@ -139,7 +139,7 @@ export default class GraphicDungeonView {
                     GridAnimations.animateProjectile(dungeon, grid, weapon, tile, targetTile);
                 }
             }, delay);
-        } else if(event instanceof GameEvents.MoveEvent) {
+        } else if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent) {
             this._createDelay(function() {
                 let player = dungeon.getPlayableCharacter();
                 let to = event.getToCoords();

@@ -50,6 +50,10 @@ export default class Ability {
         throw new Error('Abstract method not implemented');
     }
 
+    isMovementAbility() {
+        return false;
+    }
+
     // By default, ability targets must be visible
     mustTargetBeVisible() {
         return true;

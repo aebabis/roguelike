@@ -7,6 +7,7 @@ import HitpointsEvent from './HitpointsEvent.js';
 import HumanMovingEvent from './HumanMovingEvent.js';
 import HumanToMoveEvent from './HumanToMoveEvent.js';
 import MoveEvent from './MoveEvent.js';
+import PositionChangeEvent from './PositionChangeEvent.js';
 import TakeItemEvent from './TakeItemEvent.js';
 import TrashItemEvent from './TrashItemEvent.js';
 import WaitEvent from './WaitEvent.js';
@@ -21,6 +22,7 @@ export default {
     HumanMovingEvent,
     HumanToMoveEvent,
     MoveEvent,
+    PositionChangeEvent,
     TakeItemEvent,
     TrashItemEvent,
     WaitEvent

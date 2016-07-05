@@ -224,6 +224,10 @@ export default class Creature extends Entity {
         return this.getInventory().getArmor();
     }
 
+    getVisionRadius() {
+        return 5.5;
+    }
+
     /**
      * @description Determines if the Creature can see the given tile and
      * what's on it.
@@ -236,7 +240,7 @@ export default class Creature extends Entity {
         }
         var location = dungeon.getTile(this);
 
-        if(tile.getEuclideanDistance(location) > 5.5) {
+        if(tile.getEuclideanDistance(location) > this.getVisionRadius()) {
             return false;
         }
 

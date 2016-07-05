@@ -1,4 +1,3 @@
-import Dungeon from './dungeons/Dungeon.js';
 import RandomMapDungeonFactory from './dungeons/RandomMapDungeonFactory.js';
 
 import GraphicalDungeonView from './views/GraphicalDungeonView.js';

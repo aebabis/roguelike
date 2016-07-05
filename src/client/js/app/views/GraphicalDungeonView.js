@@ -232,17 +232,30 @@ export default class GraphicDungeonView {
         // TODO: Consider if visibility needs to be animated
         // during events other than HumanMovingEvent
         // Should only be an issue in destructible environment
-        dungeon.forEachTile(function(tile, x, y) {
-            var cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
-            cell.setAttribute('data-tile-type', tile.constructor.name);
-            if(player) {
-                cell.setAttribute('data-explored', player.hasSeen(tile));
-                cell.setAttribute('data-visible', player.canSee(dungeon, tile));
-            }
-            tile.getItems().forEach(function(item) {
-                cell.appendChild(self._getDomForItem(item));
-            });
+        Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
+            cell.setAttribute('data-visible', 'false');
         });
+
+        if(player) {
+            let playerLocation = dungeon.getTile(player);
+            let visionRadius = Math.ceil(player.getVisionRadius());
+            let startX = Math.max(0, playerLocation.getX() - visionRadius);
+            let endX = Math.min(dungeon.getWidth() - 1, playerLocation.getX() + visionRadius);
+            let startY = Math.max(0, playerLocation.getY() - visionRadius);
+            let endY = Math.min(dungeon.getHeight() - 1, playerLocation.getY() + visionRadius);
+            for(let x = startX; x < endX; x++) {
+                for(let y = startY; y < endY; y++) {
+                    let tile = dungeon.getTile(x, y);
+                    let cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
+                    cell.setAttribute('data-tile-type', tile.constructor.name);
+                    cell.setAttribute('data-explored', player.hasSeen(tile));
+                    cell.setAttribute('data-visible', player.canSee(dungeon, tile));
+                    tile.getItems().forEach(function(item) {
+                        cell.appendChild(self._getDomForItem(item));
+                    });
+                }
+            }
+        }
     }
 
     getSelectedTileCoordinates() {

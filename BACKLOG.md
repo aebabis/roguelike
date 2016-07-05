@@ -11,6 +11,7 @@
   - Special inventory slot for TheTreasure?
   - Change drop rates
   - Make enemies drop their items
+  - Improve/clarify interface for repositioning creatures
 - Med
   - Ranged attack animation
   - Keybindings Overlay

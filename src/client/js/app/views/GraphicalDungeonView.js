@@ -115,7 +115,7 @@ export default class GraphicDungeonView {
         var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof GameEvents.AbilityEvent) {
             var ability = event.getAbility();
-            if(ability.getRange() > 1 && ability.isTargetted() && ability.isTargetCreature()) {
+            if(ability.getRange() > 1 && ability.isTargetted() && ability.isTargetCreature() && !ability.isMovementAbility()) {
                 var caster = event.getCreature();
                 var casterLocation = dungeon.getTile(caster);
                 var target = event.getTile().getCreature();

@@ -1,0 +1,37 @@
+.theme-default section.game .icon {
+    &[data-item-name] {
+        background-image: url(../images/small/ThisIsAThing.png);
+    }
+
+    &[data-item-name="Dagger"] {
+        background-image: url(../images/small/Dagger.png);
+    }
+
+    &[data-item-name="Longbow"] {
+        background-image: url(../images/small/Longbow.png);
+    }
+
+    &[data-item-name="Shortbow"] {
+        background-image: url(../images/small/Shortbow.png);
+    }
+
+    &[data-item-name="Slingshot"] {
+        background-image: url(../images/small/Slingshot.png);
+    }
+
+    &[data-item-name="Stick"] {
+        background-image: url(../images/small/Stick.png);
+    }
+
+    &[data-item-name="TheTreasure"] {
+        background-image: url(../images/small/TreasureChest.png);
+    }
+
+    &[data-item-name="CherrySoda"] {
+        background-image: url(../images/small/CherrySoda.png);
+    }
+
+    &[data-item-name="BlueberrySoda"] {
+        background-image: url(../images/small/BlueberrySoda.png);
+    }
+}

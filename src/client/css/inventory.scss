@@ -79,7 +79,6 @@
             height: 3em;
             background-size: 100%;
             border: solid 1px #963;
-            background-image: url(../images/small/ThisIsAThing.png);
         }
 
         button.trash {
@@ -90,22 +89,6 @@
             line-height: .9em;
             width: 1em;
             height: 1em;
-        }
-
-        &[data-item="BlueberrySoda"] .icon {
-            background-image: url(../images/small/BlueberrySoda.png);
-        }
-
-        &[data-item="CherrySoda"] .icon {
-            background-image: url(../images/small/CherrySoda.png);
-        }
-
-        &[data-item="Dagger"] .icon {
-            background-image: url(../images/small/Dagger.png);
-        }
-
-        &[data-item="TheTreasure"] .icon {
-            background-image: url(../images/small/TreasureChest.png);
         }
     }
 }

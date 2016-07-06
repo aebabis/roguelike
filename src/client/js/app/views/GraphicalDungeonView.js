@@ -287,6 +287,7 @@ export default class GraphicDungeonView {
             div.setAttribute('data-item-name', item.toString());
             div.classList.add('entity');
             div.classList.add('item');
+            div.classList.add('icon');
 
             return div;
         }

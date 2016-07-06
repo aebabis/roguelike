@@ -17,7 +17,7 @@ export default lib = {
                  data-item="${item.toString()}"
                  data-is-targetting="${!!isTargetting}"
                  title="${item.getFriendlyDescription()}">
-                <div class="icon"></div>
+                <div class="icon" data-item-name="${item.toString()}"></div>
                 <div class="info">
                     <span class="name">${item.getName()}</span>
                     <span class="desc">${item.getFriendlyDescription()}</span>
@@ -41,7 +41,7 @@ export default lib = {
             };
             return $(`
                 <li class="slot item weapon" tabindex="0" data-index="${index}" data-item="${weapon.toString()}">
-                    <div class="icon"></div>
+                    <div class="icon" data-item-name="${weapon.toString()}"></div>
                     <div class="info">
                         <div class="name">${data.name}</div>
                         <div class="desc">
@@ -69,7 +69,7 @@ export default lib = {
             };
             return $(`
                 <li class="slot item armor" tabindex="0" data-index="${index}" data-item="${armor.toString()}">
-                    <div class="icon"></div>
+                    <div class="icon" data-item-name="${armor.toString()}"></div>
                     <div class="info">
                         <div class="name">${data.name}</div>
                         <!--div class="stats">

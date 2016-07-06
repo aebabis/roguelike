@@ -38,7 +38,7 @@ var itemTable = new EntityTable([{
     weight: 5,
     cost: 30
 }, {
-    entity: Weapons.Sling,
+    entity: Weapons.Slingshot,
     weight: 10,
     cost: 10
 }, {

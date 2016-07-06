@@ -3,7 +3,7 @@ import DamageTypes from '../DamageTypes.js';
 
 var AMOUNT = 2;
 
-export default class Sling extends Weapon {
+export default class Slingshot extends Weapon {
     getDamage() {
         return AMOUNT;
     }

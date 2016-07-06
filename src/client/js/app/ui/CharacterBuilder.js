@@ -17,7 +17,7 @@ var MELEE_WEAPON_COSTS = {
 };
 
 var RANGED_WEAPON_COSTS = {
-    Sling: 10,
+    Slingshot: 10,
     Shortbow: 30,
     Longbow: 60
 };
@@ -57,7 +57,7 @@ var STARTING_EQUIPMENT = {
     },
     Rogue: {
         money: 70,
-        items: ['Sling', 'Dagger', 'Light Armor']
+        items: ['Slingshot', 'Dagger', 'Light Armor']
     },
     Wizard: {
         money: 65,

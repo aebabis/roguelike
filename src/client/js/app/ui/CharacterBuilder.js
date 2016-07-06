@@ -34,7 +34,6 @@ var ARMOR_COSTS = {
 
 var ABILITY_COSTS = {
     Fireball: 30,
-    ForceDart: 20,
     LesserSnare: 15
 };
 
@@ -52,15 +51,15 @@ var ABILITY_CONSUMEABLE_COSTS = {
 
 var STARTING_EQUIPMENT = {
     Fighter: {
-        money: 80,
+        money: 70,
         items: ['MediumArmor', 'Longsword']
     },
     Rogue: {
-        money: 70,
+        money: 60,
         items: ['Slingshot', 'Dagger', 'Light Armor']
     },
     Wizard: {
-        money: 65,
+        money: 55,
         items: ['Stick', 'ForceDart']
     }
 };
@@ -201,24 +200,35 @@ export default class CharacterBuilder {
         });
         var $dialog = template().appendTo('body');
         var $form = $dialog.find('form').on('submit', () => {
-            var data = new FormData($form[0]);
+            let data = new FormData($form[0]);
 
-            var player = new Classes[data.get('class')]();
+            let className = data.get('class');
+            let player = new Classes[className]();
+            switch(className){
+            case 'Fighter':
+                player.addAbility(new Abilities.DashAttack());
+                break;
+            case 'Wizard':
+                player.addAbility(new Abilities.ForceDart());
+                break;
+            case 'Rogue':
+                break;
+            }
 
-            var MeleeWeaponClass = Purchaseables[data.get('melee-weapon')];
-            var RangedWeaponClass = Purchaseables[data.get('ranged-weapon')];
-            var ArmorClass = Purchaseables[data.get('armor')];
+            let MeleeWeaponClass = Purchaseables[data.get('melee-weapon')];
+            let RangedWeaponClass = Purchaseables[data.get('ranged-weapon')];
+            let ArmorClass = Purchaseables[data.get('armor')];
 
             [MeleeWeaponClass, RangedWeaponClass, ArmorClass].filter(Boolean).forEach(function(Class) {
                 player.addItem(new Class());
             });
 
             Object.keys(Purchaseables).forEach(function(purchaseableName) {
-                var value = data.get(purchaseableName);
+                let value = data.get(purchaseableName);
                 if(value) {
-                    var count = isNaN(value) ? 1 : +value;
-                    for(var i = 0; i < count; i++) {
-                        var item = new Purchaseables[purchaseableName]();
+                    let count = isNaN(value) ? 1 : +value;
+                    for(let i = 0; i < count; i++) {
+                        let item = new Purchaseables[purchaseableName]();
                         if(item.getManaCost) {
                             player.addAbility(item);
                         } else {
@@ -229,8 +239,8 @@ export default class CharacterBuilder {
             });
 
             Object.keys(ABILITY_CONSUMEABLE_COSTS).forEach(function(purchaseableName) {
-                var value = data.get(purchaseableName + '_consumable');
-                for(var i = 0; i < value; i++) {
+                let value = data.get(purchaseableName + '_consumable');
+                for(let i = 0; i < value; i++) {
                     player.addItem(new AbilityConsumable(new Abilities[purchaseableName]));
                 }
             });

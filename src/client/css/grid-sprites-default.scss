@@ -58,9 +58,12 @@
         border-radius: 5px;
     }
 
-    [data-creature-name="Fighter"],
-    [data-creature-name="Wizard"] {
+    [data-creature-name="Fighter"] {
         background-image: url(../images/small/HeroFemale.png);
+    }
+
+    [data-creature-name="Wizard"] {
+        background-image: url(../images/small/Wizard.png);
     }
 
     [data-creature-name="Rogue"] {

@@ -1,10 +1,8 @@
 import PlayableCharacter from '../PlayableCharacter.js';
-import DashAttack from '../../../abilities/DashAttack';
 
 export default class Fighter extends PlayableCharacter {
     constructor() {
         super();
-        this.addAbility(new DashAttack());
     }
 
     getBackpackSize() {

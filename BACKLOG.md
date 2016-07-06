@@ -9,7 +9,6 @@
   - Animate attackers
   - Tile tooltips
   - Special inventory slot for TheTreasure?
-  - Change drop rates
   - Make enemies drop their items
   - Improve/clarify interface for repositioning creatures
 - Med

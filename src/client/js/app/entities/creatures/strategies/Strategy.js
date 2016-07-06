@@ -1,4 +1,4 @@
-import Moves from '../moves/Moves.js';
+//import Moves from '../moves/Moves.js';
 
 export default class Strategy {
     getNextMove(dungeon, creature) {
@@ -7,10 +7,10 @@ export default class Strategy {
 
     observeMove(dungeon, observer, actor, move) {
         if(observer.isEnemy(actor)) {
-            if(move instanceof Moves.MovementMove) {
+            if(move.getDx) {
                 let currentLocation = dungeon.getTile(actor);
                 this._lastKnownEnemyLocation = dungeon.getTile(currentLocation.getX(), currentLocation.getY());
-            } else if(move instanceof Moves.UseAbilityMove && actor.getAbility(move.getIndex()).isMovementAbility()) {
+            } else if(move.getAbility && actor.getAbility(move.getIndex()).isMovementAbility()) {
                 let currentLocation = dungeon.getTile(actor);
                 this._lastKnownEnemyLocation = dungeon.getTile(currentLocation.getX(), currentLocation.getY());
             }

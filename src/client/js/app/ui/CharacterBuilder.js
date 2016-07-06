@@ -110,7 +110,7 @@ function template() {
                     </label>
                 </div>
                 <div class='items abilities'>
-                    ${Object.keys(Abilities).map(function(className) {
+                    ${Object.keys(Abilities).filter((ability)=>ABILITY_COSTS[ability]).map(function(className) {
                         return `<label>
                             <input type='checkbox' name='${className}'>
                             <span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span>
@@ -123,7 +123,7 @@ function template() {
                     }).join('')}
                 </div>
                 <div class='items ability-consumables'>
-                    ${Object.keys(Abilities).map(function(className) {
+                    ${Object.keys(Abilities).filter((ability)=>ABILITY_CONSUMEABLE_COSTS[ability]).map(function(className) {
                         return `<label>
                             <input type='number' min="0" name='${className}_consumable' value='0'>
                             <span class='label-text'>${new AbilityConsumable(new Abilities[className]).getName()} (<span class='cost'>${ABILITY_CONSUMEABLE_COSTS[className]}</span>)</span>

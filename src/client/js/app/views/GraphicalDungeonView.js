@@ -149,9 +149,7 @@ export default class GraphicDungeonView {
                 cell.appendChild(dom);
 
                 // Update player vision
-                Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
-                    cell.setAttribute('data-visible', 'false');
-                });
+                $('[data-visible="true"]').attr('data-visible', 'false');
                 if(player) {
                     let playerLocation = dungeon.getTile(player);
                     let visionRadius = Math.ceil(player.getVisionRadius());

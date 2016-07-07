@@ -91,7 +91,7 @@ export default {
                     $(this).fadeOut(400, function(){ $(this).remove(); });
                 });
             }*/
-        }).on('click', function() {
+        }).on('click tap', function() {
             $grid.tooltip('disable');
         }).on('mousemove focus', function() {
             $grid.tooltip('enable');

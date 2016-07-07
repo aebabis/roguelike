@@ -35,7 +35,7 @@ export default class InventoryView {
 
         var dungeon = sharedData.getDungeon();
 
-        $(dom).on('click', '.item', function() {
+        $(dom).on('click tap', '.item', function() {
             var player = dungeon.getPlayableCharacter();
             var index = +$(this).attr('data-index');
             var item = player.getInventory().getItem(index);
@@ -52,7 +52,7 @@ export default class InventoryView {
             dungeon.resolveUntilBlocked();
         });
 
-        $(dom).on('click', 'button.trash', function(event) {
+        $(dom).on('click tap', 'button.trash', function(event) {
             event.stopPropagation(); // Prevent parent "button" from being clicked
 
             var player = dungeon.getPlayableCharacter();

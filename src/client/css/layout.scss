@@ -17,6 +17,10 @@ section.game {
     outline: 0;
     height: 100%;
     padding-top: 3em;
+
+    button * {
+        pointer-events: none;
+    }
 }
 
 .game-ui-container {

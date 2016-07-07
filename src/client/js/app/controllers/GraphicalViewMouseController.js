@@ -50,7 +50,7 @@ export default class GraphicalViewMouseController {
 
         // Arrow key handler
         /*eslint-env jquery*/
-        $(dom).on('click', '.cell', function() {
+        $(dom).on('click tap', '.cell', function() {
             var move = getMoveFor(this);
             if(move) {
                 var dungeon = sharedData.getDungeon();

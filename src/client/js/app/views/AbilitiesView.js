@@ -11,7 +11,7 @@ export default class AbilitiesView {
 
         sharedData.addObserver(()=>this.update());
 
-        $(dom).on('click', 'button', function() {
+        $(dom).on('click tap', 'button', function() {
             var index = +$(this).attr('data-index');
             var prevAbility = sharedData.getTargettedAbility();
 

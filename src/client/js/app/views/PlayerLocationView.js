@@ -11,7 +11,7 @@ export default class PlayerLocationView {
 
         sharedData.addObserver(()=>this.update());
 
-        $(dom).on('click', 'button.item', function() {
+        $(dom).on('click tap', 'button.item', function() {
             var index = $(this).attr('data-index');
             var dungeon = sharedData.getDungeon();
             if(dungeon) {

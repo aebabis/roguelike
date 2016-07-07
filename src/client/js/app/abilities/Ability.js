@@ -26,6 +26,8 @@ export default class Ability {
                 return 'Target tile has no creature';
             } else if(dungeon.getTile(creature).getDirectDistance(optionalTargetTile) > this.getRange()) {
                 return 'Target not in range';
+            } else if(this.getRange() > 0 && optionalTargetTile === dungeon.getTile(creature)) {
+                return 'Not a self-target ability';
             }
         } else {
             return null;

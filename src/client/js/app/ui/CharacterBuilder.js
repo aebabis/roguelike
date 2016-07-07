@@ -184,7 +184,7 @@ function template() {
         $dialog.find('input[type="submit"]').prop('disabled', !legal);
     }
 
-    $dialog.on('input', 'input, select', update);
+    $dialog.on('input change', 'input, select', update);
 
     // Wait for autocomplete
     setTimeout(update);

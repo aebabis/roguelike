@@ -3,6 +3,13 @@
         background-image: url(../images/small/ThisIsAThing.png);
     }
 
+    &[data-item-name="TheTreasure"] {
+        background-image: url(../images/small/TreasureChest.png);
+    }
+
+    /////////////
+    // WEAPONS //
+    /////////////
     &[data-item-name="Dagger"] {
         background-image: url(../images/small/Dagger.png);
     }
@@ -23,15 +30,29 @@
         background-image: url(../images/small/Stick.png);
     }
 
-    &[data-item-name="TheTreasure"] {
-        background-image: url(../images/small/TreasureChest.png);
-    }
-
+    /////////////////
+    // CONSUMABLES //
+    /////////////////
     &[data-item-name="CherrySoda"] {
         background-image: url(../images/small/CherrySoda.png);
     }
 
     &[data-item-name="BlueberrySoda"] {
         background-image: url(../images/small/BlueberrySoda.png);
+    }
+
+    ///////////////
+    // ABILITIES //
+    ///////////////
+    &[data-ability-name="Fireball"] {
+        background-image: url(../images/small/Fireball.png);
+    }
+
+    &[data-ability-name="ForceDart"] {
+        background-image: url(../images/small/ForceDart.png);
+    }
+
+    &[data-ability-name="LesserSnare"] {
+        background-image: url(../images/small/TangleVine.png);
     }
 }

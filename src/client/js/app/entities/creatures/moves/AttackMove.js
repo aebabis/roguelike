@@ -27,7 +27,7 @@ export default class AttackMove extends Move {
             return 'Creature can\'t attack itself';
         }
 
-        var targetDistance = dungeon.getTile(creature).getDirectDistance(targetTile);
+        var targetDistance = dungeon.getTile(creature).getEuclideanDistance(targetTile);
         var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
         if(!(weapon && weapon instanceof Weapon)) {
             return 'No weapon to attack that target with';

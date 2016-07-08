@@ -6,6 +6,53 @@ import DungeonTooltips from './DungeonTooltips.js';
 
 //var ANIMATE_BARS = false;
 
+function updateRangeIndicator(grid, dungeon, attack) {
+    $('.range-indicator').remove();
+    if(!attack) {
+        return;
+    }
+    var player = dungeon.getPlayableCharacter();
+    var playerTile = dungeon.getTile(player);
+    var playerX = playerTile.getX();
+    var playerY = playerTile.getY();
+    var range = attack.getRange();
+    var dimension = range * 2 + 3;
+    var rangeArray = new Array(dimension).fill(0).map(function(unused, x) {
+        let dx = x - range - 1;
+        return new Array(dimension).fill(0).map(function(unused, y) {
+            let dy = y - range - 1;
+            return dx * dx + dy * dy <= range * range;
+        });
+    });
+    $('<div class="range-indicator">').css({
+        zIndex: 5,
+        position: 'absolute',
+        pointerEvents: 'none',
+        left: (playerX - range - 1) * 5 + 'em',
+        top: (playerY - range - 1) * 5 + 'em'
+    }).append(rangeArray.map(function(row, dy) {
+        return $('<div class="range-indicator-row">').append(row.map(function(isTargettable, dx) {
+            let cellX = playerX + dx - range - 1;
+            let cellY = playerY + dy - range - 1;
+            return $('<div class="range-indicator-cell">').css({
+                //visibility: player.canSee(dungeon, dungeon.getTile(cellX, cellY)) ? 'visible' : 'hidden', // TODO: Make canSee accept x,y values
+                float: 'left',
+                width: '5em',
+                height: '5em',
+                pointerEvents: 'none',
+                borderStyle: 'solid',
+                borderColor: 'rgba(70, 70, 90, 1)',
+                borderRadius: '-8px',
+                borderTopWidth: (isTargettable && !rangeArray[dy - 1][dx]) ? '2px' : '0',
+                borderRightWidth: (isTargettable && !rangeArray[dy][dx + 1]) ? '2px' : '0',
+                borderBottomWidth: (isTargettable && !rangeArray[dy + 1][dx]) ? '2px' : '0',
+                borderLeftWidth: (isTargettable && !rangeArray[dy][dx - 1]) ? '2px' : '0'
+            });
+        }));
+    })).appendTo(grid);
+    console.log(rangeArray);
+}
+
 export default class GraphicDungeonView {
     constructor(sharedData) {
         var self = this;
@@ -41,6 +88,20 @@ export default class GraphicDungeonView {
         dungeon.addObserver(function observer(event) {
             self.update(event);
         });
+
+        (function() {
+            var timer;
+            sharedData.addObserver(function() {
+                clearTimeout(timer);
+                timer = setTimeout(function() {
+                    var dungeon = sharedData.getDungeon();
+                    var targettable = sharedData.getTargettedAbility() ||
+                        sharedData.getTargettedItem() ||
+                        dungeon.getPlayableCharacter().getRangedWeapon();
+                    updateRangeIndicator(grid, sharedData.getDungeon(), targettable);
+                });
+            });
+        })();
 
         DungeonTooltips.bindTooltips(dungeon, grid);
     }

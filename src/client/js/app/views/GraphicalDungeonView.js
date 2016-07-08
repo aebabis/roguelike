@@ -108,7 +108,7 @@ export default class GraphicDungeonView {
                     if(typeof sharedData.getTargettedAbility() === 'number') {
                         targettable = dungeon.getPlayableCharacter().getAbility(sharedData.getTargettedAbility());
                     } else if(typeof sharedData.getTargettedItem() === 'number') {
-                        targettable = dungeon.getPlayableCharacter().getAbility(sharedData.getTargettedItem());
+                        targettable = dungeon.getPlayableCharacter().getInventory().getItem(sharedData.getTargettedItem());
                     } else {
                         targettable = dungeon.getPlayableCharacter().getRangedWeapon();
                     }

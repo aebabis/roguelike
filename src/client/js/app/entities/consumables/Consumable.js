@@ -9,6 +9,10 @@ export default class Consumable extends Item {
         return false;
     }
 
+    getRange() {
+        return 0;
+    }
+
     use(dungeon, creature) {
         throw new Error('Abstract method not implemented');
     }

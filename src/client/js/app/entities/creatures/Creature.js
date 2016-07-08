@@ -6,6 +6,7 @@ import CustomEvent from '../../events/CustomEvent.js';
 import HitpointsEvent from '../../events/HitpointsEvent.js';
 
 import Inventory from './Inventory.js';
+import Weapon from '../weapons/Weapon.js';
 
 import Ability from '../../abilities/Ability.js';
 
@@ -59,9 +60,9 @@ export default class Creature extends Entity {
                 throw new Error('No available slot');
             }
             var inventory = this.getInventory();
-            if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+            if(item instanceof Weapon && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
                 inventory.equipItem(item);
-            } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+            } else if(item instanceof Weapon && item.getRange() > 1 && !inventory.getRangedWeapon()) {
                 inventory.equipItem(item);
             } else if(item.getPhysicalReduction && !inventory.getArmor()) {
                 inventory.equipItem(item);

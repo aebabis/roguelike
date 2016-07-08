@@ -16,6 +16,10 @@ export default class AbilityConsumable extends Consumable {
         return this._ability.isTargetCreature();
     }
 
+    getRange() {
+        return this._ability.getRange();
+    }
+
     use(dungeon, creature, optionalTargetTile) {
         this._ability.use(dungeon, creature, optionalTargetTile, true);
         dungeon.fireEvent(new GameEvents.AbilityEvent(dungeon, creature, this._ability, optionalTargetTile));

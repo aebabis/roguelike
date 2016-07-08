@@ -35,6 +35,10 @@ export default class Weapon extends Item {
         return true;
     }
 
+    onAttack(dungeon, attacker, defender) {
+        // Do nothing
+    }
+
     onHit(dungeon, attacker, defender) {
         // Do nothing
     }

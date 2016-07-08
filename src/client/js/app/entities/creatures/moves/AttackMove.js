@@ -57,6 +57,7 @@ export default class AttackMove extends Move {
         var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
         var damage = target.receiveDamage(dungeon, weapon.getDamage(), weapon.getDamageType());
         dungeon.fireEvent(new AttackEvent(dungeon, creature, target, weapon));
+        weapon.onAttack(dungeon, creature, target);
         if(damage > 0) {
             weapon.onHit(dungeon, creature, target);
         }

@@ -11,6 +11,12 @@ function updateRangeIndicator(grid, dungeon, attack) {
     if(!attack) {
         return;
     }
+    var color = 'rgb(70, 70, 90)';
+    if(typeof attack.isMovementAbility === 'function') {
+        color = 'darkviolet';
+    } else if(typeof attack.isTargetted === 'function') {
+        color = 'violet';
+    }
     var player = dungeon.getPlayableCharacter();
     var playerTile = dungeon.getTile(player);
     var playerX = playerTile.getX();
@@ -31,7 +37,10 @@ function updateRangeIndicator(grid, dungeon, attack) {
         left: (playerX - range - 1) * 5 + 'em',
         top: (playerY - range - 1) * 5 + 'em'
     }).append(rangeArray.map(function(row, dy) {
-        return $('<div class="range-indicator-row">').append(row.map(function(isTargettable, dx) {
+        return $('<div class="range-indicator-row">').css({
+            width: dimension * 5 + 'em',
+            overflow: 'auto'
+        }).append(row.map(function(isTargettable, dx) {
             let cellX = playerX + dx - range - 1;
             let cellY = playerY + dy - range - 1;
             return $('<div class="range-indicator-cell">').css({
@@ -41,7 +50,7 @@ function updateRangeIndicator(grid, dungeon, attack) {
                 height: '5em',
                 pointerEvents: 'none',
                 borderStyle: 'solid',
-                borderColor: 'rgba(70, 70, 90, 1)',
+                borderColor: color,
                 borderRadius: '-8px',
                 borderTopWidth: (isTargettable && !rangeArray[dy - 1][dx]) ? '2px' : '0',
                 borderRightWidth: (isTargettable && !rangeArray[dy][dx + 1]) ? '2px' : '0',
@@ -95,9 +104,14 @@ export default class GraphicDungeonView {
                 clearTimeout(timer);
                 timer = setTimeout(function() {
                     var dungeon = sharedData.getDungeon();
-                    var targettable = sharedData.getTargettedAbility() ||
-                        sharedData.getTargettedItem() ||
-                        dungeon.getPlayableCharacter().getRangedWeapon();
+                    var targettable;
+                    if(typeof sharedData.getTargettedAbility() === 'number') {
+                        targettable = dungeon.getPlayableCharacter().getAbility(sharedData.getTargettedAbility());
+                    } else if(typeof sharedData.getTargettedItem() === 'number') {
+                        targettable = dungeon.getPlayableCharacter().getAbility(sharedData.getTargettedItem());
+                    } else {
+                        targettable = dungeon.getPlayableCharacter().getRangedWeapon();
+                    }
                     updateRangeIndicator(grid, sharedData.getDungeon(), targettable);
                 });
             });

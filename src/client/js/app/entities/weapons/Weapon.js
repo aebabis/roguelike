@@ -21,6 +21,10 @@ export default class Weapon extends Item {
         throw new Error('Abstract method not implemented');
     }
 
+    isMelee() {
+        return this.getRange() === 1;
+    }
+
     /**
      * Magical damage is less likely to be reduced
      */

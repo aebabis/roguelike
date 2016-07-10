@@ -27,13 +27,23 @@ export default class AttackMove extends Move {
             return 'Creature can\'t attack itself';
         }
 
-        var targetDistance = dungeon.getTile(creature).getEuclideanDistance(targetTile);
-        var weapon = (targetDistance > 1) ? creature.getRangedWeapon() : creature.getMeleeWeapon();
-        if(!(weapon && weapon instanceof Weapon)) {
-            return 'No weapon to attack that target with';
-        } else if(targetDistance > weapon.getRange()) {
-            return 'Target not in range';
-        } else if(!weapon.isUseable(dungeon)) {
+        var weapon;
+        var attackerTile = dungeon.getTile(creature);
+        if(attackerTile.getNeighbors8().includes(targetTile)) {
+            weapon = creature.getMeleeWeapon();
+            if(!weapon) {
+                return 'No weapon to attack that target with';
+            }
+        } else {
+            weapon = creature.getRangedWeapon();
+            var targetDistance = dungeon.getTile(creature).getEuclideanDistance(targetTile);
+            if(!weapon) {
+                return 'No weapon to attack that target with';
+            } else if(targetDistance > weapon.getRange()) {
+                return 'Target not in range';
+            }
+        }
+        if(!weapon.isUseable(dungeon)) {
             return 'Weapon not currently useable';
         }
 

@@ -59,7 +59,6 @@ function updateRangeIndicator(grid, dungeon, attack) {
             });
         }));
     })).appendTo(grid);
-    console.log(rangeArray);
 }
 
 export default class GraphicDungeonView {

@@ -109,4 +109,14 @@ describe('DashAttack', function() {
 
         expect(reason).not.to.be.a('string');
     });
+
+    it('should be considered a movement ability', function() {
+        expect(attack.isMovementAbility()).to.equal(true);
+    });
+
+    it('should have a description', function() {
+        var desc = attack.getDescription();
+        expect(desc).to.be.a('string');
+        expect(desc).to.have.length.above(0);
+    });
 });

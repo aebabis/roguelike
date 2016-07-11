@@ -14,6 +14,8 @@ export default class DashAttack extends Ability {
         var superReason = super.getReasonIllegal.apply(this, arguments);
         if(superReason) {
             return superReason;
+        } else if(dungeon.getTile(creature).getNeighbors8().includes(optionalTargetTile)) {
+            return 'Can\'t use on adjacent enemy';
         } else if(!getToTile(dungeon, creature, optionalTargetTile, isFree)) {
             return 'No tile to dash to';
         } else if(!creature.getMeleeWeapon()) {

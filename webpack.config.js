@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 
+var PolyfillsPlugin = require('webpack-polyfills-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -10,6 +11,11 @@ module.exports = {
         filename: 'bundle.js'
     },
     plugins: [
+        new PolyfillsPlugin([
+            'Array/prototype/find',
+            'Array/prototype/includes'
+        ]),
+
         new HtmlWebpackPlugin({
             title: 'Vaults of Git’recht'
         }),

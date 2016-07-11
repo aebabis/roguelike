@@ -1,6 +1,8 @@
 import TestBootstrapper from '../src/client/js/app/TestBootstrapper.js';
 import PlayableCharacter from '../src/client/js/app/entities/creatures/PlayableCharacter.js';
 
+import '../src/client/js/polyfills/includes.js';
+
 var jsdom = require('jsdom').jsdom;
 global.Random = require('random-js');
 

@@ -6,13 +6,10 @@
   - Using keyboard to look at tiles
   - Button to focus abilities. Arrows to move between
   - Fixed container size. Autoscroll during move
-  - Animate attackers
-  - Tile tooltips
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Improve/clarify interface for repositioning creatures
 - Med
-  - Ranged attack animation
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
   - Serialization for saving games (and as POC for client-server games)
@@ -21,7 +18,6 @@
   - Make all views get Dungeon from shared data
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
-  - Delay death and damage animations til after attack has started
   - Don't bundle jQuery with webpack
   - Webpack integration of coverage
   - Try flow or Typescript
@@ -43,6 +39,7 @@
   - Color code damage types in UI
   - Make ClunkyNintiesCellPhone use predefined strategies
   - Range indicators
+  - Test case for reflexivity of canSee
 
 ## Content
   - Invisibility Spell

@@ -14,6 +14,14 @@ import Shortbow from '../entities/weapons/Shortbow.js';
 import Stick from '../entities/weapons/Stick.js';
 
 export default class TestDungeonFactory {
+    transpose(array) {
+        return array[0].map(function(col, i) {
+            return array.map(function(row) {
+                return row[i];
+            });
+        });
+    }
+
     static showDungeon(dungeon) {
         /* eslint-disable no-console */
         var width = dungeon.getWidth();

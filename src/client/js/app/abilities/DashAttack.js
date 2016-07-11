@@ -16,6 +16,8 @@ export default class DashAttack extends Ability {
             return superReason;
         } else if(!getToTile(dungeon, creature, optionalTargetTile, isFree)) {
             return 'No tile to dash to';
+        } else if(!creature.getMeleeWeapon()) {
+            return 'No melee weapon to attack with';
         } else {
             return null;
         }

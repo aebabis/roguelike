@@ -91,51 +91,51 @@ var itemTable = new EntityTable([{
 
 var table = new EntityTable([{
     entity: Enemies.Archer,
-    weight: 7,
+    weight: 40,
     cost: 10
 }, {
     entity: Enemies.BlackVoidSphere,
-    weight: 10,
+    weight: 100,
     cost: 3
 }, {
     entity: Enemies.ClunkyNinetiesCellPhone,
-    weight: 3,
+    weight: 30,
     cost: 5
 }, {
     entity: Enemies.DustBunny,
-    weight: 3,
+    weight: 40,
     cost: 12
 }, {
     entity: Enemies.DustMite,
-    weight: 2,
+    weight: 20,
     cost: 2
 }, {
     entity: Enemies.Ent,
-    weight: 6,
+    weight: 60,
     cost: 9
 }, {
     entity: Enemies.FireSprite,
-    weight: 6,
+    weight: 60,
     cost: 6
 }, {
     entity: Enemies.FlyingSerpent,
-    weight: 6,
+    weight: 60,
     cost: 4
 }, {
     entity: Enemies.MongolianHorseArcher,
-    weight: 8,
+    weight: 30,
     cost: 20
 }, {
     entity: Enemies.Skeleton,
-    weight: 8,
+    weight: 80,
     cost: 5
 }, {
     entity: Enemies.SlingshotImp,
-    weight: 5,
+    weight: 50,
     cost: 3
 }, {
     entity: Enemies.Witch,
-    weight: 5,
+    weight: 50,
     cost: 10
 }]);
 

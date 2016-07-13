@@ -1,8 +1,8 @@
-import { default as Dungeon } from '../src/client/js/app/dungeons/Dungeon.js';
-import { default as TestDungeonFactory } from '../src/client/js/app/dungeons/TestDungeonFactory.js';
-import { default as Creature } from '../src/client/js/app/entities/creatures/Creature.js';
-import { default as PlayableCharacter } from '../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import { default as WallTile } from '../src/client/js/app/tiles/WallTile.js';
+//import { default as Dungeon } from '../src/client/js/app/dungeons/Dungeon.js';
+import { default as TestDungeonFactory } from '../../../../src/client/js/app/dungeons/TestDungeonFactory.js';
+//import { default as Creature } from '../src/client/js/app/entities/creatures/Creature.js';
+//import { default as PlayableCharacter } from '../src/client/js/app/entities/creatures/PlayableCharacter.js';
+//import { default as WallTile } from '../src/client/js/app/tiles/WallTile.js';
 
 var expect = require('chai').expect;
 
@@ -36,5 +36,13 @@ describe('Creature', function() {
         expect(creature.canSee(dungeon, dungeon.getTile(0, 2))).to.equal(true);
         expect(creature.canSee(dungeon, dungeon.getTile(2, 0))).to.equal(true);
         expect(creature.canSee(dungeon, dungeon.getTile(2, 2))).to.equal(true);
+    });
+
+    describe('canAddItem', function() {
+        it('should return true when trying to add a weapon to an empty equipment slot');
+
+        it('should return true when trying to add armor to an empty equipment slot');
+
+        it('should return false when trying to add a scroll to a character with no weapons and a full pack');
     });
 });

@@ -1,6 +1,8 @@
 import Archer from './Archer.js';
 import BlackVoidSphere from './BlackVoidSphere.js';
 import ClunkyNinetiesCellPhone from './ClunkyNinetiesCellPhone.js';
+import DustBunny from './DustBunny.js';
+import DustMite from './DustMite.js';
 import Ent from './Ent.js';
 import FireSprite from './FireSprite.js';
 import FlyingSerpent from './FlyingSerpent.js';
@@ -13,6 +15,8 @@ export default {
     Archer,
     BlackVoidSphere,
     ClunkyNinetiesCellPhone,
+    DustBunny,
+    DustMite,
     Ent,
     FireSprite,
     FlyingSerpent,

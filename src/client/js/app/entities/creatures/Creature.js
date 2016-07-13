@@ -186,9 +186,14 @@ export default class Creature extends Entity {
     }
 
     die(dungeon) {
+        var location = dungeon.getTile(this);
         this._isDead = true;
         dungeon.removeCreature(this);
         dungeon.fireEvent(new CustomEvent(dungeon, this.getName() + ' died'));
+        this.onDeath(dungeon, location);
+    }
+
+    onDeath() {
     }
 
     isDead() {

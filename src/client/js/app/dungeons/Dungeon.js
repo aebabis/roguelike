@@ -7,7 +7,7 @@ import GameConditions from '../conditions/GameConditions.js';
 
 import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
 
-import CustomEvent from '../events/CustomEvent.js';
+import GameEvents from '../events/GameEvents.js';
 import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
 import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
@@ -93,12 +93,16 @@ export default class Dungeon extends Observable {
 
     setCreature(creature, x, y) {
         if(creature instanceof Creature) {
+            var existed = !!this._creatureMap.get(creature);
             var tile = this._grid[x][y];
             tile.setCreature(creature);
             this._creatureMap.set(creature, tile);
             if(creature instanceof PlayableCharacter) {
                 this._player = creature;
                 creature._updateVisionMap(this); // TODO: Figure out a way for player to know to update itself
+            }
+            if(!existed) {
+                this.fireEvent(new GameEvents.SpawnEvent(this, creature, x, y));
             }
         } else {
             throw new Error('First parameter must be a creature: ' + creature);
@@ -232,9 +236,9 @@ export default class Dungeon extends Observable {
         var conditions = this._gameConditions;
         if(conditions) {
             if(conditions.hasPlayerWon(this)) {
-                this.fireEvent(new CustomEvent(this, 'Victory'));
+                this.fireEvent(new GameEvents.CustomEvent(this, 'Victory'));
             } else if(conditions.hasPlayerLost(this)) {
-                this.fireEvent(new CustomEvent(this, 'Defeat'));
+                this.fireEvent(new GameEvents.CustomEvent(this, 'Defeat'));
 
             }
         }

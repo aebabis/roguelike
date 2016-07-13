@@ -213,15 +213,17 @@ export default class GraphicDungeonView {
                     GridAnimations.animateProjectile(dungeon, grid, weapon, tile, targetTile);
                 }
             }, delay);
-        } else if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent) {
+        } else if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
             this._createDelay(function() {
                 let player = dungeon.getPlayableCharacter();
-                let to = event.getToCoords();
+                // TODO: Refactor this?
+                let to = event.getX ? {x: event.getX(), y: event.getY()} : event.getToCoords();
                 let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
                 let creature = event.getCreature();
                 let dom = self._getDomForCreature(creature);
                 cell.appendChild(dom);
 
+                // TODO: Can this move inside the if?
                 // Update player vision
                 Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
                     cell.setAttribute('data-visible', 'false');

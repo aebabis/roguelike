@@ -1,7 +1,14 @@
 //import { default as Dungeon } from '../src/client/js/app/dungeons/Dungeon.js';
 import { default as TestDungeonFactory } from '../../../../src/client/js/app/dungeons/TestDungeonFactory.js';
 //import { default as Creature } from '../src/client/js/app/entities/creatures/Creature.js';
-//import { default as PlayableCharacter } from '../src/client/js/app/entities/creatures/PlayableCharacter.js';
+import { default as PlayableCharacter } from '../../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
+import { default as Slingshot } from '../../../../src/client/js/app/entities/weapons/Slingshot.js';
+import { default as LightArmor } from '../../../../src/client/js/app/entities/armor/LightArmor.js';
+
+import { default as AbilityConsumable } from '../../../../src/client/js/app/entities/consumables/AbilityConsumable.js';
+import { default as CherrySoda } from '../../../../src/client/js/app/entities/consumables/CherrySoda.js';
+
+import { default as Fireball } from '../../../../src/client/js/app/abilities/Fireball.js';
 //import { default as WallTile } from '../src/client/js/app/tiles/WallTile.js';
 
 var expect = require('chai').expect;
@@ -39,10 +46,28 @@ describe('Creature', function() {
     });
 
     describe('canAddItem', function() {
-        it('should return true when trying to add a weapon to an empty equipment slot');
+        let player;
+        beforeEach(function() {
+            player = new PlayableCharacter();
+        });
 
-        it('should return true when trying to add armor to an empty equipment slot');
+        it('should return true when trying to add a weapon to an empty equipment slot', function() {
+            var canAdd = player.canAddItem(new Slingshot());
+            expect(canAdd).to.equal(true);
+        });
 
-        it('should return false when trying to add a scroll to a character with no weapons and a full pack');
+        it('should return true when trying to add armor to an empty equipment slot', function() {
+            var canAdd = player.canAddItem(new LightArmor());
+            expect(canAdd).to.equal(true);
+        });
+
+        it('should return false when trying to add a scroll to a character with no weapons and a full pack', function() {
+            for(let i = 0, count = player.getBackpackSize(); i < count; i++) {
+                player.addItem(new CherrySoda());
+            }
+
+            var canAdd = player.canAddItem(new AbilityConsumable(new Fireball()));
+            expect(canAdd).to.equal(false);
+        });
     });
 });

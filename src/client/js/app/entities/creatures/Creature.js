@@ -77,9 +77,9 @@ export default class Creature extends Entity {
         if(backpackOnly) {
             return !inventory().isBackpackFull();
         } else {
-            if(item.getRange && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
+            if(item instanceof Weapon && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
                 return true;
-            } else if(item.getRange && item.getRange() > 1 && !inventory.getRangedWeapon()) {
+            } else if(item instanceof Weapon && item.getRange() > 1 && !inventory.getRangedWeapon()) {
                 return true;
             } else if(item.getPhysicalReduction && !inventory.getArmor()) {
                 return true;

@@ -53,4 +53,12 @@ export default class EntityTable {
         }
         return list;
     }
+
+    getCost(param) {
+        if(param.constructor) {
+            return this._entries.find(function(entry) {
+                return entry.entity === param.constructor;
+            }).cost;
+        }
+    }
 }

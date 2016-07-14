@@ -21,6 +21,8 @@ import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
 import CherrySoda from '../entities/consumables/CherrySoda.js';
 import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
 
+import DebugConsole from '../DebugConsole.js';
+
 var itemTable = new EntityTable([{
     entity: Weapons.Stick,
     weight: 3,
@@ -139,6 +141,8 @@ var table = new EntityTable([{
     cost: 10
 }]);
 
+var rightPad = (s,c,n) => s + c.repeat(n-s.length);
+
 export default class RandomMapDungeonFactory {
     getRandomMap(prng, player) {
         var width = Random.integer(17, 22)(prng);
@@ -225,6 +229,23 @@ export default class RandomMapDungeonFactory {
 
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 50);
+
+        // Record creature data in the debug console
+        var data = creatures.map(function(creature) {
+            return {
+                name: creature.getName(),
+                cost: table.getCost(creature)
+            };
+        }).sort((c1, c2)=>c1.cost-c2.cost);
+        var maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
+        DebugConsole.log('SPAWNED ENEMIES');
+        DebugConsole.log(data.map(function(creature) {
+            return `${rightPad(creature.name, ' ', maxNameLength)} (${creature.cost})`;
+        }).join('\n'));
+        var totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
+        DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
+
+        // Place enemies
         var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
         creatures.forEach(function(creature) {
             var loc = enemyLocations.shift();

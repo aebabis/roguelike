@@ -1,0 +1,38 @@
+.debug-console {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    margin: .5em;
+
+    > * + * {
+        margin-top: .5em;
+    }
+
+    button {
+        width: 2em;
+        height: 2em;
+        font-size: 2em;
+        color: white;
+        border: solid 1px white;
+        background-color: black;
+        border-radius: .2em;
+    }
+
+    &:not(.expanded) .feed {
+        display: none;
+    }
+
+    .feed {
+        color: white;
+        background-color: rgba(0, 0, 0, .3);
+        width: 40em;
+        max-height: 20em;
+        overflow-y: scroll;
+        font-size: 1.5em;
+
+        .message {
+
+        }
+    }
+}

@@ -11,6 +11,8 @@ import GameEvents from '../events/GameEvents.js';
 import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
 import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
+import DebugConsole from '../DebugConsole.js';
+
 export default class Dungeon extends Observable {
     constructor(width, height) {
         super(width, height);
@@ -173,7 +175,12 @@ export default class Dungeon extends Observable {
     }
 
     resolveUntilBlocked() {
-        console.time('Timestep');
+        function time() {
+            return window.performance ? window.performance.now() : Date.now();
+        }
+
+        var start = time();
+
         while(this.canAdvance()) {
             this.resolveNextStep();
         }
@@ -181,7 +188,9 @@ export default class Dungeon extends Observable {
         if(activeCreature instanceof PlayableCharacter) {
             this.fireEvent(new HumanToMoveEvent(this, activeCreature));
         }
-        console.timeEnd('Timestep');
+
+        var delta = time() - start;
+        DebugConsole.log(`Timestep: ${delta.toFixed(2)}ms`);
     }
 
     getActiveCreature() {

@@ -196,7 +196,7 @@ export default class RandomMapDungeonFactory {
                 var oppositeKey = oX + ',' + oY;
                 var cwKey = dX ? oX + ',' + (oY + dX) : (oX + dY) + ',' + oY;
                 var ccwKey = dX ? oX + ',' + (oY - dX) : (oX - dY) + ',' + oY;
-                //console.log(x, y, nX, nY, oppositeKey, cwKey, ccwKey);
+                
                 var isOppositeWall = !doneList[oppositeKey];
                 var isCWFloor = doneList[cwKey];
                 var isCCWFloor = doneList[ccwKey];

@@ -20,7 +20,6 @@ window.addEventListener('load', function() {
         var menu = new MenuBar();
         $('header').append(menu.getDom());
         new CharacterBuilder().getCharacter().then(function(character) {
-            console.log(localStorage.repeatPreviousLevel, localStorage.repeatPreviousLevel !== 'true');
             TestBootstrapper(localStorage.repeatPreviousLevel !== 'true', character);
         });
     });

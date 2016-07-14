@@ -7,7 +7,7 @@ var getDom = (function() {
                     <div class="feed"></div>
                     <button title="Show developer console">&#128435;</button>
                 </div>`
-            ).appendTo('section.game').on('click', 'button', function() {
+            ).appendTo(document.body).on('click', 'button', function() {
                 $dom.toggleClass('expanded');
             });
         }

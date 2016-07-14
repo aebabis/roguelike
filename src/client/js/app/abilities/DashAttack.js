@@ -57,6 +57,10 @@ export default class DashAttack extends Ability {
         return 3;
     }
 
+    canTargetSelf() {
+        return false;
+    }
+
     getManaCost() {
         return 2;
     }

@@ -26,7 +26,7 @@ export default class Ability {
                 return 'Target tile has no creature';
             } else if(dungeon.getTile(creature).getEuclideanDistance(optionalTargetTile) > this.getRange()) {
                 return 'Target not in range';
-            } else if(this.getRange() > 0 && optionalTargetTile === dungeon.getTile(creature)) {
+            } else if(!this.canTargetSelf() && optionalTargetTile === dungeon.getTile(creature)) {
                 return 'Not a self-target ability';
             }
         } else {
@@ -64,6 +64,10 @@ export default class Ability {
     getRange() {
         // Default for self-target abilities
         return 0;
+    }
+
+    canTargetSelf() {
+        return true;
     }
 
     getManaCost() {

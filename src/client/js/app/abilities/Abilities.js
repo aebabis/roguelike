@@ -1,11 +1,13 @@
 import DashAttack from './DashAttack.js';
 import Fireball from './Fireball.js';
 import ForceDart from './ForceDart.js';
+import LesserHeal from './LesserHeal.js';
 import LesserSnare from './LesserSnare.js';
 
 export default {
     DashAttack,
-    Fireball: Fireball,
-    ForceDart: ForceDart,
-    LesserSnare: LesserSnare
+    Fireball,
+    ForceDart,
+    LesserHeal,
+    LesserSnare
 };

@@ -62,3 +62,4 @@
   - Trash can icon
   - Parchment scroll background image for game log
   - Knockback enemy
+  - Hammer

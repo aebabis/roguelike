@@ -93,6 +93,14 @@ export default class Dungeon extends Observable {
         return this._timestep;
     }
 
+    // TODO: Make all movement effects use this
+    // and possibly make getTile return a facade
+    moveCreature(creature, x, y) {
+        this.removeCreature(creature);
+        this.setCreature(creature, x, y);
+        this.fireEvent(new GameEvents.PositionChangeEvent(this, creature, x, y));
+    }
+
     setCreature(creature, x, y) {
         if(creature instanceof Creature) {
             var existed = !!this._creatureMap.get(creature);
@@ -241,6 +249,15 @@ export default class Dungeon extends Observable {
                 creature.timestep(self);
             });
         }
+
+        // Check for deaths
+        this.getCreatures().forEach(function(creature) {
+            if(creature.getCurrentHP() <= 0) {
+                creature.die(self);
+            } else if(!creature.isFlying() && !self.getTile(creature).hasFloor()) {
+                creature.die(self);
+            }
+        });
 
         var conditions = this._gameConditions;
         if(conditions) {

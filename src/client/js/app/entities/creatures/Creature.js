@@ -160,11 +160,8 @@ export default class Creature extends Entity {
         var modifiedAmount = amount - reduction;
 
         if(modifiedAmount > 0) {
-            var newValue = this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
+            this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
             dungeon.fireEvent(new HitpointsEvent(dungeon, this, -modifiedAmount));
-            if(newValue <= 0) {
-                this.die(dungeon);
-            }
         }
 
         return modifiedAmount;

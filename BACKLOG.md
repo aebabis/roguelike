@@ -24,6 +24,7 @@
   - DamageEvent for subtracting health. No animation for 0 damage
   - Path-to
   - You can see a solid tile if you can see any corner?
+  - BlockTheExit strategy
 - Low
   - Come up with a better name for "speed"
   - Option to hide health and action bars

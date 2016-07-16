@@ -13,6 +13,7 @@ var MELEE_WEAPON_COSTS = {
     Stick: 5,
     Dagger: 10,
     Shortsword: 20,
+    Warhammer: 25,
     Longsword: 30
 };
 

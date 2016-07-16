@@ -5,6 +5,7 @@ import Longsword from './Longsword.js';
 import Slingshot from './Slingshot.js';
 import Shortbow from './Shortbow.js';
 import Longbow from './Longbow.js';
+import Warhammer from './Warhammer.js';
 
 export default {
     Stick,
@@ -13,5 +14,6 @@ export default {
     Longsword,
     Slingshot,
     Shortbow,
-    Longbow
+    Longbow,
+    Warhammer
 };

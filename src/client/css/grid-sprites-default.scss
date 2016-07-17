@@ -86,6 +86,10 @@
         -webkit-filter: drop-shadow(0px 0px 10px rgba(0, 160, 255, .8));
     }
 
+    [data-creature-name="Crier"] {
+        background-image: url(../images/small/Trumpet.png);
+    }
+
     [data-creature-name="DustBunny"] {
         background-image: url(../images/small/DustBunny.png);
     }

@@ -145,8 +145,8 @@ export default class Creature extends Entity {
     }
 
     receiveDamage(dungeon, amount, type) {
-        if(!Number.isInteger(amount) || amount <= 0) {
-            throw new Error('amount must be a positive integer');
+        if(!Number.isInteger(amount) || amount < 0) {
+            throw new Error('amount must be a non-negative integer');
         }
 
         var reduction = 0;

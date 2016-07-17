@@ -104,6 +104,10 @@ var table = new EntityTable([{
     weight: 30,
     cost: 5
 }, {
+    entity: Enemies.Crier,
+    weight: 20,
+    cost: 14
+}, {
     entity: Enemies.DustBunny,
     weight: 40,
     cost: 12
@@ -196,7 +200,7 @@ export default class RandomMapDungeonFactory {
                 var oppositeKey = oX + ',' + oY;
                 var cwKey = dX ? oX + ',' + (oY + dX) : (oX + dY) + ',' + oY;
                 var ccwKey = dX ? oX + ',' + (oY - dX) : (oX - dY) + ',' + oY;
-                
+
                 var isOppositeWall = !doneList[oppositeKey];
                 var isCWFloor = doneList[cwKey];
                 var isCCWFloor = doneList[ccwKey];

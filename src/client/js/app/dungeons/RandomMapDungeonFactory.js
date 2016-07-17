@@ -110,7 +110,7 @@ var table = new EntityTable([{
 }, {
     entity: Enemies.DustBunny,
     weight: 40,
-    cost: 12
+    cost: 14
 }, {
     entity: Enemies.DustMite,
     weight: 20,
@@ -232,7 +232,7 @@ export default class RandomMapDungeonFactory {
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
 
         // Test game configuration
-        var creatures = table.rollEntries(dungeon, prng, 50);
+        var creatures = table.rollEntries(dungeon, prng, 45);
 
         // Record creature data in the debug console
         var data = creatures.map(function(creature) {

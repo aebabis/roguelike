@@ -5,7 +5,6 @@
   - Better dungeon generator
   - Using keyboard to look at tiles
   - Button to focus abilities. Arrows to move between
-  - Fixed container size. Autoscroll during move
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Improve/clarify interface for repositioning creatures

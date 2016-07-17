@@ -117,6 +117,7 @@ export default class GraphicDungeonView {
         })();
 
         DungeonTooltips.bindTooltips(dungeon, grid);
+        this.scroll();
     }
 
     getDom() {
@@ -315,9 +316,25 @@ export default class GraphicDungeonView {
             self._getDomForCreature(creature).setAttribute('data-phone-charged', creature.getRangedWeapon().isCharged(dungeon));
         });
 
+        this.scroll();
+
         // TODO: Consider if visibility needs to be animated
         // during events other than HumanMovingEvent
         // Should only be an issue in destructible environment
+    }
+
+    scroll() {
+        const grid = this.getDom();
+        const dungeon = this._sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const tile = dungeon.getTile(player);
+
+        const cellDimension = grid.querySelector('.cell').clientHeight;
+        const cellOffsetX = (tile.getX() + .5) * cellDimension;
+        const cellOffsetY = (tile.getY() + .5) * cellDimension;
+
+        grid.scrollTop = cellOffsetY - grid.clientHeight / 2;
+        grid.scrollLeft = cellOffsetX - grid.clientWidth / 2;
     }
 
     getSelectedTileCoordinates() {

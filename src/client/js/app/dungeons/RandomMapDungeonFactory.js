@@ -147,10 +147,19 @@ var table = new EntityTable([{
 
 var rightPad = (s,c,n) => s + c.repeat(n-s.length);
 
+const WIDTH = {
+    lower: 24,
+    upper: 30
+};
+var HEIGHT = {
+    lower: 15,
+    upper: 20
+};
+
 export default class RandomMapDungeonFactory {
     getRandomMap(prng, player) {
-        var width = Random.integer(17, 22)(prng);
-        var height = Random.integer(12, 18)(prng);
+        var width = Random.integer(WIDTH.lower, WIDTH.upper)(prng);
+        var height = Random.integer(HEIGHT.lower, HEIGHT.upper)(prng);
 
         var numTiles = width * height;
         var minOpenTiles = Math.floor(.2 * numTiles);

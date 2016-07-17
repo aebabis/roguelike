@@ -229,7 +229,7 @@ export default class RandomMapDungeonFactory {
         var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
         var locations = Random.shuffle(prng, emptyTiles);
 
-        var drops = itemTable.rollEntries(dungeon, prng, 110);
+        var drops = itemTable.rollEntries(dungeon, prng, 80);
         drops.forEach(function(item) {
             var position = Random.integer(0, emptyTiles.length - 1)(prng);
             var tile = emptyTiles[position];

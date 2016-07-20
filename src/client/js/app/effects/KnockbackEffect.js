@@ -14,7 +14,7 @@ export default class KnockbackEffect {
         var x = targetTile.getX() + dx;
         var y = targetTile.getY() + dy;
         var tile = dungeon.getTile(x, y);
-        if(!tile.isSolid()) {
+        if(!tile.isSolid() && !tile.getCreature()) {
             dungeon.moveCreature(target, x, y);
             return true;
         } else {

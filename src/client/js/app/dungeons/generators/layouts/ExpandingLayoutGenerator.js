@@ -1,8 +1,6 @@
 import Dungeon from '../../Dungeon.js';
 
-import Tile from '../../../tiles/Tile.js';
-import PitTile from '../../../tiles/PitTile.js';
-import WallTile from '../../../tiles/WallTile.js';
+import Tiles from '../../../tiles/Tiles.js';
 
 const WIDTH = {
     lower: 24,
@@ -29,9 +27,9 @@ export default {
         for(var x = 0; x < width; x++) {
             for(var y = 0; y < height; y++) {
                 if(Random.bool(.2)(prng)) {
-                    dungeon.setTile(new PitTile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.PitTile(dungeon, x, y), x, y);
                 } else {
-                    dungeon.setTile(new WallTile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
                 }
             }
         }
@@ -43,7 +41,7 @@ export default {
         for(var times = 0; times < numOpenTiles; times++) {
             let x = tile.getX();
             let y = tile.getY();
-            tile = new Tile(dungeon, x, y);
+            tile = new Tiles.Tile(dungeon, x, y);
             dungeon.setTile(tile, x, y);
             doneList[x+','+y] = true;
             tile.getNeighbors4().filter(function(tile) {

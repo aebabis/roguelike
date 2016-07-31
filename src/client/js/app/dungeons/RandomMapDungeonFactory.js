@@ -19,6 +19,7 @@ import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
 import DebugConsole from '../DebugConsole.js';
 
 import ExpandingLayoutGenerator from './generators/layouts/ExpandingLayoutGenerator.js';
+import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayoutGenerator.js';
 
 var itemTable = new EntityTable([{
     entity: Weapons.Stick,
@@ -146,53 +147,58 @@ var rightPad = (s,c,n) => s + c.repeat(n-s.length);
 
 export default class RandomMapDungeonFactory {
     getRandomMap(prng, player) {
-        var dungeon = ExpandingLayoutGenerator.generate(prng);
+        var dungeon = ConnectedRoomLayoutGenerator.generate(prng);
 
-        var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
-        var locations = Random.shuffle(prng, emptyTiles);
+        try {
 
-        var drops = itemTable.rollEntries(dungeon, prng, 80);
-        drops.forEach(function(item) {
-            var position = Random.integer(0, emptyTiles.length - 1)(prng);
-            var tile = emptyTiles[position];
-            tile.addItem(item);
-        });
+            var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
+            var locations = Random.shuffle(prng, emptyTiles);
 
-        var playerLocation = locations.shift();
-        dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
-        dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
+            var drops = itemTable.rollEntries(dungeon, prng, 80);
+            drops.forEach(function(item) {
+                var position = Random.integer(0, emptyTiles.length - 1)(prng);
+                var tile = emptyTiles[position];
+                tile.addItem(item);
+            });
 
-        // Test game configuration
-        var creatures = table.rollEntries(dungeon, prng, 45);
+            var playerLocation = locations.shift();
+            dungeon.setTile(new EntranceTile(dungeon, playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
+            dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
 
-        // Record creature data in the debug console
-        var data = creatures.map(function(creature) {
-            return {
-                name: creature.getName(),
-                cost: table.getCost(creature)
-            };
-        }).sort((c1, c2)=>c1.cost-c2.cost);
-        var maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
-        DebugConsole.log('SPAWNED ENEMIES');
-        DebugConsole.log(data.map(function(creature) {
-            return `${rightPad(creature.name, ' ', maxNameLength)} (${creature.cost})`;
-        }).join('\n'));
-        var totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
-        DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
+            // Test game configuration
+            var creatures = table.rollEntries(dungeon, prng, 45);
 
-        // Place enemies
-        var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
-        creatures.forEach(function(creature) {
-            var loc = enemyLocations.shift();
-            if(loc) {
-                dungeon.setCreature(creature, loc.getX(), loc.getY());
-            }
-        });
+            // Record creature data in the debug console
+            var data = creatures.map(function(creature) {
+                return {
+                    name: creature.getName(),
+                    cost: table.getCost(creature)
+                };
+            }).sort((c1, c2)=>c1.cost-c2.cost);
+            var maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
+            DebugConsole.log('SPAWNED ENEMIES');
+            DebugConsole.log(data.map(function(creature) {
+                return `${rightPad(creature.name, ' ', maxNameLength)} (${creature.cost})`;
+            }).join('\n'));
+            var totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
+            DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
 
-        var treasureLocation = Random.picker(enemyLocations)(prng);
-        treasureLocation.addItem(new TheTreasure(dungeon));
+            // Place enemies
+            var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
+            creatures.forEach(function(creature) {
+                var loc = enemyLocations.shift();
+                if(loc) {
+                    dungeon.setCreature(creature, loc.getX(), loc.getY());
+                }
+            });
 
-        dungeon.setGameConditions(new GetTheTreasureConditions());
+            var treasureLocation = Random.picker(enemyLocations)(prng);
+            treasureLocation.addItem(new TheTreasure(dungeon));
+
+            dungeon.setGameConditions(new GetTheTreasureConditions());
+        } catch(e) {console.error(e)}
+
+        console.log(dungeon);
 
         return dungeon;
     }

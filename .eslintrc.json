@@ -6,6 +6,9 @@
         "commonjs": true,
         "mocha": true
     },
+    "globals": {
+        "Random": true
+    },
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module"

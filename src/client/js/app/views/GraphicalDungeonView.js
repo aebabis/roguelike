@@ -250,6 +250,8 @@ export default class GraphicDungeonView {
                     }
                 }
 
+                self.scroll();
+
             }, delay);
         } else if(event instanceof GameEvents.TakeItemEvent) {
             this._createDelay(function() {
@@ -315,8 +317,6 @@ export default class GraphicDungeonView {
         }).forEach(function(creature) {
             self._getDomForCreature(creature).setAttribute('data-phone-charged', creature.getRangedWeapon().isCharged(dungeon));
         });
-
-        this.scroll();
 
         // TODO: Consider if visibility needs to be animated
         // during events other than HumanMovingEvent

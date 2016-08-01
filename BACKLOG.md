@@ -2,13 +2,13 @@
 ## Technical
 - High
   - Puzzles/Level-Select
-  - Better dungeon generator
   - Using keyboard to look at tiles
   - Button to focus abilities. Arrows to move between
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Improve/clarify interface for repositioning creatures
 - Med
+  - Weights for random dungeon rooms
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
   - Serialization for saving games (and as POC for client-server games)
@@ -20,12 +20,12 @@
   - Don't bundle jQuery with webpack
   - Webpack integration of coverage
   - Try flow or Typescript
-  - DamageEvent for subtracting health. No animation for 0 damage
   - Path-to
   - You can see a solid tile if you can see any corner?
   - BlockTheExit strategy
   - Let player know their speed
 - Low
+  - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
   - Option to hide health and action bars
   - Site icon
@@ -39,13 +39,13 @@
   - RandomAbilityStrategy
   - Color code damage types in UI
   - Make ClunkyNintiesCellPhone use predefined strategies
-  - Range indicators
   - Test case for reflexivity of canSee
 
 ## Content
   - Invisibility Spell
   - Dash Attack
   - Teleport Spell
+  - Deflection Spell?
 
 ## Bugs
   - Monsters on the same initiative collide?
@@ -54,13 +54,9 @@
 ## Art
   - Snail icon
   - Rabbit icon
-  - Horse archer
-  - Horseless archer
-  - Bow
-  - Armor and Robes
+  - Robes
   - Druid
   - Stairs tile
   - Trash can icon
   - Parchment scroll background image for game log
   - Knockback enemy
-  - Hammer

@@ -145,6 +145,23 @@ var table = new EntityTable([{
 
 var rightPad = (s,c,n) => s + c.repeat(n-s.length);
 
+function reportCreaturesToConsole(creatures) {
+    // Record creature data in the debug console
+    var data = creatures.map(function(creature) {
+        return {
+            name: creature.getName(),
+            cost: table.getCost(creature)
+        };
+    }).sort((c1, c2)=>c1.cost-c2.cost);
+    var maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
+    DebugConsole.log('SPAWNED ENEMIES');
+    DebugConsole.log(data.map(function(creature) {
+        return `${rightPad(creature.name, ' ', maxNameLength)} (${creature.cost})`;
+    }).join('\n'));
+    var totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
+    DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
+}
+
 export default class RandomMapDungeonFactory {
     getRandomMap(prng, player) {
         var dungeon = ConnectedRoomLayoutGenerator.generate(prng, {
@@ -166,22 +183,9 @@ export default class RandomMapDungeonFactory {
         dungeon.setCreature(player, playerLocation.getX(), playerLocation.getY());
 
         // Test game configuration
-        var creatures = table.rollEntries(dungeon, prng, 45);
+        var creatures = table.rollEntries(dungeon, prng, 70);
 
-        // Record creature data in the debug console
-        var data = creatures.map(function(creature) {
-            return {
-                name: creature.getName(),
-                cost: table.getCost(creature)
-            };
-        }).sort((c1, c2)=>c1.cost-c2.cost);
-        var maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
-        DebugConsole.log('SPAWNED ENEMIES');
-        DebugConsole.log(data.map(function(creature) {
-            return `${rightPad(creature.name, ' ', maxNameLength)} (${creature.cost})`;
-        }).join('\n'));
-        var totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
-        DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
+        reportCreaturesToConsole(creatures);
 
         // Place enemies
         var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);

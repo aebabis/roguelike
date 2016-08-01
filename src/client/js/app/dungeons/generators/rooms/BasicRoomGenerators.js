@@ -5,9 +5,9 @@ import Tiles from '../../../tiles/Tiles.js';
 export default [{
     name: 'Pit Chamber',
     minWidth: 3,
-    maxWidth: 9,
+    maxWidth: 6,
     minHeight: 3,
-    maxHeight: 6,
+    maxHeight: 4,
     minHallLength: 0,
     maxHallLength: 2,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
@@ -26,7 +26,7 @@ export default [{
 }, {
     name: 'Empty Room',
     minWidth: 3,
-    maxWidth: 9,
+    maxWidth: 6,
     minHeight: 3,
     maxHeight: 6,
     minHallLength: 1,

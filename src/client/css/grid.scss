@@ -4,7 +4,6 @@
 }
 
 .grid {
-    display: table;
     border-collapse: collapse;
     position: relative;
     background-color: black;
@@ -13,11 +12,10 @@
     margin: auto;
 
     .row {
-        display: table-row;
+        display: flex;
     }
 
     .cell {
-        display: table-cell;
         position: relative;
         width: 5em;
         height: 5em;

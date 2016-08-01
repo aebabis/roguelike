@@ -10,6 +10,8 @@ import GraphicalViewKeyboardController from './controllers/GraphicalViewKeyboard
 import GraphicalViewMouseController from './controllers/GraphicalViewMouseController.js';
 import GraphicalViewSharedData from './controllers/GraphicalViewSharedData.js';
 
+import DebugConsole from './DebugConsole.js';
+
 export default function(newSeed, character) {
     var gameSection = document.querySelector('section');
     gameSection.innerHTML = '';
@@ -24,6 +26,7 @@ export default function(newSeed, character) {
         seed = localStorage.lastSeed = +new Date();
     }
 
+    DebugConsole.log(`PRNG Seed: ${seed}`);
     var prng = Random.engines.mt19937();
     prng.seed(seed);
 

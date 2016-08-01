@@ -147,7 +147,9 @@ var rightPad = (s,c,n) => s + c.repeat(n-s.length);
 
 export default class RandomMapDungeonFactory {
     getRandomMap(prng, player) {
-        var dungeon = ConnectedRoomLayoutGenerator.generate(prng);
+        var dungeon = ConnectedRoomLayoutGenerator.generate(prng, {
+            numRooms: 6
+        });
 
         var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
         var locations = Random.shuffle(prng, emptyTiles);

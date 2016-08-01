@@ -5,6 +5,7 @@ req.keys().forEach(function(key){
 });
 
 require('../../../../../node_modules/normalize.css/normalize.css');
+
 import CharacterBuilder from './CharacterBuilder.js';
 
 import MenuBar from './MenuBar.js';

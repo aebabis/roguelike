@@ -7,6 +7,9 @@ import Weapons from '../entities/weapons/Weapons.js';
 
 import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
 
+var dialogPolyfill = require('../../../../../node_modules/dialog-polyfill/dialog-polyfill.js');
+require('../../../../../node_modules/dialog-polyfill/dialog-polyfill.css');
+
 var Purchaseables = Object.assign({}, Abilities, Armors, Consumables, Weapons);
 
 var MELEE_WEAPON_COSTS = {
@@ -134,6 +137,8 @@ function template() {
                 <input type='submit' value='OK'>
             </form>
         </dialog>`);
+
+    dialogPolyfill.registerDialog($dialog[0]);
 
     function getCost() {
         var data = new FormData($dialog.find('form')[0]);

@@ -22,6 +22,7 @@
     "chai": "^3.5.0",
     "compression": "^1.6.2",
     "css-loader": "^0.23.1",
+    "dialog-polyfill": "^0.4.3",
     "es6-a-star": "git+https://github.com/acbabis/es6-a-star.git#master",
     "es6-module-loader": "0.17.8",
     "express": "4.13.4",

@@ -12,6 +12,7 @@ import SpawnEvent from './SpawnEvent.js';
 import TakeItemEvent from './TakeItemEvent.js';
 import TrashItemEvent from './TrashItemEvent.js';
 import WaitEvent from './WaitEvent.js';
+import ZeroDamageEvent from './ZeroDamageEvent.js';
 
 export default {
     AbilityEvent,
@@ -27,5 +28,6 @@ export default {
     SpawnEvent,
     TakeItemEvent,
     TrashItemEvent,
-    WaitEvent
+    WaitEvent,
+    ZeroDamageEvent
 };

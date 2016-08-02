@@ -64,12 +64,13 @@ function updateRangeIndicator(grid, dungeon, attack) {
 function getScrollingText(text, x, y, color, outlineColor) {
     let startY = (y * 5) + 2.5 + 'rem';
     let endY = (y * 5) + 'rem';
+    let size = text.toString().length <= 2 ? '2em' : '1.5em';
     return $('<div>').text(text)
         .css({
             color,
             fontWeight: 'bold',
             zIndex: 3,
-            fontSize: '2em',
+            fontSize: size,
             webkitTextStroke: `.025em ${outlineColor}`,
             position: 'absolute',
             width: '5rem',
@@ -297,10 +298,19 @@ export default class GraphicDungeonView {
                     dom.setAttribute('data-is-dead', true);
                 }
                 if(event.getAmount() < 0) {
-                    getScrollingText(event.getAmount(), x, y, 'red', 'pink')
+                    getScrollingText(event.getAmount(), x, y, 'darkred', 'pink')
                         .appendTo(grid.children[0]);
                 }
             }, delay + 200); // Death needs to be delayed so it appears to follow its cause
+        } else if(event instanceof GameEvents.ZeroDamageEvent) {
+            let creature = event.getCreature();
+            let type = event.getDamageType();
+            let tile = dungeon.getTile(creature);
+            let x = tile.getX();
+            let y = tile.getY();
+            let message = creature.getDamageReduction(type) === Infinity ? 'Immune' : 'Blocked';
+            getScrollingText(message, x, y, 'white', 'black')
+                .appendTo(grid.children[0]);
         } else if(event instanceof GameEvents.BuffAppliedEvent || event instanceof GameEvents.BuffEndedEvent) {
             this._createDelay(function() {
                 var creature = event.getCreature();

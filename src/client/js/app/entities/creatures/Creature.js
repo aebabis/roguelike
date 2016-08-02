@@ -1,9 +1,6 @@
 import Entity from '../Entity.js';
 import Tile from '../../tiles/Tile.js';
-import BuffAppliedEvent from '../../events/BuffAppliedEvent.js';
-import BuffEndedEvent from '../../events/BuffEndedEvent.js';
-import CustomEvent from '../../events/CustomEvent.js';
-import HitpointsEvent from '../../events/HitpointsEvent.js';
+import GameEvents from '../../events/GameEvents.js';
 
 import Inventory from './Inventory.js';
 import Weapon from '../weapons/Weapon.js';
@@ -117,7 +114,7 @@ export default class Creature extends Entity {
             throw new Error('Second parameter must be a buff');
         }
         this._buffs.push(buff);
-        dungeon.fireEvent(new BuffAppliedEvent(dungeon, this, buff));
+        dungeon.fireEvent(new GameEvents.BuffAppliedEvent(dungeon, this, buff));
     }
 
     getBuffs() {
@@ -144,24 +141,25 @@ export default class Creature extends Entity {
         return this._currentMana;
     }
 
+    getDamageReduction(type) {
+        let armor = this.getArmor();
+        return armor ? this.getArmor().getReduction(type) : 0;
+    }
+
     receiveDamage(dungeon, amount, type) {
         if(!Number.isInteger(amount) || amount < 0) {
             throw new Error('amount must be a non-negative integer');
         }
 
-        var reduction = 0;
-        if(amount > 0) {
-            var armor = this.getArmor();
-            if(armor) {
-                reduction = armor.getReduction(type);
-            }
-        }
+        var reduction = (amount > 0) ? this.getDamageReduction(type) : 0;
 
         var modifiedAmount = amount - reduction;
 
         if(modifiedAmount > 0) {
             this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
-            dungeon.fireEvent(new HitpointsEvent(dungeon, this, -modifiedAmount));
+            dungeon.fireEvent(new GameEvents.HitpointsEvent(dungeon, this, -modifiedAmount));
+        } else {
+            dungeon.fireEvent(new GameEvents.ZeroDamageEvent(dungeon, this, type));
         }
 
         return modifiedAmount;
@@ -169,7 +167,7 @@ export default class Creature extends Entity {
 
     heal(dungeon, amount) {
         this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
-        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
+        dungeon.fireEvent(new GameEvents.HitpointsEvent(dungeon, this, amount));
     }
 
     modifyMana(amount) {
@@ -186,7 +184,7 @@ export default class Creature extends Entity {
         var location = dungeon.getTile(this);
         this._isDead = true;
         dungeon.removeCreature(this);
-        dungeon.fireEvent(new CustomEvent(dungeon, this.getName() + ' died'));
+        dungeon.fireEvent(new GameEvents.CustomEvent(dungeon, this.getName() + ' died'));
         this.onDeath(dungeon, location);
     }
 
@@ -422,7 +420,7 @@ export default class Creature extends Entity {
         this._timeToNextMove--;
         this._buffs = this._buffs.filter((buff)=>{
             if(buff.isDone(dungeon)) {
-                dungeon.fireEvent(new BuffEndedEvent(dungeon, this, buff));
+                dungeon.fireEvent(new GameEvents.BuffEndedEvent(dungeon, this, buff));
                 return false;
             } else {
                 return true;

@@ -61,6 +61,30 @@ function updateRangeIndicator(grid, dungeon, attack) {
     })).appendTo(grid);
 }
 
+function getScrollingText(text, x, y, color, outlineColor) {
+    let startY = (y * 5) + 2.5 + 'rem';
+    let endY = (y * 5) + 'rem';
+    return $('<div>').text(text)
+        .css({
+            color,
+            fontWeight: 'bold',
+            zIndex: 3,
+            fontSize: '2em',
+            webkitTextStroke: `.025em ${outlineColor}`,
+            position: 'absolute',
+            width: '5rem',
+            textAlign: 'center',
+            top: startY,
+            left: (x * 5) + 'rem'
+        })
+        .animate({
+            top: endY,
+            opacity: 0
+        }, 1000, function() {
+            $(this).remove();
+        });
+}
+
 export default class GraphicDungeonView {
     constructor(sharedData) {
         var self = this;
@@ -262,15 +286,19 @@ export default class GraphicDungeonView {
         } else if(event instanceof GameEvents.HitpointsEvent) {
             let creature = event.getCreature();
             let tile = dungeon.getTile(creature);
-            let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
-            //let tile = this._dungeon.getTile(creature);
-            //let cell = grid.querySelector(`[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`);
+            let x = tile.getX();
+            let y = tile.getY();
+            let cell = grid.querySelector(`[data-x="${x}"][data-y="${y}"]`);
             this._createDelay(function() {
                 cell.setAttribute('data-event-name', 'HitpointsEvent');
                 cell.setAttribute('data-is-hp-change-negative', event.getAmount() < 0);
                 let dom = self._getDomForCreature(creature);
                 if(creature.isDead()) {
                     dom.setAttribute('data-is-dead', true);
+                }
+                if(event.getAmount() < 0) {
+                    getScrollingText(event.getAmount(), x, y, 'red', 'pink')
+                        .appendTo(grid.children[0]);
                 }
             }, delay + 200); // Death needs to be delayed so it appears to follow its cause
         } else if(event instanceof GameEvents.BuffAppliedEvent || event instanceof GameEvents.BuffEndedEvent) {

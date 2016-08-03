@@ -7,6 +7,8 @@
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Improve/clarify interface for repositioning creatures
+  - Fix dungeon generator to use proper boundaries (open/closed)
+  - Auto-pathing
 - Med
   - Weights for random dungeon rooms
   - Keybindings Overlay
@@ -24,6 +26,9 @@
   - You can see a solid tile if you can see any corner?
   - BlockTheExit strategy
   - Let player know their speed
+  - Spell scroll compound sprites
+  - Animate death frame (instead of ending)
+  - Try ESDoc
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
@@ -40,6 +45,7 @@
   - Color code damage types in UI
   - Make ClunkyNintiesCellPhone use predefined strategies
   - Test case for reflexivity of canSee
+  - Circular dependency injection (GameEvents inside Creature)
 
 ## Content
   - Invisibility Spell
@@ -60,3 +66,6 @@
   - Trash can icon
   - Parchment scroll background image for game log
   - Knockback enemy
+  - Knight
+  - Pillar
+  - Magic sword

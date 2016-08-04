@@ -69,3 +69,4 @@
   - Knight
   - Pillar
   - Magic sword
+  - A PC who can tunnel (mole, miner, ect.)

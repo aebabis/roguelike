@@ -70,6 +70,7 @@ function getScrollingText(text, x, y, color, outlineColor) {
             color,
             fontWeight: 'bold',
             zIndex: 3,
+            pointerEvents: 'none',
             fontSize: size,
             webkitTextStroke: `.025em ${outlineColor}`,
             position: 'absolute',

@@ -10,7 +10,9 @@ import DamageTypes from '../../DamageTypes.js';
 // TODO: This should be a buff
 class FireSpriteArmor extends Armor {
     getReduction(type) {
-        return (type === DamageTypes.MELEE_PHYSICAL || type === DamageTypes.RANGED_PHYSICAL) ? Infinity : 0;
+        return (type === DamageTypes.MELEE_PHYSICAL ||
+            type === DamageTypes.RANGED_PHYSICAL ||
+            type === DamageTypes.FIRE) ? Infinity : 0;
     }
 }
 

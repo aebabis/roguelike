@@ -79,9 +79,9 @@ function getHall(prng, room, edge) {
         let upperX = Random.integer(lowerX + 1, maxX)(prng);
         return {
             x1: lowerX,
-            y1: (edge.side === NORTH) ? room.y : edge.y,
+            y1: (edge.side === NORTH) ? room.y + room.height : edge.y,
             x2: upperX,
-            y2: (edge.side === NORTH) ? edge.y : room.y + room.height
+            y2: (edge.side === NORTH) ? edge.y : room.y
         };
     } else {
         let minY = Math.max(room.y, edge.y1);
@@ -91,7 +91,7 @@ function getHall(prng, room, edge) {
         return {
             x1: (edge.side === EAST) ? edge.x : room.x,
             y1: lowerY,
-            x2: (edge.side === EAST) ? room.x + room.width : edge.x,
+            x2: (edge.side === EAST) ? room.x : edge.x,
             y2: upperY
         };
     }

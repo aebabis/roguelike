@@ -18,7 +18,6 @@ import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
 
 import DebugConsole from '../DebugConsole.js';
 
-import ExpandingLayoutGenerator from './generators/layouts/ExpandingLayoutGenerator.js';
 import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayoutGenerator.js';
 
 var itemTable = new EntityTable([{

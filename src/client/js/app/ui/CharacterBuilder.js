@@ -19,7 +19,7 @@ var MELEE_WEAPON_COSTS = {
     FrostDagger: 25,
     Warhammer: 25,
     Longsword: 30,
-    LightningRod: 40
+    LightningRod: 45
 };
 
 var RANGED_WEAPON_COSTS = {

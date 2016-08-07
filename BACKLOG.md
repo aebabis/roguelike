@@ -9,6 +9,8 @@
   - Improve/clarify interface for repositioning creatures
   - Fix dungeon generator to use proper boundaries (open/closed)
   - Auto-pathing
+  - Make all movement effects use `dungeon.moveCreature`
+  - Show enemy resistances in UI
 - Med
   - Weights for random dungeon rooms
   - Keybindings Overlay
@@ -46,6 +48,7 @@
   - Make ClunkyNintiesCellPhone use predefined strategies
   - Test case for reflexivity of canSee
   - Circular dependency injection (GameEvents inside Creature)
+  - Melee attack animation improvement
 
 ## Content
   - Invisibility Spell

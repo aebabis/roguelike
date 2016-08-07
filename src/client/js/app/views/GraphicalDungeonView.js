@@ -41,10 +41,7 @@ function updateRangeIndicator(grid, dungeon, attack) {
             width: dimension * 5 + 'em',
             overflow: 'auto'
         }).append(row.map(function(isTargettable, dx) {
-            let cellX = playerX + dx - range - 1;
-            let cellY = playerY + dy - range - 1;
             return $('<div class="range-indicator-cell">').css({
-                //visibility: player.canSee(dungeon, dungeon.getTile(cellX, cellY)) ? 'visible' : 'hidden', // TODO: Make canSee accept x,y values
                 float: 'left',
                 width: '5em',
                 height: '5em',
@@ -234,7 +231,7 @@ export default class GraphicDungeonView {
             this._createDelay(function() {
                 let targetTile = dungeon.getTile(target); // Get target position dynamically so shooting at moving targets looks ok
                 if(weapon.getRange() === 1) {
-                    // TODO: Always add AttackEvent and consider range in CSS
+                    // TODO: Better animation
                     cell.setAttribute('data-event-name', 'AttackEvent');
                 } else {
                     GridAnimations.animateProjectile(dungeon, grid, weapon, tile, targetTile);
@@ -243,7 +240,7 @@ export default class GraphicDungeonView {
         } else if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
             this._createDelay(function() {
                 let player = dungeon.getPlayableCharacter();
-                // TODO: Refactor this?
+                // TODO: Refactor this? Perhaps all positioning requires a common, secondary event
                 let to = event.getX ? {x: event.getX(), y: event.getY()} : event.getToCoords();
                 let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
                 let creature = event.getCreature();

@@ -93,8 +93,6 @@ export default class Dungeon extends Observable {
         return this._timestep;
     }
 
-    // TODO: Make all movement effects use this
-    // and possibly make getTile return a facade
     moveCreature(creature, x, y) {
         if(this.getTile(x, y).getCreature(x, y)) {
             throw new Error('Destination already occupied');

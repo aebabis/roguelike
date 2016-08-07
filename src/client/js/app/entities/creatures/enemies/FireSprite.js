@@ -7,7 +7,6 @@ import Weapon from '../../weapons/Weapon.js';
 
 import DamageTypes from '../../DamageTypes.js';
 
-// TODO: This should be a buff
 class FireSpriteArmor extends Armor {
     getReduction(type) {
         return (type === DamageTypes.MELEE_PHYSICAL ||

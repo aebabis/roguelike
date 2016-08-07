@@ -2,7 +2,6 @@ import Moves from '../entities/creatures/moves/Moves.js';
 
 export default class GraphicalViewKeyboardController {
     constructor(sharedData) {
-        // TODO: Remove dungeon from parameters
         var dom = document.querySelector('section.game');
 
         // Arrow key handler
@@ -51,18 +50,6 @@ export default class GraphicalViewKeyboardController {
             }
 
             dungeon.resolveUntilBlocked();
-        });
-
-        // TODO: Move this logic into an observer function
-        // since we are no longer using cell focus
-        /*eslint-env jquery*/
-        $(dom).on('focus', '.cell', function() {
-            var $cell = $(this);
-            var cellPos = $cell.position();
-            var scrollTop = cellPos.top + ($cell.height() - $(dom).height()) / 2;
-            var scrollLeft = cellPos.left + ($cell.width() - $(dom).width()) / 2;
-            $(dom).scrollTop(scrollTop);
-            $(dom).scrollLeft(scrollLeft);
         });
     }
 }

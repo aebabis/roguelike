@@ -11,11 +11,11 @@ export default [{
     minHallLength: 0,
     maxHallLength: 2,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
-        const x2 = x1 + width - 1;
-        const y2 = y1 + height - 1;
-        for(let x = x1; x <= x2; x++) {
-            for(let y = y1; y <= y2; y++) {
-                if(x === x1 || x === x2 || y === y1 || y === y2) {
+        const x2 = x1 + width;
+        const y2 = y1 + height;
+        for(let x = x1; x < x2; x++) {
+            for(let y = y1; y < y2; y++) {
+                if(x === x1 || x === x2 - 1 || y === y1 || y === y2 - 1) {
                     dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
                 } else {
                     dungeon.setTile(new Tiles.PitTile(dungeon, x, y), x, y);
@@ -32,10 +32,10 @@ export default [{
     minHallLength: 1,
     maxHallLength: 3,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
-        const x2 = x1 + width - 1;
-        const y2 = y1 + height - 1;
-        for(let x = x1; x <= x2; x++) {
-            for(let y = y1; y <= y2; y++) {
+        const x2 = x1 + width;
+        const y2 = y1 + height;
+        for(let x = x1; x < x2; x++) {
+            for(let y = y1; y < y2; y++) {
                 dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
             }
         }
@@ -49,10 +49,10 @@ export default [{
     minHallLength: 1,
     maxHallLength: 2,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
-        const x2 = x1 + width - 1;
-        const y2 = y1 + height - 1;
-        for(let x = x1; x <= x2; x++) {
-            for(let y = y1; y <= y2; y++) {
+        const x2 = x1 + width;
+        const y2 = y1 + height;
+        for(let x = x1; x < x2; x++) {
+            for(let y = y1; y < y2; y++) {
                 dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
             }
         }
@@ -73,10 +73,10 @@ export default [{
     minHallLength: 1,
     maxHallLength: 2,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
-        const x2 = x1 + width - 1;
-        const y2 = y1 + height - 1;
-        for(let x = x1; x <= x2; x++) {
-            for(let y = y1; y <= y2; y++) {
+        const x2 = x1 + width;
+        const y2 = y1 + height;
+        for(let x = x1; x < x2; x++) {
+            for(let y = y1; y < y2; y++) {
                 if((x % 2 === 0) === (y % 4 < 2)) {
                     dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
                 } else {

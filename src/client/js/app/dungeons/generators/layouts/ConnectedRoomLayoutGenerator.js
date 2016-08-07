@@ -4,9 +4,6 @@ import Dungeon from '../../Dungeon.js';
 
 import Tiles from '../../../tiles/Tiles.js';
 
-// TODO: All boundaries need to be of the form [x1, x2)
-// This makes it possible to represent an empty boundary
-
 const NORTH = 'NORTH';
 const EAST = 'EAST';
 const SOUTH = 'SOUTH';
@@ -57,49 +54,45 @@ function positionRoom(prng, room, edge) {
     switch(edge.side) {
     case NORTH:
         room.y = edge.y - room.hallLength - room.height;
-        room.x = Random.integer(edge.x1 - room.width + 1, edge.x2 - 1)(prng);
+        room.x = Random.integer(edge.x1 - room.width + 1, edge.x2)(prng);
         break;
     case EAST:
         room.x = edge.x + room.hallLength;
-        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2 - 1)(prng);
+        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2)(prng);
         break;
     case SOUTH:
         room.y = edge.y + room.hallLength;
-        room.x = Random.integer(edge.x1 - room.width + 1, edge.x2 - 1)(prng);
+        room.x = Random.integer(edge.x1 - room.width + 1, edge.x2)(prng);
         break;
     case WEST:
         room.x = edge.x - room.hallLength - room.width;
-        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2 - 1)(prng);
+        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2)(prng);
         break;
     }
 }
 
 function getHall(prng, room, edge) {
     if(typeof edge.y === 'number') { // NORTH or SOUTH
-        let lowerX = Math.max(room.x, edge.x1);
-        let upperX = Math.min(room.x + room.width - 1, edge.x2 - 1);
-        let values = [
-            Random.integer(lowerX, upperX)(prng),
-            Random.integer(lowerX, upperX)(prng)
-        ].sort();
+        let minX = Math.max(room.x, edge.x1);
+        let maxX = Math.min(room.x + room.width, edge.x2);
+        let lowerX = Random.integer(minX, maxX - 1)(prng);
+        let upperX = Random.integer(lowerX + 1, maxX)(prng);
         return {
-            x1: values[0],
+            x1: lowerX,
             y1: (edge.side === NORTH) ? room.y : edge.y,
-            x2: values[1],
-            y2: (edge.side === NORTH) ? edge.y : room.y + room.height - 1
+            x2: upperX,
+            y2: (edge.side === NORTH) ? edge.y : room.y + room.height
         };
     } else {
-        let lowerY = Math.max(room.y, edge.y1);
-        let upperY = Math.min(room.y + room.height - 1, edge.y2 - 1);
-        let values = [
-            Random.integer(lowerY, upperY)(prng),
-            Random.integer(lowerY, upperY)(prng)
-        ].sort();
+        let minY = Math.max(room.y, edge.y1);
+        let maxY = Math.min(room.y + room.height, edge.y2);
+        let lowerY = Random.integer(minY, maxY - 1)(prng);
+        let upperY = Random.integer(lowerY, maxY)(prng);
         return {
             x1: (edge.side === EAST) ? edge.x : room.x,
-            y1: values[0],
-            x2: (edge.side === EAST) ? room.x + room.width - 1 : edge.x,
-            y2: values[1]
+            y1: lowerY,
+            x2: (edge.side === EAST) ? room.x + room.width : edge.x,
+            y2: upperY
         };
     }
 }
@@ -132,7 +125,8 @@ export default {
             positionRoom(prng, room, edge);
             if(!rooms.some((room2)=>intersects(room, room2))) {
                 rooms.push(room);
-                halls.push(getHall(prng, room, edge));
+                let hall = getHall(prng, room, edge);
+                halls.push(hall);
             }
 
             openEdges = openEdges.concat(getEdges(room).filter(
@@ -149,12 +143,12 @@ export default {
             const {x, y, width, height} = room;
             minX = Math.min(minX, x);
             minY = Math.min(minY, y);
-            maxX = Math.max(maxX, x + width - 1);
-            maxY = Math.max(maxY, y + height - 1);
+            maxX = Math.max(maxX, x + width);
+            maxY = Math.max(maxY, y + height);
         });
 
-        let width = maxX - minX + 3;
-        let height = maxY - minY + 3;
+        let width = maxX - minX + 2;
+        let height = maxY - minY + 2;
 
         // Shift rooms and halls so that
         // top-most room is at y=1 and
@@ -189,13 +183,9 @@ export default {
         });
 
         halls.forEach(function({x1, y1, x2, y2}) {
-            for(var x = x1; x <= x2; x++) {
-                for(var y = y1; y <= y2; y++) {
-                    try {
-                        dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
-                    } catch(e) {
-                        console.error(minX, minY, maxX, maxY, arguments);
-                    }
+            for(var x = x1; x < x2; x++) {
+                for(var y = y1; y < y2; y++) {
+                    dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
                 }
             }
         });

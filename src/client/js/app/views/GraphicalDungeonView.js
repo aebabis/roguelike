@@ -278,7 +278,7 @@ export default class GraphicDungeonView {
             }, delay);
         } else if(event instanceof GameEvents.TakeItemEvent) {
             this._createDelay(function() {
-                let location = dungeon.getTile(event.getCreature());
+                let location = event.getTile();
                 let cell = grid.querySelector('[data-x="'+location.getX()+'"][data-y="'+location.getY()+'"]');
                 cell.removeChild(self._getDomForItem(event.getItem()));
             }, delay);

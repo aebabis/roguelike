@@ -1,10 +1,10 @@
 import Creature from '../entities/creatures/Creature.js';
 import GameEvent from './GameEvent.js';
 
-export default class TrashItemEvent extends GameEvent {
+export default class TakeItemEvent extends GameEvent {
     /**
       * @class MoveEvent
-      * @description Event fired whenever a Creature moves
+      * @description Event fired whenever a Creature takes an item
       */
     constructor(dungeon, creature, item) {
         super(dungeon);
@@ -12,11 +12,16 @@ export default class TrashItemEvent extends GameEvent {
             throw new Error('Second parameter must be a creature');
         }
         this._creature = creature;
+        this._tile = dungeon.getTile(creature);
         this._item = item;
     }
 
     getCreature() {
         return this._creature;
+    }
+
+    getTile() {
+        return this._tile;
     }
 
     getItem() {

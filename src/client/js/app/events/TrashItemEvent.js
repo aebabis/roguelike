@@ -1,10 +1,10 @@
 import Creature from '../entities/creatures/Creature.js';
 import GameEvent from './GameEvent.js';
 
-export default class TakeItemEvent extends GameEvent {
+export default class TrashItemEvent extends GameEvent {
     /**
-      * @class MoveEvent
-      * @description Event fired whenever a Creature moves
+      * @class TrashItemEvent
+      * @description Event fired whenever a Creature trashes an item
       */
     constructor(dungeon, creature, item) {
         super(dungeon);

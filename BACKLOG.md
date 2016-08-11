@@ -59,6 +59,7 @@
 ## Bugs
   - Monsters on the same initiative collide?
   - Tooltips don't update on state change
+  - Enemies try to move when they're snared
 
 ## Art
   - Snail icon

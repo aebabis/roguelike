@@ -149,11 +149,9 @@ var AStar = (function() {
 
 import Moves from '../moves/Moves.js';
 
-export default {
-    getMoveToward: function(dungeon, start, target) {
+export default module = {
+    getMoveSequenceToward: function(dungeon, start, target) {
         var creature = start.getCreature();
-        var x = start.getX();
-        var y = start.getY();
 
         if(start === target) {
             console.warn('Creature trying to move to path to its own location', this);
@@ -169,11 +167,27 @@ export default {
         });
 
         if(pathfinding.status === 'success') {
-            var nextTile = pathfinding.path[1];
-            if(nextTile) {
-                return new Moves.MovementMove(start, Math.sign(nextTile.getX() - x), Math.sign(nextTile.getY() - y));
-            }
+            var prevX = start.getX();
+            var prevY = start.getY();
+            return pathfinding.path.slice(1).map(function(location) {
+                // TODO: Consider making MovementMove take two tiles instead of deltas
+                var nextX = location.getX();
+                var nextY = location.getY();
+                var dx = nextX - prevX;
+                var dy = nextY - prevY;
+                prevX = nextX;
+                prevY = nextY;
+                return new Moves.MovementMove(dungeon.getTile(prevX, prevY), dx, dy);
+            });
+        } else {
+            return null;
         }
-        return null;
+    },
+
+    getMoveToward: function(dungeon, start, target) {
+        var path = module.getMoveSequenceToward(dungeon, start, target);
+        if(path) {
+            return path[0];
+        }
     }
 };

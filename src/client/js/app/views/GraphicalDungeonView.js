@@ -238,23 +238,23 @@ export default class GraphicDungeonView {
                 }
             }, delay);
         } else if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
-            this._createDelay(function() {
-                let player = dungeon.getPlayableCharacter();
-                // TODO: Refactor this? Perhaps all positioning requires a common, secondary event
-                let to = event.getX ? {x: event.getX(), y: event.getY()} : event.getToCoords();
-                let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
-                let creature = event.getCreature();
-                let dom = self._getDomForCreature(creature);
-                cell.appendChild(dom);
+            let player = dungeon.getPlayableCharacter();
+            if(player) {
+                let playerLocation = dungeon.getTile(player);
+                let visionRadius = Math.ceil(player.getVisionRadius());
+                this._createDelay(function() {
+                    // TODO: Refactor this? Perhaps all positioning requires a common, secondary event
+                    let to = event.getX ? {x: event.getX(), y: event.getY()} : event.getToCoords();
+                    let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
+                    let creature = event.getCreature();
+                    let dom = self._getDomForCreature(creature);
+                    cell.appendChild(dom);
 
-                // TODO: Can this move inside the if?
-                // Update player vision
-                Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
-                    cell.setAttribute('data-visible', 'false');
-                });
-                if(player) {
-                    let playerLocation = dungeon.getTile(player);
-                    let visionRadius = Math.ceil(player.getVisionRadius());
+                    // TODO: Can this move inside the if?
+                    // Update player vision
+                    Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
+                        cell.setAttribute('data-visible', 'false');
+                    });
                     let startX = Math.max(0, playerLocation.getX() - visionRadius);
                     let endX = Math.min(dungeon.getWidth() - 1, playerLocation.getX() + visionRadius);
                     let startY = Math.max(0, playerLocation.getY() - visionRadius);
@@ -271,11 +271,11 @@ export default class GraphicDungeonView {
                             });
                         }
                     }
-                }
 
-                self.scroll();
+                    self.scroll();
 
-            }, delay);
+                }, delay);
+            }
         } else if(event instanceof GameEvents.TakeItemEvent) {
             this._createDelay(function() {
                 let location = event.getTile();

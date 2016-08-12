@@ -28,7 +28,7 @@ export default class GraphicalViewMouseController {
                     return [new Moves.WaitMove(playerLocation)];
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
                     return [new Moves.MovementMove(playerLocation, dx, dy)];
-                } else {
+                } else if(playerLocation.getCreature()) {
                     return Pather.getMoveSequenceToward(dungeon, playerLocation, dungeon.getTile(targetX, targetY));
                 }
             }
@@ -44,9 +44,6 @@ export default class GraphicalViewMouseController {
         function updateHoverAttribute(tileDom) {
             var dungeon = sharedData.getDungeon();
             var player = dungeon.getPlayableCharacter();
-            if(!player) {
-                return;
-            }
             var moves = getMovesFor(tileDom);
             if(moves && moves[0] && !moves[0].getReasonIllegal(dungeon, player, getTileFor(tileDom))) {
                 tileDom.setAttribute('data-move', moves[0].constructor.name);

@@ -40,6 +40,11 @@
         background-position: -1px -1px;
     }
 
+    &[data-tile-type="PillarTile"] {
+        background-image: url(../images/small/Pillar.png), url(../images/small/DungeonTile.png);
+        background-size: 100%;
+    }
+
     &[data-tile-type="WallTile"] {
         background-image: url(../images/small/crummywall.png);
         background-size: 100%;

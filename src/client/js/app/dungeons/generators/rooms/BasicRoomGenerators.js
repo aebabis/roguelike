@@ -60,7 +60,7 @@ export default [{
         let yStride = Random.integer(2, 4)(prng);
         for(let x = x1 + 1; x < x2; x += xStride) {
             for(let y = y1 + 1; y < y2; y += yStride) {
-                dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
+                dungeon.setTile(new Tiles.PillarTile(dungeon, x, y), x, y);
             }
         }
     }

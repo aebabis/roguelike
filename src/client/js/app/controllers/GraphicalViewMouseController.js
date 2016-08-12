@@ -44,6 +44,9 @@ export default class GraphicalViewMouseController {
         function updateHoverAttribute(tileDom) {
             var dungeon = sharedData.getDungeon();
             var player = dungeon.getPlayableCharacter();
+            if(!player) {
+                return;
+            }
             var moves = getMovesFor(tileDom);
             if(moves && moves[0] && !moves[0].getReasonIllegal(dungeon, player, getTileFor(tileDom))) {
                 tileDom.setAttribute('data-move', moves[0].constructor.name);

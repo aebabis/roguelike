@@ -1,4 +1,5 @@
 import Moves from '../entities/creatures/moves/Moves.js';
+import GameEvents from '../events/GameEvents.js';
 
 import ItemDomFactory from './ItemDomFactory.js';
 
@@ -61,11 +62,22 @@ export default class InventoryView {
             dungeon.resolveUntilBlocked();
         });
 
-        dungeon.addObserver(()=>this.update());
-        sharedData.addObserver(()=>this.update());
+        dungeon.addObserver((event)=>this.update(event));
+        sharedData.addObserver((event)=>this.update(event));
+        this.redraw();
     }
 
-    update() {
+    update(event) {
+        let player = this._sharedData.getDungeon().getPlayableCharacter();
+        if(event instanceof GameEvents.TakeItemEvent ||
+                event instanceof GameEvents.TrashItemEvent ||
+                event instanceof GameEvents.CustomEvent || // UseItemMove. TODO: Make UseItemEvent
+                (event instanceof GameEvents.MoveEvent && event.getCreature() === player)) {
+            this.redraw();
+        }
+    }
+
+    redraw() {
         $(this._dom).empty().append(getInventoryDom(this._sharedData.getDungeon().getPlayableCharacter(), this._sharedData.getTargettedItem()));
     }
 

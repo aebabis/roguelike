@@ -31,6 +31,7 @@
   - Spell scroll compound sprites
   - Animate death frame (instead of ending)
   - Try ESDoc
+  - UseItemEvent
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"

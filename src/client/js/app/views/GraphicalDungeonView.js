@@ -6,6 +6,10 @@ import DungeonTooltips from './DungeonTooltips.js';
 
 //var ANIMATE_BARS = false;
 
+function getGridTileFast(grid, x, y) {
+    return grid.children[0].children[y].children[x];
+}
+
 function updateRangeIndicator(grid, dungeon, attack) {
     $('.range-indicator').remove();
     if(!attack) {
@@ -88,6 +92,10 @@ export default class GraphicDungeonView {
     constructor(sharedData) {
         var self = this;
         this._sharedData = sharedData;
+
+        this._creatureDoms = {};
+        this._itemDoms = {};
+
         var dungeon = sharedData.getDungeon();
         var width = dungeon.getWidth();
         var height = dungeon.getHeight();
@@ -162,7 +170,7 @@ export default class GraphicDungeonView {
         this._resetAnimationQueue();
 
         dungeon.forEachTile(function(tile, x, y) {
-            var cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
+            var cell = getGridTileFast(grid, x, y);
             var fc;
             while(fc = cell.firstChild) {
                 cell.removeChild(fc);
@@ -181,7 +189,7 @@ export default class GraphicDungeonView {
         });
 
         // Set grid width programatically to override table layout algorithm
-        var table = grid.querySelector('.grid');
+        var table = grid.children[0];
         table.style.width = 5 * dungeon.getWidth() + 'em';
     }
 
@@ -227,7 +235,7 @@ export default class GraphicDungeonView {
             let target = event.getTarget();
             let weapon = event.getWeapon();
             let tile = dungeon.getTile(attacker);
-            let cell = grid.querySelector('[data-x="'+tile.getX()+'"][data-y="'+tile.getY()+'"]');
+            let cell = getGridTileFast(grid, tile.getX(), tile.getY());
             this._createDelay(function() {
                 let targetTile = dungeon.getTile(target); // Get target position dynamically so shooting at moving targets looks ok
                 if(weapon.getRange() === 1) {
@@ -245,7 +253,7 @@ export default class GraphicDungeonView {
                 this._createDelay(function() {
                     // TODO: Refactor this? Perhaps all positioning requires a common, secondary event
                     let to = event.getX ? {x: event.getX(), y: event.getY()} : event.getToCoords();
-                    let cell = grid.querySelector('[data-x="'+to.x+'"][data-y="'+to.y+'"]');
+                    let cell = getGridTileFast(grid, to.x, to.y);
                     let creature = event.getCreature();
                     let dom = self._getDomForCreature(creature);
                     cell.appendChild(dom);
@@ -262,7 +270,7 @@ export default class GraphicDungeonView {
                     for(let x = startX; x <= endX; x++) {
                         for(let y = startY; y <= endY; y++) {
                             let tile = dungeon.getTile(x, y);
-                            let cell = grid.querySelector('[data-x="'+x+'"][data-y="'+y+'"]');
+                            let cell = getGridTileFast(grid, x, y);
                             cell.setAttribute('data-tile-type', tile.constructor.name);
                             cell.setAttribute('data-explored', player.hasSeen(tile));
                             cell.setAttribute('data-visible', player.canSee(dungeon, tile));
@@ -279,7 +287,7 @@ export default class GraphicDungeonView {
         } else if(event instanceof GameEvents.TakeItemEvent) {
             this._createDelay(function() {
                 let location = event.getTile();
-                let cell = grid.querySelector('[data-x="'+location.getX()+'"][data-y="'+location.getY()+'"]');
+                let cell = getGridTileFast(grid, location.getX(), location.getY());
                 cell.removeChild(self._getDomForItem(event.getItem()));
             }, delay);
         } else if(event instanceof GameEvents.HitpointsEvent) {
@@ -287,7 +295,7 @@ export default class GraphicDungeonView {
             let tile = dungeon.getTile(creature);
             let x = tile.getX();
             let y = tile.getY();
-            let cell = grid.querySelector(`[data-x="${x}"][data-y="${y}"]`);
+            let cell = getGridTileFast(grid, x, y);
             this._createDelay(function() {
                 cell.setAttribute('data-event-name', 'HitpointsEvent');
                 cell.setAttribute('data-is-hp-change-negative', event.getAmount() < 0);
@@ -379,7 +387,7 @@ export default class GraphicDungeonView {
 
     _getDomForCreature(creature) {
         var id = creature.getId();
-        var node = this.getDom().querySelector('[data-id="'+id+'"]');
+        var node = this._creatureDoms[id];
         if(node) {
             return node;
         } else {
@@ -401,13 +409,13 @@ export default class GraphicDungeonView {
             actionBar.classList.add('action-bar');
             stats.appendChild(actionBar);
 
-            return div;
+            return this._creatureDoms[id] = div;
         }
     }
 
     _getDomForItem(item) {
         var id = item.getId();
-        var node = this.getDom().querySelector('[data-id="'+id+'"]');
+        var node = this._itemDoms[id];
         if(node) {
             return node;
         } else {
@@ -418,7 +426,7 @@ export default class GraphicDungeonView {
             div.classList.add('item');
             div.classList.add('icon');
 
-            return div;
+            return this._itemDoms[id] = div;
         }
     }
 }

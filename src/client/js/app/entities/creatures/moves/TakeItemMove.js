@@ -39,6 +39,7 @@ export default class TakeItemMove extends Move {
         var item = dungeon.getTile(creature).removeItem(this.getItemIndex());
         creature.getInventory().addItem(item);
         dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
+        dungeon.fireEvent(new GameEvents.InventoryChangeEvent(dungeon, creature));
     }
 
     isSeenBy(dungeon, observer) {

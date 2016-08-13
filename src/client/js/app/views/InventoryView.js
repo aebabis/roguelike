@@ -68,11 +68,7 @@ export default class InventoryView {
     }
 
     update(event) {
-        let player = this._sharedData.getDungeon().getPlayableCharacter();
-        if(event instanceof GameEvents.TakeItemEvent ||
-                event instanceof GameEvents.TrashItemEvent ||
-                event instanceof GameEvents.CustomEvent || // UseItemMove. TODO: Make UseItemEvent
-                (event instanceof GameEvents.MoveEvent && event.getCreature() === player)) {
+        if(event instanceof GameEvents.InventoryChangeEvent) {
             this.redraw();
         }
     }

@@ -1,4 +1,4 @@
-import CustomEvent from '../../../events/CustomEvent.js';
+import GameEvents from '../../../events/GameEvents.js';
 
 import Move from './Move.js';
 
@@ -73,14 +73,15 @@ export default class UseItemMove extends Move {
         if(item.isEquipable() && !isNaN(position)) {
             // Equipable items in backpack are used by equipping them
             inventory.equipItem(position);
-            dungeon.fireEvent(new CustomEvent(dungeon, creature + ' equipped ' + item));
+            dungeon.fireEvent(new GameEvents.EquipItemEvent(dungeon, creature, item));
         } else {
             item.use(dungeon, creature, targetTile);
-            dungeon.fireEvent(new CustomEvent(dungeon, item.getUseMessage(dungeon, creature, targetTile)));
+            dungeon.fireEvent(new GameEvents.UseItemEvent(dungeon, creature, item, targetTile));
             if(item instanceof Consumable) {
                 inventory.removeItem(position);
             }
         }
+        dungeon.fireEvent(new GameEvents.InventoryChangeEvent(dungeon, creature));
     }
 
     isSeenBy(dungeon, observer) {

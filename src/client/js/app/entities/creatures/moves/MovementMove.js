@@ -61,11 +61,11 @@ export default class MovementMove extends Move {
         if(creature instanceof PlayableCharacter) {
             var newLocation = dungeon.getTile(x, y);
             newLocation.getItems().forEach(function(item) {
-                console.log(newLocation, dungeon, creature, item);
                 if(creature.canAddItem(item)) {
                     newLocation.removeItem(item);
                     creature.addItem(item);
                     dungeon.fireEvent(new GameEvents.TakeItemEvent(dungeon, creature, item));
+                    dungeon.fireEvent(new GameEvents.InventoryChangeEvent(dungeon, creature));
                 }
             });
         }

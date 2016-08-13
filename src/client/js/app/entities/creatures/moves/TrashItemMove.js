@@ -36,6 +36,7 @@ export default class TrashItemMove extends Move {
         }
         var item = creature.getInventory().removeItem(this.getItemIndex());
         dungeon.fireEvent(new GameEvents.TrashItemEvent(dungeon, creature, item));
+        dungeon.fireEvent(new GameEvents.InventoryChangeEvent(dungeon, creature));
     }
 
     isSeenBy(dungeon, observer) {

@@ -15,8 +15,10 @@ export default class EventLogView {
         scrollPane.appendChild(log);
 
         function observer(event) {
-            if(event && event.getText && !(event instanceof GameEvents.HumanToMoveEvent)
-                    && !(event instanceof GameEvents.HumanMovingEvent)) {
+            if(event && event.getText &&
+                    !(event instanceof GameEvents.HumanToMoveEvent ||
+                    event instanceof GameEvents.HumanMovingEvent ||
+                    event instanceof GameEvents.InventoryChangeEvent)) {
                 var dungeon = sharedData.getDungeon();
                 if(dungeon && (!event.isSeenBy || event.isSeenBy(dungeon, dungeon.getPlayableCharacter()))) {
                     var message = document.createElement('div');

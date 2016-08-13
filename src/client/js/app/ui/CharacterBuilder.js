@@ -220,6 +220,7 @@ export default class CharacterBuilder {
                 player.addAbility(new Abilities.ForceDart());
                 break;
             case 'Rogue':
+                player.addAbility(new Abilities.Leap());
                 break;
             }
 

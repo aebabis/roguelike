@@ -2,6 +2,7 @@ import Weapon from './Weapon.js';
 import DamageTypes from '../DamageTypes.js';
 
 var DAMAGE = 4;
+var BONUS_DAMAGE = 1;
 
 export default class LightningRod extends Weapon {
     getDamage() {
@@ -13,10 +14,14 @@ export default class LightningRod extends Weapon {
     }
 
     getDamageType() {
-        return DamageTypes.ELECTRICAL;
+        return DamageTypes.MELEE_PHYSICAL;
+    }
+
+    onAttack(dungeon, attacker, defender) {
+        defender.receiveDamage(dungeon, BONUS_DAMAGE, DamageTypes.ELECTRICAL);
     }
 
     getFriendlyDescription() {
-        return `Does ${DAMAGE} electrical damage to adjacent enemy`;
+        return `Does ${DAMAGE} electrical damage and ${BONUS_DAMAGE} electrical damage`;
     }
 }

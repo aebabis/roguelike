@@ -2,6 +2,7 @@ import Weapon from './Weapon.js';
 import DamageTypes from '../DamageTypes.js';
 
 var DAMAGE = 3;
+var BONUS_DAMAGE = 1;
 
 export default class FrostDagger extends Weapon {
     getDamage() {
@@ -13,10 +14,14 @@ export default class FrostDagger extends Weapon {
     }
 
     getDamageType() {
-        return DamageTypes.COLD;
+        return DamageTypes.MELEE_PHYSICAL;
+    }
+
+    onAttack(dungeon, attacker, defender) {
+        defender.receiveDamage(dungeon, BONUS_DAMAGE, DamageTypes.COLD);
     }
 
     getFriendlyDescription() {
-        return `Does ${DAMAGE} cold damage to adjacent enemy`;
+        return `Does ${DAMAGE} physical damage and ${BONUS_DAMAGE} cold damage`;
     }
 }

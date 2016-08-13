@@ -6,7 +6,7 @@ export default class HitpointsEvent extends GameEvent {
     /**
       * @class HitpointsEvent
       */
-    constructor(dungeon, creature, amount) {
+    constructor(dungeon, creature, amount, type) {
         super(dungeon);
         if(!(creature instanceof Creature)) {
             throw new Error('Second parameter must be a Creature');
@@ -16,6 +16,7 @@ export default class HitpointsEvent extends GameEvent {
         }
         this._creature = creature;
         this._amount = amount;
+        this._type = type || null;
     }
 
     /**
@@ -29,6 +30,10 @@ export default class HitpointsEvent extends GameEvent {
 
     getAmount() {
         return this._amount;
+    }
+
+    getDamageType() {
+        return this._type;
     }
 
     /**

@@ -4,6 +4,28 @@ import GameEvents from '../events/GameEvents.js';
 import GridAnimations from './GridAnimations.js';
 import DungeonTooltips from './DungeonTooltips.js';
 
+import DamageTypes from '../entities/DamageTypes.js';
+
+const DAMAGE_COLORS = {
+    [DamageTypes.MELEE_PHYSICAL]: 'darkred',
+    [DamageTypes.RANGED_PHYSICAL]: 'darkred',
+    [DamageTypes.FIRE]: 'orange',
+    [DamageTypes.COLD]: 'darkblue',
+    [DamageTypes.ELECTRICAL]: 'yellow',
+    [DamageTypes.ENERGY]: 'white',
+    [DamageTypes.POISON]: 'emerald'
+};
+
+const DAMAGE_OUTLINE_COLORS = {
+    [DamageTypes.MELEE_PHYSICAL]: 'pink',
+    [DamageTypes.RANGED_PHYSICAL]: 'pink',
+    [DamageTypes.FIRE]: 'darkred',
+    [DamageTypes.COLD]: 'skyblue',
+    [DamageTypes.ELECTRICAL]: 'orange',
+    [DamageTypes.ENERGY]: 'yellow',
+    [DamageTypes.POISON]: 'darkgreen'
+};
+
 //var ANIMATE_BARS = false;
 
 function getGridTileFast(grid, x, y) {
@@ -62,31 +84,46 @@ function updateRangeIndicator(grid, dungeon, attack) {
     })).appendTo(grid);
 }
 
-function getScrollingText(text, x, y, color, outlineColor) {
-    let startY = (y * 5) + 2.5 + 'rem';
-    let endY = (y * 5) + 'rem';
-    let size = text.toString().length <= 2 ? '2em' : '1.5em';
-    return $('<div>').text(text)
-        .css({
-            color,
-            fontWeight: 'bold',
-            zIndex: 3,
-            pointerEvents: 'none',
-            fontSize: size,
-            webkitTextStroke: `.025em ${outlineColor}`,
-            position: 'absolute',
-            width: '5rem',
-            textAlign: 'center',
-            top: startY,
-            left: (x * 5) + 'rem'
-        })
-        .animate({
-            top: endY,
-            opacity: 0
-        }, 1000, function() {
-            $(this).remove();
-        });
-}
+const getScrollingText = (function() {
+    var previousOccurences = {};
+
+    function markAndCountRecentOccurences(x, y, delta) {
+        //debugger;
+        var now = Date.now();
+        var key  = `${x},${y}`;
+        var array = previousOccurences[key] || (previousOccurences[key] = []);
+        array = previousOccurences[key] = array.filter((time) => now - time < delta);
+        array.push(now);
+        return array.length - 1;
+    }
+
+    return function getScrollingText(text, x, y, color, outlineColor) {
+        let startY = (y * 5) + 2.5 + 'rem';
+        let endY = (y * 5) + 'rem';
+        let size = text.toString().length <= 2 ? '2em' : '1.5em';
+        let previousOccurenceCount = markAndCountRecentOccurences(x, y, 1000);
+        return $('<div>').text(text)
+            .css({
+                color,
+                fontWeight: 'bold',
+                zIndex: 3,
+                pointerEvents: 'none',
+                fontSize: size,
+                webkitTextStroke: `.025em ${outlineColor}`,
+                position: 'absolute',
+                width: '5rem',
+                textAlign: 'center',
+                top: startY,
+                left: (x * 5) + - 1 + 2 * previousOccurenceCount + 'rem'
+            })
+            .animate({
+                top: endY,
+                opacity: 0
+            }, 1000, function() {
+                $(this).remove();
+            });
+    };
+}());
 
 export default class GraphicDungeonView {
     constructor(sharedData) {
@@ -304,7 +341,7 @@ export default class GraphicDungeonView {
                     dom.setAttribute('data-is-dead', true);
                 }
                 if(event.getAmount() < 0) {
-                    getScrollingText(event.getAmount(), x, y, 'darkred', 'pink')
+                    getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
                         .appendTo(grid.children[0]);
                 }
             }, delay + 200); // Death needs to be delayed so it appears to follow its cause

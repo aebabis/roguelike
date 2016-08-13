@@ -162,7 +162,7 @@ export default class Creature extends Entity {
 
         if(modifiedAmount > 0) {
             this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
-            dungeon.fireEvent(new HitpointsEvent(dungeon, this, -modifiedAmount));
+            dungeon.fireEvent(new HitpointsEvent(dungeon, this, -modifiedAmount, type));
         } else {
             dungeon.fireEvent(new ZeroDamageEvent(dungeon, this, type));
         }
@@ -172,7 +172,7 @@ export default class Creature extends Entity {
 
     heal(dungeon, amount) {
         this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
-        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount));
+        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount, null));
     }
 
     modifyMana(amount) {

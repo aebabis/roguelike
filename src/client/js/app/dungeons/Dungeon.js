@@ -263,9 +263,9 @@ export default class Dungeon extends Observable {
         var conditions = this._gameConditions;
         if(conditions) {
             if(conditions.hasPlayerWon(this)) {
-                this.fireEvent(new GameEvents.CustomEvent(this, 'Victory'));
+                this.fireEvent(new GameEvents.VictoryEvent(this));
             } else if(conditions.hasPlayerLost(this)) {
-                this.fireEvent(new GameEvents.CustomEvent(this, 'Defeat'));
+                this.fireEvent(new GameEvents.DefeatEvent(this));
 
             }
         }

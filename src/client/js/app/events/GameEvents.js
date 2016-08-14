@@ -3,6 +3,7 @@ import AttackEvent from './AttackEvent.js';
 import BuffAppliedEvent from './BuffAppliedEvent.js';
 import BuffEndedEvent from './BuffEndedEvent.js';
 import CustomEvent from './CustomEvent.js';
+import DefeatEvent from './DefeatEvent.js';
 import EquipItemEvent from './EquipItemEvent.js';
 import HitpointsEvent from './HitpointsEvent.js';
 import HumanMovingEvent from './HumanMovingEvent.js';
@@ -14,6 +15,7 @@ import SpawnEvent from './SpawnEvent.js';
 import TakeItemEvent from './TakeItemEvent.js';
 import TrashItemEvent from './TrashItemEvent.js';
 import UseItemEvent from './UseItemEvent.js';
+import VictoryEvent from './VictoryEvent.js';
 import WaitEvent from './WaitEvent.js';
 import ZeroDamageEvent from './ZeroDamageEvent.js';
 
@@ -23,6 +25,7 @@ export default {
     BuffAppliedEvent,
     BuffEndedEvent,
     CustomEvent,
+    DefeatEvent,
     EquipItemEvent,
     HitpointsEvent,
     HumanMovingEvent,
@@ -34,6 +37,7 @@ export default {
     TakeItemEvent,
     TrashItemEvent,
     UseItemEvent,
+    VictoryEvent,
     WaitEvent,
     ZeroDamageEvent
 };

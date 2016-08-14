@@ -47,6 +47,7 @@
     "webpack-dev-server": "^1.13.0"
   },
   "devDependencies": {
+    "esdoc": "^0.4.8",
     "jsdoc": "^3.4.0",
     "jsdoc-baseline": "https://github.com/hegemonic/baseline/tarball/master"
   },

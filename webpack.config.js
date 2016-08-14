@@ -4,7 +4,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/js/app/ui/LayoutBootstrapper.js',
+    entry: './src/client/js/app/Bootstrapper.js',
     output: {
         path: path.join(__dirname, '/dist'),
         filename: 'bundle.js'
@@ -13,7 +13,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Vaults of Git’recht'
         }),
-        
+
         new webpack.ProvidePlugin({
             // http://stackoverflow.com/a/34354301/2993478
             $: 'jquery',

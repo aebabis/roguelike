@@ -7,8 +7,6 @@
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Improve/clarify interface for repositioning creatures
-  - Fix dungeon generator to use proper boundaries (open/closed)
-  - Auto-pathing
   - Make all movement effects use `dungeon.moveCreature`
   - Show enemy resistances in UI
 - Med
@@ -31,7 +29,6 @@
   - Spell scroll compound sprites
   - Animate death frame (instead of ending)
   - Try ESDoc
-  - UseItemEvent
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
@@ -45,11 +42,11 @@
   - Use `fetch`
   - RandomStrategyStrategy
   - RandomAbilityStrategy
-  - Color code damage types in UI
   - Make ClunkyNintiesCellPhone use predefined strategies
   - Test case for reflexivity of canSee
   - Circular dependency injection (GameEvents inside Creature)
   - Melee attack animation improvement
+  - Move DebugConsole to util folder
 
 ## Content
   - Invisibility Spell

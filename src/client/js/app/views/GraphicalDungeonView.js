@@ -297,7 +297,7 @@ export default class GraphicDungeonView {
 
                     // TODO: Can this move inside the if?
                     // Update player vision
-                    Array.from(grid.querySelector('[data-visible="true"]')).forEach(function(cell) {
+                    Array.from(grid.querySelectorAll('[data-visible="true"]')).forEach(function(cell) {
                         cell.setAttribute('data-visible', 'false');
                     });
                     let startX = Math.max(0, playerLocation.getX() - visionRadius);

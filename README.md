@@ -1,6 +1,7 @@
 ![Travis Build](https://img.shields.io/travis/acbabis/roguelike.svg)
 ![Dependencies](https://img.shields.io/david/acbabis/roguelike.svg)
 ![Dev Dependencies](https://img.shields.io/david/dev/acbabis/roguelike.svg)
+[![Coverage Status](https://coveralls.io/repos/github/acbabis/roguelike/badge.svg?branch=master)](https://coveralls.io/github/acbabis/roguelike?branch=master)
 
 # Vaults of Git’recht
 

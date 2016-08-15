@@ -1,7 +1,9 @@
 import Ability from './Ability.js';
 import GameEvents from '../events/GameEvents.js';
 
+/** Lets user jump over enemies and obstacles to a nearby tile */
 export default class Leap extends Ability {
+    /** @override */
     getReasonIllegal(dungeon, creature, optionalTargetTile) {
         var superReason = super.getReasonIllegal.apply(this, arguments);
         if(superReason) {
@@ -13,6 +15,8 @@ export default class Leap extends Ability {
         }
     }
 
+    /** Moves the creature over open spaces and creatures (but not through walls)
+     * to a visible tile within 3 spaces */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
 
@@ -21,30 +25,37 @@ export default class Leap extends Ability {
         dungeon.fireEvent(new GameEvents.PositionChangeEvent(dungeon, creature, optionalTargetTile.getX(), optionalTargetTile.getY()));
     }
 
+    /** @override */
     isTargetted() {
         return true;
     }
 
+    /** @override */
     isTargetCreature() {
         return false;
     }
 
+    /** @override */
     isMovementAbility() {
         return true;
     }
 
+    /** @override */
     getRange() {
         return 3;
     }
 
+    /** @override */
     canTargetSelf() {
         return false;
     }
 
+    /** @override */
     getManaCost() {
         return 2;
     }
 
+    /** @override */
     getDescription() {
         return 'Leap over obstacles and enemies';
     }

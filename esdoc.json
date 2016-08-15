@@ -1,4 +1,4 @@
 {
-  "source": "./src",
+  "source": "./src/client/js/app",
   "destination": "./doc"
 }

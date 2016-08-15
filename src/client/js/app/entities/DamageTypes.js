@@ -1,4 +1,4 @@
-var TYPES = [
+var DAMAGE_TYPES = [
     'MELEE_PHYSICAL',
     'RANGED_PHYSICAL',
     'FIRE',
@@ -8,12 +8,12 @@ var TYPES = [
     'POISON'
 ];
 
-var TYPE_MAP = TYPES.reduce((obj, type) => {
+var TYPE_MAP = DAMAGE_TYPES.reduce((obj, type) => {
     obj[type] = type;
     return obj;
 }, {});
 
-TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
+DAMAGE_TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
     get: function(obj, prop) {
         var value = obj[prop];
         if(typeof value === 'undefined') {
@@ -24,4 +24,4 @@ TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
     }
 });
 
-export default TYPES;
+export default DAMAGE_TYPES;

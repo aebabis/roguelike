@@ -9,7 +9,12 @@ function getToTile(dungeon, creature, optionalTargetTile) {
     }).slice(0, 2).filter((tile) => !tile.getCreature())[0];
 }
 
+/**
+ * @desc An {@link Ability} that enables a creature to move forward and melee
+ * attack with the same action
+ */
 export default class DashAttack extends Ability {
+    /** @override */
     getReasonIllegal(dungeon, creature, optionalTargetTile, isFree) {
         var superReason = super.getReasonIllegal.apply(this, arguments);
         if(superReason) {
@@ -25,6 +30,10 @@ export default class DashAttack extends Ability {
         }
     }
 
+    /**
+     * @desc Causes the creature to move the the closest tile the is adjacent
+     * to the target tile and attack the occupant with its melee weapon
+     */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
         let toTile = getToTile(dungeon, creature, optionalTargetTile);
@@ -41,30 +50,37 @@ export default class DashAttack extends Ability {
         }
     }
 
+    /** @override */
     isTargetted() {
         return true;
     }
 
+    /** @override */
     isTargetCreature() {
         return true;
     }
 
+    /** @override */
     isMovementAbility() {
         return true;
     }
 
+    /** @override */
     getRange() {
         return 3;
     }
 
+    /** @override */
     canTargetSelf() {
         return false;
     }
 
+    /** @override */
     getManaCost() {
         return 2;
     }
 
+    /** @override */
     getDescription() {
         return 'Dash to an enemy and make a melee attack';
     }

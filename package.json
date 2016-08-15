@@ -6,7 +6,7 @@
   "scripts": {
     "install": "webpack",
     "start": "node src/server/server.js",
-    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel-register --colors --reporter dot",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel-register --colors --reporter dot && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "npm run cover && istanbul check-coverage --statements 30 --branches 30 --functions 30 ./coverage/coverage.raw.json",
     "develop": "webpack-dev-server --port 1337",
     "doc": "esdoc -c esdoc.json"
@@ -22,6 +22,7 @@
     "babel-runtime": "^6.9.0",
     "chai": "^3.5.0",
     "compression": "^1.6.2",
+    "coveralls": "^2.11.12",
     "css-loader": "^0.23.1",
     "dialog-polyfill": "^0.4.3",
     "es6-a-star": "git+https://github.com/acbabis/es6-a-star.git#master",

@@ -7,7 +7,7 @@
     "install": "webpack",
     "start": "node src/server/server.js",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel-register --colors --reporter dot",
-    "cover:upload": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "cover:upload": "cat ./coverage/lcov.info && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "npm run cover && istanbul check-coverage --statements 30 --branches 30 --functions 30 ./coverage/coverage.raw.json",
     "develop": "webpack-dev-server --port 1337",
     "doc": "esdoc -c esdoc.json"

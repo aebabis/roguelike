@@ -2,7 +2,7 @@
 ![Dependencies](https://img.shields.io/david/acbabis/roguelike.svg)
 ![Dev Dependencies](https://img.shields.io/david/dev/acbabis/roguelike.svg)
 [![Coverage Status](https://coveralls.io/repos/github/acbabis/roguelike/badge.svg?branch=master)](https://coveralls.io/github/acbabis/roguelike?branch=master)
-![Documentation Coverage](https://doc.esdoc.org/github.com/acbabis/roguelike/badge.svg)
+[![Documentation Coverage](https://doc.esdoc.org/github.com/acbabis/roguelike/badge.svg)](https://doc.esdoc.org/github.com/acbabis/roguelike/source.html)
 
 # Vaults of Git’recht
 

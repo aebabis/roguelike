@@ -28,7 +28,8 @@
   - Let player know their speed
   - Spell scroll compound sprites
   - Animate death frame (instead of ending)
-  - Try ESDoc
+  - Potion of flying
+  - Queue animations
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
@@ -58,6 +59,8 @@
   - Monsters on the same initiative collide?
   - Tooltips don't update on state change
   - Enemies try to move when they're snared
+  - number hotkeys not working in firefox
+  - Autopath only stops if an enemy is visible during the player's turn, and not if an enemy became visible while waiting
 
 ## Art
   - Snail icon
@@ -72,3 +75,7 @@
   - Pillar
   - Magic sword
   - A PC who can tunnel (mole, miner, ect.)
+  - Troll
+  - Mimic
+  - Dragon
+  - Item hoarder

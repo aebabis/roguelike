@@ -15,7 +15,7 @@ export default class GameEvent {
     /**
      * @function getTimestamp()
      * @description Gets the time of this event in dungeon timesteps
-     * @returns {Number}
+     * @return {Number}
      */
     getTimestamp() {
         return this._timestamp;
@@ -24,7 +24,7 @@ export default class GameEvent {
     /**
      * @function getText()
      * @description A text description of the event
-     * @returns {String}
+     * @return {String}
      */
     getText() {
         throw new Error('Abstract function not implemented');

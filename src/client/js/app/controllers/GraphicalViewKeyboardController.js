@@ -1,6 +1,14 @@
 import Moves from '../entities/creatures/moves/Moves.js';
 
+/**
+ * Controller that listens for keypresses on dungeon views
+ * and converts them to game moves
+ */
 export default class GraphicalViewKeyboardController {
+    /**
+     * Instantiates a controller and binds event handlers to the document
+     * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
+     */
     constructor(sharedData) {
         var dom = document.querySelector('section.game');
 

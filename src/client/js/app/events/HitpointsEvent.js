@@ -22,7 +22,7 @@ export default class HitpointsEvent extends GameEvent {
     /**
      * @function getCreature()
      * @memberof HitpointsEvent
-     * @returns {Creature}
+     * @return {Creature}
      */
     getCreature() {
         return this._creature;
@@ -40,7 +40,7 @@ export default class HitpointsEvent extends GameEvent {
      * @function getText()
      * @memberof HitpointsEvent
      * @description A text description of the event
-     * @returns {String}
+     * @return {String}
      */
     getText() {
         var creature = this.getCreature();

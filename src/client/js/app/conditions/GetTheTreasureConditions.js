@@ -9,7 +9,7 @@ export default class GetTheTreasureConditions extends GameConditions {
     /**
      * Tells if the player has won by stealing the treasure
      * @param {Dungeon} dungeon - The dungeon being played
-     * @returns {Boolean} - `true` if the player has the treasure in their position
+     * @return {Boolean} - `true` if the player has the treasure in their position
      * and is standing at the entrance; `false` otherwise
      */
     hasPlayerWon(dungeon) {

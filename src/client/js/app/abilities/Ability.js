@@ -61,7 +61,7 @@ export default class Ability {
     /**
      * @abstract
      * @desc Tells whether the ability targets a tile.
-     * @returns {boolean} - `true` if the ability must target a tile; `false` otherwise.
+     * @return {boolean} - `true` if the ability must target a tile; `false` otherwise.
      */
     isTargetted() {
         throw new Error('Abstract method not implemented');
@@ -72,7 +72,7 @@ export default class Ability {
      * @desc For a targetted ability, tells whether the ability requires
      * the target tile to contain a creature. This is not called if the ability
      * doesn't target.
-     * @returns {boolean} - `true` if the ability must target a creature; `false` otherwise.
+     * @return {boolean} - `true` if the ability must target a creature; `false` otherwise.
      */
     isTargetCreature() {
         throw new Error('Abstract method not implemented');
@@ -81,7 +81,7 @@ export default class Ability {
     /**
      * @desc Tells whether the ability can cause the creature to move. creatures
      * will not be able to use a movement ability if their movement is impaired.
-     * @returns {boolean} - `true` if the ability can cause the user to move; `false` otherwise.
+     * @return {boolean} - `true` if the ability can cause the user to move; `false` otherwise.
      */
     isMovementAbility() {
         return false;
@@ -90,7 +90,7 @@ export default class Ability {
     /**
      * @desc For targetted abilities, tells whether or not the target must
      * be visible to the creature.
-     * @returns {boolean} - `true` if the ability must target a visible tile; `false` otherwise.
+     * @return {boolean} - `true` if the ability must target a visible tile; `false` otherwise.
      */
     mustTargetBeVisible() {
         return true;
@@ -99,7 +99,7 @@ export default class Ability {
     /**
      * @desc For targetted abilities, tells how far away the ability can
      * target. 0 means that the ability can only self-target.
-     * @returns {number} - A number indicating how far the ability can target
+     * @return {number} - A number indicating how far the ability can target
      */
     getRange() {
         return 0;
@@ -108,7 +108,7 @@ export default class Ability {
     /**
      * @desc For targetted abilities, tells whether or not the target
      * can be the tile the creature is standing on.
-     * @returns {boolean} - `true` if the ability may target the user; `false` otherwise.
+     * @return {boolean} - `true` if the ability may target the user; `false` otherwise.
      */
     canTargetSelf() {
         return true;
@@ -119,7 +119,7 @@ export default class Ability {
      * @desc Gets the amount of mana deducted from the user upon use. If
      * this amount exceeds the creature's available mana, the ability cannot be
      * used normally.
-     * @returns {number} - The mana required to use the ability
+     * @return {number} - The mana required to use the ability
      */
     getManaCost() {
         throw new Error('Abstract method not implemented');
@@ -127,7 +127,7 @@ export default class Ability {
 
     /**
      * @desc Gets a formatted name for the ability
-     * @returns {String} - A human-readable name
+     * @return {String} - A human-readable name
      */
     getName() {
         return this.constructor.name.replace(/([^A-Z])([A-Z])/g, '$1 $2');
@@ -136,7 +136,7 @@ export default class Ability {
     /**
      * @abstract
      * @desc A short description of the ability
-     * @returns {String} - A human-readable description of the ability's effects
+     * @return {String} - A human-readable description of the ability's effects
      */
     getDescription() {
         throw new Error('Abstract method not implemented');
@@ -144,7 +144,7 @@ export default class Ability {
 
     /**
      * @desc Generic toString method
-     * @returns {String} - A string for debug purposes
+     * @return {String} - A string for debug purposes
      */
     toString() {
         return this.constructor.name;

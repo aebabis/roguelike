@@ -18,7 +18,7 @@ export default class ZeroDamageEvent extends GameEvent {
     /**
      * @function getCreature()
      * @memberof ZeroDamageEvent
-     * @returns {Creature}
+     * @return {Creature}
      */
     getCreature() {
         return this._creature;
@@ -32,7 +32,7 @@ export default class ZeroDamageEvent extends GameEvent {
      * @function getText()
      * @memberof ZeroDamageEvent
      * @description A text description of the event
-     * @returns {String}
+     * @return {String}
      */
     getText() {
         var creature = this.getCreature();

@@ -2,7 +2,16 @@ import Moves from '../entities/creatures/moves/Moves.js';
 
 import Pather from '../entities/creatures/strategies/Pather.js';
 
+/**
+ * Controller that listens for mouse actions on dungeon views
+ * and converts them to game moves
+ */
 export default class GraphicalViewMouseController {
+    /**
+     * Instantiates a controller and binds event handlers to the document
+     * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
+     * @param {graphicalDungeonView} graphicalDungeonView - The view that will receive the clicks
+     */
     constructor(sharedData, graphicalDungeonView) {
         var dom = graphicalDungeonView.getDom();
 

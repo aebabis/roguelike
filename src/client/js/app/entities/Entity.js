@@ -1,4 +1,4 @@
-var idGen = 1;
+var engine = Random.engines.mt19937().autoSeed();
 
 export default class Entity {
     /**
@@ -6,7 +6,7 @@ export default class Entity {
       * @description Base class for entities that can occupy tiles
       */
     constructor() {
-        this._id = idGen++;
+        this._id = Random.uuid4(engine);
     }
 
     getId() {

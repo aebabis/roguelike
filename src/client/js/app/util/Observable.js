@@ -44,7 +44,7 @@ export default class Observable {
         if(index < 0) {
             throw new Error('observer not found in observers');
         }
-        observer.splice(index, 1);
+        observers.splice(index, 1);
     }
 
     _notifyObservers(message) {

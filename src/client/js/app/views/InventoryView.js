@@ -1,6 +1,6 @@
 import Moves from '../entities/creatures/moves/Moves.js';
 import GameEvents from '../events/GameEvents.js';
-
+import Dungeon from '../dungeons/Dungeon.js';
 import ItemDomFactory from './ItemDomFactory.js';
 
 function getInventoryDom(creature, targettedIndex) {
@@ -67,7 +67,7 @@ export default class InventoryView {
     }
 
     update(event) {
-        if(event instanceof GameEvents.InventoryChangeEvent) {
+        if(event instanceof GameEvents.InventoryChangeEvent || event instanceof Dungeon) {
             this.redraw();
         }
     }

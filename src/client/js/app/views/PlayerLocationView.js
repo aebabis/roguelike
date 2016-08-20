@@ -6,16 +6,16 @@ export default class PlayerLocationView {
      * @description View summarizing the tile where the player is standing
      */
     constructor(sharedData) {
-        var dom = this._dom = $('<div class="player-location-view">');
+        const dom = this._dom = $('<div class="player-location-view">');
         this._sharedData = sharedData;
 
         sharedData.addObserver(()=>this.update());
 
         $(dom).on('click tap', 'button.item', function() {
-            var index = $(this).attr('data-index');
-            var dungeon = sharedData.getDungeon();
+            const index = $(this).attr('data-index');
+            const dungeon = sharedData.getDungeon();
             if(dungeon) {
-                var player = dungeon.getPlayableCharacter();
+                const player = dungeon.getPlayableCharacter();
                 player.setNextMove(dungeon.getTile(player), new Moves.TakeItemMove(index));
                 dungeon.resolveUntilBlocked();
             }
@@ -23,27 +23,27 @@ export default class PlayerLocationView {
     }
 
     update() {
-        var sharedData = this._sharedData;
-        var dungeon = sharedData.getDungeon();
-        var player = dungeon.getPlayableCharacter();
-        var tile = dungeon.getTile(player);
+        const sharedData = this._sharedData;
+        const dungeon = sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const tile = dungeon.getTile(player);
 
-        /*var tileName = tile.constructor.name;
-        var x = tile.getX();
-        var y = tile.getY();*/
+        /*const tileName = tile.constructor.name;
+        const x = tile.getX();
+        const y = tile.getY();*/
 
-        var name = player.constructor.name;
-        var hp = player.getCurrentHP();
-        var baseHP = player.getBaseHP();
-        var hpPercentage = Math.max(0, hp * 100 / baseHP);
-        var mana = player.getCurrentMana();
-        var baseMana = player.getBaseMana();
-        var manaPercentage = Math.max(0, mana * 100 / baseMana);
-        var time = player.getTimeToNextMove();
-        var speed = player.getSpeed();
-        var speedPercentage = Math.max(0, time * 100 / speed);
+        const name = player.constructor.name;
+        const hp = player.getCurrentHP();
+        const baseHP = player.getBaseHP();
+        const hpPercentage = Math.max(0, hp * 100 / baseHP);
+        const mana = player.getCurrentMana();
+        const baseMana = player.getBaseMana();
+        const manaPercentage = Math.max(0, mana * 100 / baseMana);
+        const time = player.getTimeToNextMove();
+        const speed = player.getSpeed();
+        const speedPercentage = Math.max(0, time * 100 / speed);
 
-        var items = tile.getItems().map(function(item, index) {
+        const items = tile.getItems().map(function(item, index) {
             return {
                 name: item.getName(),
                 index: index,
@@ -51,7 +51,7 @@ export default class PlayerLocationView {
             };
         });
 
-        var template = $(`
+        const template = $(`
         <div role="presentation" class="portrait"></div>
         <div class="stat-block player">
             <h2>${name}</h2>

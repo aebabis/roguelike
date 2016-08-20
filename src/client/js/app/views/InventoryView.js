@@ -40,7 +40,7 @@ export default class InventoryView {
             const index = +$(this).attr('data-index');
             const item = player.getInventory().getItem(index);
             if(item.isTargetted && item.isTargetted()) {
-                var targetIndex = sharedData.getTargettedItem();
+                const targetIndex = sharedData.getTargettedItem();
                 if(targetIndex !== index) {
                     sharedData.setTargettedItem(index);
                 } else {

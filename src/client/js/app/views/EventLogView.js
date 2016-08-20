@@ -29,7 +29,7 @@ export default class EventLogView {
             }
         }
 
-        sharedData.getDungeon().addObserver(observer);
+        sharedData.addObserver(observer);
 
         scrollPane.addEventListener('scroll', function() {
             log.setAttribute('data-locked-bottom', scrollPane.scrollTop + scrollPane.clientHeight === scrollPane.scrollHeight);

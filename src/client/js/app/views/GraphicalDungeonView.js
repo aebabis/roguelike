@@ -27,7 +27,7 @@ const DAMAGE_OUTLINE_COLORS = {
     [DamageTypes.POISON]: 'darkgreen'
 };
 
-//var ANIMATE_BARS = false;
+//const ANIMATE_BARS = false;
 
 function getGridTileFast(grid, x, y) {
     return grid.children[0].children[y].children[x];
@@ -38,19 +38,19 @@ function updateRangeIndicator(grid, dungeon, attack) {
     if(!attack) {
         return;
     }
-    var color = 'rgb(70, 70, 90)';
+    let color = 'rgb(70, 70, 90)';
     if(typeof attack.isMovementAbility === 'function') {
         color = 'darkviolet';
     } else if(typeof attack.isTargetted === 'function') {
         color = 'violet';
     }
-    var player = dungeon.getPlayableCharacter();
-    var playerTile = dungeon.getTile(player);
-    var playerX = playerTile.getX();
-    var playerY = playerTile.getY();
-    var range = attack.getRange();
-    var dimension = range * 2 + 3;
-    var rangeArray = new Array(dimension).fill(0).map(function(unused, x) {
+    const player = dungeon.getPlayableCharacter();
+    const playerTile = dungeon.getTile(player);
+    const playerX = playerTile.getX();
+    const playerY = playerTile.getY();
+    const range = attack.getRange();
+    const dimension = range * 2 + 3;
+    const rangeArray = new Array(dimension).fill(0).map(function(unused, x) {
         let dx = x - range - 1;
         return new Array(dimension).fill(0).map(function(unused, y) {
             let dy = y - range - 1;
@@ -86,13 +86,13 @@ function updateRangeIndicator(grid, dungeon, attack) {
 }
 
 const getScrollingText = (function() {
-    var previousOccurences = {};
+    const previousOccurences = {};
 
     function markAndCountRecentOccurences(x, y, delta) {
         //debugger;
-        var now = Date.now();
-        var key  = `${x},${y}`;
-        var array = previousOccurences[key] || (previousOccurences[key] = []);
+        const now = Date.now();
+        const key  = `${x},${y}`;
+        let array = previousOccurences[key] || (previousOccurences[key] = []);
         array = previousOccurences[key] = array.filter((time) => now - time < delta);
         array.push(now);
         return array.length - 1;
@@ -128,34 +128,34 @@ const getScrollingText = (function() {
 
 export default class GraphicDungeonView {
     constructor(sharedData) {
-        var self = this;
+        const self = this;
         this._sharedData = sharedData;
 
         this._creatureDoms = {};
         this._itemDoms = {};
 
-        var scrollPane = this._scrollPane = document.createElement('div');
+        const scrollPane = this._scrollPane = document.createElement('div');
 
         function buildDom() {
-            var dungeon = sharedData.getDungeon();
-            var width = dungeon.getWidth();
-            var height = dungeon.getHeight();
+            const dungeon = sharedData.getDungeon();
+            const width = dungeon.getWidth();
+            const height = dungeon.getHeight();
 
             scrollPane.innerHTML = '';
             scrollPane.classList.add('grid-scroll');
-            var grid = self._grid = document.createElement('div');
+            const grid = self._grid = document.createElement('div');
             grid.classList.add('grid');
             grid.classList.add('theme-default');
             grid.setAttribute('role', 'grid');
             grid.setAttribute('aria-readonly', true);
             scrollPane.appendChild(grid);
-            for(var y = 0; y < height; y++) {
-                var row = document.createElement('div');
+            for(let y = 0; y < height; y++) {
+                const row = document.createElement('div');
                 row.classList.add('row');
                 row.setAttribute('role', 'row');
                 grid.appendChild(row);
-                for(var x = 0; x < width; x++) {
-                    var cell = document.createElement('div');
+                for(let x = 0; x < width; x++) {
+                    const cell = document.createElement('div');
                     cell.classList.add('cell');
                     cell.setAttribute('data-x', x);
                     cell.setAttribute('data-y', y);
@@ -175,12 +175,12 @@ export default class GraphicDungeonView {
         });
 
         (function() {
-            var timer;
+            let timer;
             sharedData.addObserver(function() {
                 clearTimeout(timer);
                 timer = setTimeout(function() {
-                    var dungeon = sharedData.getDungeon();
-                    var targettable;
+                    const dungeon = sharedData.getDungeon();
+                    let targettable;
                     if(typeof sharedData.getTargettedAbility() === 'number') {
                         targettable = dungeon.getPlayableCharacter().getAbility(sharedData.getTargettedAbility());
                     } else if(typeof sharedData.getTargettedItem() === 'number') {
@@ -209,16 +209,16 @@ export default class GraphicDungeonView {
      * provided multiple inputs quickly)
      */
     _synchronizeView() {
-        var self = this;
-        var grid = this.getDom();
-        var dungeon = this._sharedData.getDungeon();
-        var player = dungeon.getPlayableCharacter();
+        const self = this;
+        const grid = this.getDom();
+        const dungeon = this._sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
 
         this._resetAnimationQueue();
 
         dungeon.forEachTile(function(tile, x, y) {
-            var cell = getGridTileFast(grid, x, y);
-            var fc;
+            const cell = getGridTileFast(grid, x, y);
+            let fc;
             while(fc = cell.firstChild) {
                 cell.removeChild(fc);
             }
@@ -226,9 +226,9 @@ export default class GraphicDungeonView {
             if(player) {
                 cell.setAttribute('data-explored', player.hasSeen(tile));
                 cell.setAttribute('data-visible', player.canSee(dungeon, tile));
-                var creature = tile.getCreature();
+                const creature = tile.getCreature();
                 if(creature) {
-                    var dom = self._getDomForCreature(creature);
+                    const dom = self._getDomForCreature(creature);
                     cell.appendChild(dom);
                     self._animateBars(creature);
                 }
@@ -239,16 +239,16 @@ export default class GraphicDungeonView {
         });
 
         // Set grid width programatically to override table layout algorithm
-        var table = grid.children[0];
+        const table = grid.children[0];
         table.style.width = 5 * dungeon.getWidth() + 'em';
     }
 
     _animateBars(creature) {
-        //var SCALE = 2;
+        //const SCALE = 2;
         if(creature.isDead()) {
             return;
         }
-        var dom = this._getDomForCreature(creature);
+        const dom = this._getDomForCreature(creature);
         dom.querySelector('.hp').style.width = creature.getCurrentHP() * 100 / creature.getBaseHP() + '%';
         dom.querySelector('.action-bar').style.width = creature.getTimeToNextMove() * 100 / creature.getSpeed() + '%';
     }
@@ -265,16 +265,16 @@ export default class GraphicDungeonView {
     }
 
     _queueAnimation(event) {
-        var self = this;
-        var grid = this.getDom();
-        var dungeon = this._sharedData.getDungeon();
-        var delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
+        const self = this;
+        const grid = this.getDom();
+        const dungeon = this._sharedData.getDungeon();
+        const delay = event.getTimestamp() - (this._lastHumanMovingEvent ? this._lastHumanMovingEvent.getTimestamp() : 0);
         if(event instanceof GameEvents.AbilityEvent) {
-            var ability = event.getAbility();
+            const ability = event.getAbility();
             if(ability.getRange() > 1 && ability.isTargetted() && ability.isTargetCreature() && !ability.isMovementAbility()) {
-                var caster = event.getCreature();
-                var casterLocation = dungeon.getTile(caster);
-                var target = event.getTile().getCreature();
+                const caster = event.getCreature();
+                const casterLocation = dungeon.getTile(caster);
+                const target = event.getTile().getCreature();
                 this._createDelay(function() {
                     let targetTile = (target && dungeon.getTile(target)) || event.getTile(); // Get target position dynamically so shooting at moving targets looks ok
                     GridAnimations.animateProjectile(dungeon, grid, ability, casterLocation, targetTile);
@@ -369,8 +369,8 @@ export default class GraphicDungeonView {
                 .appendTo(grid.children[0]);
         } else if(event instanceof GameEvents.BuffAppliedEvent || event instanceof GameEvents.BuffEndedEvent) {
             this._createDelay(function() {
-                var creature = event.getCreature();
-                var dom = self._getDomForCreature(creature);
+                const creature = event.getCreature();
+                const dom = self._getDomForCreature(creature);
                 dom.setAttribute('buffs', creature.getBuffs().map((buff)=>buff.toString()).join(' '));
             }, delay);
         }
@@ -381,9 +381,9 @@ export default class GraphicDungeonView {
     }
 
     update(event) {
-        var self = this;
-        var grid = this.getDom();
-        var dungeon = this._sharedData.getDungeon();
+        const self = this;
+        const grid = this.getDom();
+        const dungeon = this._sharedData.getDungeon();
 
         if(event instanceof GameEvent) {
             if(event instanceof GameEvents.HumanMovingEvent) {
@@ -436,26 +436,26 @@ export default class GraphicDungeonView {
     }
 
     _getDomForCreature(creature) {
-        var id = creature.getId();
-        var node = this._creatureDoms[id];
+        const id = creature.getId();
+        const node = this._creatureDoms[id];
         if(node) {
             return node;
         } else {
-            var div = document.createElement('div');
+            const div = document.createElement('div');
             div.setAttribute('data-id', id);
             div.setAttribute('data-creature-name', creature.toString());
             div.classList.add('entity');
             div.classList.add('creature');
 
-            var stats = document.createElement('div');
+            const stats = document.createElement('div');
             stats.classList.add('stats');
             div.appendChild(stats);
 
-            var hp = document.createElement('div');
+            const hp = document.createElement('div');
             hp.classList.add('hp');
             stats.appendChild(hp);
 
-            var actionBar = document.createElement('div');
+            const actionBar = document.createElement('div');
             actionBar.classList.add('action-bar');
             stats.appendChild(actionBar);
 
@@ -464,12 +464,12 @@ export default class GraphicDungeonView {
     }
 
     _getDomForItem(item) {
-        var id = item.getId();
-        var node = this._itemDoms[id];
+        const id = item.getId();
+        const node = this._itemDoms[id];
         if(node) {
             return node;
         } else {
-            var div = document.createElement('div');
+            const div = document.createElement('div');
             div.setAttribute('data-id', id);
             div.setAttribute('data-item-name', item.toString());
             div.classList.add('entity');

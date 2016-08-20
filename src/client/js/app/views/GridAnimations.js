@@ -25,8 +25,8 @@ export default {
         if(event instanceof GameEvents.AbilityEvent) {
             switch(event.getAbility().getName()) {
             case 'Fireball':
-                var tile = event.getTile(dungeon);
-                var $div = buildRenderingDiv(tile.getX(), tile.getY())
+                const tile = event.getTile(dungeon);
+                const $div = buildRenderingDiv(tile.getX(), tile.getY())
                 .appendTo(grid.getDom().querySelector('.grid'))
                 .addClass('effect')
                 .attr('data-effect-name', 'Fireball')
@@ -51,11 +51,11 @@ export default {
     },
 
     animateProjectile: function(dungeon, grid, cause, from, to) {
-        var x1 = from.getX();
-        var y1 = from.getY();
-        var x2 = to.getX();
-        var y2 = to.getY();
-        var angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+        const x1 = from.getX();
+        const y1 = from.getY();
+        const x2 = to.getX();
+        const y2 = to.getY();
+        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
         $(`<div class="projectile" data-projectile-name="${cause.toString()}">`).appendTo(grid.children[0])
             .css({
                 left: `${x1 * 5}em`,

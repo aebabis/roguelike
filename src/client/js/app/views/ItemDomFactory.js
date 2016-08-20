@@ -2,7 +2,7 @@ import Armor from '../entities/armor/Armor.js';
 import Weapon from '../entities/weapons/Weapon.js';
 import TheTreasure from '../entities/TheTreasure.js';
 
-var lib;
+let lib;
 export default lib = {
     getItemDom: function(item, index, isTargetting) {
         if(item instanceof Weapon) {
@@ -34,7 +34,7 @@ export default lib = {
 
     getWeaponDom: function(weapon, index) {
         if(weapon) {
-            var data = {
+            const data = {
                 name: weapon.constructor.name,
                 damage: weapon.getDamage(),
                 range: weapon.getRange()
@@ -62,7 +62,7 @@ export default lib = {
 
     getArmorDom: function(armor, index) {
         if(armor) {
-            var data = {
+            const data = {
                 name: armor.getName()/*,
                 physical: armor.getPhysicalReduction(),
                 magical: armor.getMagicalReduction()*/

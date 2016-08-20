@@ -6,21 +6,21 @@ export default class AbilitiesView {
      * @description List view for the player's abilities
      */
     constructor(sharedData) {
-        var dom = this._dom = $('<div class="abilities-buttons">');
+        const dom = this._dom = $('<div class="abilities-buttons">');
         this._sharedData = sharedData;
 
         sharedData.addObserver(()=>this.update());
 
         $(dom).on('click tap', 'button', function() {
-            var index = +$(this).attr('data-index');
-            var prevAbility = sharedData.getTargettedAbility();
+            const index = +$(this).attr('data-index');
+            const prevAbility = sharedData.getTargettedAbility();
 
             if(prevAbility === index) {
                 sharedData.unsetTargettedAbility();
             } else {
-                var dungeon = sharedData.getDungeon();
-                var player = dungeon.getPlayableCharacter();
-                var ability = player.getAbilities()[index];
+                const dungeon = sharedData.getDungeon();
+                const player = dungeon.getPlayableCharacter();
+                const ability = player.getAbilities()[index];
                 if(ability.isTargetted()) {
                     sharedData.setTargettedAbility(index);
                 } else {
@@ -30,20 +30,20 @@ export default class AbilitiesView {
         });
 
         window.addEventListener('keypress', function(event) {
-            var code = event.keyCode;
+            const code = event.keyCode;
             if(48 <= code && code <= 57) {
-                var index = (code + 1) % 10; // '0' key means 10th index
+                const index = (code + 1) % 10; // '0' key means 10th index
                 $(dom).find('button').eq(index).trigger('click');
             }
         });
     }
 
     update() {
-        var sharedData = this._sharedData;
-        var dungeon = sharedData.getDungeon();
-        var player = dungeon.getPlayableCharacter();
-        var targettedIndex = sharedData.getTargettedAbility();
-        var template = $(`
+        const sharedData = this._sharedData;
+        const dungeon = sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const targettedIndex = sharedData.getTargettedAbility();
+        const template = $(`
         <h2>Abilities</h2>
         <div class="wrap">
             ${player.getAbilities().map((item, index)=>

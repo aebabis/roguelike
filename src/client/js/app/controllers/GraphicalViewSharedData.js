@@ -38,9 +38,9 @@ export default class GraphicalViewSharedData extends Observable {
         }
         // Chain observer so that UI doesn't need to store direct
         // reference to dungeon
-        dungeon.addObserver(this._dungeonObserver = ()=>this._notifyObservers());
+        dungeon.addObserver(this._dungeonObserver = (event)=>this._notifyObservers(event));
         this._dungeon = dungeon;
-        this._notifyObservers();
+        this._notifyObservers(dungeon);
     }
 
     /**

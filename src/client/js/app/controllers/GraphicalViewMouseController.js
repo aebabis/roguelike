@@ -109,7 +109,6 @@ export default class GraphicalViewMouseController {
             updateHoverAttribute(tileDom);
         });
 
-        sharedData.getDungeon().addObserver(()=>lastHoverTile && updateHoverAttribute(lastHoverTile));
         sharedData.addObserver(()=>lastHoverTile && updateHoverAttribute(lastHoverTile));
     }
 }

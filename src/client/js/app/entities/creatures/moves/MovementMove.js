@@ -4,6 +4,9 @@ import GameEvents from '../../../events/GameEvents.js';
 
 import PlayableCharacter from '../PlayableCharacter.js';
 
+/**
+ * @todo Only take two absolute coord params
+ */
 export default class MovementMove extends Move {
     constructor(actorTile, param1, param2) {
         super(actorTile);

@@ -1,11 +1,12 @@
+global.Random = require('random-js');
+var jsdom = require('jsdom').jsdom;
+
 import DungeonUIBootstrapper from '../src/client/js/app/ui/DungeonUIBootstrapper.js';
 import RandomMapDungeonFactory from '../src/client/js/app/dungeons/RandomMapDungeonFactory.js';
 import Rogue from '../src/client/js/app/entities/creatures/classes/Rogue.js';
 
 import '../src/client/js/polyfills/includes.js';
 
-var jsdom = require('jsdom').jsdom;
-global.Random = require('random-js');
 
 global.document = jsdom(`
     <html>

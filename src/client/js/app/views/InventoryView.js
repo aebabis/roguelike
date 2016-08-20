@@ -4,10 +4,10 @@ import GameEvents from '../events/GameEvents.js';
 import ItemDomFactory from './ItemDomFactory.js';
 
 function getInventoryDom(creature, targettedIndex) {
-    var meleeWeapon = creature.getMeleeWeapon();
-    var rangedWeapon = creature.getRangedWeapon();
-    var armor = creature.getArmor();
-    var items = creature.getInventory().getBackpack();
+    const meleeWeapon = creature.getMeleeWeapon();
+    const rangedWeapon = creature.getRangedWeapon();
+    const armor = creature.getArmor();
+    const items = creature.getInventory().getBackpack();
     return $('<ul class="inventory">')
         .append(
             $('<div class="subinventory equipment">')
@@ -31,15 +31,14 @@ export default class InventoryView {
      * @description Event feed widget
      */
     constructor(sharedData) {
-        var dom = this._dom = $('<div>');
+        const dom = this._dom = $('<div>');
         this._sharedData = sharedData;
 
-        var dungeon = sharedData.getDungeon();
-
         $(dom).on('click tap', '.item', function() {
-            var player = dungeon.getPlayableCharacter();
-            var index = +$(this).attr('data-index');
-            var item = player.getInventory().getItem(index);
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            const index = +$(this).attr('data-index');
+            const item = player.getInventory().getItem(index);
             if(item.isTargetted && item.isTargetted()) {
                 var targetIndex = sharedData.getTargettedItem();
                 if(targetIndex !== index) {
@@ -56,13 +55,13 @@ export default class InventoryView {
         $(dom).on('click tap', 'button.trash', function(event) {
             event.stopPropagation(); // Prevent parent "button" from being clicked
 
-            var player = dungeon.getPlayableCharacter();
-            var index = $(this).parent('.item').attr('data-index');
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            const index = $(this).parent('.item').attr('data-index');
             player.setNextMove(new Moves.TrashItemMove(dungeon.getTile(player), index));
             dungeon.resolveUntilBlocked();
         });
 
-        dungeon.addObserver((event)=>this.update(event));
         sharedData.addObserver((event)=>this.update(event));
         this.redraw();
     }

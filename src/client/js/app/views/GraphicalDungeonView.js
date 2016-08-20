@@ -1,3 +1,4 @@
+import Dungeon from '../dungeons/Dungeon.js';
 import GameEvent from '../events/GameEvent.js';
 import GameEvents from '../events/GameEvents.js';
 
@@ -133,36 +134,44 @@ export default class GraphicDungeonView {
         this._creatureDoms = {};
         this._itemDoms = {};
 
-        var dungeon = sharedData.getDungeon();
-        var width = dungeon.getWidth();
-        var height = dungeon.getHeight();
-
         var scrollPane = this._scrollPane = document.createElement('div');
-        scrollPane.classList.add('grid-scroll');
-        var grid = this._grid = document.createElement('div');
-        grid.classList.add('grid');
-        grid.classList.add('theme-default');
-        grid.setAttribute('role', 'grid');
-        grid.setAttribute('aria-readonly', true);
-        scrollPane.appendChild(grid);
-        for(var y = 0; y < height; y++) {
-            var row = document.createElement('div');
-            row.classList.add('row');
-            row.setAttribute('role', 'row');
-            grid.appendChild(row);
-            for(var x = 0; x < width; x++) {
-                var cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.setAttribute('data-x', x);
-                cell.setAttribute('data-y', y);
-                cell.setAttribute('role', 'gridcell');
-                row.appendChild(cell);
-            }
-        }
-        this._synchronizeView();
 
-        dungeon.addObserver(function observer(event) {
-            self.update(event);
+        function buildDom() {
+            var dungeon = sharedData.getDungeon();
+            var width = dungeon.getWidth();
+            var height = dungeon.getHeight();
+
+            scrollPane.innerHTML = '';
+            scrollPane.classList.add('grid-scroll');
+            var grid = self._grid = document.createElement('div');
+            grid.classList.add('grid');
+            grid.classList.add('theme-default');
+            grid.setAttribute('role', 'grid');
+            grid.setAttribute('aria-readonly', true);
+            scrollPane.appendChild(grid);
+            for(var y = 0; y < height; y++) {
+                var row = document.createElement('div');
+                row.classList.add('row');
+                row.setAttribute('role', 'row');
+                grid.appendChild(row);
+                for(var x = 0; x < width; x++) {
+                    var cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.setAttribute('data-x', x);
+                    cell.setAttribute('data-y', y);
+                    cell.setAttribute('role', 'gridcell');
+                    row.appendChild(cell);
+                }
+            }
+            self._synchronizeView();
+        }
+
+        sharedData.addObserver(function observer(event) {
+            if(event instanceof Dungeon){
+                buildDom();
+            } else {
+                self.update(event);
+            }
         });
 
         (function() {
@@ -179,12 +188,13 @@ export default class GraphicDungeonView {
                     } else {
                         targettable = dungeon.getPlayableCharacter().getRangedWeapon();
                     }
-                    updateRangeIndicator(grid, sharedData.getDungeon(), targettable);
+                    updateRangeIndicator(self.getDom().children[0], sharedData.getDungeon(), targettable);
                 });
             });
         })();
 
-        DungeonTooltips.bindTooltips(dungeon, grid);
+        buildDom();
+        DungeonTooltips.bindTooltips(sharedData, self.getDom().children[0]);
         this.scroll();
     }
 
@@ -223,6 +233,9 @@ export default class GraphicDungeonView {
                     self._animateBars(creature);
                 }
             }
+            tile.getItems().forEach(function(item) {
+                cell.appendChild(self._getDomForItem(item));
+            });
         });
 
         // Set grid width programatically to override table layout algorithm

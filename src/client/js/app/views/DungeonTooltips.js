@@ -1,14 +1,14 @@
 function getMonsterDom(monster) {
-    var name = monster.getName();
-    var hp = monster.getCurrentHP();
-    var hpPercentage = hp * 100 / hp;
-    var baseHP = monster.getBaseHP();
-    var mana = monster.getCurrentMana();
-    var baseMana = monster.getBaseMana();
-    var manaPercentage = mana * 100 / baseMana;
-    var time = monster.getTimeToNextMove();
-    var speed = monster.getSpeed();
-    var speedPercentage = time * 100 / speed;
+    const name = monster.getName();
+    const hp = monster.getCurrentHP();
+    const hpPercentage = hp * 100 / hp;
+    const baseHP = monster.getBaseHP();
+    const mana = monster.getCurrentMana();
+    const baseMana = monster.getBaseMana();
+    const manaPercentage = mana * 100 / baseMana;
+    const time = monster.getTimeToNextMove();
+    const speed = monster.getSpeed();
+    const speedPercentage = time * 100 / speed;
 
     return `<div class="monster stat-block">
         <h2>${name}</h2>
@@ -30,23 +30,24 @@ function getMonsterDom(monster) {
 }
 
 export default {
-    bindTooltips: function(dungeon, grid) {
-        var $grid = $(grid);
+    bindTooltips: function(sharedData, grid) {
+        const $grid = $(grid);
         if(!$grid.tooltip) {
             return; // TODO: Give unit tests access to jQuery UI
         }
         $grid.attr('title', 'Hi').tooltip({
             content: function() {
-                var $cell = $(this);
-                var x = +$cell.attr('data-x');
-                var y = +$cell.attr('data-y');
-                var tile = dungeon.getTile(x, y);
-                var creature = tile.getCreature();
-                var items = tile.getItems();
+                const dungeon = sharedData.getDungeon();
+                const $cell = $(this);
+                const x = +$cell.attr('data-x');
+                const y = +$cell.attr('data-y');
+                const tile = dungeon.getTile(x, y);
+                const creature = tile.getCreature();
+                const items = tile.getItems();
 
-                var pc = dungeon.getPlayableCharacter();
-                var pcHasSeenTile = pc.hasSeen(tile);
-                var pcCanSeeTile = pc.canSee(dungeon, tile);
+                const pc = dungeon.getPlayableCharacter();
+                const pcHasSeenTile = pc.hasSeen(tile);
+                const pcCanSeeTile = pc.canSee(dungeon, tile);
 
                 if(!pcHasSeenTile) {
                     return null;

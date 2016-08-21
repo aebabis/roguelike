@@ -3,6 +3,7 @@
 - High
   - Puzzles/Level-Select
   - Using keyboard to look at tiles
+  - Using keyboard to make ranged attacks
   - Button to focus abilities. Arrows to move between
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
@@ -16,13 +17,11 @@
   - Serialization for saving games (and as POC for client-server games)
   - Handle legal noPath situations
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
-  - Make all views get Dungeon from shared data
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
   - Don't bundle jQuery with webpack
   - Webpack integration of coverage
   - Try flow or Typescript
-  - Path-to
   - You can see a solid tile if you can see any corner?
   - BlockTheExit strategy
   - Let player know their speed
@@ -33,8 +32,7 @@
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
-  - Option to hide health and action bars
-  - Site icon
+  - Option to hide enemy health and action bars
   - Animation speed
   - Consider splitting source/target events into two events
   - Icon to indicate an enemy about to take a double-move
@@ -51,7 +49,6 @@
 
 ## Content
   - Invisibility Spell
-  - Dash Attack
   - Teleport Spell
   - Deflection Spell?
 
@@ -79,3 +76,4 @@
   - Mimic
   - Dragon
   - Item hoarder
+  - Site icon (16x16?)

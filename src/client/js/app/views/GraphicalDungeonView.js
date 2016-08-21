@@ -194,7 +194,7 @@ export default class GraphicDungeonView {
         })();
 
         buildDom();
-        DungeonTooltips.bindTooltips(sharedData, self.getDom().children[0]);
+        DungeonTooltips.bindTooltips(sharedData, self.getDom());
         this.scroll();
     }
 

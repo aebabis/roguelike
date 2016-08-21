@@ -1,5 +1,4 @@
 import CharacterBuilder from './CharacterBuilder.js';
-import DungeonUIBootstrapper from './DungeonUIBootstrapper.js';
 import UserProgressService from '../services/UserProgressService.js';
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
 import TutorialLayoutGenerator from '../dungeons/generators/layouts/TutorialLayoutGenerator.js';
@@ -9,7 +8,7 @@ import GameEvents from '../events/GameEvents.js';
 import DebugConsole from '../DebugConsole.js';
 
 function getPrng(newSeed) {
-    var prng = Random.engines.mt19937();
+    const prng = Random.engines.mt19937();
     if(localStorage.lastSeed && !newSeed) {
         prng.seed(localStorage.lastSeed);
     } else {
@@ -19,14 +18,14 @@ function getPrng(newSeed) {
     return prng;
 }
 
-function newGame() {
+function newGame(sharedData) {
     new CharacterBuilder().getCharacter().then(function(character) {
-        DungeonUIBootstrapper(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
+        sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
     });
 }
 
 export default {
-    start: function() {
+    start: function(sharedData) {
         if(!UserProgressService.hasCompletedTutorial()) {
             $('<div>').text('It looks like this is your first visit. Would you like to play the tutorial?').dialog({
                 buttons: [{
@@ -34,7 +33,7 @@ export default {
                     click: function() {
                         $(this).dialog('close');
                         let dungeon = TutorialLayoutGenerator.generate();
-                        DungeonUIBootstrapper(dungeon);
+                        sharedData.setDungeon(dungeon);
                         dungeon.addObserver(function(event) {
                             if(event instanceof GameEvents.VictoryEvent) {
                                 UserProgressService.markTutorialComplete();
@@ -47,12 +46,12 @@ export default {
                     click: function() {
                         $(this).dialog('close');
                         UserProgressService.markTutorialComplete();
-                        newGame();
+                        newGame(sharedData);
                     }
                 }]
             });
         } else {
-            newGame();
+            newGame(sharedData);
         }
     }
 };

@@ -1,4 +1,3 @@
-import DungeonUIBootstrapper from './DungeonUIBootstrapper.js';
 import CharacterBuilder from './CharacterBuilder.js';
 
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
@@ -14,7 +13,7 @@ function template() {
 }
 
 function getPrng(newSeed) {
-    var prng = Random.engines.mt19937();
+    const prng = Random.engines.mt19937();
     if(localStorage.lastSeed && !newSeed) {
         prng.seed(localStorage.lastSeed);
     } else {
@@ -25,15 +24,15 @@ function getPrng(newSeed) {
 }
 
 export default class MenuBar {
-    constructor() {
+    constructor(sharedData) {
         this._dom = template()
         .on('click', '.newgame', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
-                DungeonUIBootstrapper(new RandomMapDungeonFactory().getRandomMap(getPrng(true), character));
+                sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(true), character));
             });
         }).on('click', '.restart', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
-                DungeonUIBootstrapper(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
+                sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
             });
         }).on('change', 'input', function() {
             localStorage.repeatPreviousLevel = $(this).prop('checked');

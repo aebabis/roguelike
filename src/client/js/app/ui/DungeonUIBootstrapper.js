@@ -1,5 +1,3 @@
-import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
-
 import GraphicalDungeonView from '../views/GraphicalDungeonView.js';
 import EventLogView from '../views/EventLogView.js';
 import AbilitiesView from '../views/AbilitiesView.js';
@@ -8,29 +6,26 @@ import PlayerLocationView from '../views/PlayerLocationView.js';
 
 import GraphicalViewKeyboardController from '../controllers/GraphicalViewKeyboardController.js';
 import GraphicalViewMouseController from '../controllers/GraphicalViewMouseController.js';
-import GraphicalViewSharedData from '../controllers/GraphicalViewSharedData.js';
 
-export default function(dungeon) {
-    var sharedData = new GraphicalViewSharedData(dungeon);
-
-    var mapView = new GraphicalDungeonView(sharedData);
-    var eventLogView = new EventLogView(sharedData);
-    var inventoryView = new InventoryView(sharedData);
-    var abilitiesView = new AbilitiesView(sharedData);
-    var playerLocationView = new PlayerLocationView(sharedData);
+export default function(sharedData) {
+    const mapView = new GraphicalDungeonView(sharedData);
+    const eventLogView = new EventLogView(sharedData);
+    const inventoryView = new InventoryView(sharedData);
+    const abilitiesView = new AbilitiesView(sharedData);
+    const playerLocationView = new PlayerLocationView(sharedData);
 
     new GraphicalViewKeyboardController(sharedData, mapView);
     new GraphicalViewMouseController(sharedData, mapView);
 
-    var gameSection = document.querySelector('section');
+    const gameSection = document.querySelector('section');
     gameSection.innerHTML = '';
-    var container = document.createElement('div');
+    const container = document.createElement('div');
     container.classList.add('game-ui-container');
     gameSection.appendChild(container);
 
     container.appendChild(mapView.getDom());
-    var sidebar = document.createElement('div');
-    var sidebarInner = document.createElement('div');
+    const sidebar = document.createElement('div');
+    const sidebarInner = document.createElement('div');
     sidebarInner.classList.add('sidebar-inner');
     sidebar.classList.add('sidebar');
     sidebar.appendChild(sidebarInner);
@@ -40,5 +35,5 @@ export default function(dungeon) {
     sidebarInner.appendChild(inventoryView.getDom());
     sidebarInner.appendChild(eventLogView.getDom());
 
-    setTimeout(function() { dungeon.resolveUntilBlocked(); });
+    setTimeout(function() { sharedData.getDungeon().resolveUntilBlocked(); });
 }

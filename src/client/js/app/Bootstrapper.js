@@ -9,6 +9,6 @@ req.keys().forEach(function(key){
 
 require('../../../../node_modules/normalize.css/normalize.css');
 
-LayoutBootstrapper.bootstrap().then(function() {
-    MenuFlowsController.start();
+LayoutBootstrapper.bootstrap().then(function(sharedData) {
+    MenuFlowsController.start(sharedData);
 });

@@ -40,6 +40,7 @@ var ARMOR_COSTS = {
 
 var ABILITY_COSTS = {
     Fireball: 30,
+    Firebolt: 35,
     LesserSnare: 15
 };
 

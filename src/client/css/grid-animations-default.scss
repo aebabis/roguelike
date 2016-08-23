@@ -60,6 +60,10 @@
         background-image: url(../images/small/Bullet.png);
     }
 
+    &[data-projectile-name="Firebolt"]::after {
+        background-image: url(../images/small/Firebolt.png);
+    }
+
     &[data-projectile-name="ForceDart"]::after {
         background-image: url(../images/small/ForceDart.png);
     }

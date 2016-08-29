@@ -13,7 +13,7 @@ export default class Longbow extends Weapon {
     }
 
     getDamageType() {
-        return DamageTypes.MELEE_PHYSICAL;
+        return DamageTypes.RANGED_PHYSICAL;
     }
 
     getFriendlyDescription() {

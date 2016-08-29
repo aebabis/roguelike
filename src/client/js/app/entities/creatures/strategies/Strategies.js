@@ -5,6 +5,7 @@ import FleeStrategy from './FleeStrategy.js';
 import HoldStrategy from './HoldStrategy.js';
 import IdleStrategy from './IdleStrategy.js';
 import MeleeAttackStrategy from './MeleeAttackStrategy.js';
+import OffensiveTargettedAbilityStrategy from './OffensiveTargettedAbilityStrategy.js';
 import RandomWalkStrategy from './RandomWalkStrategy.js';
 
 export default {
@@ -15,5 +16,6 @@ export default {
     HoldStrategy,
     IdleStrategy,
     MeleeAttackStrategy,
+    OffensiveTargettedAbilityStrategy,
     RandomWalkStrategy
 };

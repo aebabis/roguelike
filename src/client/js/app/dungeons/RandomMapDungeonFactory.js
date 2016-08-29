@@ -140,9 +140,13 @@ var table = new EntityTable([{
     entity: Enemies.Witch,
     weight: 50,
     cost: 10
+}, {
+    entity: Enemies.Wyrm,
+    weight: 20,
+    cost: 15
 }]);
 
-var rightPad = (s,c,n) => s + c.repeat(n-s.length);
+var rightPad = (s,c,n) => s + c.repeat(Math.max(0, n-s.length));
 
 function reportCreaturesToConsole(creatures) {
     // Record creature data in the debug console

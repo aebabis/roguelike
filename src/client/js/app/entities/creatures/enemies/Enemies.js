@@ -11,6 +11,7 @@ import MongolianHorseArcher from './MongolianHorseArcher.js';
 import Skeleton from './Skeleton.js';
 import SlingshotImp from './SlingshotImp.js';
 import Witch from './Witch.js';
+import Wyrm from './Wyrm.js';
 
 export default {
     Archer,
@@ -25,5 +26,6 @@ export default {
     MongolianHorseArcher,
     Skeleton,
     SlingshotImp,
-    Witch
+    Witch,
+    Wyrm
 };

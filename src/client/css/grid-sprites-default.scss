@@ -131,6 +131,10 @@
         background-image: url(../images/small/LittleGreenWitch.png);
     }
 
+    [data-creature-name="Wyrm"] {
+        background-image: url(../images/small/Wyrm.png);
+    }
+
     [buffs~="SnareDebuff"]:after {
         content: ' ';
         position: absolute;

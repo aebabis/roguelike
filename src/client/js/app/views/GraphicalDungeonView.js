@@ -7,6 +7,8 @@ import DungeonTooltips from './DungeonTooltips.js';
 
 import DamageTypes from '../entities/DamageTypes.js';
 
+import GraphicalViewSharedData from '../controllers/GraphicalViewSharedData.js';
+
 const DAMAGE_COLORS = {
     [DamageTypes.MELEE_PHYSICAL]: 'darkred',
     [DamageTypes.RANGED_PHYSICAL]: 'darkred',
@@ -126,8 +128,11 @@ const getScrollingText = (function() {
     };
 }());
 
-export default class GraphicDungeonView {
+export default class GraphicalDungeonView {
     constructor(sharedData) {
+        if(!(sharedData instanceof GraphicalViewSharedData)) {
+            throw new Error('First parameter must be a GraphicalViewSharedData');
+        }
         const self = this;
         this._sharedData = sharedData;
 

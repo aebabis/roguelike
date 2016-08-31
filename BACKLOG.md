@@ -56,6 +56,7 @@
   - Enemies try to move when they're snared
   - number hotkeys not working in firefox
   - Autopath only stops if an enemy is visible during the player's turn, and not if an enemy became visible while waiting
+  - Leap doesn't pickup items. Should it?
 
 ## Art
   - Snail icon

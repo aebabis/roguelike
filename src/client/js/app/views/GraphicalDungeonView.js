@@ -174,6 +174,7 @@ export default class GraphicalDungeonView {
         sharedData.addObserver(function observer(event) {
             if(event instanceof Dungeon){
                 buildDom();
+                self.scroll();
             } else {
                 self.update(event);
             }

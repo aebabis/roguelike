@@ -70,6 +70,12 @@ var itemTable = new EntityTable([{
     cost: 10
 }, {
     entity: function() {
+        return new AbilityConsumable(new Abilities.Firebolt());
+    },
+    weight: 15,
+    cost: 15
+}, {
+    entity: function() {
         return new AbilityConsumable(new Abilities.LesserSnare());
     },
     weight: 5,

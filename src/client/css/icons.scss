@@ -56,6 +56,26 @@
         background-image: url(../images/small/BlueberrySoda.png);
     }
 
+    &[data-item-name$="_Consumable"] {
+        background-image: url(../images/small/ScrollThisIsAThing.png);
+    }
+
+    &[data-item-name="Fireball_Consumable"] {
+        background-image: url(../images/small/ScrollFireball.png);
+    }
+
+    &[data-item-name="Firebolt_Consumable"] {
+        background-image: url(../images/small/ScrollFirebolt.png);
+    }
+
+    &[data-item-name="ForceDart_Consumable"] {
+        background-image: url(../images/small/ScrollForceDart.png);
+    }
+
+    &[data-item-name="LesserSnare_Consumable"] {
+        background-image: url(../images/small/ScrollSnare.png);
+    }
+
     ///////////////
     // ABILITIES //
     ///////////////

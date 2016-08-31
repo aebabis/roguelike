@@ -13,7 +13,17 @@ import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
 import DebugConsole from '../DebugConsole.js';
 
+/**
+ * An explorable dungeon in the game. Contains a grid of tiles
+ * and the high-level logic for advancing the game state. Optionally
+ * contains a set of victory and defeat conditions
+ */
 export default class Dungeon extends Observable {
+    /**
+     * Initializes an empty dungeon with the specified width
+     * @param {number} width - The number of columns in the dungeon
+     * @param {number} height - The number of rows in the dungeon
+     */
     constructor(width, height) {
         super(width, height);
         if(isNaN(width) || isNaN(height)) {
@@ -22,19 +32,45 @@ export default class Dungeon extends Observable {
 
         this._width = +width;
         this._height = +height;
-        let grid = this._grid = [];
+        const grid = this._grid = [];
         this._creatureMap = new WeakMap(); // TODO: Will this cause problems?
-        for(var x = 0; x < width; x++) {
+        for(let x = 0; x < width; x++) {
             let col = grid[x] = [];
-            for(var y = 0; y < height; y++) {
+            for(let y = 0; y < height; y++) {
                 col[y] = new Tile(this, x, y);
             }
         }
         this._timestep = 0;
     }
 
+    /**
+     * @return {number} - The number of columns in the dungeon
+     */
+    getWidth() {
+        return this._width;
+    }
+
+    /**
+     * @return {number} - The number of rows in the dungeon
+     */
+    getHeight() {
+        return this._height;
+    }
+
+    /**
+     * @return {number} - The number of timesteps that have occurred
+     */
+    getCurrentTimestep() {
+        return this._timestep;
+    }
+
+    /**
+     * Gets an RNG for use with random effects. All creatures behaving
+     * randomly should use this RNG.
+     * @return {Random} - An RNG for random effects within the dungeon
+     */
     getRng() {
-        var rng = this._rng;
+        let rng = this._rng;
         if(!rng) {
             rng = this._rng = Random.engines.mt19937();
             rng.seed(this._seed);
@@ -42,6 +78,12 @@ export default class Dungeon extends Observable {
         return rng;
     }
 
+    /**
+     * Changes the tile at the specified position
+     * @param {Tile} tile - The new tile
+     * @param {number} x - The x coordinate
+     * @param {number} y - The y coordinate
+     */
     setTile(tile, x, y) {
         if(!tile instanceof Tile) {
             throw new Error('First parameter must be a tile');
@@ -51,17 +93,26 @@ export default class Dungeon extends Observable {
         this._grid[x][y] = tile;
     }
 
+    /**
+     * Gets a tile from coordinates or a creature
+     * @param {Creature|number} param1
+     * @param {number} [param2]
+     */
     getTile(param1, param2) {
         if(param1 instanceof Creature) {
             return this._creatureMap.get(param1);
         } else if(Number.isInteger(+param1) && Number.isInteger(+param2)) {
-            var col = this._grid[+param1];
+            const col = this._grid[+param1];
             return col && col[+param2];
         } else {
             throw new Error('Must pass a Creature or XY coordinates');
         }
     }
 
+    /**
+     * Gets a 1-D array of the tiles in the map, optionally filtered
+     * @param {function} filter - An `Array.filter` predicate. The first parameter will be a Tile
+     */
     getTiles(filter) {
         return this._grid.reduce(function(prev, col) {
             Array.prototype.push.apply(prev, filter ? col.filter(filter) : col);
@@ -69,10 +120,15 @@ export default class Dungeon extends Observable {
         }, []);
     }
 
+    /**
+     * Performs an operation with each tile in the map
+     * @param {function} func - A function that will be called for each tile.
+     * The first param is the Tile. The second is the x-coordinate; the third, the y-coordinate
+     */
     forEachTile(func) {
-        var grid = this._grid;
-        var width = this.getWidth();
-        var height = this.getHeight();
+        const grid = this._grid;
+        const width = this.getWidth();
+        const height = this.getHeight();
         for(let x = 0; x < width; x++) {
             let col = grid[x];
             for(let y = 0; y < height; y++) {
@@ -81,18 +137,13 @@ export default class Dungeon extends Observable {
         }
     }
 
-    getWidth() {
-        return this._width;
-    }
-
-    getHeight() {
-        return this._height;
-    }
-
-    getCurrentTimestep() {
-        return this._timestep;
-    }
-
+    /**
+     * Positions a creature within the Dungeon. If the creature is already present,
+     * it will be removed from it's previous location first
+     * @param {Creature} creature - The creature to add or reposition
+     * @param {number} x - The x-coordinate
+     * @param {number} y - The y-coordinate
+     */
     moveCreature(creature, x, y) {
         if(!(creature instanceof Creature)) {
             throw new Error('First parameter must be a creature: ' + creature);
@@ -119,15 +170,33 @@ export default class Dungeon extends Observable {
         this._notifyObservers();
     }
 
-    setGameConditions(conditions) {
-        if(!(conditions instanceof GameConditions)) {
-            throw new Error('First parameter must be a GameConditions');
-        }
-        this._gameConditions = conditions;
+    /**
+     * @return {Array<Creature>} - The creatures in the dungeon
+     */
+    getCreatures() {
+        const creatures = [];
+        this.forEachTile(function(tile){
+            const creature = tile.getCreature();
+            if(creature) {
+                creatures.push(creature);
+            }
+        });
+        return creatures;
     }
 
+    /**
+     * @return {PlayableCharacter} - The player's character, or null if none exists.
+     */
+    getPlayableCharacter() {
+        return this._player || null;
+    }
+
+    /**
+     * Tells if the game has ended through either defeat or victory
+     * @return {boolean} - `true` if the player has won or lost; `false` otherwise
+     */
     hasEnded() {
-        var conditions = this._gameConditions;
+        const conditions = this._gameConditions;
         if(conditions) {
             return conditions.hasPlayerWon(this) || conditions.hasPlayerLost(this);
         } else {
@@ -135,6 +204,12 @@ export default class Dungeon extends Observable {
         }
     }
 
+    /**
+     * Removes a creature from the dungeon, either by using
+     * a reference to the creature, or coordinates
+     * @param {Creature|number} param1
+     * @param {number} [param2]
+     */
     removeCreature(param1, param2) {
         if(param1 instanceof Creature) {
             this._creatureMap.get(param1).removeCreature();
@@ -146,33 +221,39 @@ export default class Dungeon extends Observable {
         this._notifyObservers();
     }
 
-    getCreatures() {
-        var creatures = [];
-        this.forEachTile(function(tile){
-            var creature = tile.getCreature();
-            if(creature) {
-                creatures.push(creature);
-            }
-        });
-        return creatures;
-    }
-
-    getPlayableCharacter() {
-        return this._player;
-    }
-
+    /**
+     * Dispatches a {@link GameEvent} to all observers
+     * @param {GameEvent} event - An event representing something
+     * that happened in the Dungeon
+     */
     fireEvent(event) {
         // TODO: Should this be a separate subscriber list?
         this._notifyObservers(event);
     }
 
+    /**
+     * Sets the conditions for victory and defeat in the Dungeon
+     * @param {GameConditions} conditions
+     */
+    setGameConditions(conditions) {
+        if(!(conditions instanceof GameConditions)) {
+            throw new Error('First parameter must be a GameConditions');
+        }
+        this._gameConditions = conditions;
+    }
+
+    /**
+     * Tells if the dungeon's state can advance.
+     * @return {boolean} - `false` if the game has ended or if the game is blocked
+     * waiting for the player's move; `true` otherwise.
+     */
     canAdvance() {
         if(this.hasEnded()) {
             return false;
         } else {
             // Game cannot advance past player's turn until
             // a move is queued
-            var activeCreature = this.getActiveCreature();
+            const activeCreature = this.getActiveCreature();
             if(activeCreature instanceof PlayableCharacter) {
                 return activeCreature.hasMoveQueued();
             } else {
@@ -181,27 +262,37 @@ export default class Dungeon extends Observable {
         }
     }
 
+    /**
+     * Advances the game state until the player's next move or the
+     * game is over. This contains the game loop.
+     */
     resolveUntilBlocked() {
         function time() {
             return window.performance ? window.performance.now() : Date.now();
         }
 
-        var start = time();
+        const start = time();
 
         while(this.canAdvance()) {
             this.resolveNextStep();
         }
-        var activeCreature = this.getActiveCreature();
+        const activeCreature = this.getActiveCreature();
         if(activeCreature instanceof PlayableCharacter) {
             this.fireEvent(new HumanToMoveEvent(this, activeCreature));
         }
 
-        var delta = time() - start;
+        const delta = time() - start;
         DebugConsole.log(`Timestep: ${delta.toFixed(2)}ms`);
     }
 
+    /**
+     * Gets the creature whose turn it is to move. This will
+     * be a creature whose speed counter has reached 0. Ties are broken
+     * with the creature's base speed.
+     * @return {Creature} - The creature that can move next.
+     */
     getActiveCreature() {
-        var creatures = this.getCreatures();
+        const creatures = this.getCreatures();
         return creatures.filter(function(creature) {
             return creature.canActThisTimestep();
         }).sort(function(c1, c2) {
@@ -209,19 +300,23 @@ export default class Dungeon extends Observable {
         })[0];
     }
 
+    /**
+     * Advances the dungeon by one timestep. During this time, multiple
+     * creatures can move (if their speed counters have reached 0).
+     */
     resolveNextStep() {
-        var self = this;
+        const self = this;
         if(this.hasEnded()) {
             throw new Error('Dungeon has ended. No more steps allowed');
         }
 
-        var activeCreature = this.getActiveCreature();
+        const activeCreature = this.getActiveCreature();
 
         if(activeCreature) {
             if(activeCreature instanceof PlayableCharacter) {
                 this.fireEvent(new HumanToMoveEvent(this, activeCreature));
             }
-            var move = activeCreature.getNextMove(this);
+            const move = activeCreature.getNextMove(this);
             if(!(move instanceof Move)) {
                 throw new Error('Expected move from ' + activeCreature + ', got ' + move);
             }
@@ -230,7 +325,7 @@ export default class Dungeon extends Observable {
             }
 
             try {
-                var dungeon = this;
+                const dungeon = this;
                 activeCreature.executeMove(this, move);
                 this.getCreatures().forEach(function(creature) {
                     if(activeCreature !== creature && move.isSeenBy(dungeon, creature)) {
@@ -258,7 +353,7 @@ export default class Dungeon extends Observable {
             }
         });
 
-        var conditions = this._gameConditions;
+        const conditions = this._gameConditions;
         if(conditions) {
             if(conditions.hasPlayerWon(this)) {
                 this.fireEvent(new GameEvents.VictoryEvent(this));

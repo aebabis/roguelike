@@ -1,6 +1,5 @@
-//import { default as Dungeon } from '../src/client/js/app/dungeons/Dungeon.js';
-import { default as TestDungeonFactory } from '../../../../src/client/js/app/dungeons/TestDungeonFactory.js';
-//import { default as Creature } from '../src/client/js/app/entities/creatures/Creature.js';
+import { default as Dungeon } from '../../../../src/client/js/app/dungeons/Dungeon.js';
+import { default as Tiles } from '../../../../src/client/js/app/tiles/Tiles.js';
 import { default as PlayableCharacter } from '../../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
 import { default as Slingshot } from '../../../../src/client/js/app/entities/weapons/Slingshot.js';
 import { default as LightArmor } from '../../../../src/client/js/app/entities/armor/LightArmor.js';
@@ -9,35 +8,46 @@ import { default as AbilityConsumable } from '../../../../src/client/js/app/enti
 import { default as CherrySoda } from '../../../../src/client/js/app/entities/consumables/CherrySoda.js';
 
 import { default as Fireball } from '../../../../src/client/js/app/abilities/Fireball.js';
-//import { default as WallTile } from '../src/client/js/app/tiles/WallTile.js';
 
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
 describe('Creature', function() {
     it('should be able to see an adjacent tile', function() {
-        var dungeon = new TestDungeonFactory().getEmptyDungeon();
-        var creature = dungeon.getPlayableCharacter();
+        const dungeon = new Dungeon(2, 2);
+        const creature = new PlayableCharacter();
+        dungeon.setCreature(creature, 0, 0);
 
         expect(creature.canSee(dungeon, dungeon.getTile(0, 1))).to.equal(true);
     });
 
     it('should be able to see in a straight line', function() {
-        var dungeon = new TestDungeonFactory().getEmptyDungeon();
-        var creature = dungeon.getPlayableCharacter();
+        const dungeon = new Dungeon(5, 2);
+        const creature = new PlayableCharacter();
+        dungeon.setCreature(creature, 0, 0);
 
         expect(creature.canSee(dungeon, dungeon.getTile(4, 1))).to.equal(true);
     });
 
     it('should not see through walls', function() {
-        var dungeon = new TestDungeonFactory().getLineDungeon();
-        var creature = dungeon.getPlayableCharacter();
+        const dungeon = new Dungeon(3, 1);
+        const creature = new PlayableCharacter();
+        dungeon.setTile(new Tiles.WallTile(dungeon, 1, 0), 1, 0);
+        dungeon.setCreature(creature, 2, 0);
 
         expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(false);
     });
 
     it('should be able to see across corners', function() {
-        var dungeon = new TestDungeonFactory().getODungeon();
-        var creature = dungeon.getPlayableCharacter();
+        const dungeon = new Dungeon(3, 3);
+        const creature = new PlayableCharacter();
+
+        [[0, 1], [1, 0], [2, 1], [1, 2]].forEach(function(coords) {
+            const x = coords[0];
+            const y = coords[1];
+            dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
+        });
+
+        dungeon.setCreature(creature, 1, 1);
 
         expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(true);
         expect(creature.canSee(dungeon, dungeon.getTile(0, 2))).to.equal(true);

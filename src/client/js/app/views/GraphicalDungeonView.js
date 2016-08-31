@@ -168,13 +168,17 @@ export default class GraphicalDungeonView {
                     row.appendChild(cell);
                 }
             }
+            self._tileDimension = grid.firstChild.firstChild.clientHeight;
+            self._halfTileDimension = self._tileDimension >> 1;
             self._synchronizeView();
         }
 
         sharedData.addObserver(function observer(event) {
             if(event instanceof Dungeon){
                 buildDom();
-                self.scroll();
+                setTimeout(function() {
+                    self.scroll();
+                });
             } else {
                 self.update(event);
             }
@@ -336,7 +340,9 @@ export default class GraphicalDungeonView {
                         }
                     }
 
-                    self.scroll();
+                    if(creature === player) {
+                        self.scroll();
+                    }
 
                 }, delay);
             }
@@ -429,9 +435,10 @@ export default class GraphicalDungeonView {
         const player = dungeon.getPlayableCharacter();
         const tile = dungeon.getTile(player);
 
-        const cellDimension = grid.querySelector('.cell').clientHeight;
-        const cellOffsetX = (tile.getX() + .5) * cellDimension;
-        const cellOffsetY = (tile.getY() + .5) * cellDimension;
+        const cellDimension = this._tileDimension;
+        const halfDimension = this._halfTileDimension;
+        const cellOffsetX = tile.getX() * cellDimension + halfDimension;
+        const cellOffsetY = tile.getY() * cellDimension + halfDimension;
 
         grid.scrollTop = cellOffsetY - grid.clientHeight / 2;
         grid.scrollLeft = cellOffsetX - grid.clientWidth / 2;

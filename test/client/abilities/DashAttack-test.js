@@ -21,7 +21,7 @@ describe('DashAttack', function() {
 
     it('should require the target tile to contain an enemy', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
+        dungeon.moveCreature(player, 0, 0);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(3, 3));
@@ -31,7 +31,7 @@ describe('DashAttack', function() {
 
     it('should not allow the player to attack themself', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
+        dungeon.moveCreature(player, 0, 0);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(0, 0));
@@ -41,8 +41,8 @@ describe('DashAttack', function() {
 
     it('should now allow the player to attack an adjacent enemy', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(new Ent(), 1, 1);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(new Ent(), 1, 1);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(1, 1));
@@ -51,8 +51,8 @@ describe('DashAttack', function() {
     });
 
     it('should now allow the player to attack without a melee weapon', function() {
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(new Ent(), 2, 2);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(new Ent(), 2, 2);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(2, 2));
@@ -62,11 +62,11 @@ describe('DashAttack', function() {
 
     it('should not let the player dash onto enemies', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(new Ent(), 1, 1);
-        dungeon.setCreature(new Ent(), 1, 2);
-        dungeon.setCreature(new Ent(), 2, 1);
-        dungeon.setCreature(new Ent(), 2, 2);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(new Ent(), 1, 1);
+        dungeon.moveCreature(new Ent(), 1, 2);
+        dungeon.moveCreature(new Ent(), 2, 1);
+        dungeon.moveCreature(new Ent(), 2, 2);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(2, 2));
@@ -76,9 +76,9 @@ describe('DashAttack', function() {
 
     /*it('should not let the player dash through enemies', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(new Ent(), 0, 1);
-        dungeon.setCreature(new Ent(), 0, 3);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(new Ent(), 0, 1);
+        dungeon.moveCreature(new Ent(), 0, 3);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(0, 3));
@@ -88,8 +88,8 @@ describe('DashAttack', function() {
 
     it('should reposition the player', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(new Ent(), 2, 2);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(new Ent(), 2, 2);
         dungeon.resolveUntilBlocked();
 
         attack.use(dungeon, player, dungeon.getTile(2, 2));
@@ -101,8 +101,8 @@ describe('DashAttack', function() {
 
     it('should cause the player to attack', function() {
         player.addItem(weapon);
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(new Ent(), 2, 2);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(new Ent(), 2, 2);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(2, 2));

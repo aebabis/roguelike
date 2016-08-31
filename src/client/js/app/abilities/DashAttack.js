@@ -38,9 +38,7 @@ export default class DashAttack extends Ability {
         super.use(dungeon, creature, optionalTargetTile, isFree);
         let toTile = getToTile(dungeon, creature, optionalTargetTile);
 
-        dungeon.getTile(creature).removeCreature();
-        dungeon.setCreature(creature, toTile.getX(), toTile.getY()); // TODO: Make setCreature interface more intuitive
-        dungeon.fireEvent(new GameEvents.PositionChangeEvent(dungeon, creature, toTile.getX(), toTile.getY()));
+        dungeon.moveCreature(creature, toTile.getX(), toTile.getY());
 
         var target = optionalTargetTile.getCreature();
         var weapon = creature.getMeleeWeapon();

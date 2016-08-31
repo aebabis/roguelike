@@ -13,8 +13,8 @@ describe('ChaseStrategy', function() {
         dungeon.setTile(new Tiles.WallTile(dungeon, 1, 2), 1, 2);
         var player = new PlayableCharacter();
         var enemy = new Ent();
-        dungeon.setCreature(player, 0, 0);
-        dungeon.setCreature(enemy, 0, 2);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.moveCreature(enemy, 0, 2);
         var enemyStartingPosition = dungeon.getTile(enemy);
 
         expect(enemy.canSee(dungeon, dungeon.getTile(player))).to.be.true;

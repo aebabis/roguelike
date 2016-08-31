@@ -15,7 +15,7 @@ describe('Creature', function() {
     it('should be able to see an adjacent tile', function() {
         const dungeon = new Dungeon(2, 2);
         const creature = new PlayableCharacter();
-        dungeon.setCreature(creature, 0, 0);
+        dungeon.moveCreature(creature, 0, 0);
 
         expect(creature.canSee(dungeon, dungeon.getTile(0, 1))).to.equal(true);
     });
@@ -23,7 +23,7 @@ describe('Creature', function() {
     it('should be able to see in a straight line', function() {
         const dungeon = new Dungeon(5, 2);
         const creature = new PlayableCharacter();
-        dungeon.setCreature(creature, 0, 0);
+        dungeon.moveCreature(creature, 0, 0);
 
         expect(creature.canSee(dungeon, dungeon.getTile(4, 1))).to.equal(true);
     });
@@ -32,7 +32,7 @@ describe('Creature', function() {
         const dungeon = new Dungeon(3, 1);
         const creature = new PlayableCharacter();
         dungeon.setTile(new Tiles.WallTile(dungeon, 1, 0), 1, 0);
-        dungeon.setCreature(creature, 2, 0);
+        dungeon.moveCreature(creature, 2, 0);
 
         expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(false);
     });
@@ -47,7 +47,7 @@ describe('Creature', function() {
             dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
         });
 
-        dungeon.setCreature(creature, 1, 1);
+        dungeon.moveCreature(creature, 1, 1);
 
         expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(true);
         expect(creature.canSee(dungeon, dungeon.getTile(0, 2))).to.equal(true);

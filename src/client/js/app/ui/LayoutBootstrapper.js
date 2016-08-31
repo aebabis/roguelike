@@ -11,7 +11,7 @@ export default {
                 window.jQuery = $;
                 $.getScript('https://code.jquery.com/ui/1.11.4/jquery-ui.min.js').then(function() {
                     const tmpDungeon = new Dungeon(1, 1); // TODO: Make views not crash without Dungeon
-                    tmpDungeon.setCreature(new Rogue(), 0, 0);
+                    tmpDungeon.moveCreature(new Rogue(), 0, 0);
                     const sharedData = new GraphicalViewSharedData(tmpDungeon);
 
                     $('body').addClass('theme-default').append(`

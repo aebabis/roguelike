@@ -11,7 +11,7 @@ var expect = require('chai').expect;
 describe('InventoryView', function() {
     it('should update when a player picks up an item', function() {
         const dungeon = new Dungeon(2, 2);
-        dungeon.setCreature(new Rogue(), 0, 0);
+        dungeon.moveCreature(new Rogue(), 0, 0);
         dungeon.getTile(1, 1).addItem(new Slingshot());
 
         const sharedData = new GraphicalViewSharedData(dungeon);
@@ -29,12 +29,12 @@ describe('InventoryView', function() {
     it('should update when a player starts a new dungeon', function() {
         const dungeon = new Dungeon(2, 2);
         const player = new Rogue();
-        dungeon.setCreature(player, 0, 0);
+        dungeon.moveCreature(player, 0, 0);
         player.getInventory().addItem(new Slingshot());
 
         const newDungeon = new Dungeon(1,2);
         const newPlayer = new Rogue();
-        newDungeon.setCreature(newPlayer, 0, 0);
+        newDungeon.moveCreature(newPlayer, 0, 0);
 
         const sharedData = new GraphicalViewSharedData(dungeon);
         const view = new InventoryView(sharedData);

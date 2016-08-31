@@ -7,8 +7,6 @@
   - Button to focus abilities. Arrows to move between
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
-  - Improve/clarify interface for repositioning creatures
-  - Make all movement effects use `dungeon.moveCreature`
   - Show enemy resistances in UI
 - Med
   - Weights for random dungeon rooms

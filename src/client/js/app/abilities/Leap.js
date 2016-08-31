@@ -1,5 +1,4 @@
 import Ability from './Ability.js';
-import GameEvents from '../events/GameEvents.js';
 
 /** Lets user jump over enemies and obstacles to a nearby tile */
 export default class Leap extends Ability {
@@ -19,10 +18,7 @@ export default class Leap extends Ability {
      * to a visible tile within 3 spaces */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-
-        dungeon.getTile(creature).removeCreature();
-        dungeon.setCreature(creature, optionalTargetTile.getX(), optionalTargetTile.getY()); // TODO: Make setCreature interface more intuitive
-        dungeon.fireEvent(new GameEvents.PositionChangeEvent(dungeon, creature, optionalTargetTile.getX(), optionalTargetTile.getY()));
+        dungeon.moveCreature(creature, optionalTargetTile.getX(), optionalTargetTile.getY()); // TODO: Make setCreature interface more intuitive
     }
 
     /** @override */

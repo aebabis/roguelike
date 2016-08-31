@@ -94,29 +94,27 @@ export default class Dungeon extends Observable {
     }
 
     moveCreature(creature, x, y) {
-        if(this.getTile(x, y).getCreature(x, y)) {
+        if(!(creature instanceof Creature)) {
+            throw new Error('First parameter must be a creature: ' + creature);
+        } else if(!Number.isInteger(x) || !Number.isInteger(y)) {
+            throw new Error('Second and third parameters must be integers');
+        } else if(this.getTile(x, y).getCreature(x, y)) {
             throw new Error('Destination already occupied');
         }
-        this.removeCreature(creature);
-        this.setCreature(creature, x, y);
+        const existed = !!this._creatureMap.get(creature);
+        if(existed) {
+            this.removeCreature(creature);
+        }
+        const tile = this._grid[x][y];
+        tile.setCreature(creature);
+        this._creatureMap.set(creature, tile);
+        if(creature instanceof PlayableCharacter) {
+            this._player = creature;
+            creature._updateVisionMap(this); // TODO: Figure out a way for player to know to update itself
+        }
         this.fireEvent(new GameEvents.PositionChangeEvent(this, creature, x, y));
-    }
-
-    setCreature(creature, x, y) {
-        if(creature instanceof Creature) {
-            var existed = !!this._creatureMap.get(creature);
-            var tile = this._grid[x][y];
-            tile.setCreature(creature);
-            this._creatureMap.set(creature, tile);
-            if(creature instanceof PlayableCharacter) {
-                this._player = creature;
-                creature._updateVisionMap(this); // TODO: Figure out a way for player to know to update itself
-            }
-            if(!existed) {
-                this.fireEvent(new GameEvents.SpawnEvent(this, creature, x, y));
-            }
-        } else {
-            throw new Error('First parameter must be a creature: ' + creature);
+        if(!existed) {
+            this.fireEvent(new GameEvents.SpawnEvent(this, creature, x, y));
         }
         this._notifyObservers();
     }

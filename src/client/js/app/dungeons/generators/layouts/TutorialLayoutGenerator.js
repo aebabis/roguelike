@@ -39,7 +39,7 @@ export default {
 
         dungeon.setTile(new Tiles.EntranceTile(dungeon, 2, 9), 2, 9);
 
-        dungeon.setCreature(new Rogue(), 2, 9);
+        dungeon.moveCreature(new Rogue(), 2, 9);
         var bvsStrategy = new Strategies.CompositeStrategy(
             new Strategies.MeleeAttackStrategy(),
             new Strategies.IdleStrategy()
@@ -48,8 +48,8 @@ export default {
         var bvs2 = new Enemies.BlackVoidSphere();
         bvs1.setStrategy(bvsStrategy);
         bvs2.setStrategy(bvsStrategy);
-        dungeon.setCreature(bvs1, 5, 1);
-        dungeon.setCreature(bvs2, 7, 4);
+        dungeon.moveCreature(bvs1, 5, 1);
+        dungeon.moveCreature(bvs2, 7, 4);
 
         dungeon.getTile(8, 9).addItem(new TheTreasure(dungeon));
         dungeon.getTile(4, 3).addItem(new Weapons.Longsword());

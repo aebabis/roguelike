@@ -11,7 +11,7 @@ var expect = require('chai').expect;
 describe('GraphicalDungeonView', function() {
     it('should update when a player picks up an item', function(done) {
         const dungeon = new Dungeon(2, 2);
-        dungeon.setCreature(new Rogue(), 0, 0);
+        dungeon.moveCreature(new Rogue(), 0, 0);
         dungeon.getTile(1, 1).addItem(new Slingshot());
 
         const sharedData = new GraphicalViewSharedData(dungeon);
@@ -33,10 +33,10 @@ describe('GraphicalDungeonView', function() {
     it('should update when a player starts a new dungeon', function(done) {
         const dungeon = new Dungeon(2, 2);
         dungeon.getTile(1, 1).addItem(new Slingshot());
-        dungeon.setCreature(new Rogue(),0,0);
+        dungeon.moveCreature(new Rogue(),0,0);
 
         const newDungeon = new Dungeon(1,2);
-        newDungeon.setCreature(new Rogue(),0,0);
+        newDungeon.moveCreature(new Rogue(),0,0);
 
         const sharedData = new GraphicalViewSharedData(dungeon);
         const view = new GraphicalDungeonView(sharedData);

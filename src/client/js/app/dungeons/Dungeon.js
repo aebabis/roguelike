@@ -143,7 +143,6 @@ export default class Dungeon extends Observable {
             tile.getNeighbors8().forEach(function(tile) {
                 const tileKey = key(tile);
                 if(unvisitedSet[tileKey] && !visitedSet[tileKey]) {
-                    tile.setRoomKey('A');
                     traversalList.push(tile);
                     delete unvisitedSet[tileKey];
                     visitedSet[tileKey] = tile;

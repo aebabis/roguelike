@@ -58,7 +58,7 @@ function positionRoom(prng, room, edge) {
         break;
     case EAST:
         room.x = edge.x + room.hallLength;
-        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2)(prng);
+        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2 - 1)(prng);
         break;
     case SOUTH:
         room.y = edge.y + room.hallLength;
@@ -66,7 +66,7 @@ function positionRoom(prng, room, edge) {
         break;
     case WEST:
         room.x = edge.x - room.hallLength - room.width;
-        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2)(prng);
+        room.y = Random.integer(edge.y1 - room.height + 1, edge.y2 - 1)(prng);
         break;
     }
 }

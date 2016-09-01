@@ -77,7 +77,8 @@ export default [{
         const y2 = y1 + height;
         for(let x = x1; x < x2; x++) {
             for(let y = y1; y < y2; y++) {
-                if((x % 2 === 0) === (y % 4 < 2)) {
+                // TODO: Put more spaces on the edges rather than making it completely walkable
+                if((x % 2 === 0) === (y % 4 < 2) || x === x1 || x === x2 - 1 || y === y1 || y === y2 - 1) {
                     dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
                 } else {
                     dungeon.setTile(new Tiles.PitTile(dungeon, x, y), x, y);

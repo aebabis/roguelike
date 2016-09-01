@@ -121,6 +121,39 @@ export default class Dungeon extends Observable {
     }
 
     /**
+     * Tells whether the dungeon is traversable.
+     * @param {function} [isTraversable] - Optional predicate
+     * for determining if a tile counts as traversable. Defaults
+     * to testing if tile has a floor and isn't opaque
+     */
+    isConnected(isTraversable = (tile) => tile.hasFloor() && !tile.isOpaque()) {
+        const key = (tile) => `${tile.getX()},${tile.getY()}`;
+        const traversableTiles = this.getTiles(isTraversable);
+        const unvisitedSet = {};
+        const visitedSet = {};
+        const traversalList = [];
+        traversableTiles.forEach(function(tile) {
+            unvisitedSet[key(tile)] = tile;
+        });
+        let tile = traversableTiles[0];
+        traversalList.push(tile);
+        delete unvisitedSet[key(tile)];
+        while(traversalList.length > 0) {
+            tile = traversalList.pop();
+            tile.getNeighbors8().forEach(function(tile) {
+                const tileKey = key(tile);
+                if(unvisitedSet[tileKey] && !visitedSet[tileKey]) {
+                    tile.setRoomKey('A');
+                    traversalList.push(tile);
+                    delete unvisitedSet[tileKey];
+                    visitedSet[tileKey] = tile;
+                }
+            });
+        }
+        return Object.keys(unvisitedSet).length === 0;
+    }
+
+    /**
      * Performs an operation with each tile in the map
      * @param {function} func - A function that will be called for each tile.
      * The first param is the Tile. The second is the x-coordinate; the third, the y-coordinate

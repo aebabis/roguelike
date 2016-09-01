@@ -65,6 +65,14 @@ export default class Tile {
         return this._y;
     }
 
+    setRoomKey(key) {
+        this._roomKey = key;
+    }
+
+    getRoomKey() {
+        return this._roomKey;
+    }
+
     isSolid() {
         return false;
     }

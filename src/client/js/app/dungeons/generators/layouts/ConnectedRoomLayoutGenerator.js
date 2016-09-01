@@ -173,13 +173,28 @@ export default {
             }
         }
 
+        let key = 0;
         rooms.forEach(function(room) {
+            key++;
+            const roomWidth = room.width;
+            const roomHeight = room.height;
+            const roomX = room.x;
+            const roomY = room.y;
             room.generator.fill(prng, dungeon, {
-                x1: room.x,
-                y1: room.y,
-                width: room.width,
-                height: room.height
+                x1: roomX,
+                y1: roomY,
+                width: roomWidth,
+                height: roomHeight
             });
+            const startX = Math.max(roomX - 1, 0);
+            const endX = Math.min(roomX + roomWidth + 1, width);
+            const startY = Math.max(roomY - 1, 0);
+            const endY = Math.min(roomY + roomHeight + 1, height);
+            for(let x = startX; x < endX; x++) {
+                for(let y = startY; y < endY; y++) {
+                    dungeon.getTile(x, y).setRoomKey(key);
+                }
+            }
         });
 
         halls.forEach(function({x1, y1, x2, y2}) {

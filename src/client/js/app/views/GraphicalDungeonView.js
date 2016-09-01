@@ -233,6 +233,7 @@ export default class GraphicalDungeonView {
                 cell.removeChild(fc);
             }
             cell.setAttribute('data-tile-type', tile.constructor.name);
+            cell.setAttribute('data-room-key', tile.getRoomKey());
             if(player) {
                 cell.setAttribute('data-explored', player.hasSeen(tile));
                 cell.setAttribute('data-visible', player.canSee(dungeon, tile));

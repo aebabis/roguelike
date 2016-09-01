@@ -73,10 +73,10 @@ function positionRoom(prng, room, edge) {
 
 function getHall(prng, room, edge) {
     if(typeof edge.y === 'number') { // NORTH or SOUTH
-        let minX = Math.max(room.x, edge.x1);
-        let maxX = Math.min(room.x + room.width, edge.x2);
-        let lowerX = Random.integer(minX, maxX - 1)(prng);
-        let upperX = Random.integer(lowerX + 1, maxX)(prng);
+        const minX = Math.max(room.x, edge.x1);
+        const maxX = Math.min(room.x + room.width, edge.x2);
+        const lowerX = Random.integer(minX, maxX - 1)(prng);
+        const upperX = Random.integer(lowerX + 1, maxX)(prng);
         return {
             x1: lowerX,
             y1: (edge.side === NORTH) ? room.y + room.height : edge.y,
@@ -84,10 +84,10 @@ function getHall(prng, room, edge) {
             y2: (edge.side === NORTH) ? edge.y : room.y
         };
     } else {
-        let minY = Math.max(room.y, edge.y1);
-        let maxY = Math.min(room.y + room.height, edge.y2);
-        let lowerY = Random.integer(minY, maxY - 1)(prng);
-        let upperY = Random.integer(lowerY, maxY)(prng);
+        const minY = Math.max(room.y, edge.y1);
+        const maxY = Math.min(room.y + room.height, edge.y2);
+        const lowerY = Random.integer(minY, maxY - 1)(prng);
+        const upperY = Random.integer(lowerY + 1, maxY)(prng);
         return {
             x1: (edge.side === EAST) ? edge.x : room.x,
             y1: lowerY,
@@ -198,8 +198,8 @@ export default {
         });
 
         halls.forEach(function({x1, y1, x2, y2}) {
-            for(var x = x1; x < x2; x++) {
-                for(var y = y1; y < y2; y++) {
+            for(let x = x1; x < x2; x++) {
+                for(let y = y1; y < y2; y++) {
                     dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
                 }
             }

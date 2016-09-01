@@ -178,6 +178,7 @@ export default class GraphicalDungeonView {
                 buildDom();
                 setTimeout(function() {
                     self.scroll();
+                    document.querySelector('section.game').focus();
                 });
             } else {
                 self.update(event);

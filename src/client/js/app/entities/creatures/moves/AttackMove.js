@@ -1,8 +1,8 @@
 import Move from './Move.js';
-import Weapon from '../../weapons/Weapon.js';
 import AttackEvent from '../../../events/AttackEvent.js';
 
 export default class AttackMove extends Move {
+    // TODO: Only allow coords
     constructor(actorTile, param1, param2) {
         super(actorTile);
         if(param1.getX) {

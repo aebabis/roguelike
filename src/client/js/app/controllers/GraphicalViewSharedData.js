@@ -2,6 +2,8 @@ import Observable from '../util/Observable.js';
 
 import Dungeon from '../dungeons/Dungeon.js';
 
+import Moves from '../entities/creatures/moves/Moves.js';
+
 /**
  * An object for decoupling the Dungeon from views and controllers
  * Holds the current Dungeon and acts as a proxy for the Dungeon's events.
@@ -140,5 +142,32 @@ export default class GraphicalViewSharedData extends Observable {
      */
     getTargettedItem() {
         return this._targettedItemIndex;
+    }
+
+    toggleAttackMode() {
+        if(this._attackTargets) {
+            this._attackTargets = null;
+        } else {
+            const dungeon = this.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            const playerTile = dungeon.getTile(player);
+            this._attackTargets = player.getVisibleEnemies(dungeon)
+                .filter((enemy) => {
+                    const tile = dungeon.getTile(enemy);
+                    const move = new Moves.AttackMove(playerTile, tile.getX(), tile.getY());
+                    return !move.getReasonIllegal(dungeon, player);
+                });
+            if(this._attackTargets.length === 0) {
+                this._attackTargets = null;
+            }
+        }
+    }
+
+    cycleTarget() {
+        this._attackTargets.push(this._attackTargets.shift());
+    }
+
+    getAttackTarget() {
+        return this._attackTargets && this._attackTargets[0];
     }
 }

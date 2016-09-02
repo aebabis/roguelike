@@ -10,22 +10,22 @@ export default class GraphicalViewKeyboardController {
      * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
      */
     constructor(sharedData) {
-        var dom = document.querySelector('section.game');
+        const dom = document.querySelector('section.game');
 
         // Arrow key handler
         dom.addEventListener('keydown', function(event) {
-            var dungeon = sharedData.getDungeon();
+            const dungeon = sharedData.getDungeon();
             //var active = document.activeElement;
-            var code = event.keyCode;
+            const code = event.keyCode;
 
-            var preventDefault = true;
-            var character = dungeon.getPlayableCharacter();
+            let preventDefault = true;
+            const character = dungeon.getPlayableCharacter();
+            const tile = dungeon.getTile(character);
             function move(dx, dy) {
-                var tile = dungeon.getTile(character);
-                var x = tile.getX() + dx;
-                var y = tile.getY() + dy;
-                var targetTile = dungeon.getTile(x, y);
-                var creature = targetTile.getCreature();
+                const x = tile.getX() + dx;
+                const y = tile.getY() + dy;
+                const targetTile = dungeon.getTile(x, y);
+                const creature = targetTile.getCreature();
                 if(creature && creature.isEnemy(character)) {
                     character.setNextMove(new Moves.AttackMove(tile, x, y));
                 } else if(character.canOccupy(targetTile)) {
@@ -48,6 +48,20 @@ export default class GraphicalViewKeyboardController {
             case 103: case 89: move(-1,-1); break;
             case 104: case 75: move( 0,-1); break;
             case 105: case 85: move( 1,-1); break;
+
+            case 65: sharedData.toggleAttackMode(); break;
+            case 9:  sharedData.cycleTarget(); break;
+
+            case 32: {
+                const attackTarget = sharedData.getAttackTarget();
+                if(attackTarget) {
+                    const enemyTile = dungeon.getTile(attackTarget);
+                    character.setNextMove(new Moves.AttackMove(tile, enemyTile.getX(), enemyTile.getY()));
+                    sharedData.toggleAttackMode();
+                }
+                break;
+            }
+
             default:
                 preventDefault = false;
                 break;

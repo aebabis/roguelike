@@ -79,11 +79,12 @@ export default class GraphicalViewMouseController {
         // Arrow key handler
         /*eslint-env jquery*/
         $(dom).on('click tap', '.cell', function() {
-            var self = this;
-            var dungeon = sharedData.getDungeon();
-            var player = dungeon.getPlayableCharacter();
-            var enemies = player.getVisibleEnemies(dungeon);
-            getMovesFor(this).forEach(function(move) {
+            const self = this;
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            const enemies = player.getVisibleEnemies(dungeon);
+            const moves = getMovesFor(this) || [];
+            moves.forEach(function(move) {
                 // Note, optionalTargetTile (3rd param) only relevant for 1-length move sequences
                 var reason = move.getReasonIllegal(dungeon, player, getTileFor(self));
                 if(reason) {

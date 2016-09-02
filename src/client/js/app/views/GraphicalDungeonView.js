@@ -200,6 +200,14 @@ export default class GraphicalDungeonView {
                         targettable = dungeon.getPlayableCharacter().getRangedWeapon();
                     }
                     updateRangeIndicator(self.getDom().children[0], sharedData.getDungeon(), targettable);
+
+                    Array.from(document.querySelectorAll('[data-keyboard-move]')).forEach((element)=>element.removeAttribute('data-keyboard-move'));
+                    const attackTarget = sharedData.getAttackTarget();
+                    if(attackTarget) {
+                        const tile = dungeon.getTile(attackTarget);
+                        self.getDom().querySelector(`.cell[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`)
+                            .setAttribute('data-keyboard-move', 'AttackMove');
+                    }
                 });
             });
         })();

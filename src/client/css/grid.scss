@@ -32,11 +32,13 @@
             height: 100%;
         }
 
-        &:hover {
+        &:hover,
+        &[data-keyboard-move] {
             z-index: 2;
         }
 
-        &:hover:after {
+        &:hover:after,
+        &[data-keyboard-move]:after {
             content: ' ';
             display: block;
             position: absolute;
@@ -47,19 +49,23 @@
             box-shadow: #555 0px 0px 3px 1px;
         }
 
-        &[data-move="AttackMove"]:hover:after {
+        &[data-move="AttackMove"]:hover:after,
+        &[data-keyboard-move="AttackMove"]:after {
             box-shadow: firebrick 0px 0px 10px 3px;
         }
 
-        &[data-move="MovementMove"]:hover:after {
+        &[data-move="MovementMove"]:hover:after,
+        &[data-keyboard-move="MovementMove"]:after {
             box-shadow: #36f 0px 0px 10px 3px;
         }
 
-        &[data-move="UseAbilityMove"]:hover:after {
+        &[data-move="UseAbilityMove"]:hover:after,
+        &[data-keyboard-move="UseAbilityMove"]:after {
             box-shadow: darkviolet 0px 0px 10px 3px;
         }
 
-        &[data-move="UseItemMove"]:hover:after {
+        &[data-move="UseItemMove"]:hover:after,
+        &[data-keyboard-move="UseItemMove"]:after {
             box-shadow: violet 0px 0px 10px 3px;
         }
 

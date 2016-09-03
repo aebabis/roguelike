@@ -79,15 +79,6 @@ export default class GraphicalViewSharedData extends Observable {
     }
 
     /**
-     * Forgets which targetted ability the user was considering using
-     */
-    unsetTargettedAbility() {
-        this._targettedAbilityIndex = null;
-        this._abilityTargets = null;
-        this._notifyObservers();
-    }
-
-    /**
      * Stores a reference to a targetted ability that the user
      * has considered using. This enables views to reference the selected
      * move while the user considers targets.
@@ -120,6 +111,15 @@ export default class GraphicalViewSharedData extends Observable {
     }
 
     /**
+     * Forgets which targetted ability the user was considering using
+     */
+    unsetTargettedAbility() {
+        this._targettedAbilityIndex = null;
+        this._abilityTargets = null;
+        this._notifyObservers();
+    }
+
+    /**
      * Gets the index of the selected targetted ability, if any
      * @return {number} - The index of the targetted ability the user is
      * considering, or `null` if none has been selected
@@ -130,15 +130,6 @@ export default class GraphicalViewSharedData extends Observable {
 
     getAbilityTarget() {
         return this._abilityTargets && this._abilityTargets[0];
-    }
-
-    /**
-     * Forgets which targetted item the user was considering using
-     */
-    unsetTargettedItem() {
-        this._targettedItemIndex = null;
-        this._itemTargets = null;
-        this._notifyObservers();
     }
 
     /**
@@ -169,6 +160,15 @@ export default class GraphicalViewSharedData extends Observable {
 
         this.unsetTargettedAbility();
         this.unsetAttackMode();
+        this._notifyObservers();
+    }
+
+    /**
+     * Forgets which targetted item the user was considering using
+     */
+    unsetTargettedItem() {
+        this._targettedItemIndex = null;
+        this._itemTargets = null;
         this._notifyObservers();
     }
 

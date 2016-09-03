@@ -95,6 +95,7 @@ export default class GraphicalViewMouseController {
                 } else {
                     player.setNextMove(move);
                     dungeon.resolveUntilBlocked();
+                    sharedData.unsetAttackMode();
                     sharedData.unsetTargettedAbility();
                     sharedData.unsetTargettedItem();
                 }

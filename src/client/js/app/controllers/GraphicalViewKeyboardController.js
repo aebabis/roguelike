@@ -75,10 +75,8 @@ export default class GraphicalViewKeyboardController {
                 const itemTile = sharedData.getItemTarget();
                 if(attackTile) {
                     character.setNextMove(new Moves.AttackMove(tile, attackTile.getX(), attackTile.getY()));
-                    sharedData.unsetAttackMode();
                 } else if(abilityTile) {
                     character.setNextMove(new Moves.UseAbilityMove(tile, sharedData.getTargettedAbility(), abilityTile.getX(), abilityTile.getY()));
-                    sharedData.unsetTargettedAbility();
                 } else if(itemTile) {
                     character.setNextMove(new Moves.UseItemMove(tile, sharedData.getTargettedItem(), itemTile));
                 }

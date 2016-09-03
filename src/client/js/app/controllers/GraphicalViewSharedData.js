@@ -4,6 +4,8 @@ import Dungeon from '../dungeons/Dungeon.js';
 
 import Moves from '../entities/creatures/moves/Moves.js';
 
+import GameEvents from '../events/GameEvents.js';
+
 /**
  * An object for decoupling the Dungeon from views and controllers
  * Holds the current Dungeon and acts as a proxy for the Dungeon's events.
@@ -24,6 +26,16 @@ export default class GraphicalViewSharedData extends Observable {
         }
         this._targettedAbilityIndex = null;
         this._targettedItemIndex = null;
+
+        this.addObserver((event) => {
+            // Whenever the player makes a move, cancel
+            // any UI flows managed by the shared data
+            if(event instanceof GameEvents.HumanMovingEvent) {
+                this.unsetAttackMode();
+                this.unsetTargettedAbility();
+                this.unsetTargettedItem();
+            }
+        });
     }
 
     /**
@@ -43,8 +55,6 @@ export default class GraphicalViewSharedData extends Observable {
         dungeon.addObserver(this._dungeonObserver = (event)=>this._notifyObservers(event));
         this._dungeon = dungeon;
         this._notifyObservers(dungeon);
-
-        // TODO: Set up an observer to cancel all modes whenever a player move happens
     }
 
     /**

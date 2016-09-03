@@ -49,15 +49,20 @@ export default class GraphicalViewKeyboardController {
             case 104: case 75: move( 0,-1); break;
             case 105: case 85: move( 1,-1); break;
 
-            case 65: sharedData.toggleAttackMode(); break;
+            case 65:
+                if(sharedData.getAttackTarget()) {
+                    sharedData.unsetAttackMode();
+                } else {
+                    sharedData.setAttackMode();
+                }
+                break;
             case 9:  sharedData.cycleTarget(); break;
 
             case 32: {
-                const attackTarget = sharedData.getAttackTarget();
-                if(attackTarget) {
-                    const enemyTile = dungeon.getTile(attackTarget);
+                const enemyTile = sharedData.getAttackTarget();
+                if(enemyTile) {
                     character.setNextMove(new Moves.AttackMove(tile, enemyTile.getX(), enemyTile.getY()));
-                    sharedData.toggleAttackMode();
+                    sharedData.unsetAttackMode();
                 }
                 break;
             }

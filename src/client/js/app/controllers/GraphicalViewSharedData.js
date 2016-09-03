@@ -144,23 +144,23 @@ export default class GraphicalViewSharedData extends Observable {
         return this._targettedItemIndex;
     }
 
-    toggleAttackMode() {
-        if(this._attackTargets) {
+    setAttackMode() {
+        const dungeon = this.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const playerTile = dungeon.getTile(player);
+        this._attackTargets = player.getVisibleEnemies(dungeon)
+            .filter((enemy) => {
+                const tile = dungeon.getTile(enemy);
+                const move = new Moves.AttackMove(playerTile, tile.getX(), tile.getY());
+                return !move.getReasonIllegal(dungeon, player);
+            }).map((enemy) => dungeon.getTile(enemy));
+        if(this._attackTargets.length === 0) {
             this._attackTargets = null;
-        } else {
-            const dungeon = this.getDungeon();
-            const player = dungeon.getPlayableCharacter();
-            const playerTile = dungeon.getTile(player);
-            this._attackTargets = player.getVisibleEnemies(dungeon)
-                .filter((enemy) => {
-                    const tile = dungeon.getTile(enemy);
-                    const move = new Moves.AttackMove(playerTile, tile.getX(), tile.getY());
-                    return !move.getReasonIllegal(dungeon, player);
-                });
-            if(this._attackTargets.length === 0) {
-                this._attackTargets = null;
-            }
         }
+    }
+
+    unsetAttackMode() {
+        this._attackTargets = null;
     }
 
     cycleTarget() {

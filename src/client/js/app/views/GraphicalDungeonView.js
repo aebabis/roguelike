@@ -204,8 +204,7 @@ export default class GraphicalDungeonView {
                     Array.from(document.querySelectorAll('[data-keyboard-move]')).forEach((element)=>element.removeAttribute('data-keyboard-move'));
                     const attackTarget = sharedData.getAttackTarget();
                     if(attackTarget) {
-                        const tile = dungeon.getTile(attackTarget);
-                        self.getDom().querySelector(`.cell[data-x="${tile.getX()}"][data-y="${tile.getY()}"]`)
+                        self.getDom().querySelector(`.cell[data-x="${attackTarget.getX()}"][data-y="${attackTarget.getY()}"]`)
                             .setAttribute('data-keyboard-move', 'AttackMove');
                     }
                 });

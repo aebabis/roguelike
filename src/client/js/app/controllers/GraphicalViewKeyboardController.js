@@ -49,6 +49,17 @@ export default class GraphicalViewKeyboardController {
             case 104: case 75: move( 0,-1); break;
             case 105: case 85: move( 1,-1); break;
 
+            case 81: case 87: case 69: case 82: {
+                const index = ({81: 0, 87: 1, 69: 2, 82: 3})[code];
+                const item = character.getInventory().getItem(index);
+                if(item.isTargetted()) {
+                    sharedData.setTargettedItem(index);
+                } else {
+                    character.setNextMove(new Moves.UseItemMove(tile, index));
+                }
+                break;
+            }
+
             case 65:
                 if(sharedData.getAttackTarget()) {
                     sharedData.unsetAttackMode();
@@ -61,12 +72,15 @@ export default class GraphicalViewKeyboardController {
             case 32: {
                 const attackTile = sharedData.getAttackTarget();
                 const abilityTile = sharedData.getAbilityTarget();
+                const itemTile = sharedData.getItemTarget();
                 if(attackTile) {
                     character.setNextMove(new Moves.AttackMove(tile, attackTile.getX(), attackTile.getY()));
                     sharedData.unsetAttackMode();
                 } else if(abilityTile) {
                     character.setNextMove(new Moves.UseAbilityMove(tile, sharedData.getTargettedAbility(), abilityTile.getX(), abilityTile.getY()));
                     sharedData.unsetTargettedAbility();
+                } else if(itemTile) {
+                    character.setNextMove(new Moves.UseItemMove(tile, sharedData.getTargettedItem(), itemTile));
                 }
                 break;
             }

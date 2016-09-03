@@ -43,6 +43,8 @@ export default class GraphicalViewSharedData extends Observable {
         dungeon.addObserver(this._dungeonObserver = (event)=>this._notifyObservers(event));
         this._dungeon = dungeon;
         this._notifyObservers(dungeon);
+
+        // TODO: Set up an observer to cancel all modes whenever a player move happens
     }
 
     /**
@@ -148,12 +150,21 @@ export default class GraphicalViewSharedData extends Observable {
         const dungeon = this.getDungeon();
         const player = dungeon.getPlayableCharacter();
         const playerTile = dungeon.getTile(player);
-        this._itemTargets = player.getVisibleEnemies(dungeon)
-            .filter((enemy) => {
-                const tile = dungeon.getTile(enemy);
-                const move = new Moves.UseItemMove(playerTile, +index, tile);
-                return !move.getReasonIllegal(dungeon, player);
-            }).map((enemy) => dungeon.getTile(enemy));
+        const item = player.getInventory().getItem(index);
+
+        if(!item.isTargetted()) {
+            throw new Error('Item must be targetted');
+        }
+
+        const potentialTargets = item.isTargetCreature() ?
+            player.getVisibleEnemies(dungeon).map((enemy) => dungeon.getTile(enemy)) :
+            dungeon.getTiles((tile) => player.canSee(dungeon, tile));
+
+        this._itemTargets = potentialTargets.filter((tile) => {
+            const move = new Moves.UseItemMove(playerTile, +index, tile);
+            return !move.getReasonIllegal(dungeon, player);
+        });
+
         if(this._itemTargets.length === 0) {
             this._itemTargets = null;
         }

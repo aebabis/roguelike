@@ -99,6 +99,7 @@ export default class GraphicalViewSharedData extends Observable {
         }
         this._targettedAbilityIndex = +index;
         this.unsetTargettedItem();
+        this.unsetAttackMode();
         this._notifyObservers();
     }
 
@@ -132,6 +133,7 @@ export default class GraphicalViewSharedData extends Observable {
         }
         this._targettedItemIndex = +index;
         this.unsetTargettedAbility();
+        this.unsetAttackMode();
         this._notifyObservers();
     }
 
@@ -157,10 +159,14 @@ export default class GraphicalViewSharedData extends Observable {
         if(this._attackTargets.length === 0) {
             this._attackTargets = null;
         }
+        this.unsetTargettedAbility();
+        this.unsetTargettedItem();
+        this._notifyObservers();
     }
 
     unsetAttackMode() {
         this._attackTargets = null;
+        this._notifyObservers();
     }
 
     cycleTarget() {

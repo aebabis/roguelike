@@ -59,10 +59,14 @@ export default class GraphicalViewKeyboardController {
             case 9:  sharedData.cycleTarget(); break;
 
             case 32: {
-                const enemyTile = sharedData.getAttackTarget();
-                if(enemyTile) {
-                    character.setNextMove(new Moves.AttackMove(tile, enemyTile.getX(), enemyTile.getY()));
+                const attackTile = sharedData.getAttackTarget();
+                const abilityTile = sharedData.getAbilityTarget();
+                if(attackTile) {
+                    character.setNextMove(new Moves.AttackMove(tile, attackTile.getX(), attackTile.getY()));
                     sharedData.unsetAttackMode();
+                } else if(abilityTile) {
+                    character.setNextMove(new Moves.UseAbilityMove(tile, sharedData.getTargettedAbility(), abilityTile.getX(), abilityTile.getY()));
+                    sharedData.unsetTargettedAbility();
                 }
                 break;
             }

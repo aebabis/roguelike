@@ -203,9 +203,15 @@ export default class GraphicalDungeonView {
 
                     Array.from(document.querySelectorAll('[data-keyboard-move]')).forEach((element)=>element.removeAttribute('data-keyboard-move'));
                     const attackTarget = sharedData.getAttackTarget();
-                    if(attackTarget) {
-                        self.getDom().querySelector(`.cell[data-x="${attackTarget.getX()}"][data-y="${attackTarget.getY()}"]`)
-                            .setAttribute('data-keyboard-move', 'AttackMove');
+                    const abilityTarget = sharedData.getAbilityTarget();
+                    const itemTarget = sharedData.getItemTarget();
+                    const target = attackTarget || abilityTarget || itemTarget;
+                    if(target) {
+                        const moveName = (attackTarget && 'AttackMove') ||
+                            (abilityTarget && 'UseAbilityMove') ||
+                            (itemTarget && 'UseItemMove');
+                        self.getDom().querySelector(`.cell[data-x="${target.getX()}"][data-y="${target.getY()}"]`)
+                            .setAttribute('data-keyboard-move', moveName);
                     }
                 });
             });

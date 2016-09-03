@@ -83,6 +83,7 @@ export default class GraphicalViewSharedData extends Observable {
      */
     unsetTargettedAbility() {
         this._targettedAbilityIndex = null;
+        this._abilityTargets = null;
         this._notifyObservers();
     }
 
@@ -98,6 +99,21 @@ export default class GraphicalViewSharedData extends Observable {
             throw new Error('index must be an integer');
         }
         this._targettedAbilityIndex = +index;
+
+        const dungeon = this.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const playerTile = dungeon.getTile(player);
+        this._abilityTargets = player.getVisibleEnemies(dungeon)
+            .filter((enemy) => {
+                const tile = dungeon.getTile(enemy);
+                const move = new Moves.UseAbilityMove(playerTile, +index, tile.getX(), tile.getY());
+                // TODO: Is it redundant to pass the tile to the constructor *and* the validator?
+                return !move.getReasonIllegal(dungeon, player, tile);
+            }).map((enemy) => dungeon.getTile(enemy));
+        if(this._abilityTargets.length === 0) {
+            this._abilityTargets = null;
+        }
+
         this.unsetTargettedItem();
         this.unsetAttackMode();
         this._notifyObservers();
@@ -112,11 +128,16 @@ export default class GraphicalViewSharedData extends Observable {
         return this._targettedAbilityIndex;
     }
 
+    getAbilityTarget() {
+        return this._abilityTargets && this._abilityTargets[0];
+    }
+
     /**
      * Forgets which targetted item the user was considering using
      */
     unsetTargettedItem() {
         this._targettedItemIndex = null;
+        this._itemTargets = null;
         this._notifyObservers();
     }
 
@@ -132,6 +153,20 @@ export default class GraphicalViewSharedData extends Observable {
             throw new Error('index must be an integer');
         }
         this._targettedItemIndex = +index;
+
+        const dungeon = this.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const playerTile = dungeon.getTile(player);
+        this._itemTargets = player.getVisibleEnemies(dungeon)
+            .filter((enemy) => {
+                const tile = dungeon.getTile(enemy);
+                const move = new Moves.UseItemMove(playerTile, +index, tile);
+                return !move.getReasonIllegal(dungeon, player);
+            }).map((enemy) => dungeon.getTile(enemy));
+        if(this._itemTargets.length === 0) {
+            this._itemTargets = null;
+        }
+
         this.unsetTargettedAbility();
         this.unsetAttackMode();
         this._notifyObservers();
@@ -144,6 +179,10 @@ export default class GraphicalViewSharedData extends Observable {
      */
     getTargettedItem() {
         return this._targettedItemIndex;
+    }
+
+    getItemTarget() {
+        return this._itemTargets && this._itemTargets[0];
     }
 
     setAttackMode() {
@@ -169,11 +208,13 @@ export default class GraphicalViewSharedData extends Observable {
         this._notifyObservers();
     }
 
-    cycleTarget() {
-        this._attackTargets.push(this._attackTargets.shift());
-    }
-
     getAttackTarget() {
         return this._attackTargets && this._attackTargets[0];
+    }
+
+    cycleTarget() {
+        const array = this._abilityTargets || this._attackTargets || this._itemTargets;
+        array.push(array.shift());
+        this._notifyObservers();
     }
 }

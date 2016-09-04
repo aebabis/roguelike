@@ -40,7 +40,6 @@
   - RandomAbilityStrategy
   - Make ClunkyNintiesCellPhone use predefined strategies
   - Test case for reflexivity of canSee
-  - Circular dependency injection (GameEvents inside Creature)
   - Melee attack animation improvement
   - Move DebugConsole to util folder
 

@@ -3,6 +3,7 @@ import AttackEvent from './AttackEvent.js';
 import BuffAppliedEvent from './BuffAppliedEvent.js';
 import BuffEndedEvent from './BuffEndedEvent.js';
 import CustomEvent from './CustomEvent.js';
+import DeathEvent from './DeathEvent.js';
 import DefeatEvent from './DefeatEvent.js';
 import EquipItemEvent from './EquipItemEvent.js';
 import HitpointsEvent from './HitpointsEvent.js';
@@ -25,6 +26,7 @@ export default {
     BuffAppliedEvent,
     BuffEndedEvent,
     CustomEvent,
+    DeathEvent,
     DefeatEvent,
     EquipItemEvent,
     HitpointsEvent,

@@ -3,7 +3,7 @@ import Tile from '../../tiles/Tile.js';
 
 import BuffAppliedEvent from '../../events/BuffAppliedEvent.js';
 import BuffEndedEvent from '../../events/BuffEndedEvent.js';
-import CustomEvent from '../../events/CustomEvent.js';
+import DeathEvent from '../../events/DeathEvent.js';
 import HitpointsEvent from '../../events/HitpointsEvent.js';
 import ZeroDamageEvent from '../../events/ZeroDamageEvent.js';
 
@@ -189,7 +189,7 @@ export default class Creature extends Entity {
         var location = dungeon.getTile(this);
         this._isDead = true;
         dungeon.removeCreature(this);
-        dungeon.fireEvent(new CustomEvent(dungeon, this.getName() + ' died'));
+        dungeon.fireEvent(new DeathEvent(dungeon, this));
         this.onDeath(dungeon, location);
     }
 

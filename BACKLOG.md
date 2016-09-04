@@ -3,8 +3,6 @@
 - High
   - Puzzles/Level-Select
   - Using keyboard to look at tiles
-  - Using keyboard to make ranged attacks
-  - Button to focus abilities. Arrows to move between
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Show enemy resistances in UI
@@ -27,6 +25,7 @@
   - Animate death frame (instead of ending)
   - Potion of flying
   - Queue animations
+  - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"

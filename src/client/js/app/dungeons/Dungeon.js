@@ -8,6 +8,8 @@ import GameConditions from '../conditions/GameConditions.js';
 import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
 
 import GameEvents from '../events/GameEvents.js';
+import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
+import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
 import DebugConsole from '../DebugConsole.js';
 
@@ -308,7 +310,7 @@ export default class Dungeon extends Observable {
         }
         const activeCreature = this.getActiveCreature();
         if(activeCreature instanceof PlayableCharacter) {
-            this.fireEvent(new GameEvents.HumanToMoveEvent(this, activeCreature));
+            this.fireEvent(new HumanToMoveEvent(this, activeCreature));
         }
 
         const delta = time() - start;
@@ -344,14 +346,14 @@ export default class Dungeon extends Observable {
 
         if(activeCreature) {
             if(activeCreature instanceof PlayableCharacter) {
-                this.fireEvent(new GameEvents.HumanToMoveEvent(this, activeCreature));
+                this.fireEvent(new HumanToMoveEvent(this, activeCreature));
             }
             const move = activeCreature.getNextMove(this);
             if(!(move instanceof Move)) {
                 throw new Error('Expected move from ' + activeCreature + ', got ' + move);
             }
             if(activeCreature instanceof PlayableCharacter) {
-                this.fireEvent(new GameEvents.HumanMovingEvent(this, activeCreature));
+                this.fireEvent(new HumanMovingEvent(this, activeCreature));
             }
 
             try {

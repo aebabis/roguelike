@@ -106,13 +106,21 @@ export default class GraphicalViewSharedData extends Observable {
         const dungeon = this.getDungeon();
         const player = dungeon.getPlayableCharacter();
         const playerTile = dungeon.getTile(player);
-        this._abilityTargets = player.getVisibleEnemies(dungeon)
-            .filter((enemy) => {
-                const tile = dungeon.getTile(enemy);
-                const move = new Moves.UseAbilityMove(playerTile, +index, tile.getX(), tile.getY());
-                // TODO: Is it redundant to pass the tile to the constructor *and* the validator?
-                return !move.getReasonIllegal(dungeon, player, tile);
-            }).map((enemy) => dungeon.getTile(enemy));
+        const ability = player.getAbility(index);
+
+        if(!ability.isTargetted()) {
+            throw new Error('Ability must be targetted');
+        }
+
+        const potentialTargets = ability.isTargetCreature() ?
+            player.getVisibleEnemies(dungeon).map((enemy) => dungeon.getTile(enemy)) :
+            dungeon.getTiles((tile) => player.canSee(dungeon, tile));
+
+        this._abilityTargets = potentialTargets.filter((tile) => {
+            const move = new Moves.UseAbilityMove(playerTile, +index, tile.getX(), tile.getY());
+            return !move.getReasonIllegal(dungeon, player, tile);
+        });
+
         if(this._abilityTargets.length === 0) {
             this._abilityTargets = null;
         }
@@ -233,9 +241,30 @@ export default class GraphicalViewSharedData extends Observable {
         return this._attackTargets && this._attackTargets[0];
     }
 
-    cycleTarget() {
-        const array = this._abilityTargets || this._attackTargets || this._itemTargets;
-        array.push(array.shift());
+    cycleTarget(dx, dy) {
+        const self = this;
+        let arrayName, array;
+        ['_abilityTargets', '_attackTargets', '_itemTargets'].forEach(function(name) {
+            if(self[name]) {
+                arrayName = name;
+                array = self[name];
+            }
+        });
+        if(typeof dx !== 'undefined') {
+            const currentTarget = array[0];
+            const newTarget = array.filter(function(tile) {
+                return Math.sign(tile.getX() - currentTarget.getX()) === dx &&
+                    Math.sign(tile.getY() - currentTarget.getY()) === dy;
+            }).sort(function(tileA, tileB) {
+                return currentTarget.getEuclideanDistance(tileA) - currentTarget.getEuclideanDistance(tileB);
+            })[0];
+            if(newTarget) {
+                const index = array.indexOf(newTarget);
+                this[arrayName] = array.slice(index).concat(array.slice(0, index));
+            }
+        } else {
+            array.push(array.shift());
+        }
         this._notifyObservers();
     }
 }

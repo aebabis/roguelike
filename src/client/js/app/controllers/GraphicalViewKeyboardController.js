@@ -22,14 +22,19 @@ export default class GraphicalViewKeyboardController {
             const character = dungeon.getPlayableCharacter();
             const tile = dungeon.getTile(character);
             function move(dx, dy) {
-                const x = tile.getX() + dx;
-                const y = tile.getY() + dy;
-                const targetTile = dungeon.getTile(x, y);
-                const creature = targetTile.getCreature();
-                if(creature && creature.isEnemy(character)) {
-                    character.setNextMove(new Moves.AttackMove(tile, x, y));
-                } else if(character.canOccupy(targetTile)) {
-                    character.setNextMove(new Moves.MovementMove(tile, dx, dy));
+                if(typeof sharedData.getTargettedItem() === 'number' ||
+                        typeof sharedData.getTargettedAbility() === 'number') {
+                    sharedData.cycleTarget(dx, dy);
+                } else {
+                    const x = tile.getX() + dx;
+                    const y = tile.getY() + dy;
+                    const targetTile = dungeon.getTile(x, y);
+                    const creature = targetTile.getCreature();
+                    if(creature && creature.isEnemy(character)) {
+                        character.setNextMove(new Moves.AttackMove(tile, x, y));
+                    } else if(character.canOccupy(targetTile)) {
+                        character.setNextMove(new Moves.MovementMove(tile, dx, dy));
+                    }
                 }
             }
 
@@ -53,7 +58,11 @@ export default class GraphicalViewKeyboardController {
                 const index = ({81: 0, 87: 1, 69: 2, 82: 3})[code];
                 const item = character.getInventory().getItem(index);
                 if(item.isTargetted()) {
-                    sharedData.setTargettedItem(index);
+                    if(index === sharedData.getTargettedItem()) {
+                        sharedData.unsetTargettedItem();
+                    } else {
+                        sharedData.setTargettedItem(index);
+                    }
                 } else {
                     character.setNextMove(new Moves.UseItemMove(tile, index));
                 }

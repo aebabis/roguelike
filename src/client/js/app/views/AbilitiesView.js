@@ -27,6 +27,8 @@ export default class AbilitiesView {
                     player.setNextMove(new Moves.UseAbilityMove(dungeon.getTile(player), index));
                 }
             }
+
+            document.querySelector('section.game').focus();
         });
 
         window.addEventListener('keypress', function(event) {

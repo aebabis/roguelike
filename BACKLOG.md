@@ -6,6 +6,9 @@
   - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Show enemy resistances in UI
+  - Trashing hotkey
+  - Equiping hotkey
+  - Enable keys with screenreader
 - Med
   - Weights for random dungeon rooms
   - Keybindings Overlay
@@ -56,6 +59,7 @@
   - number hotkeys not working in firefox
   - Autopath only stops if an enemy is visible during the player's turn, and not if an enemy became visible while waiting
   - Leap doesn't pickup items. Should it?
+  - Autopathing can "see" enemies on hidden tiles
 
 ## Art
   - Snail icon

@@ -50,6 +50,16 @@
         background-size: 100%;
     }
 
+    &[data-tile-type="DoorTile"] {
+        background-image: url(../images/small/DoorClosed.png);
+        background-size: 100%;
+    }
+
+    &[data-tile-type="DoorTile"][data-door-open="true"] {
+        background-image: url(../images/small/DoorOpen.png), url(../images/small/DungeonTile.png);
+        background-size: 100%;
+    }
+
     &[data-tile-type="PitTile"] {
         background-image: url(../images/small/Spikes.png);
         background-size: 100%;

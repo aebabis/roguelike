@@ -203,6 +203,11 @@ export default {
                     dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
                 }
             }
+            if(Random.bool(.4)(prng)) {
+                const doorX = Random.integer(x1, x2 - 1)(prng);
+                const doorY = Random.integer(y1, y2 - 1)(prng);
+                dungeon.setTile(new Tiles.DoorTile(dungeon, doorX, doorY), doorX, doorY);
+            }
         });
 
         return dungeon;

@@ -355,6 +355,11 @@ export default class GraphicalDungeonView {
                         }
                     }
 
+                    const creatureLocation = dungeon.getTile(creature);
+                    if(creatureLocation.isOpen) {
+                        cell.setAttribute('data-door-open', creatureLocation.isOpen());
+                    }
+
                     if(creature === player) {
                         self.scroll();
                     }

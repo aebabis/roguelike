@@ -124,9 +124,9 @@ export default class Dungeon extends Observable {
      * Tells whether the dungeon is traversable.
      * @param {function} [isTraversable] - Optional predicate
      * for determining if a tile counts as traversable. Defaults
-     * to testing if tile has a floor and isn't opaque
+     * to testing if tile has a floor and isn't solid
      */
-    isConnected(isTraversable = (tile) => tile.hasFloor() && !tile.isOpaque()) {
+    isConnected(isTraversable = (tile) => tile.hasFloor() && !tile.isSolid()) {
         const key = (tile) => `${tile.getX()},${tile.getY()}`;
         const traversableTiles = this.getTiles(isTraversable);
         const unvisitedSet = {};

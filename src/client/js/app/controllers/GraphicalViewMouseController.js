@@ -2,6 +2,8 @@ import Moves from '../entities/creatures/moves/Moves.js';
 
 import Pather from '../entities/creatures/strategies/Pather.js';
 
+import UIMessageEvent from './UIMessageEvent.js';
+
 /**
  * Controller that listens for mouse actions on dungeon views
  * and converts them to game moves
@@ -84,22 +86,26 @@ export default class GraphicalViewMouseController {
             const player = dungeon.getPlayableCharacter();
             const enemies = player.getVisibleEnemies(dungeon);
             const moves = getMovesFor(this) || [];
-            moves.forEach(function(move) {
-                // Note, optionalTargetTile (3rd param) only relevant for 1-length move sequences
-                var reason = move.getReasonIllegal(dungeon, player, getTileFor(self));
-                if(reason) {
-                    console.warn(reason); // TODO: Show message to user
-                    return false;
-                } if(anyNewEnemies(enemies, player.getVisibleEnemies(dungeon))) {
-                    return false;
-                } else {
-                    player.setNextMove(move);
-                    dungeon.resolveUntilBlocked();
-                    sharedData.unsetAttackMode();
-                    sharedData.unsetTargettedAbility();
-                    sharedData.unsetTargettedItem();
-                }
-            });
+            if(moves.length === 0) {
+                sharedData.dispatchUIEvent(new UIMessageEvent('No path to location'));
+            } else {
+                moves.forEach(function(move) {
+                    // Note, optionalTargetTile (3rd param) only relevant for 1-length move sequences
+                    var reason = move.getReasonIllegal(dungeon, player, getTileFor(self));
+                    if(reason) {
+                        sharedData.dispatchUIEvent(new UIMessageEvent(reason));
+                        return false;
+                    } if(anyNewEnemies(enemies, player.getVisibleEnemies(dungeon))) {
+                        return false;
+                    } else {
+                        player.setNextMove(move);
+                        dungeon.resolveUntilBlocked();
+                        sharedData.unsetAttackMode();
+                        sharedData.unsetTargettedAbility();
+                        sharedData.unsetTargettedItem();
+                    }
+                });
+            }
         });
 
         var lastHoverTile;

@@ -1,5 +1,7 @@
 import Moves from '../entities/creatures/moves/Moves.js';
 
+import UIMessageEvent from './UIMessageEvent.js';
+
 /**
  * Controller that listens for keypresses on dungeon views
  * and converts them to game moves
@@ -31,10 +33,19 @@ export default class GraphicalViewKeyboardController {
                     const targetTile = dungeon.getTile(x, y);
                     const creature = targetTile.getCreature();
                     if(creature && creature.isEnemy(character)) {
-                        character.setNextMove(new Moves.AttackMove(tile, x, y));
-                    } else if(character.canOccupy(targetTile)) {
-                        character.setNextMove(new Moves.MovementMove(tile, dx, dy));
+                        attemptMove(new Moves.AttackMove(tile, x, y));
+                    } else {
+                        attemptMove(new Moves.MovementMove(tile, dx, dy));
                     }
+                }
+            }
+
+            function attemptMove(move) {
+                const reason = move.getReasonIllegal(dungeon, character);
+                if(reason) {
+                    sharedData.dispatchUIEvent(new UIMessageEvent(reason));
+                } else {
+                    character.setNextMove(move);
                 }
             }
 
@@ -48,7 +59,7 @@ export default class GraphicalViewKeyboardController {
             case 98:  case 74: move( 0, 1); break;
             case 99:  case 78: move( 1, 1); break;
             case 100: case 72: move(-1, 0); break;
-            case 101: case 190: character.setNextMove(new Moves.WaitMove(dungeon.getTile(character))); break;
+            case 101: case 190: attemptMove(new Moves.WaitMove(dungeon.getTile(character))); break;
             case 102: case 76: move( 1, 0); break;
             case 103: case 89: move(-1,-1); break;
             case 104: case 75: move( 0,-1); break;
@@ -64,7 +75,7 @@ export default class GraphicalViewKeyboardController {
                         sharedData.setTargettedItem(index);
                     }
                 } else {
-                    character.setNextMove(new Moves.UseItemMove(tile, index));
+                    attemptMove(new Moves.UseItemMove(tile, index));
                 }
                 break;
             }
@@ -83,11 +94,11 @@ export default class GraphicalViewKeyboardController {
                 const abilityTile = sharedData.getAbilityTarget();
                 const itemTile = sharedData.getItemTarget();
                 if(attackTile) {
-                    character.setNextMove(new Moves.AttackMove(tile, attackTile.getX(), attackTile.getY()));
+                    attemptMove(new Moves.AttackMove(tile, attackTile.getX(), attackTile.getY()));
                 } else if(abilityTile) {
-                    character.setNextMove(new Moves.UseAbilityMove(tile, sharedData.getTargettedAbility(), abilityTile.getX(), abilityTile.getY()));
+                    attemptMove(new Moves.UseAbilityMove(tile, sharedData.getTargettedAbility(), abilityTile.getX(), abilityTile.getY()));
                 } else if(itemTile) {
-                    character.setNextMove(new Moves.UseItemMove(tile, sharedData.getTargettedItem(), itemTile));
+                    attemptMove(new Moves.UseItemMove(tile, sharedData.getTargettedItem(), itemTile));
                 }
                 break;
             }

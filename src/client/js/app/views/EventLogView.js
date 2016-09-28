@@ -1,5 +1,7 @@
 import GameEvents from '../events/GameEvents.js';
 
+import UIMessageEvent from '../controllers/UIMessageEvent.js';
+
 export default class EventLogView {
     /**
      * @class EventLogView
@@ -23,6 +25,9 @@ export default class EventLogView {
                 if(dungeon && (!event.isSeenBy || event.isSeenBy(dungeon, dungeon.getPlayableCharacter()))) {
                     var message = document.createElement('div');
                     message.textContent = /*"<" + event.getTimestamp() + "> " +*/ event.getText(dungeon);
+                    if(event instanceof UIMessageEvent) {
+                        message.classList.add('ui-error');
+                    }
                     log.appendChild(message);
                     checkScroll();
                 }

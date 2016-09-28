@@ -60,6 +60,7 @@
   - Autopath only stops if an enemy is visible during the player's turn, and not if an enemy became visible while waiting
   - Leap doesn't pickup items. Should it?
   - Autopathing can "see" enemies on hidden tiles
+  - Door opening animation should be delayed same as creature moving
 
 ## Art
   - Snail icon

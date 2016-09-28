@@ -267,4 +267,8 @@ export default class GraphicalViewSharedData extends Observable {
         }
         this._notifyObservers();
     }
+
+    dispatchUIEvent(event) {
+        this._notifyObservers(event);
+    }
 }

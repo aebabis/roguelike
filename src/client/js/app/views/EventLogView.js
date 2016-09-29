@@ -20,7 +20,8 @@ export default class EventLogView {
             if(event && event.getText &&
                     !(event instanceof GameEvents.HumanToMoveEvent ||
                     event instanceof GameEvents.HumanMovingEvent ||
-                    event instanceof GameEvents.InventoryChangeEvent)) {
+                    event instanceof GameEvents.InventoryChangeEvent ||
+                    event instanceof GameEvents.PositionChangeEvent)) {
                 var dungeon = sharedData.getDungeon();
                 if(dungeon && (!event.isSeenBy || event.isSeenBy(dungeon, dungeon.getPlayableCharacter()))) {
                     var message = document.createElement('div');

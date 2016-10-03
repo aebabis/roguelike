@@ -9,6 +9,7 @@
   - Trashing hotkey
   - Equiping hotkey
   - Enable keys with screenreader
+  - Typescript
 - Med
   - Weights for random dungeon rooms
   - Keybindings Overlay
@@ -61,6 +62,10 @@
   - Leap doesn't pickup items. Should it?
   - Autopathing can "see" enemies on hidden tiles
   - Door opening animation should be delayed same as creature moving
+  - Leap
+    - should not let you jump to a solid tile
+    - should not let you jump into a pit
+
 
 ## Art
   - Snail icon
@@ -80,3 +85,4 @@
   - Dragon
   - Item hoarder
   - Site icon (16x16?)
+  - Poison splatter

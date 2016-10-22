@@ -1,10 +1,36 @@
-.theme-default section.game .icon {
-    &[data-item-name] {
+.theme-default .gitrecht .icon {
+    background-size: 100%;
+
+    &[data-item-name],
+    &[data-class-name] {
         background-image: url(../images/small/ThisIsAThing.png);
     }
 
     &[data-item-name="TheTreasure"] {
         background-image: url(../images/small/TreasureChest.png);
+    }
+
+    &[data-item-name="None"] {
+        background: none;
+        &:after {
+            content: '❌';
+            font-size: 2em;
+        }
+    }
+
+    /////////////
+    // CLASSES //
+    /////////////
+    &[data-class-name="Fighter"] {
+        background-image: url(../images/small/Fighter.png);
+    }
+
+    &[data-class-name="Rogue"] {
+        background-image: url(../images/small/Rogue.png);
+    }
+
+    &[data-class-name="Wizard"] {
+        background-image: url(../images/small/Wizard.png);
     }
 
     ///////////

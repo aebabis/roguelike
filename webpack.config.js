@@ -37,6 +37,9 @@ module.exports = {
                     presets: ['es2015']
                 }
             }, {
+                test: /[\/]angular\.js$/,
+                loader: 'exports?angular'
+            }, {
                 //loader: 'style!css',
                 loaders: ['style', 'css', 'sass'],
                 test: /\.s?css$/
@@ -44,7 +47,12 @@ module.exports = {
                 loader: 'url-loader?limit=100000',
                 test: /\.png$/
             }
-        ]
+        ],
+        resolve: {
+            alias: {
+                angular: __dirname + '/app/vendor/angular/angular'
+            }
+        }
     },
 
     // http://stackoverflow.com/questions/35171288/error-cannot-resolve-module-style-loader

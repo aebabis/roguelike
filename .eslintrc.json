@@ -4,7 +4,8 @@
         "es6": true,
         "jquery": true,
         "commonjs": true,
-        "mocha": true
+        "mocha": true,
+        "node": true
     },
     "globals": {
         "Random": true

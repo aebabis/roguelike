@@ -10,10 +10,20 @@ import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
 var dialogPolyfill = require('../../../../../node_modules/dialog-polyfill/dialog-polyfill.js');
 require('../../../../../node_modules/dialog-polyfill/dialog-polyfill.css');
 
+const angular = require('angular');
+
 var Purchaseables = Object.assign({}, Abilities, Armors, Consumables, Weapons);
 
-var MELEE_WEAPON_COSTS = {
-    Stick: 5,
+const promiseHandlers = {};
+
+const CHARACTERS = {
+    Fighter: 70,
+    Rogue: 60,
+    Wizard: 55
+};
+
+const MELEE_WEAPONS = {
+    Stick: 0,
     Dagger: 10,
     Shortsword: 20,
     FrostDagger: 25,
@@ -21,14 +31,13 @@ var MELEE_WEAPON_COSTS = {
     Longsword: 30,
     LightningRod: 45
 };
-
-var RANGED_WEAPON_COSTS = {
+const RANGED_WEAPONS = {
     Slingshot: 10,
     Shortbow: 30,
     Longbow: 60
 };
 
-var ARMOR_COSTS = {
+const ARMOR = {
     LightArmor: 15,
     MediumArmor: 25,
     HeavyArmor: 40/*,
@@ -38,227 +47,302 @@ var ARMOR_COSTS = {
     HeavyRobe: 25*/
 };
 
-var ABILITY_COSTS = {
-    Fireball: 30,
-    Firebolt: 35,
-    LesserSnare: 15
-};
-
-var CONSUMABLE_COSTS = {
+const CONSUMABLES = {
     CherrySoda: 10,
     BlueberrySoda: 10,
-    CleansingPotion: 10
-};
 
-var ABILITY_CONSUMEABLE_COSTS = {
     Fireball: 20,
     ForceDart: 10,
     LesserSnare: 10
 };
 
-var STARTING_EQUIPMENT = {
-    Fighter: {
-        money: 70,
-        items: ['MediumArmor', 'Longsword']
-    },
-    Rogue: {
-        money: 60,
-        items: ['Slingshot', 'Dagger', 'Light Armor']
-    },
-    Wizard: {
-        money: 55,
-        items: ['Stick', 'ForceDart']
-    }
+const ABILITIES = {
+    Fireball: 30,
+    Firebolt: 35,
+    LesserSnare: 15
 };
 
-var COSTS = Object.assign({}, MELEE_WEAPON_COSTS, RANGED_WEAPON_COSTS, ARMOR_COSTS, ABILITY_COSTS, CONSUMABLE_COSTS);
-
-function template() {
-    var $dialog = $(`
-        <dialog class='character-builder'>
-            <form method='dialog'>
-                <div class='class'>
-                    ${Object.keys(Classes).sort().map(function(className) {
-                        return `<label><input type='radio' name='class' value='${new Classes[className]().getName()}'> ${className}</label>`;
-                    }).join('')}
-                </div>
-                <div class='item melee-weapon select'>
-                    <label>
-                        <span class='label-text'>Melee Weapon</span>
-                        <select name='melee-weapon'>
-                            <option>None</option>
-                            ${Object.keys(MELEE_WEAPON_COSTS).map(function(className) {
-                                return `<option value='${className}'> ${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</label>`;
-                            }).join('')}
-                        </select>
-                    </label>
-                </div>
-                <div class='item ranged-weapon select'>
-                    <label>
-                        <span class='label-text'>Ranged Weapon</span>
-                        <select name='ranged-weapon'>
-                            <option>None</option>
-                            ${Object.keys(RANGED_WEAPON_COSTS).map(function(className) {
-                                return `<option value='${className}'> ${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</label>`;
-                            }).join('')}
-                        </select>
-                    </label>
-                </div>
-                <div class='item armors select'>
-                    <label>
-                        <span class='label-text'>Armor</span>
-                        <select name='armor'>
-                            <option>None</option>
-                            ${Object.keys(ARMOR_COSTS).map(function(className) {
-                                return `<option value='${className}'> ${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</label>`;
-                            }).join('')}
-                        </select>
-                    </label>
-                </div>
-                <div class='items abilities'>
-                    ${Object.keys(Abilities).filter((ability)=>ABILITY_COSTS[ability]).map(function(className) {
-                        return `<label>
-                            <input type='checkbox' name='${className}'>
-                            <span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span>
-                        </label>`;
-                    }).join('')}
-                </div>
-                <div class='items consumables'>
-                    ${Object.keys(Consumables).map(function(className) {
-                        return `<label><input type='number' min="0" name='${className}' value='0'><span class='label-text'>${new Purchaseables[className]().getName()} (<span class='cost'>${COSTS[className]}</span>)</span></label>`;
-                    }).join('')}
-                </div>
-                <div class='items ability-consumables'>
-                    ${Object.keys(Abilities).filter((ability)=>ABILITY_CONSUMEABLE_COSTS[ability]).map(function(className) {
-                        return `<label>
-                            <input type='number' min="0" name='${className}_consumable' value='0'>
-                            <span class='label-text'>${new AbilityConsumable(new Abilities[className]).getName()} (<span class='cost'>${ABILITY_CONSUMEABLE_COSTS[className]}</span>)</span>
-                        </label>`;
-                    }).join('')}
-                </div>
-                <div class='total'></div>
-                <input type='submit' value='OK'>
-            </form>
-        </dialog>`);
-
-    dialogPolyfill.registerDialog($dialog[0]);
-
-    function getCost() {
-        var data = new FormData($dialog.find('form')[0]);
-        var meleeWeaponCost = MELEE_WEAPON_COSTS[data.get('melee-weapon')] || 0;
-        var rangedWeaponCost = RANGED_WEAPON_COSTS[data.get('ranged-weapon')] || 0;
-        var armorCost = ARMOR_COSTS[data.get('armor')] || 0;
-
-        var abilityCosts = Object.keys(ABILITY_COSTS)
-                .filter(name=>!!data.get(name))
-                .map(name=>ABILITY_COSTS[name])
-                .reduce((a, b) => a + b, 0);
-
-        var consumableCosts = Object.keys(CONSUMABLE_COSTS)
-                .map(function(name) {
-                    var cost = CONSUMABLE_COSTS[name];
-                    var amount = data.get(name);
-                    return cost * amount || 0;
-                })
-                .reduce((a, b) => a + b, 0);
-
-        var abilityConsumableCosts = Object.keys(ABILITY_CONSUMEABLE_COSTS)
-                .map(function(name) {
-                    var fieldName = name + '_consumable';
-                    var cost = ABILITY_CONSUMEABLE_COSTS[name];
-                    var amount = data.get(fieldName);
-                    return cost * amount || 0;
-                })
-                .reduce((a, b) => a + b, 0);
-
-        return meleeWeaponCost +
-            rangedWeaponCost +
-            armorCost +
-            abilityCosts +
-            consumableCosts +
-            abilityConsumableCosts;
+function getStartingAbilities(className) {
+    switch(className) {
+    case 'Fighter': return ['DashAttack'];
+    case 'Wizard': return ['ForceDart'];
+    case 'Rogue': return ['Leap'];
     }
-
-    function update() {
-        var legal = false;
-        var Class = $dialog.find('.class input:checked').val();
-        if(Class) {
-            var equipment = STARTING_EQUIPMENT[Class];
-            //var items = equipment.items;
-            var money = equipment.money;
-            var cost = getCost();
-            legal = cost <= money;
-            $dialog.find('.total').text(cost + ' / ' + money).css('color', legal ? '' : 'red');
-        }
-        $dialog.find('input[type="submit"]').prop('disabled', !legal);
-    }
-
-    $dialog.on('input change', 'input, select', update);
-
-    // Wait for autocomplete
-    setTimeout(update);
-
-    return $dialog;
 }
+
+angular.module('vog', [])
+.filter('vogName', function() {
+    return (name) => name.replace(/([^A-Z])([A-Z])/g, '$1 $2');
+})
+.component('characterBuild', {
+    bindings: {
+        build: '='
+    },
+    controller: function() {
+        this.getSelectedAbilityNames = function() {
+            const { build: { abilities } } = this;
+            return Object.keys(ABILITIES).filter((ability)=>abilities[ability]);
+        };
+        this.getAbilityNames = function() {
+            const { build: {character, abilities } } = this;
+            return getStartingAbilities(character).concat(this.getSelectedAbilityNames());
+        };
+    },
+    templateUrl: 'character-build.html'
+})
+.controller('character-builder', ['$scope', 'promiseHandlers', function($scope, promiseHandlers) {
+    const { resolve, reject } = promiseHandlers;
+
+    $scope.CHARACTERS = CHARACTERS;
+    $scope.MELEE_WEAPONS = MELEE_WEAPONS;
+    $scope.RANGED_WEAPONS = RANGED_WEAPONS;
+    $scope.ARMOR = ARMOR;
+    $scope.CONSUMABLES = CONSUMABLES;
+    $scope.ABILITIES = ABILITIES;
+
+    try {
+        $scope.lastBuild = JSON.parse(localStorage.lastBuild);
+    } catch(e) {
+        console.error(e);
+    }
+
+    $scope.selections = {
+        character: 'Fighter',
+        melee: 'Stick',
+        ranged: null,
+        armor: null,
+        backpack: [],
+        abilities: {}
+    };
+
+    $scope.prebuilts = [{
+        character: 'Fighter',
+        melee: 'Warhammer',
+        ranged: null,
+        armor: 'MediumArmor',
+        backpack: ['CherrySoda', 'ForceDart'],
+        abilities: {}
+    }, {
+        character: 'Rogue',
+        melee: 'FrostDagger',
+        ranged: null,
+        armor: 'LightArmor',
+        backpack: ['CherrySoda'],
+        abilities: {}
+    }, {
+        character: 'Wizard',
+        melee: 'Stick',
+        ranged: null,
+        armor: 'LightArmor',
+        backpack: ['BlueberrySoda'],
+        abilities: {Fireball: true}
+    }];
+
+    $scope.selectPrebuilt = function(index) {
+        $scope.selections = $scope.lastBuild;
+    }
+
+    $scope.selectPrebuilt = function(index) {
+        $scope.selections = $scope.prebuilts[index];
+    }
+
+    let isBuilderVisible = false;
+    $scope.isBuilderVisible = () => isBuilderVisible;
+    $scope.showBuilder = () => isBuilderVisible = true;
+
+    $scope.getSelectedAbilityNames = function() {
+        return Object.keys(ABILITIES).filter((ability)=>$scope.selections.abilities[ability]);
+    }
+
+    $scope.getAbilities = function() {
+        const { selections } = $scope;
+        switch(selections.character) {
+        case 'Fighter': return ['DashAttack'].concat($scope.getSelectedAbilityNames());
+        case 'Wizard': return ['ForceDart'].concat($scope.getSelectedAbilityNames());
+        case 'Rogue': return ['Leap'].concat($scope.getSelectedAbilityNames());
+        }
+    }
+
+    $scope.getBackpackSize = function() {
+        return new Classes[$scope.selections.character]().getInventory().getBackpack().length;
+    };
+
+    $scope.addToBackpack = function(item) {
+        const { selections: { backpack } } = $scope;
+        backpack.push(item);
+        if(backpack.length > $scope.getBackpackSize()) {
+            backpack.shift();
+        }
+    };
+
+    $scope.getCost = function() {
+        const { selections } = $scope;
+        return MELEE_WEAPONS[selections.melee] +
+            (RANGED_WEAPONS[selections.ranged] || 0) +
+            (ARMOR[selections.armor] || 0) +
+            selections.backpack.map((item)=>CONSUMABLES[item]).reduce((a, b)=>a+b, 0) +
+            $scope.getSelectedAbilityNames().map((ability)=>ABILITIES[ability]).reduce((a, b)=>a+b, 0);
+    };
+
+    $scope.getMoney = function() {
+        return CHARACTERS[$scope.selections.character];
+    }
+
+    $scope.isBuildLegal = function() {
+        return $scope.getCost() <= $scope.getMoney();
+    };
+
+    $scope.submit = function() {
+        const { selections } = $scope;
+        const character = new Classes[selections.character]();
+        getStartingAbilities(selections.character).concat($scope.getSelectedAbilityNames()).forEach(function(abilityName) {
+            character.addAbility(new Abilities[abilityName]());
+        });
+
+        [
+            Purchaseables[selections.melee],
+            Purchaseables[selections.ranged],
+            Purchaseables[selections.armor]
+        ].filter(Boolean).forEach(function(Class) {
+            character.addItem(new Class());
+        });
+
+        selections.backpack.forEach(function(itemName) {
+            if(Consumables[itemName]) {
+                character.addItem(new Consumables[itemName]());
+            } else {
+                character.addItem(new AbilityConsumable(new Abilities[itemName]));
+            }
+        });
+
+        localStorage.lastBuild = JSON.stringify(selections);
+
+        resolve(character);
+    };
+}]).constant('promiseHandlers', promiseHandlers).run(['$templateCache', function($templateCache) {
+    $templateCache.put('character-build.html',
+        `<div class="character-build">
+            <h3>{{$ctrl.build.character}}</h3>
+            <div class="melee-weapon">{{$ctrl.build.melee | vogName}}</div>
+            <div class="ranged-weapon" ng-if="$ctrl.build.ranged">{{$ctrl.build.ranged | vogName}}</div>
+            <div class="armor" ng-if="$ctrl.build.armor">{{$ctrl.build.armor | vogName}}</div>
+            <div class="abilities">
+                <span ng-repeat="name in $ctrl.getAbilityNames()"><span ng-if="!$first">, </span>{{name | vogName}}</span>
+            </div>
+            <div class="consumables">
+                <span ng-repeat="name in $ctrl.build.backpack"><span ng-if="!$first">, </span>{{name | vogName}}</span>
+            </div>
+        </div>`);
+    $templateCache.put('character-builder.html',
+        `<form method="dialog" class="gitrecht" ng-controller="character-builder" ng-submit="submit()">
+            <h2>Select Character</h2>
+            <div class="prebuilts">
+                <div class="group">
+                    <h3>Most Recent</h3>
+                    <button ng-if="lastBuild">
+                        <character-build build="lastBuild" ng-click="selectLastBuild()"></character-build>
+                    </button>
+                </div>
+                <div class="group">
+                    <button ng-repeat="build in prebuilts">
+                        <character-build build="build" ng-click="selectPrebuilt($index)"></character-build>
+                    </button>
+                </div>
+            </div>
+            <button type="button" ng-if="!isBuilderVisible()" ng-click="showBuilder()">Make a Build</button>
+            <div class="builder" ng-if="isBuilderVisible()">
+                <div class="col">
+                    <div class="items">
+                        <h3>Character</h3>
+                        <label ng-repeat="(character, cost) in CHARACTERS" class="icon" data-class-name="{{character}}" title="{{character | vogName}}" ng-class="{selected: selections.character === character}">
+                            <input type="radio" name="melee" value="{{character}}" ng-model="selections.character">
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="items">
+                        <h3>Melee Weapon</h3>
+                        <label ng-repeat="(weapon, cost) in MELEE_WEAPONS" class="icon" data-item-name="{{weapon}}" title="{{weapon | vogName}}" ng-class="{selected: selections.melee === weapon}">
+                            <input type="radio" name="melee" value="{{weapon}}" ng-model="selections.melee">
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="items">
+                        <h3>Ranged Weapon</h3>
+                        <label class="icon" data-item-name="None" ng-class="{selected: selections.ranged === null}">
+                            <input type="radio" name="ranged" value="null" title="None" ng-model="selections.ranged">
+                        </label>
+                        <label ng-repeat="(weapon, cost) in RANGED_WEAPONS" class="icon" data-item-name="{{weapon}}" title="{{weapon | vogName}}" ng-class="{selected: selections.ranged === weapon}">
+                            <input type="radio" name="ranged" value="{{weapon}}" ng-model="selections.ranged">
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="items">
+                        <h3>Armor</h3>
+                        <label class="icon" data-item-name="None" title="None" ng-class="{selected: selections.armor === null}">
+                            <input type="radio" name="armor" value="null" ng-model="selections.armor">
+                        </label>
+                        <label ng-repeat="(armor, cost) in ARMOR" class="icon" data-item-name="{{armor}}" title="{{armor | vogName}}" ng-class="{selected: selections.armor === armor}">
+                            <input type="radio" name="armor" value="{{armor}}" ng-model="selections.armor">
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="items">
+                        <h3>Abilities</h3>
+                        <label ng-repeat="(ability, cost) in ABILITIES" class="icon" data-item-name="{{ability}}" title="{{ability | vogName}}" ng-class="{selected: selections.abilities[ability]}">
+                            <input type="checkbox" class="icon" data-item-name="{{ability}}" ng-model="selections.abilities[ability]"></input>
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="items">
+                        <h3>Consumables</h3>
+                        <button ng-repeat="(consumable, cost) in CONSUMABLES"
+                                type="button" class="icon"
+                                data-item-name="{{consumable}}"
+                                title="{{consumable | vogName}}" ng-click="addToBackpack(consumable)"></button>
+                    </div>
+                </div>
+                <div class="preview">
+                    <character-build build="selections"></character-build>
+                    <span ng-if="getCost() <= getMoney()" class="amount-left">
+                        <span class="value">{{getMoney() - getCost()}}</span>
+                        <span class="remaining">left</span>
+                    </span>
+                    <span ng-if="getCost() > getMoney()" class="amount-overspent">
+                        <span class="value">{{getCost() - getMoney()}}</span>
+                        <span class="remaining">too much</span>
+                    </span>
+                    <div><input type="submit" ng-disabled="!isBuildLegal()"/></div>
+                </div>
+            </div>
+        </form>`);
+}]);
 
 export default class CharacterBuilder {
     constructor() {
         this._promise = new Promise((resolve, reject) => {
-            this._resolve = resolve;
-            this._reject = reject;
-        });
-        var $dialog = template().appendTo('body');
-        var $form = $dialog.find('form').on('submit', () => {
-            let data = new FormData($form[0]);
+            var $dialog = $(`
+                <dialog class='character-builder'>
+                    <ng-include src="'character-builder.html'"></ng-include>
+                </dialog>`).appendTo('body');
 
-            let className = data.get('class');
-            let player = new Classes[className]();
-            switch(className){
-            case 'Fighter':
-                player.addAbility(new Abilities.DashAttack());
-                break;
-            case 'Wizard':
-                player.addAbility(new Abilities.ForceDart());
-                break;
-            case 'Rogue':
-                player.addAbility(new Abilities.Leap());
-                break;
+            const dialog = $dialog[0];
+
+            if(!dialog.open) {
+                dialogPolyfill.registerDialog(dialog);
             }
 
-            let MeleeWeaponClass = Purchaseables[data.get('melee-weapon')];
-            let RangedWeaponClass = Purchaseables[data.get('ranged-weapon')];
-            let ArmorClass = Purchaseables[data.get('armor')];
+            promiseHandlers.resolve = resolve;
+            promiseHandlers.reject = reject;
 
-            [MeleeWeaponClass, RangedWeaponClass, ArmorClass].filter(Boolean).forEach(function(Class) {
-                player.addItem(new Class());
-            });
+            angular.bootstrap(dialog, ['vog']);
 
-            Object.keys(Purchaseables).forEach(function(purchaseableName) {
-                let value = data.get(purchaseableName);
-                if(value) {
-                    let count = isNaN(value) ? 1 : +value;
-                    for(let i = 0; i < count; i++) {
-                        let item = new Purchaseables[purchaseableName]();
-                        if(item.getManaCost) {
-                            player.addAbility(item);
-                        } else {
-                            player.addItem(item);
-                        }
-                    }
-                }
-            });
-
-            Object.keys(ABILITY_CONSUMEABLE_COSTS).forEach(function(purchaseableName) {
-                let value = data.get(purchaseableName + '_consumable');
-                for(let i = 0; i < value; i++) {
-                    player.addItem(new AbilityConsumable(new Abilities[purchaseableName]));
-                }
-            });
-
-            this._resolve(player);
+            dialog.showModal();
         });
-        $form.find('input').eq(0).click();
-        $dialog[0].showModal();
     }
 
     getCharacter() {

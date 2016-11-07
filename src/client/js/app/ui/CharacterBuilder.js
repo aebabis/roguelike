@@ -237,9 +237,9 @@ angular.module('vog', [])
         `<form method="dialog" class="gitrecht" ng-controller="character-builder" ng-submit="submit()">
             <h2>Select Character</h2>
             <div class="prebuilts">
-                <div class="group">
+                <div class="group" ng-if="lastBuild">
                     <h3>Most Recent</h3>
-                    <button ng-if="lastBuild">
+                    <button>
                         <character-build build="lastBuild" ng-click="selectLastBuild()"></character-build>
                     </button>
                 </div>

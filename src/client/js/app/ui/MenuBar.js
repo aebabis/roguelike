@@ -6,8 +6,8 @@ import DebugConsole from '../DebugConsole.js';
 function template() {
     return $(`
         <div class="menu-bar">
-            <button class="newgame">New Game</button>
-            <button class="restart">Restart</button>
+            <button class="newgame" accesskey="n">New Game</button>
+            <button class="restart" accesskey="r">Restart</button>
             <label>Remember Previous Level <input type="checkbox" ${localStorage.repeatPreviousLevel === 'true' ? 'checked' : ''}></label>
         </div>`);
 }

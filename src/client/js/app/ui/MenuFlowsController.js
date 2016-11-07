@@ -20,7 +20,7 @@ function getPrng(newSeed) {
 
 function newGame(sharedData) {
     new CharacterBuilder().getCharacter().then(function(character) {
-        const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(false), character);
+        const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(localStorage.repeatPreviousLevel !== 'true'), character);
         sharedData.setDungeon(dungeon);
     });
 }

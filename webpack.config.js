@@ -50,7 +50,7 @@ module.exports = {
         ],
         resolve: {
             alias: {
-                angular: __dirname + '/app/vendor/angular/angular'
+                angular: __dirname + '/node_modules/angular'
             }
         }
     },

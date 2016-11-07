@@ -163,6 +163,27 @@ angular.module('vog', [])
         }
     }
 
+    $scope.getPurchaseableAbilities = function() {
+        const character = new Classes[$scope.selections.character]();
+        const mana = character.getBaseMana();
+        return Object.keys(ABILITIES)
+            .filter((name)=>new Abilities[name]().getManaCost() <= mana)
+            .reduce(function(obj, name) {
+                obj[name] = ABILITIES[name];
+                return obj;
+            }, {});
+    };
+
+    $scope.fixAbilities = function() {
+        const { selections: { character, abilities } } = $scope;
+        const mana = new Classes[character]().getBaseMana();
+        Object.keys(ABILITIES).forEach(function(abilityName) {
+            if(new Abilities[abilityName]().getManaCost() > mana) {
+                abilities[abilityName] = false;
+            }
+        });
+    };
+
     $scope.getBackpackSize = function() {
         return new Classes[$scope.selections.character]().getInventory().getBackpack().length;
     };
@@ -255,7 +276,7 @@ angular.module('vog', [])
                     <div class="items">
                         <h3>Character</h3>
                         <label ng-repeat="(character, cost) in CHARACTERS" class="icon" data-class-name="{{character}}" title="{{character | vogName}}" ng-class="{selected: selections.character === character}">
-                            <input type="radio" name="melee" value="{{character}}" ng-model="selections.character">
+                            <input type="radio" name="melee" value="{{character}}" ng-model="selections.character" ng-click="fixAbilities()">
                         </label>
                     </div>
                 </div>
@@ -292,7 +313,7 @@ angular.module('vog', [])
                 <div class="col">
                     <div class="items">
                         <h3>Abilities</h3>
-                        <label ng-repeat="(ability, cost) in ABILITIES" class="icon" data-item-name="{{ability}}" title="{{ability | vogName}}" ng-class="{selected: selections.abilities[ability]}">
+                        <label ng-repeat="(ability, cost) in getPurchaseableAbilities()" class="icon" data-item-name="{{ability}}" title="{{ability | vogName}}" ng-class="{selected: selections.abilities[ability]}">
                             <input type="checkbox" class="icon" data-item-name="{{ability}}" ng-model="selections.abilities[ability]"></input>
                         </label>
                     </div>

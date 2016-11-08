@@ -292,7 +292,7 @@ angular.module('vog', [])
                                title="{{weapon | vogName}}"
                                ng-class="{selected: selections.melee === weapon}"
                                data-cost="{{cost}}">
-                            <input type="radio" name="melee" value="{{weapon}}" ng-model="selections.melee">
+                            <input type="radio" name="melee" ng-value="weapon" ng-model="selections.melee">
                         </label>
                     </div>
                 </div>
@@ -300,14 +300,14 @@ angular.module('vog', [])
                     <div class="items">
                         <h3>Ranged Weapon</h3>
                         <label class="icon" data-item-name="None" ng-class="{selected: selections.ranged === null}">
-                            <input type="radio" name="ranged" value="null" title="None" ng-model="selections.ranged">
+                            <input type="radio" name="ranged" ng-value="null" title="None" ng-model="selections.ranged">
                         </label>
                         <label ng-repeat="(weapon, cost) in RANGED_WEAPONS"
                                class="icon" data-item-name="{{weapon}}"
                                title="{{weapon | vogName}}"
                                ng-class="{selected: selections.ranged === weapon}"
                                data-cost="{{cost}}">
-                            <input type="radio" name="ranged" value="{{weapon}}" ng-model="selections.ranged">
+                            <input type="radio" name="ranged" ng-value="weapon" ng-model="selections.ranged">
                         </label>
                     </div>
                 </div>
@@ -315,14 +315,14 @@ angular.module('vog', [])
                     <div class="items">
                         <h3>Armor</h3>
                         <label class="icon" data-item-name="None" title="None" ng-class="{selected: selections.armor === null}">
-                            <input type="radio" name="armor" value="null" ng-model="selections.armor">
+                            <input type="radio" name="armor" ng-value="null" ng-model="selections.armor">
                         </label>
                         <label ng-repeat="(armor, cost) in ARMOR"
                                class="icon" data-item-name="{{armor}}"
                                title="{{armor | vogName}}"
                                ng-class="{selected: selections.armor === armor}"
                                data-cost="{{cost}}">
-                            <input type="radio" name="armor" value="{{armor}}" ng-model="selections.armor">
+                            <input type="radio" name="armor" ng-value="armor" ng-model="selections.armor">
                         </label>
                     </div>
                 </div>

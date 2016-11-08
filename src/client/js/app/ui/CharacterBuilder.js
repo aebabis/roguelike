@@ -138,7 +138,7 @@ angular.module('vog', [])
         abilities: {Fireball: true}
     }];
 
-    $scope.selectPrebuilt = function(index) {
+    $scope.selectLastBuild = function(index) {
         $scope.selections = $scope.lastBuild;
     }
 

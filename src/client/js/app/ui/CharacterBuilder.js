@@ -330,11 +330,11 @@ angular.module('vog', [])
                     <div class="items">
                         <h3>Abilities</h3>
                         <label ng-repeat="(ability, cost) in getPurchaseableAbilities()"
-                            class="icon" data-item-name="{{ability}}"
+                            class="icon" data-ability-name="{{ability}}"
                             title="{{ability | vogName}}"
                             ng-class="{selected: selections.abilities[ability]}"
                             data-cost="{{cost}}">
-                            <input type="checkbox" class="icon" data-ability-name="{{ability}}" ng-model="selections.abilities[ability]"></input>
+                            <input type="checkbox" class="icon" ng-model="selections.abilities[ability]"></input>
                         </label>
                     </div>
                 </div>

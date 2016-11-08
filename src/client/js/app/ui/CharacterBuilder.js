@@ -163,6 +163,10 @@ angular.module('vog', [])
         }
     }
 
+    $scope.getConsumableName = function(consumable) {
+        return consumable in Abilities ? `${consumable}_Consumable` : consumable;
+    }
+
     $scope.getPurchaseableAbilities = function() {
         const character = new Classes[$scope.selections.character]();
         const mana = character.getBaseMana();
@@ -330,7 +334,7 @@ angular.module('vog', [])
                             title="{{ability | vogName}}"
                             ng-class="{selected: selections.abilities[ability]}"
                             data-cost="{{cost}}">
-                            <input type="checkbox" class="icon" data-item-name="{{ability}}" ng-model="selections.abilities[ability]"></input>
+                            <input type="checkbox" class="icon" data-ability-name="{{ability}}" ng-model="selections.abilities[ability]"></input>
                         </label>
                     </div>
                 </div>
@@ -339,7 +343,7 @@ angular.module('vog', [])
                         <h3>Consumables</h3>
                         <button ng-repeat="(consumable, cost) in CONSUMABLES"
                                 type="button" class="icon"
-                                data-item-name="{{consumable}}"
+                                data-item-name="{{getConsumableName(consumable)}}"
                                 title="{{consumable | vogName}}"
                                 ng-click="addToBackpack(consumable)"
                                 data-cost="{{cost}}"></button>

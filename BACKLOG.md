@@ -65,6 +65,7 @@
   - Leap
     - should not let you jump to a solid tile
     - should not let you jump into a pit
+  - DashAttack doesn't proc on-hit effects
 
 
 ## Art

@@ -93,6 +93,10 @@ export default class Creature extends Entity {
         }
     }
 
+    canUseItems() {
+        return false;
+    }
+
     takeItems(dungeon) {
         const tile = dungeon.getTile(this);
         tile.getItems().forEach((item) => {
@@ -407,6 +411,9 @@ export default class Creature extends Entity {
 
     executeMove(dungeon, move) {
         move.execute(dungeon, this);
+        if(this.canUseItems()) {
+            this.takeItems(dungeon);
+        }
         this._incrementActions();
         this._delay(move.getCostMultiplier());
     }

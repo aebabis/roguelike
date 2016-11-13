@@ -50,6 +50,10 @@ export default class PlayableCharacter extends Creature {
         return 'Player';
     }
 
+    canUseItems() {
+        return true;
+    }
+
     getBackpackSize() {
         return 3;
     }

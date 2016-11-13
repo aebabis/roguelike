@@ -61,9 +61,6 @@ export default class MovementMove extends Move {
         tile.removeCreature();
         dungeon.moveCreature(creature, x, y);
         dungeon.fireEvent(new GameEvents.MoveEvent(dungeon, creature, x, y));
-        if(creature instanceof PlayableCharacter) {
-            creature.takeItems(dungeon);
-        }
     }
 
     isSeenBy(dungeon, observer) {

@@ -46,14 +46,20 @@ export default class Creature extends Entity {
         this._timeToNextMove = Math.floor(this.getSpeed() * multiplier);
     }
 
-    getActionsCompleted() {
-        return this.numActions;
-    }
-
+    /**
+     * Gets the creature's inventory
+     * @returns {@link Inventory}
+     */
     getInventory() {
         return this._inventory;
     }
 
+    /**
+     * Adds an item to the creature's inventory, optionally
+     * equipping it if there's room
+     * @param {Item} item - The Item to add
+     * @param {boolean} [backpackOnly=false] - Prohibits automatically equipping the item
+     */
     addItem(item, backpackOnly = false) {
         if(backpackOnly) {
             if(!this.canAddItem(item, backpackOnly)) {
@@ -76,7 +82,14 @@ export default class Creature extends Entity {
         }
     }
 
-    canAddItem(item, backpackOnly) {
+    /**
+     * Checks to see if the creature's backpack can hold another item
+     * @param {Item} item - The Item to add
+     * @param {boolean} [backpackOnly=false] - If true, only checks
+     * for an empty backpack slot
+     * @return {boolean}
+     */
+    canAddItem(item, backpackOnly = false) {
         var inventory = this.getInventory();
         if(backpackOnly) {
             return !inventory().isBackpackFull();
@@ -93,10 +106,20 @@ export default class Creature extends Entity {
         }
     }
 
+    /**
+     * Tells whether the creature can pickup and use items.
+     * By default, players can use items and enemies cannot.
+     * @return {boolean}
+     */
     canUseItems() {
         return false;
     }
 
+    /**
+     * Takes items from the Creature's current tile and attempts
+     * to add each one to it's {@link Inventory} in sequence
+     * @param {Dungeon} dungeon - The Dungeon the creature is in
+     */
     takeItems(dungeon) {
         const tile = dungeon.getTile(this);
         tile.getItems().forEach((item) => {
@@ -109,6 +132,10 @@ export default class Creature extends Entity {
         });
     }
 
+    /**
+     * Adds an {@link Ability} to the Creature's list of Abilities.
+     * @param {Ability} ability - The new ability
+     */
     addAbility(ability) {
         if(!(ability instanceof Ability)) {
             throw new Error('First parameter must be an Ability');
@@ -116,14 +143,29 @@ export default class Creature extends Entity {
         this._abilities.push(ability);
     }
 
+    /**
+     * Gets a list of the Creature's abilities
+     * @return {Array<Ability>}
+     */
     getAbilities() {
         return this._abilities.slice();
     }
 
+    /**
+     * Gets the creature's Ability at the given index
+     * @param {number} index
+     * @return {Ability}
+     */
     getAbility(index) {
         return this._abilities[index];
     }
 
+    /**
+     * Gets the index of a creature's Ability
+     * @param {function(): Ability} param - An ability constructor
+     * @return {number} - An integer index if an instance of the given class is found;
+     * -1 otherwise
+     */
     getAbilityIndex(param) {
         if(param.prototype instanceof Ability) {
             return this._abilities.findIndex((ability)=>ability.constructor.name===param.name);
@@ -132,6 +174,13 @@ export default class Creature extends Entity {
         }
     }
 
+    /**
+     * Puts a {@link Buff} onto the creature. The Buff will have a chance
+     * to apply it's effects each timestep (including the current one)
+     * until it ends or is removed
+     * @param {Dungeon} dungeon - The Dungeon the creature is in
+     * @param {Buff} buff - The Buff to apply
+     */
     applyBuff(dungeon, buff) {
         if(!(buff instanceof Buff)) {
             throw new Error('Second parameter must be a buff');
@@ -140,35 +189,69 @@ export default class Creature extends Entity {
         dungeon.fireEvent(new BuffAppliedEvent(dungeon, this, buff));
     }
 
+    /**
+     * Gets a list of the Creature's {@link Buff}s.
+     * @return {Array<Buff>} - The Creature's Buffs
+     */
     getBuffs() {
         return this._buffs.slice();
     }
 
-    _incrementActions() {
-        this.numActions = (this.numActions || 0) + 1;
-    }
-
+    /**
+     * Get's the Creature's maximum allowed hitpoints
+     * @return {number} - A positive integer
+     */
     getBaseHP() {
         throw new Error('Abstract method not implemented');
     }
 
+    /**
+     * Get's the Creature's current hitpoints
+     * @return {number} - A non-negative integer
+     */
     getCurrentHP() {
         return this._currentHP;
     }
 
+    /**
+     * Get's the Creature's maximum allowed mana
+     * @return {number} - A positive integer
+     */
     getBaseMana() {
         return 0;
     }
 
+    /**
+     * Get's the Creature's current mana
+     * @return {number} - A non-negative integer
+     */
     getCurrentMana() {
         return this._currentMana;
     }
 
+    /**
+     * Get's the amount that damage of the given type is
+     * reduced by the creature's defenses. Damage reduction
+     * is subtracted from incoming damage. Damage reduction
+     * typically comes from {@link Armor}
+     * @param {string} type - A member of {@link DamageTypes}
+     * @return {number} - A non-negative integer
+     */
     getDamageReduction(type) {
         let armor = this.getArmor();
         return armor ? this.getArmor().getReduction(type) : 0;
     }
 
+    /**
+     * Applies a given amount of typed damage to the creature,
+     * minus the creature's damage reduction
+     * @param {Dungeon} dungeon - The creature's current Dungeon
+     * @param {number} amount - The amount of damage
+     * @param {string} type - A member of {@link DamageTypes}
+     * @return {number} The amount of damage received. If the creature
+     * has no reduction for the given type, then this will be the same
+     * as the input amount
+     */
     receiveDamage(dungeon, amount, type) {
         if(!Number.isInteger(amount) || amount < 0) {
             throw new Error('amount must be a non-negative integer');
@@ -188,6 +271,12 @@ export default class Creature extends Entity {
         return modifiedAmount;
     }
 
+    /**
+     * Restores the Creature's hitpoints by a given amount. The Creature
+     * cannot go above it's hitpoint maximum in this way
+     * @param {Dungeon} dungeon - The creature's current Dungeon
+     * @param {number} amount - The amount of damage to restore
+     */
     heal(dungeon, amount) {
         this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
         dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount, null));
@@ -257,8 +346,7 @@ export default class Creature extends Entity {
     }
 
     /**
-     * @description Determines if the Creature can see the given tile and
-     * what's on it.
+     * Determines if the Creature can see the given tile and what's on it.
      * @return {Boolean} `true` if the Creature can see the tile; false otherwise
      */
     canSee(dungeon, tile) {
@@ -414,7 +502,6 @@ export default class Creature extends Entity {
         if(this.canUseItems()) {
             this.takeItems(dungeon);
         }
-        this._incrementActions();
         this._delay(move.getCostMultiplier());
     }
 

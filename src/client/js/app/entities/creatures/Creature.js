@@ -20,7 +20,7 @@ import Strategy from './strategies/Strategy.js';
 
 import Geometry from '../../util/Geometry.js';
 
-var visionLookup = {};
+const visionLookup = {};
 
 export default class Creature extends Entity {
     /**
@@ -69,7 +69,7 @@ export default class Creature extends Entity {
             if(!this.canAddItem(item, backpackOnly)) {
                 throw new Error('No available slot');
             }
-            var inventory = this.getInventory();
+            const inventory = this.getInventory();
             if(item instanceof Weapon && item.getRange() === 1 && !inventory.getMeleeWeapon()) {
                 inventory.equipItem(item);
             } else if(item instanceof Weapon && item.getRange() > 1 && !inventory.getRangedWeapon()) {
@@ -90,7 +90,7 @@ export default class Creature extends Entity {
      * @return {boolean}
      */
     canAddItem(item, backpackOnly = false) {
-        var inventory = this.getInventory();
+        const inventory = this.getInventory();
         if(backpackOnly) {
             return !inventory().isBackpackFull();
         } else {
@@ -257,9 +257,9 @@ export default class Creature extends Entity {
             throw new Error('amount must be a non-negative integer');
         }
 
-        var reduction = (amount > 0) ? this.getDamageReduction(type) : 0;
+        const reduction = (amount > 0) ? this.getDamageReduction(type) : 0;
 
-        var modifiedAmount = amount - reduction;
+        const modifiedAmount = amount - reduction;
 
         if(modifiedAmount > 0) {
             this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
@@ -293,11 +293,10 @@ export default class Creature extends Entity {
     }
 
     die(dungeon) {
-        var location = dungeon.getTile(this);
         this._isDead = true;
         dungeon.removeCreature(this);
         dungeon.fireEvent(new DeathEvent(dungeon, this));
-        this.onDeath(dungeon, location);
+        this.onDeath(dungeon, dungeon.getTile(this));
     }
 
     onDeath() {
@@ -354,58 +353,57 @@ export default class Creature extends Entity {
         if(!(tile instanceof Tile)) {
             throw new Error('Must pass a Tile to canSee');
         }
-        var location = dungeon.getTile(this);
+        const location = dungeon.getTile(this);
 
         if(tile.getEuclideanDistance(location) > this.getVisionRadius()) {
             return false;
         }
 
         // Coordinates of starting and ending tile
-        var x0 = location.getX();
-        var y0 = location.getY();
-        var x1 = tile.getX();
-        var y1 = tile.getY();
-        var dx = x1 - x0;
-        var dy = y1 - y0;
-        var checkList = visionLookup[dx + ',' + dy];
+        const x0 = location.getX();
+        const y0 = location.getY();
+        const x1 = tile.getX();
+        const y1 = tile.getY();
+        const dx = x1 - x0;
+        const dy = y1 - y0;
+        let checkList = visionLookup[dx + ',' + dy];
         if(!checkList) {
             checkList = [];
 
             // Line of sight is between tile centers
-            var los0 = {
+            const los0 = {
                 x: x0 + .5,
                 y: y0 + .5
             };
-            var los1 = {
+            const los1 = {
                 x: x1 + .5,
                 y: y1 + .5
             };
 
             // Currently visited tile
-            var x = x0;
-            var y = y0;
+            let x = x0;
+            let y = y0;
 
-            var fromDirections = [];
-            var directionOpposites = [2, 3, 0, 1]; // Plus 2, Mod 4
+            let fromDirections = [];
+            const directionOpposites = [2, 3, 0, 1]; // Plus 2, Mod 4
 
             while(x !== x1 || y !== y1) {
-                var newFromDirections = [];
+                const newFromDirections = [];
                 checkList.push({
                     dx: x - x0,
                     dy: y - y0
                 });
-                var segments = [
+                [
                     {p0: {x: x, y: y},     p1: {x: x + 1, y: y},     dx: 0, dy: -1, direction: 0},
                     {p0: {x: x + 1, y: y}, p1: {x: x + 1, y: y + 1}, dx: 1, dy: 0,  direction: 1},
                     {p0: {x: x, y: y + 1}, p1: {x: x + 1, y: y + 1}, dx: 0, dy: 1,  direction: 2},
                     {p0: {x: x, y: y},     p1: {x: x, y: y + 1},     dx: -1, dy: 0, direction: 3}
-                ].filter((segment)=>(fromDirections.indexOf(segment.direction)<0));
-
-                segments = segments.filter(function(segment) {
+                ]
+                .filter((segment)=>(fromDirections.indexOf(segment.direction)<0))
+                .filter(function(segment) {
                     return Geometry.intersects(los0, los1, segment.p0, segment.p1);
-                });
-
-                segments.forEach(function(segment) {
+                })
+                .forEach(function(segment) {
                     newFromDirections.push(directionOpposites[segment.direction]);
                     x += segment.dx;
                     y += segment.dy;
@@ -417,9 +415,9 @@ export default class Creature extends Entity {
 
             visionLookup[dx + ',' + dy] = checkList;
         }
-        for(var i = 0; i < checkList.length; i++) {
-            var loc = checkList[i];
-            if(this.visionObsuredBy(dungeon.getTile(loc.dx + x0, loc.dy + y0))) {
+        for(let i = 0; i < checkList.length; i++) {
+            const { dx, dy } = checkList[i];
+            if(this.visionObsuredBy(dungeon.getTile(dx + x0, dy + y0))) {
                 return false;
             }
         }
@@ -465,11 +463,11 @@ export default class Creature extends Entity {
     }
 
     getClosestEnemy(dungeon) {
-        var tile = dungeon.getTile(this);
+        const tile = dungeon.getTile(this);
         return this.getVisibleEnemies(dungeon).reduce(function(enemy1, enemy2) {
             if(enemy1) {
-                var d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
-                var d2 = tile.getDirectDistance(dungeon.getTile(enemy2));
+                const d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
+                const d2 = tile.getDirectDistance(dungeon.getTile(enemy2));
                 return d1 < d2 ? enemy1 : enemy2;
             } else {
                 return enemy2;
@@ -506,7 +504,7 @@ export default class Creature extends Entity {
     }
 
     observeMove(dungeon, actor, move) {
-        var strategy = this.getStrategy();
+        const strategy = this.getStrategy();
         if(strategy) {
             strategy.observeMove(dungeon, this, actor, move);
         }
@@ -517,7 +515,7 @@ export default class Creature extends Entity {
      * @return {Move | Promise} - A Move or a Promise for a Move
      */
     getNextMove(dungeon) {
-        var strategy = this.getStrategy();
+        const strategy = this.getStrategy();
         if(strategy) {
             return strategy.getNextMove(dungeon, this);
         } else {

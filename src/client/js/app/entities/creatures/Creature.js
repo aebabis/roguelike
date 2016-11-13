@@ -5,6 +5,8 @@ import BuffAppliedEvent from '../../events/BuffAppliedEvent.js';
 import BuffEndedEvent from '../../events/BuffEndedEvent.js';
 import DeathEvent from '../../events/DeathEvent.js';
 import HitpointsEvent from '../../events/HitpointsEvent.js';
+import InventoryChangeEvent from '../../events/InventoryChangeEvent.js';
+import TakeItemEvent from '../../events/TakeItemEvent.js';
 import ZeroDamageEvent from '../../events/ZeroDamageEvent.js';
 
 import Inventory from './Inventory.js';
@@ -89,6 +91,18 @@ export default class Creature extends Entity {
                 return !inventory.isBackpackFull();
             }
         }
+    }
+
+    takeItems(dungeon) {
+        const tile = dungeon.getTile(this);
+        tile.getItems().forEach((item) => {
+            if(this.canAddItem(item)) {
+                tile.removeItem(item);
+                this.addItem(item);
+                dungeon.fireEvent(new TakeItemEvent(dungeon, this, item));
+                dungeon.fireEvent(new InventoryChangeEvent(dungeon, this));
+            }
+        });
     }
 
     addAbility(ability) {

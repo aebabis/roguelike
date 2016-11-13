@@ -10,16 +10,6 @@ export default class PlayerLocationView {
         this._sharedData = sharedData;
 
         sharedData.addObserver(()=>this.update());
-
-        $(dom).on('click tap', 'button.item', function() {
-            const index = $(this).attr('data-index');
-            const dungeon = sharedData.getDungeon();
-            if(dungeon) {
-                const player = dungeon.getPlayableCharacter();
-                player.setNextMove(dungeon.getTile(player), new Moves.TakeItemMove(index));
-                dungeon.resolveUntilBlocked();
-            }
-        });
     }
 
     update() {
@@ -47,7 +37,7 @@ export default class PlayerLocationView {
             return {
                 name: item.getName(),
                 index: index,
-                takeable: !(new Moves.TakeItemMove(tile, index).getReasonIllegal(dungeon, player))
+                takeable: false // TODO: Change button to div
             };
         });
 

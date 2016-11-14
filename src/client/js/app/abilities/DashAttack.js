@@ -43,6 +43,7 @@ export default class DashAttack extends Ability {
         var target = optionalTargetTile.getCreature();
         var weapon = creature.getMeleeWeapon();
         var damage = target.receiveDamage(dungeon, weapon.getDamage(), weapon.getDamageType());
+        weapon.onAttack(dungeon, creature, target);
         if(damage > 0) {
             weapon.onHit(dungeon, creature, target);
         }

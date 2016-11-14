@@ -14,16 +14,15 @@ function getUDungeon() {
     return dungeon;
 }
 
-describe.only('Pather', function() {
+describe('Pather', function() {
     it('should attempt to path through unseen tunnels', function() {
         const dungeon = getUDungeon();
         const player = new PlayableCharacter();
         dungeon.moveCreature(player, 0, 0);
 
-        const playerTile = dungeon.getTile(player);
         const targetTile = dungeon.getTile(2, 0);
 
-        const path = Pather.getMoveSequenceToward(dungeon, playerTile, targetTile);
+        const path = Pather.getMoveSequenceToward(dungeon, player, targetTile);
         expect(path).to.be.an('array');
     });
 
@@ -34,10 +33,9 @@ describe.only('Pather', function() {
         dungeon.moveCreature(player, 0, 0);
         dungeon.moveCreature(enemy, 2, 1);
 
-        const playerTile = dungeon.getTile(player);
         const targetTile = dungeon.getTile(2, 0);
 
-        const path = Pather.getMoveSequenceToward(dungeon, playerTile, targetTile);
+        const path = Pather.getMoveSequenceToward(dungeon, player, targetTile);
         expect(path).to.be.an('array');
     });
 });

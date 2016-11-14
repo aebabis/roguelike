@@ -161,7 +161,7 @@ export default module = {
             start: start,
             isEnd: (node)=>node===target,
             neighbor: (node)=>node.getNeighbors8().filter(
-                (neighbor)=>(creature.canOccupy(neighbor) && (neighbor===target || neighbor.getCreature() == null))),
+                (neighbor)=>(creature.canOccupy(neighbor) && (neighbor===target || neighbor.getCreature() == null || !creature.canSee(dungeon, dungeon.getTile(neighbor.getCreature()))))),
             distance: (a,b)=>a.getDirectDistance(b),
             heuristic: (a)=>a.getEuclideanDistance(target)
         });

@@ -107,6 +107,10 @@ var table = new EntityTable([{
     weight: 30,
     cost: 5
 }, {
+    entity: Enemies.Cow,
+    weight: 4,
+    cost: 2
+}, {
     entity: Enemies.Crier,
     weight: 20,
     cost: 14

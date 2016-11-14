@@ -150,8 +150,8 @@ var AStar = (function() {
 import Moves from '../moves/Moves.js';
 
 export default module = {
-    getMoveSequenceToward: function(dungeon, start, target) {
-        var creature = start.getCreature();
+    getMoveSequenceToward: function(dungeon, creature, target) {
+        const start = dungeon.getTile(creature);
 
         if(start === target) {
             console.warn('Creature trying to move to path to its own location', this);
@@ -184,8 +184,8 @@ export default module = {
         }
     },
 
-    getMoveToward: function(dungeon, start, target) {
-        var path = module.getMoveSequenceToward(dungeon, start, target);
+    getMoveToward: function(dungeon, creature, target) {
+        var path = module.getMoveSequenceToward(dungeon, creature, target);
         if(path) {
             return path[0];
         }

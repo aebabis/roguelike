@@ -40,7 +40,7 @@ export default class GraphicalViewMouseController {
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
                     return [new Moves.MovementMove(playerLocation, dx, dy)];
                 } else if(playerLocation.getCreature()) {
-                    return Pather.getMoveSequenceToward(dungeon, playerLocation, dungeon.getTile(targetX, targetY));
+                    return Pather.getMoveSequenceToward(dungeon, player, dungeon.getTile(targetX, targetY));
                 }
             }
         }

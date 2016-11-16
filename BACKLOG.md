@@ -30,6 +30,7 @@
   - Queue animations
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
+  - Absolute paths on imports
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
@@ -76,7 +77,6 @@
   - Stairs tile
   - Trash can icon
   - Parchment scroll background image for game log
-  - Knockback enemy
   - Knight
   - Pillar
   - Magic sword

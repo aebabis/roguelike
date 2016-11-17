@@ -7,7 +7,6 @@
   - Make enemies drop their items
   - Show enemy resistances in UI
   - Trashing hotkey
-  - Equiping hotkey
   - Enable keys with screenreader
   - Typescript
 - Med
@@ -87,3 +86,4 @@
   - Item hoarder
   - Site icon (16x16?)
   - Poison splatter
+  - More sodas

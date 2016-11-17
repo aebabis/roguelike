@@ -68,6 +68,9 @@ export default class GraphicalViewKeyboardController {
             case 81: case 87: case 69: case 82: {
                 const index = ({81: 0, 87: 1, 69: 2, 82: 3})[code];
                 const item = character.getInventory().getItem(index);
+                if(!item) {
+                	return;
+                }
                 if(item.isTargetted()) {
                     if(index === sharedData.getTargettedItem()) {
                         sharedData.unsetTargettedItem();

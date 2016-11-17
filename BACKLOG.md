@@ -3,13 +3,13 @@
 - High
   - Puzzles/Level-Select
   - Using keyboard to look at tiles
-  - Special inventory slot for TheTreasure?
   - Make enemies drop their items
   - Show enemy resistances in UI
   - Trashing hotkey
-  - Enable keys with screenreader
+  - Enable keys with screenreader (role="application")
   - Typescript
 - Med
+  - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
@@ -29,6 +29,7 @@
   - Potion of flying
   - Queue animations
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+  - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"

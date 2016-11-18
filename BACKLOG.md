@@ -31,6 +31,7 @@
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Absolute paths on imports
+  - Make ranged enemies avoid getting in melee range
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"

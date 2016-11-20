@@ -148,6 +148,12 @@ export default class GraphicalViewSharedData extends Observable {
         return this._targettedAbilityIndex;
     }
 
+    /**
+     * Gets the currently focused legal ability target
+     * for the currently selected targetted ability, if any
+     * @return {Tile} - A tile that is a legal target for the targetted
+     * ability, or null if no ability is selected
+     */
     getAbilityTarget() {
         return this._abilityTargets && this._abilityTargets[0];
     }
@@ -210,10 +216,20 @@ export default class GraphicalViewSharedData extends Observable {
         return this._targettedItemIndex;
     }
 
+    /**
+     * Gets the currently focused legal item target
+     * for the currently selected targetted item, if any
+     * @return {Tile} - A tile that is a legal target for the targetted
+     * item, or null if no item is selected
+     */
     getItemTarget() {
         return this._itemTargets && this._itemTargets[0];
     }
 
+    /**
+     * Puts this controller in attack mode so that keyboard users
+     * can select a target for an attack
+     */
     setAttackMode() {
         const dungeon = this.getDungeon();
         const player = dungeon.getPlayableCharacter();
@@ -232,15 +248,28 @@ export default class GraphicalViewSharedData extends Observable {
         this._notifyObservers();
     }
 
+    /**
+     * Returns this controller to the default mode (movement mode)
+     */
     unsetAttackMode() {
         this._attackTargets = null;
         this._notifyObservers();
     }
 
+    /**
+     * Gets the currently focused legal attack target
+     * for the currently selected weapon, if any
+     * @return {Tile} - A tile that is a legal target for the targetted
+     * weapon, or null if no weapon is selected
+     */
     getAttackTarget() {
         return this._attackTargets && this._attackTargets[0];
     }
 
+    /**
+     * Cycles focus to the next ability, attack, or item target depending
+     * on what the user has selected
+     */
     cycleTarget(dx, dy) {
         const self = this;
         let arrayName, array;
@@ -268,6 +297,9 @@ export default class GraphicalViewSharedData extends Observable {
         this._notifyObservers();
     }
 
+    /**
+     * Dispatches an event to observers
+     */
     dispatchUIEvent(event) {
         this._notifyObservers(event);
     }

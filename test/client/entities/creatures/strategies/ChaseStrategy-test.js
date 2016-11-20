@@ -4,7 +4,7 @@ import { default as SlingshotImp } from '../../../../../src/client/js/app/entiti
 
 const expect = require('chai').expect;
 
-describe.only('ChaseStrategy', function() {
+describe('ChaseStrategy', function() {
     function getImpDungeon(enemyDx, enemyDy) {
         const dungeon = new Dungeon(7, 7);
         const imp = new SlingshotImp();

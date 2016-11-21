@@ -25,7 +25,7 @@
   - BlockTheExit strategy
   - Let player know their speed
   - Spell scroll compound sprites
-  - Animate death frame (instead of ending)
+  - Animate death frame (instead of ending). Camera
   - Potion of flying
   - Queue animations
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key

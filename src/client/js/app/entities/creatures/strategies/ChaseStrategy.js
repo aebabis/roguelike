@@ -40,7 +40,7 @@ export default class ChaseStrategy extends Strategy {
             return new Moves.AttackMove(tile, dungeon.getTile(attackableEnemy));
         } else {
             const mark = enemies.find(enemy => dungeon.getTile(enemy).getDirectDistance(tile) > 1);
-            const target = target ? dungeon.getTile(target) : this._lastKnownEnemyLocation;
+            const target = mark ? dungeon.getTile(mark) : this._lastKnownEnemyLocation;
             if(target) {
                 const move = Pather.getMoveToward(dungeon, creature, target);
                 if(move && !move.getReasonIllegal(dungeon, creature)) {

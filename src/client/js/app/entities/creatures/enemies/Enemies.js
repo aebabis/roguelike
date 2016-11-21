@@ -1,4 +1,5 @@
 import Archer from './Archer.js';
+import Bigfoot from './Bigfoot.js';
 import BlackVoidSphere from './BlackVoidSphere.js';
 import ClunkyNinetiesCellPhone from './ClunkyNinetiesCellPhone.js';
 import Cow from './Cow.js';
@@ -16,6 +17,7 @@ import Wyrm from './Wyrm.js';
 
 export default {
     Archer,
+    Bigfoot,
     BlackVoidSphere,
     ClunkyNinetiesCellPhone,
     Cow,

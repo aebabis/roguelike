@@ -99,6 +99,10 @@ var table = new EntityTable([{
     weight: 40,
     cost: 10
 }, {
+    entity: Enemies.Bigfoot,
+    weight: 30,
+    cost: 8
+}, {
     entity: Enemies.BlackVoidSphere,
     weight: 100,
     cost: 3
@@ -113,7 +117,7 @@ var table = new EntityTable([{
 }, {
     entity: Enemies.Crier,
     weight: 20,
-    cost: 14
+    cost: 8
 }, {
     entity: Enemies.DustBunny,
     weight: 40,

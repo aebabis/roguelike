@@ -61,13 +61,10 @@
   - Enemies try to move when they're snared
   - number hotkeys not working in firefox
   - Autopath only stops if an enemy is visible during the player's turn, and not if an enemy became visible while waiting
-  - Leap doesn't pickup items. Should it?
-  - Autopathing can "see" enemies on hidden tiles
   - Door opening animation should be delayed same as creature moving
   - Leap
     - should not let you jump to a solid tile
     - should not let you jump into a pit
-  - DashAttack doesn't proc on-hit effects
 
 
 ## Art

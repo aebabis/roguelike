@@ -71,7 +71,9 @@ export default class GraphicalViewKeyboardController {
                 if(!item) {
                 	return;
                 }
-                if(item.isTargetted()) {
+                if(event.ctrlKey) {
+                    attemptMove(new Moves.TrashItemMove(tile, index));
+                } else if(item.isTargetted()) {
                     if(index === sharedData.getTargettedItem()) {
                         sharedData.unsetTargettedItem();
                     } else {

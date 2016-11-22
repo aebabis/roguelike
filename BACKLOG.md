@@ -5,7 +5,6 @@
   - Using keyboard to look at tiles
   - Make enemies drop their items
   - Show enemy resistances in UI
-  - Trashing hotkey
   - Enable keys with screenreader (role="application")
   - Typescript
   - Devise a means of visualizing dungeon being built
@@ -51,6 +50,7 @@
   - Circular dependency injection (GameEvents inside Creature)
   - Melee attack animation improvement
   - Move DebugConsole to util folder
+  - Color UI when holding accelerator keys (items during ctrl)
 
 ## Content
   - Invisibility Spell

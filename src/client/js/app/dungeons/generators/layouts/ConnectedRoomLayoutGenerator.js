@@ -98,7 +98,10 @@ function getHall(prng, room, edge) {
 }
 
 function intersects(room1, room2) {
-    return false;
+    return !(room1.x >= room2.x + room2.width ||
+            room2.x >= room1.x + room1.width ||
+            room1.y >= room2.y + room2.height ||
+            room2.y >= room1.y + room1.height);
 }
 
 export default {

@@ -8,6 +8,8 @@
   - Trashing hotkey
   - Enable keys with screenreader (role="application")
   - Typescript
+  - Devise a means of visualizing dungeon being built
+  - Make vision rays go from corners
 - Med
   - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms

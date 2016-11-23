@@ -16,7 +16,7 @@ export default {
 
                     $('body').addClass('theme-default').append(`
                         <header></header>
-                        <section class='game gitrecht' tabindex='0'></section>
+                        <section class='game gitrecht' tabindex='0' role='application'></section>
                         <footer></footer>`);
                     const menu = new MenuBar(sharedData);
                     $('header').append(menu.getDom());

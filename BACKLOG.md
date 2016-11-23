@@ -5,9 +5,6 @@
   - Using keyboard to look at tiles
   - Make enemies drop their items
   - Show enemy resistances in UI
-  - Enable keys with screenreader (role="application")
-  - Typescript
-  - Devise a means of visualizing dungeon being built
   - Make vision rays go from corners
 - Med
   - Special inventory slot for TheTreasure?
@@ -33,6 +30,7 @@
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Absolute paths on imports
   - Make ranged enemies avoid getting in melee range
+  - Typescript
 - Low
   - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"

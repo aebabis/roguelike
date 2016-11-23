@@ -177,11 +177,11 @@ export default {
                 const shifted = shiftLayout(rooms, halls);
                 print(shifted);
                 console.log(' ');
-            }
 
-            openEdges = openEdges.concat(getEdges(room).filter(
-                (newEdge)=>newEdge.side !== OPPOSITES[edge.side])
-            );
+                openEdges = openEdges.concat(getEdges(room).filter(
+                    (newEdge)=>newEdge.side !== OPPOSITES[edge.side])
+                );
+            }
         }
 
         let minX = Infinity;

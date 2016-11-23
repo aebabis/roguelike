@@ -5,7 +5,7 @@
   - Using keyboard to look at tiles
   - Make enemies drop their items
   - Show enemy resistances in UI
-  - Make vision rays go from corners
+  - Further optimize vision algorithm. Make vision rays go from corners
 - Med
   - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms
@@ -32,14 +32,12 @@
   - Make ranged enemies avoid getting in melee range
   - Typescript
 - Low
-  - Prevent room intersection in random dungeon generator
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars
   - Animation speed
   - Consider splitting source/target events into two events
   - Icon to indicate an enemy about to take a double-move
   - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
-  - Further optimize vision algorithm
   - Use `fetch`
   - RandomStrategyStrategy
   - RandomAbilityStrategy

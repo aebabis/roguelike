@@ -282,6 +282,12 @@ export default class Creature extends Entity {
         dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount, null));
     }
 
+    /**
+     * Modifies the Creature's current mana by the given amount. Mana cannot
+     * go below zero or above the Creature's base mana value
+     * @param {number} - An integer to add to the Creature's current mana.
+     * Negative numbers are allowed
+     */
     modifyMana(amount) {
         if(!Number.isInteger(amount)) {
             throw new Error('amount must be an integer');
@@ -292,6 +298,10 @@ export default class Creature extends Entity {
         this._currentMana = Math.min(this.getCurrentMana() + amount, this.getBaseMana());
     }
 
+    /**
+     * Kills this creature, removing it from the Dungeon
+     * @param {Dungeon} - The Dungeon this Creature is in
+     */
     die(dungeon) {
         this._isDead = true;
         dungeon.removeCreature(this);
@@ -299,17 +309,35 @@ export default class Creature extends Entity {
         this.onDeath(dungeon, dungeon.getTile(this));
     }
 
+    /**
+     * An optional death handler for this Creature. Called
+     * when the Creature dies
+     */
     onDeath() {
     }
 
+    /**
+     * Tells whether the Creature is dead. If the Creature is
+     * dead it will no longer be in a Dungeon.
+     * @returns {boolean} - true if the Creature has died; false otherwise
+     */
     isDead() {
         return !!this._isDead;
     }
 
+    /**
+     * Gets the number of timesteps until this Creature's next move.
+     * @returns {number}
+     */
     getTimeToNextMove() {
         return this._timeToNextMove;
     }
 
+    /**
+     * Tells whether the Creature may act on the current timestep.
+     * @returns {boolean} - true if the Creature's wait time til it's next
+     * move is 0; false otherwise
+     */
     canActThisTimestep() {
         return this.getTimeToNextMove() <= 0;
     }

@@ -65,7 +65,6 @@
   - Leap
     - should not let you jump to a solid tile
     - should not let you jump into a pit
-  - Spacebar to press buttons in character select does wrong build
 
 
 ## Art

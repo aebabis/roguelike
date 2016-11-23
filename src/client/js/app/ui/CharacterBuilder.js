@@ -264,13 +264,13 @@ angular.module('vog', [])
             <div class="prebuilts">
                 <div class="group" ng-if="lastBuild">
                     <h3>Most Recent</h3>
-                    <button>
-                        <character-build build="lastBuild" ng-click="selectLastBuild()"></character-build>
+                    <button ng-click="selectLastBuild()">
+                        <character-build build="lastBuild"></character-build>
                     </button>
                 </div>
                 <div class="group">
-                    <button ng-repeat="build in prebuilts">
-                        <character-build build="build" ng-click="selectPrebuilt($index)"></character-build>
+                    <button ng-repeat="build in prebuilts" ng-click="selectPrebuilt($index)">
+                        <character-build build="build"></character-build>
                     </button>
                 </div>
             </div>

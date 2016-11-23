@@ -104,6 +104,50 @@ function intersects(room1, room2) {
             room2.y >= room1.y + room1.height);
 }
 
+function shiftLayout(rooms, halls) {
+    const minX = rooms.map(({x})=>x).reduce((a, b)=>Math.min(a, b));
+    const maxX = rooms.map(({x, width})=>x+width).reduce((a, b)=>Math.max(a, b));
+    const minY = rooms.map(({y})=>y).reduce((a, b)=>Math.min(a, b));
+    const maxY = rooms.map(({y, height})=>y+height).reduce((a, b)=>Math.max(a, b));
+    return {
+        width: maxX - minX + 2,
+        height: maxY - minY + 2,
+        rooms: rooms.map(({x, y, width, height}) => ({
+            x: x - minX + 1,
+            y: y - minY + 1,
+            width,
+            height
+        })),
+        halls: halls.map(({x1, y1, x2, y2}) => ({
+            x1: x1 - minX + 1,
+            x2: x2 - minX + 1,
+            y1: y1 - minY + 1,
+            y2: y2 - minY + 1
+        }))
+    };
+}
+
+function print({width, height, rooms, halls}) {
+    const dungeon = new Array(height).fill(0).map(()=>new Array(width).fill('#'));
+    rooms.forEach(({x, y, width, height}) => {
+        const x2 = x + width;
+        const y2 = y + height;
+        for(let i = x; i < x2; i++) {
+            for(let j = y; j < y2; j++) {
+                dungeon[j][i] = ' ';
+            }
+        }
+    });
+    halls.forEach(({x1, x2, y1, y2}) => {
+        for(let i = x1; i < x2; i++) {
+            for(let j = y1; j < y2; j++) {
+                dungeon[j][i] = ' ';
+            }
+        }
+    });
+    console.log(dungeon.map(row=>row.join('')).join('\n'));
+}
+
 export default {
     generate: function(prng, options = {
         numRooms: 10,
@@ -130,6 +174,9 @@ export default {
                 rooms.push(room);
                 let hall = getHall(prng, room, edge);
                 halls.push(hall);
+                const shifted = shiftLayout(rooms, halls);
+                print(shifted);
+                console.log(' ');
             }
 
             openEdges = openEdges.concat(getEdges(room).filter(

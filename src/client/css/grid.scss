@@ -86,6 +86,7 @@
         }
 
         &:not([data-explored="true"]) {
+            opacity: 0;
         }
 
         .item {

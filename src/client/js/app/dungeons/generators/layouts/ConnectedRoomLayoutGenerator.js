@@ -174,9 +174,9 @@ export default {
                 rooms.push(room);
                 let hall = getHall(prng, room, edge);
                 halls.push(hall);
-                const shifted = shiftLayout(rooms, halls);
-                print(shifted);
-                console.log(' ');
+                // const shifted = shiftLayout(rooms, halls);
+                // print(shifted);
+                // console.log(' ');
 
                 openEdges = openEdges.concat(getEdges(room).filter(
                     (newEdge)=>newEdge.side !== OPPOSITES[edge.side])

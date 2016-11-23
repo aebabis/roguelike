@@ -6,6 +6,7 @@
   - Make enemies drop their items
   - Show enemy resistances in UI
   - Further optimize vision algorithm. Make vision rays go from corners
+  - Refactor Tile (rename distance function, no pass Dungeon)
 - Med
   - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms

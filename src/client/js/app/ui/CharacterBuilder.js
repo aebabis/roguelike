@@ -154,15 +154,6 @@ angular.module('vog', [])
         return Object.keys(ABILITIES).filter((ability)=>$scope.selections.abilities[ability]);
     }
 
-    $scope.getAbilities = function() {
-        const { selections } = $scope;
-        switch(selections.character) {
-        case 'Fighter': return ['DashAttack'].concat($scope.getSelectedAbilityNames());
-        case 'Wizard': return ['ForceDart'].concat($scope.getSelectedAbilityNames());
-        case 'Rogue': return ['Leap'].concat($scope.getSelectedAbilityNames());
-        }
-    }
-
     $scope.getConsumableName = function(consumable) {
         return consumable in Abilities ? `${consumable}_Consumable` : consumable;
     }

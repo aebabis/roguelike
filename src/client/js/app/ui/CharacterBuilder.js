@@ -18,6 +18,7 @@ const promiseHandlers = {};
 
 const CHARACTERS = {
     Fighter: 70,
+    Miner: 60,
     Rogue: 60,
     Wizard: 55
 };
@@ -65,6 +66,7 @@ const ABILITIES = {
 function getStartingAbilities(className) {
     switch(className) {
     case 'Fighter': return ['DashAttack'];
+    case 'Miner': return ['Tunnel'];
     case 'Wizard': return ['ForceDart'];
     case 'Rogue': return ['Leap'];
     }

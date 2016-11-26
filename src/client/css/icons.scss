@@ -25,6 +25,10 @@
         background-image: url(../images/small/Fighter.png);
     }
 
+    &[data-class-name="Miner"] {
+        background-image: url(../images/small/Miner.png);
+    }
+
     &[data-class-name="Rogue"] {
         background-image: url(../images/small/Rogue.png);
     }

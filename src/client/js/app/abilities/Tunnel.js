@@ -54,7 +54,7 @@ export default class Tunnel extends Ability {
 
     /** @override */
     getManaCost() {
-        return 2;
+        return 1;
     }
 
     /** @override */

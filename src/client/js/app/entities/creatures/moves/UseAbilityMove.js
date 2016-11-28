@@ -3,7 +3,7 @@ import Move from './Move.js';
 import AbilityEvent from '../../../events/AbilityEvent.js';
 
 export default class UseAbilityMove extends Move {
-    constructor(actorTile, index, x, y) {
+    constructor(actorTile, index, x, y) { // TODO: Consider passing target tile
         super(actorTile);
         if(!Number.isInteger(+index) || !Number.isInteger(+x) || !Number.isInteger(+y)) {
             throw new Error('Parameters must be integers: ' + arguments);
@@ -25,9 +25,10 @@ export default class UseAbilityMove extends Move {
         return this._y;
     }
 
-    getReasonIllegal(dungeon, creature, optionalTargetTile) {
-        var ability = creature.getAbilities()[this.getIndex()];
-        return ability.getReasonIllegal(dungeon, creature, optionalTargetTile);
+    getReasonIllegal(dungeon, creature) {
+        const ability = creature.getAbilities()[this.getIndex()];
+        const tile = dungeon.getTile(this.getX(), this.getY());
+        return ability.getReasonIllegal(dungeon, creature, tile);
     }
 
     getCostMultiplier() {
@@ -35,15 +36,15 @@ export default class UseAbilityMove extends Move {
     }
 
     execute(dungeon, creature) {
-        var x = this.getX();
-        var y = this.getY();
-        var tile = dungeon.getTile(x, y);
-        var reason = this.getReasonIllegal(dungeon, creature, tile);
+        const x = this.getX();
+        const y = this.getY();
+        const tile = dungeon.getTile(x, y);
+        const reason = this.getReasonIllegal(dungeon, creature, tile);
         if(reason) {
             throw new Error(reason);
         }
-        var index = this._index;
-        var ability = creature.getAbilities()[index];
+        const index = this._index;
+        const ability = creature.getAbilities()[index];
         if(ability.isTargetted()) {
             ability.use(dungeon, creature, tile);
             dungeon.fireEvent(new AbilityEvent(dungeon, creature, ability, tile));

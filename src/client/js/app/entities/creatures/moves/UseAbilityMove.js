@@ -2,6 +2,9 @@ import Move from './Move.js';
 
 import AbilityEvent from '../../../events/AbilityEvent.js';
 
+/**
+ * The move a Creature makes when they use an ability
+ */
 export default class UseAbilityMove extends Move {
     constructor(actorTile, index, x, y) { // TODO: Consider passing target tile
         super(actorTile);
@@ -13,28 +16,49 @@ export default class UseAbilityMove extends Move {
         this._y = +y;
     }
 
+    /**
+     * Gets the index of the ability to be used
+     * @returns {number} - A non-negative integer. The position of the ability in the Creature's list
+     */
     getIndex() {
         return this._index;
     }
 
+    /**
+     * Gets the x value of the ability target position, if any
+     * @returns {number | null}
+     */
     getX() {
         return this._x;
     }
 
+    /**
+     * Gets the y value of the ability target position, if any
+     * @returns {number | null}
+     */
     getY() {
         return this._y;
     }
 
+    /**
+     * @override
+     */
     getReasonIllegal(dungeon, creature) {
         const ability = creature.getAbilities()[this.getIndex()];
         const tile = dungeon.getTile(this.getX(), this.getY());
         return ability.getReasonIllegal(dungeon, creature, tile);
     }
 
+    /**
+     * @override
+     */
     getCostMultiplier() {
         return 1;
     }
 
+    /**
+     * @override
+     */
     execute(dungeon, creature) {
         const x = this.getX();
         const y = this.getY();
@@ -54,6 +78,9 @@ export default class UseAbilityMove extends Move {
         }
     }
 
+    /**
+     * @override
+     */
     isSeenBy(dungeon, observer) {
         return observer.canSee(dungeon, dungeon.getTile(this.getActorX(), this.getActorY()));
     }

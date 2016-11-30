@@ -2,11 +2,10 @@ import Ability from './Ability.js';
 import GameEvents from '../events/GameEvents.js';
 
 function getToTile(dungeon, creature, optionalTargetTile) {
-    // TODO: Base legal tiles on angle of approach (3 for ortogonal, 1 (?) for diagonal, 2 for other)
-    var casterLocation = dungeon.getTile(creature);
+    const casterLocation = dungeon.getTile(creature);
     return optionalTargetTile.getNeighbors8().sort(function(tile1, tile2) {
         return tile1.getEuclideanDistance(casterLocation) - tile2.getEuclideanDistance(casterLocation);
-    }).slice(0, 2).filter((tile) => !tile.getCreature())[0];
+    })[0];
 }
 
 /**
@@ -16,13 +15,18 @@ function getToTile(dungeon, creature, optionalTargetTile) {
 export default class DashAttack extends Ability {
     /** @override */
     getReasonIllegal(dungeon, creature, optionalTargetTile, isFree) {
-        var superReason = super.getReasonIllegal.apply(this, arguments);
+        const superReason = super.getReasonIllegal.apply(this, arguments);
+        const toTile = getToTile(dungeon, creature, optionalTargetTile, isFree);
         if(superReason) {
             return superReason;
         } else if(dungeon.getTile(creature).getNeighbors8().includes(optionalTargetTile)) {
             return 'Can\'t use on adjacent enemy';
-        } else if(!getToTile(dungeon, creature, optionalTargetTile, isFree)) {
+        } else if(!toTile) {
             return 'No tile to dash to';
+        } else if(toTile.isSolid()) {
+            return 'Wall blocking path';
+        } else if(!toTile.hasFloor()) {
+            return 'No floor to land on';
         } else if(!creature.getMeleeWeapon()) {
             return 'No melee weapon to attack with';
         } else {

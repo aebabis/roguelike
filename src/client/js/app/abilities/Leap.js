@@ -7,6 +7,10 @@ export default class Leap extends Ability {
         var superReason = super.getReasonIllegal.apply(this, arguments);
         if(superReason) {
             return superReason;
+        } else if(optionalTargetTile.isSolid()) {
+            return 'Can\'t leap into wall';
+        } else if(!optionalTargetTile.hasFloor()) {
+            return 'Must leap onto floor';
         } else if(optionalTargetTile.getCreature()) {
             return 'Can\'t leap to occupied tile';
         } else {

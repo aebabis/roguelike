@@ -27,6 +27,8 @@ export default class DashAttack extends Ability {
             return 'Wall blocking path';
         } else if(!toTile.hasFloor()) {
             return 'No floor to land on';
+        } else if(toTile.getCreature()) {
+            return 'Another creature is blocking the path';
         } else if(!creature.getMeleeWeapon()) {
             return 'No melee weapon to attack with';
         } else {

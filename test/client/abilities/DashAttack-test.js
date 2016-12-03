@@ -1,4 +1,5 @@
 import { default as Dungeon } from '../../../src/client/js/app/dungeons/Dungeon.js';
+import { default as Tiles } from '../../../src/client/js/app/tiles/Tiles.js';
 import { default as DashAttack } from '../../../src/client/js/app/abilities/DashAttack.js';
 import { default as Dagger } from '../../../src/client/js/app/entities/weapons/Dagger.js';
 import { default as PlayableCharacter } from '../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
@@ -67,6 +68,18 @@ describe('DashAttack', function() {
         dungeon.moveCreature(new Ent(), 1, 2);
         dungeon.moveCreature(new Ent(), 2, 1);
         dungeon.moveCreature(new Ent(), 2, 2);
+        dungeon.resolveUntilBlocked();
+
+        var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(2, 2));
+
+        expect(reason).to.be.a('string');
+    });
+
+    it('should not let the player dash into pit', function() {
+        player.addItem(weapon);
+        dungeon.moveCreature(player, 0, 0);
+        dungeon.setTile(new Tiles.PitTile(dungeon, 0, 1), 0, 1);
+        dungeon.moveCreature(new Ent(), 0, 2);
         dungeon.resolveUntilBlocked();
 
         var reason = attack.getReasonIllegal(dungeon, player, dungeon.getTile(2, 2));

@@ -22,6 +22,16 @@ import Geometry from '../../util/Geometry.js';
 
 const visionLookup = {};
 
+function rangeBetween(a, b) {
+    const arr = [];
+    const from = Math.min(a, b);
+    const to = Math.max(a, b);
+    for(let i = from + 1; i < to; i++) {
+        arr.push(i);
+    }
+    return arr;
+}
+
 export default class Creature extends Entity {
     /**
       * @class Creature
@@ -394,62 +404,61 @@ export default class Creature extends Entity {
         const y1 = tile.getY();
         const dx = x1 - x0;
         const dy = y1 - y0;
-        let checkList = visionLookup[dx + ',' + dy];
-        if(!checkList) {
-            checkList = [];
 
-            // Line of sight is between tile centers
-            const los0 = {
-                x: x0 + .5,
-                y: y0 + .5
-            };
-            const los1 = {
-                x: x1 + .5,
-                y: y1 + .5
-            };
 
-            // Currently visited tile
-            let x = x0;
-            let y = y0;
+        if(dx === 0) {
+            return rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x0, y)));
+        } else if(dy === 0) {
+            return rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y0)));
+        } else if(Math.abs(dx) === 1) {
+            return rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x0, y))) ||
+                rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x1, y)));
+        } else if(Math.abs(dy) === 1) {
+            return rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y0))) ||
+                rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y1)));
+        } else { // Sight ray is a diagonal
+            let checkList = visionLookup[dx + ',' + dy];
+            if(!checkList) {
+                // Compute sequence of tiles intersected by delta line.
+                // Delta line is transformed to start at 0,0 to improve
+                // chance of cache hit in the future
+                checkList = [];
 
-            let fromDirections = [];
-            const directionOpposites = [2, 3, 0, 1]; // Plus 2, Mod 4
+                const xDir = Math.sign(x1 - x0);
+                const yDir = Math.sign(y1 - y0);
 
-            while(x !== x1 || y !== y1) {
-                const newFromDirections = [];
-                checkList.push({
-                    dx: x - x0,
-                    dy: y - y0
-                });
-                [
-                    {p0: {x: x, y: y},     p1: {x: x + 1, y: y},     dx: 0, dy: -1, direction: 0},
-                    {p0: {x: x + 1, y: y}, p1: {x: x + 1, y: y + 1}, dx: 1, dy: 0,  direction: 1},
-                    {p0: {x: x, y: y + 1}, p1: {x: x + 1, y: y + 1}, dx: 0, dy: 1,  direction: 2},
-                    {p0: {x: x, y: y},     p1: {x: x, y: y + 1},     dx: -1, dy: 0, direction: 3}
-                ]
-                .filter((segment)=>(fromDirections.indexOf(segment.direction)<0))
-                .filter(function(segment) {
-                    return Geometry.intersects(los0, los1, segment.p0, segment.p1);
-                })
-                .forEach(function(segment) {
-                    newFromDirections.push(directionOpposites[segment.direction]);
-                    x += segment.dx;
-                    y += segment.dy;
-                });
+                // Algorithm uses a cursor which traces path by
+                // moving along tile edges
+                let cursorX = xDir;
+                let cursorY = yDir;
 
-                // Indicate where ray came from
-                fromDirections = newFromDirections;
+                while(Math.abs(cursorX) < Math.abs(dx) ||
+                        Math.abs(cursorY) < Math.abs(dy)) {
+                    checkList.push({
+                        dx: cursorX,
+                        dy: cursorY
+                    });
+
+                    // Compare cursor slope to LOS slope.
+                    // If larger, we need to travel along x-axis
+                    // If smaller, travel along y-axis
+                    // If equal, do both
+                    // Use cross-product for efficiency
+                    const cursorCross = cursorY * dx;
+                    const targetCross = cursorX * dy;
+
+                    if(Math.abs(cursorCross) >= Math.abs(targetCross)) { // cursorSlope >= targetSlope
+                        cursorX += xDir;
+                    }
+                    if(Math.abs(cursorCross) <= Math.abs(targetCross)) { // cursorSlope <= targetSlope
+                        cursorY += yDir;
+                    }
+                }
+
+                visionLookup[dx + ',' + dy] = checkList;
             }
-
-            visionLookup[dx + ',' + dy] = checkList;
+            return checkList.every(({dx, dy}) => !this.visionObsuredBy(dungeon.getTile(dx + x0, dy + y0)));
         }
-        for(let i = 0; i < checkList.length; i++) {
-            const { dx, dy } = checkList[i];
-            if(this.visionObsuredBy(dungeon.getTile(dx + x0, dy + y0))) {
-                return false;
-            }
-        }
-        return true;
     }
 
     hasSeen(tile) {

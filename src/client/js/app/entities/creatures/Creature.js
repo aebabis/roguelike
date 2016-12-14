@@ -424,8 +424,10 @@ export default class Creature extends Entity {
                 // chance of cache hit in the future
                 checkList = [];
 
-                const xDir = Math.sign(x1 - x0);
-                const yDir = Math.sign(y1 - y0);
+                const xDir = Math.sign(dx);
+                const yDir = Math.sign(dy);
+                const targetSlopeX = dx - xDir;
+                const targetSlopeY = dy - yDir;
 
                 // Algorithm uses a cursor which traces path by
                 // moving along tile edges
@@ -444,8 +446,8 @@ export default class Creature extends Entity {
                     // If smaller, travel along y-axis
                     // If equal, do both
                     // Use cross-product for efficiency
-                    const cursorCross = cursorY * dx;
-                    const targetCross = cursorX * dy;
+                    const cursorCross = cursorY * targetSlopeX;
+                    const targetCross = cursorX * targetSlopeY;
 
                     if(Math.abs(cursorCross) >= Math.abs(targetCross)) { // cursorSlope >= targetSlope
                         cursorX += xDir;

@@ -12,47 +12,59 @@ import { default as Fireball } from '../../../../src/client/js/app/abilities/Fir
 const expect = require('chai').expect;
 
 describe('Creature', function() {
-    it('should be able to see an adjacent tile', function() {
-        const dungeon = new Dungeon(2, 2);
-        const creature = new PlayableCharacter();
-        dungeon.moveCreature(creature, 0, 0);
+    describe('canSee', function() {
+        it('should require a tile to be passed', function() {
+            const dungeon = new Dungeon(2, 2);
+            const creature = new PlayableCharacter();
+            dungeon.moveCreature(creature, 0, 0);
 
-        expect(creature.canSee(dungeon, dungeon.getTile(0, 1))).to.equal(true);
-    });
-
-    it('should be able to see in a straight line', function() {
-        const dungeon = new Dungeon(5, 2);
-        const creature = new PlayableCharacter();
-        dungeon.moveCreature(creature, 0, 0);
-
-        expect(creature.canSee(dungeon, dungeon.getTile(4, 1))).to.equal(true);
-    });
-
-    it('should not see through walls', function() {
-        const dungeon = new Dungeon(3, 1);
-        const creature = new PlayableCharacter();
-        dungeon.setTile(new Tiles.WallTile(dungeon, 1, 0), 1, 0);
-        dungeon.moveCreature(creature, 2, 0);
-
-        expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(false);
-    });
-
-    it('should be able to see across corners', function() {
-        const dungeon = new Dungeon(3, 3);
-        const creature = new PlayableCharacter();
-
-        [[0, 1], [1, 0], [2, 1], [1, 2]].forEach(function(coords) {
-            const x = coords[0];
-            const y = coords[1];
-            dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
+            expect(function() {
+                creature.canSee(dungeon, {})
+            }).to.throw();
         });
 
-        dungeon.moveCreature(creature, 1, 1);
+        it('should be able to see an adjacent tile', function() {
+            const dungeon = new Dungeon(2, 2);
+            const creature = new PlayableCharacter();
+            dungeon.moveCreature(creature, 0, 0);
 
-        expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(true);
-        expect(creature.canSee(dungeon, dungeon.getTile(0, 2))).to.equal(true);
-        expect(creature.canSee(dungeon, dungeon.getTile(2, 0))).to.equal(true);
-        expect(creature.canSee(dungeon, dungeon.getTile(2, 2))).to.equal(true);
+            expect(creature.canSee(dungeon, dungeon.getTile(0, 1))).to.equal(true);
+        });
+
+        it('should be able to see in a straight line', function() {
+            const dungeon = new Dungeon(5, 2);
+            const creature = new PlayableCharacter();
+            dungeon.moveCreature(creature, 0, 0);
+
+            expect(creature.canSee(dungeon, dungeon.getTile(4, 1))).to.equal(true);
+        });
+
+        it('should not see through walls', function() {
+            const dungeon = new Dungeon(3, 1);
+            const creature = new PlayableCharacter();
+            dungeon.setTile(new Tiles.WallTile(dungeon, 1, 0), 1, 0);
+            dungeon.moveCreature(creature, 2, 0);
+
+            expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(false);
+        });
+
+        it('should be able to see across corners', function() {
+            const dungeon = new Dungeon(3, 3);
+            const creature = new PlayableCharacter();
+
+            [[0, 1], [1, 0], [2, 1], [1, 2]].forEach(function(coords) {
+                const x = coords[0];
+                const y = coords[1];
+                dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
+            });
+
+            dungeon.moveCreature(creature, 1, 1);
+
+            expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(true);
+            expect(creature.canSee(dungeon, dungeon.getTile(0, 2))).to.equal(true);
+            expect(creature.canSee(dungeon, dungeon.getTile(2, 0))).to.equal(true);
+            expect(creature.canSee(dungeon, dungeon.getTile(2, 2))).to.equal(true);
+        });
     });
 
     describe('canAddItem', function() {

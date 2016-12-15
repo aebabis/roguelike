@@ -81,7 +81,8 @@ function getHall(prng, room, edge) {
             x1: lowerX,
             y1: (edge.side === NORTH) ? room.y + room.height : edge.y,
             x2: upperX,
-            y2: (edge.side === NORTH) ? edge.y : room.y
+            y2: (edge.side === NORTH) ? edge.y : room.y,
+            direction: 'y'
         };
     } else {
         const minY = Math.max(room.y, edge.y1);
@@ -92,7 +93,8 @@ function getHall(prng, room, edge) {
             x1: (edge.side === EAST) ? edge.x : room.x,
             y1: lowerY,
             x2: (edge.side === EAST) ? room.x : edge.x,
-            y2: upperY
+            y2: upperY,
+            direction: 'x'
         };
     }
 }
@@ -247,7 +249,7 @@ export default {
             }
         });
 
-        halls.forEach(function({x1, y1, x2, y2}) {
+        halls.forEach(function({x1, y1, x2, y2, direction}) {
             for(let x = x1; x < x2; x++) {
                 for(let y = y1; y < y2; y++) {
                     dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
@@ -256,6 +258,15 @@ export default {
             if(Random.bool(.4)(prng)) {
                 const doorX = Random.integer(x1, x2 - 1)(prng);
                 const doorY = Random.integer(y1, y2 - 1)(prng);
+                if(direction === 'x') {
+                    for(let y = y1; y < y2; y++) {
+                        dungeon.setTile(new Tiles.WallTile(dungeon, doorX, y), doorX, y);
+                    }
+                } else {
+                    for(let x = x1; x < x2; x++) {
+                        dungeon.setTile(new Tiles.WallTile(dungeon, x, doorY), x, doorY);
+                    }
+                }
                 dungeon.setTile(new Tiles.DoorTile(dungeon, doorX, doorY), doorX, doorY);
             }
         });

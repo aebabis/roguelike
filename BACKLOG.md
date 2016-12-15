@@ -5,8 +5,9 @@
   - Using keyboard to look at tiles
   - Make enemies drop their items
   - Show enemy resistances in UI
-  - Further optimize vision algorithm. Make vision rays go from corners
   - Refactor Tile (rename distance function, no pass Dungeon)
+  - Go home button
+  - UI highlighting
 - Med
   - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms
@@ -18,9 +19,6 @@
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
   - Don't bundle jQuery with webpack
-  - Webpack integration of coverage
-  - Try flow or Typescript
-  - You can see a solid tile if you can see any corner?
   - BlockTheExit strategy
   - Let player know their speed
   - Spell scroll compound sprites
@@ -31,7 +29,7 @@
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Absolute paths on imports
   - Make ranged enemies avoid getting in melee range
-  - Typescript
+  - Offline-first
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars
@@ -48,6 +46,7 @@
   - Melee attack animation improvement
   - Move DebugConsole to util folder
   - Color UI when holding accelerator keys (items during ctrl)
+  - Typescript
 
 ## Content
   - Invisibility Spell

@@ -16,8 +16,6 @@ global.window = global.document.defaultView;
 global.localStorage = {};
 global.$ = require('jquery');
 
-import '../src/client/js/polyfills/includes.js';
-
 //import Bootstrapper from '../src/client/js/app/Bootstrapper.js';
 import RandomMapDungeonFactory from '../src/client/js/app/dungeons/RandomMapDungeonFactory.js';
 import Rogue from '../src/client/js/app/entities/creatures/classes/Rogue.js';

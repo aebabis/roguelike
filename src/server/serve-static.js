@@ -18,6 +18,6 @@ module.exports = function(app) {
             log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
         }));
     } else {
-        app.use('/', express.static(__dirname + '/../../dist'));
+        app.use('/', require('express').static(__dirname + '/../../dist'));
     }
 };

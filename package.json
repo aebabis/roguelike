@@ -9,7 +9,6 @@
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel-register --colors --reporter dot",
     "cover:upload": "cat ./coverage/lcov.info && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "npm run cover && istanbul check-coverage --statements 30 --branches 30 --functions 30 ./coverage/coverage.raw.json",
-    "develop": "webpack-dev-server --port 1337",
     "doc": "esdoc -c esdoc.json"
   },
   "author": "Alex Babis <acbabis@gmail.com>",
@@ -48,7 +47,9 @@
     "webpack-dev-server": "^1.16.2"
   },
   "devDependencies": {
-    "esdoc": "^0.4.8"
+    "esdoc": "^0.4.8",
+    "webpack-dev-middleware": "^1.9.0",
+    "webpack-hot-middleware": "^2.13.2"
   },
   "directories": {
     "test": "test"

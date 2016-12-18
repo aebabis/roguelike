@@ -3,6 +3,8 @@ const router = express.Router();
 
 const dungeons = [];
 
+const serializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer');
+
 router.use(require('body-parser')());
 
 router.get('/', function(request, response) {

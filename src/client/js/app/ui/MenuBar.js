@@ -2,12 +2,14 @@ import CharacterBuilder from './CharacterBuilder.js';
 
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
 import DebugConsole from '../DebugConsole.js';
+import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializer.js';
 
 function template() {
     return $(`
         <div class="menu-bar">
             <button class="newgame" accesskey="n">New Game</button>
             <button class="restart" accesskey="r">Restart</button>
+            <button class="load" accesskey="l">Load</button>
             <label>Remember Previous Level <input type="checkbox" ${localStorage.repeatPreviousLevel === 'true' ? 'checked' : ''}></label>
         </div>`);
 }
@@ -33,6 +35,23 @@ export default class MenuBar {
         }).on('click', '.restart', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
                 sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
+            });
+        }).on('click', '.load', function() {
+            const getDungeon = fetch(new Request('/dungeons/0', {
+                headers: new Headers({
+                    method: 'GET',
+                    'Content-Type': 'application/json'
+                })
+            })).then(r=>r.json()).then(LightweightDungeonSerializer.deserialize);
+            const getCharacter = new CharacterBuilder().getCharacter();
+
+            Promise.all([getDungeon, getCharacter]).then(function([dungeon, character]) {
+                dungeon.forEachTile(function(tile, x, y) {
+                    if(tile.getName() === 'Entrance') { // TODO: Make this more robust
+                        dungeon.moveCreature(character, x, y);
+                    }
+                });
+                sharedData.setDungeon(dungeon);
             });
         }).on('change', 'input', function() {
             localStorage.repeatPreviousLevel = $(this).prop('checked');

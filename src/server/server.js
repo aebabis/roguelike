@@ -4,6 +4,6 @@ const compression = require('compression');
 app.use(compression());
 
 require('./serve-static')(app);
-app.use('/dungeons', require('./services/dungeons-service'));
+app.use('/dungeons', require('./routes/dungeons-controller'));
 
 app.listen(process.env.PORT || 8080);

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const dungeons = [];
 
-const serializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer');
+const LightweightDungeonSerializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer').default;
 
 const PASSWORD = process.env.DUNGEON_UPLOAD_PASSWORD;
 if(typeof PASSWORD === 'undefined' || PASSWORD.length === 0) {
@@ -23,11 +23,17 @@ router.get('/:id', function(request, response) {
 });
 
 router.post('/', function(request, response) {
-    if(request.headers.api_token !== PASSWORD) {
-        response.send(401);
+    const {headers, body} = request;
+    if(headers.api_token !== PASSWORD) {
+        response.status(401).send();
     } else {
-        dungeons.push(request.body);
-        response.send();
+        const error = LightweightDungeonSerializer.validate(body);
+        if(error) {
+            response.status(400).send(error);
+        } else {
+            dungeons.push(body);
+            response.send();
+        }
     }
 });
 

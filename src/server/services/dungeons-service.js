@@ -5,6 +5,11 @@ const dungeons = [];
 
 const serializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer');
 
+const PASSWORD = process.env.DUNGEON_UPLOAD_PASSWORD;
+if(typeof PASSWORD === 'undefined' || PASSWORD.length === 0) {
+    throw new Error('Must set API token env: DUNGEON_UPLOAD_PASSWORD');
+}
+
 router.use(require('body-parser')());
 
 router.get('/', function(request, response) {
@@ -18,8 +23,12 @@ router.get('/:id', function(request, response) {
 });
 
 router.post('/', function(request, response) {
-    dungeons.push(request.body);
-    response.send();
+    if(request.headers.api_token !== PASSWORD) {
+        response.send(401);
+    } else {
+        dungeons.push(request.body);
+        response.send();
+    }
 });
 
 module.exports = router;

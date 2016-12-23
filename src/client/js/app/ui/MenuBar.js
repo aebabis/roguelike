@@ -1,4 +1,5 @@
 import CharacterBuilder from './CharacterBuilder.js';
+import DungeonPicker from './DungeonPicker.js';
 
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
 import DebugConsole from '../DebugConsole.js';
@@ -37,12 +38,7 @@ export default class MenuBar {
                 sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
             });
         }).on('click', '.load', function() {
-            const getDungeon = fetch(new Request('/dungeons/0', {
-                headers: new Headers({
-                    method: 'GET',
-                    'Content-Type': 'application/json'
-                })
-            })).then(r=>r.json()).then(LightweightDungeonSerializer.deserialize);
+            const getDungeon = new DungeonPicker().getDungeon();
             const getCharacter = new CharacterBuilder().getCharacter();
 
             Promise.all([getDungeon, getCharacter]).then(function([dungeon, character]) {

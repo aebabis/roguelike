@@ -11,7 +11,7 @@ import GameEvents from '../events/GameEvents.js';
 import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
 import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
-import DebugConsole from '../DebugConsole.js';
+import DebugConsole from '../util/DebugConsole.js';
 
 /**
  * An explorable dungeon in the game. Contains a grid of tiles

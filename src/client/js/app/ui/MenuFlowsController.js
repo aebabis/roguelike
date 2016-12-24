@@ -5,7 +5,7 @@ import TutorialLayoutGenerator from '../dungeons/generators/layouts/TutorialLayo
 import TutorialScenarioTriggers from './TutorialScenarioTriggers.js';
 import GameEvents from '../events/GameEvents.js';
 
-import DebugConsole from '../DebugConsole.js';
+import DebugConsole from '../util/DebugConsole.js';
 
 function getPrng(newSeed) {
     const prng = Random.engines.mt19937();

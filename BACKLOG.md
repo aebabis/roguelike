@@ -15,9 +15,7 @@
   - Weights for random dungeon rooms
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
-  - Serialization for saving games (and as POC for client-server games)
   - Handle legal noPath situations
-  - Ability to compare 2 dungeons, for testing dungeon factory regressions
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
   - Don't bundle jQuery with webpack
@@ -29,7 +27,6 @@
   - Queue animations
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
-  - Absolute paths on imports
   - Make ranged enemies avoid getting in melee range
   - Offline-first
 - Low
@@ -39,16 +36,14 @@
   - Consider splitting source/target events into two events
   - Icon to indicate an enemy about to take a double-move
   - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
-  - Use `fetch`
   - RandomStrategyStrategy
   - RandomAbilityStrategy
   - Make ClunkyNintiesCellPhone use predefined strategies
-  - Test case for reflexivity of canSee
   - Circular dependency injection (GameEvents inside Creature)
   - Melee attack animation improvement
-  - Move DebugConsole to util folder
   - Color UI when holding accelerator keys (items during ctrl)
   - Typescript
+  - Ability to compare 2 dungeons, for testing dungeon factory regressions
 
 ## Content
   - Invisibility Spell

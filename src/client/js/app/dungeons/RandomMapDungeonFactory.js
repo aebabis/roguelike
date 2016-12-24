@@ -16,7 +16,7 @@ import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
 import CherrySoda from '../entities/consumables/CherrySoda.js';
 import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
 
-import DebugConsole from '../DebugConsole.js';
+import DebugConsole from '../util/DebugConsole.js';
 
 import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayoutGenerator.js';
 

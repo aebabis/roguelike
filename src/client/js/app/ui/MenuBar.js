@@ -2,7 +2,7 @@ import CharacterBuilder from './CharacterBuilder.js';
 import DungeonPicker from './DungeonPicker.js';
 
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
-import DebugConsole from '../DebugConsole.js';
+import DebugConsole from '../util/DebugConsole.js';
 import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializer.js';
 
 function template() {

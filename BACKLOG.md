@@ -29,6 +29,7 @@
   - Make ranged enemies avoid getting in melee range
   - Offline-first
   - Rename distance functions
+  - Autopath during enemies should go 1 tile at a time
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars

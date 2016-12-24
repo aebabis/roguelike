@@ -58,7 +58,6 @@ module.exports = function(connection) {
 
         getDungeon: function(id, callback) {
             const query = connection.format(SELECT_DUNGEON, [id]);
-            console.log(query);
             connection.query(query, function(error, records, fields) {
                 if(error) {
                     console.error(error);

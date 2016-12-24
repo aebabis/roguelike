@@ -36,8 +36,7 @@
 
     &[data-tile-type="Tile"] {
         background-image: url(../images/small/DungeonTile.png);
-        background-size: 103%;
-        background-position: -1px -1px;
+        background-size: 100%;
     }
 
     &[data-tile-type="PillarTile"] {

@@ -11,7 +11,7 @@ export default class Fireball extends Ability {
       * creature on adjacent tiles. */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-        optionalTargetTile.getNeighbors8().concat(optionalTargetTile)
+        optionalTargetTile.getNeighbors8(dungeon).concat(optionalTargetTile)
                 .map((tile)=>tile.getCreature()).filter(Boolean)
                 .forEach(function(creature) {
                     creature.receiveDamage(dungeon, AMOUNT, DamageTypes.FIRE);

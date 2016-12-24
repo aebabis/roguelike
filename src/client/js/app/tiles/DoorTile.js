@@ -3,10 +3,10 @@ import Tile from './Tile.js';
 export default class DoorTile extends Tile {
     /**
       * @class DoorTile
-      * @description An opaque solid tile
+      * @description A tile that is opaque until a creature opens it
       */
-    constructor(dungeon, x, y) {
-        super(dungeon, x, y);
+    constructor(x, y) {
+        super(x, y);
         this._isOpen = false;
     }
 

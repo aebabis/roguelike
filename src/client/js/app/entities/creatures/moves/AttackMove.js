@@ -29,7 +29,7 @@ export default class AttackMove extends Move {
 
         var weapon;
         var attackerTile = dungeon.getTile(creature);
-        if(attackerTile.getNeighbors8().includes(targetTile)) {
+        if(attackerTile.getNeighbors8(dungeon).includes(targetTile)) {
             weapon = creature.getMeleeWeapon();
             if(!weapon) {
                 return 'No weapon to attack that target with';

@@ -22,7 +22,7 @@ export default class MeleeAttackStrategy extends Strategy {
             return null;
         }
 
-        var enemyTiles = tile.getNeighbors8().filter((tile)=>{
+        var enemyTiles = tile.getNeighbors8(dungeon).filter((tile)=>{
             var otherCreature = tile.getCreature();
             return otherCreature && otherCreature.isEnemy(creature);
         });

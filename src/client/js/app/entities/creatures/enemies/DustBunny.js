@@ -43,7 +43,7 @@ export default class DustBunny extends Creature {
     }
 
     onDeath(dungeon, location) {
-        location.getNeighbors8().filter((tile) =>
+        location.getNeighbors8(dungeon).filter((tile) =>
             !tile.getCreature() && tile.hasFloor() && !tile.isSolid()).slice(-3)
         .forEach((tile)=>dungeon.moveCreature(new DustMite(), tile.getX(), tile.getY()));
     }

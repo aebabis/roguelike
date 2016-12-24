@@ -37,7 +37,7 @@ export default class Dungeon extends Observable {
         for(let x = 0; x < width; x++) {
             let col = grid[x] = [];
             for(let y = 0; y < height; y++) {
-                col[y] = new Tile(this, x, y);
+                col[y] = new Tile(x, y);
             }
         }
         this._timestep = 0;
@@ -140,7 +140,7 @@ export default class Dungeon extends Observable {
         delete unvisitedSet[key(tile)];
         while(traversalList.length > 0) {
             tile = traversalList.pop();
-            tile.getNeighbors8().forEach(function(tile) {
+            tile.getNeighbors8(this).forEach(function(tile) {
                 const tileKey = key(tile);
                 if(unvisitedSet[tileKey] && !visitedSet[tileKey]) {
                     traversalList.push(tile);

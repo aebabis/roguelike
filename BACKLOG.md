@@ -5,7 +5,6 @@
   - Using keyboard to look at tiles
   - Make enemies drop their items
   - Show enemy resistances in UI
-  - Refactor Tile (rename distance function, no pass Dungeon)
   - Go home button
   - UI highlighting
   - Use Yarn
@@ -29,6 +28,7 @@
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Make ranged enemies avoid getting in melee range
   - Offline-first
+  - Rename distance functions
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars

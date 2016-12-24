@@ -18,7 +18,7 @@ export default {
         const dungeon = new Dungeon(width, height);
         grid.forEach(function(column, x) {
             column.forEach(function({tile, items = [], creature}, y) {
-                const cell = new Tiles[tile](dungeon, x, y);
+                const cell = new Tiles[tile](x, y);
                 items.forEach(function(itemName) {
                     cell.addItem(new Items[itemName]());
                 });

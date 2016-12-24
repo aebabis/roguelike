@@ -218,7 +218,7 @@ export default {
 
         for(var x = 0; x < width; x++) {
             for(var y = 0; y < height; y++) {
-                dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
+                dungeon.setTile(new Tiles.WallTile(x, y), x, y);
             }
         }
 
@@ -249,7 +249,7 @@ export default {
         halls.forEach(function({x1, y1, x2, y2, direction}) {
             for(let x = x1; x < x2; x++) {
                 for(let y = y1; y < y2; y++) {
-                    dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.Tile(x, y), x, y);
                 }
             }
             if(Random.bool(.4)(prng)) {
@@ -257,14 +257,14 @@ export default {
                 const doorY = Random.integer(y1, y2 - 1)(prng);
                 if(direction === 'x') {
                     for(let y = y1; y < y2; y++) {
-                        dungeon.setTile(new Tiles.WallTile(dungeon, doorX, y), doorX, y);
+                        dungeon.setTile(new Tiles.WallTile(doorX, y), doorX, y);
                     }
                 } else {
                     for(let x = x1; x < x2; x++) {
-                        dungeon.setTile(new Tiles.WallTile(dungeon, x, doorY), x, doorY);
+                        dungeon.setTile(new Tiles.WallTile(x, doorY), x, doorY);
                     }
                 }
-                dungeon.setTile(new Tiles.DoorTile(dungeon, doorX, doorY), doorX, doorY);
+                dungeon.setTile(new Tiles.DoorTile(doorX, doorY), doorX, doorY);
             }
         });
 

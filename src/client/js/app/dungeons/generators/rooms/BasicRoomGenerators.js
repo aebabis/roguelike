@@ -16,9 +16,9 @@ export default [{
         for(let x = x1; x < x2; x++) {
             for(let y = y1; y < y2; y++) {
                 if(x === x1 || x === x2 - 1 || y === y1 || y === y2 - 1) {
-                    dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.Tile(x, y), x, y);
                 } else {
-                    dungeon.setTile(new Tiles.PitTile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.PitTile(x, y), x, y);
                 }
             }
         }
@@ -36,7 +36,7 @@ export default [{
         const y2 = y1 + height;
         for(let x = x1; x < x2; x++) {
             for(let y = y1; y < y2; y++) {
-                dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
+                dungeon.setTile(new Tiles.Tile(x, y), x, y);
             }
         }
     }
@@ -53,14 +53,14 @@ export default [{
         const y2 = y1 + height;
         for(let x = x1; x < x2; x++) {
             for(let y = y1; y < y2; y++) {
-                dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
+                dungeon.setTile(new Tiles.Tile(x, y), x, y);
             }
         }
         let xStride = Random.integer(2, 4)(prng);
         let yStride = Random.integer(2, 4)(prng);
         for(let x = x1 + 1; x < x2; x += xStride) {
             for(let y = y1 + 1; y < y2; y += yStride) {
-                dungeon.setTile(new Tiles.PillarTile(dungeon, x, y), x, y);
+                dungeon.setTile(new Tiles.PillarTile(x, y), x, y);
             }
         }
     }
@@ -79,9 +79,9 @@ export default [{
             for(let y = y1; y < y2; y++) {
                 // TODO: Put more spaces on the edges rather than making it completely walkable
                 if((x % 2 === 0) === (y % 4 < 2) || x === x1 || x === x2 - 1 || y === y1 || y === y2 - 1) {
-                    dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.Tile(x, y), x, y);
                 } else {
-                    dungeon.setTile(new Tiles.PitTile(dungeon, x, y), x, y);
+                    dungeon.setTile(new Tiles.PitTile(x, y), x, y);
                 }
             }
         }

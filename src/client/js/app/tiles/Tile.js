@@ -6,19 +6,13 @@ import Creature from '../entities/creatures/Creature.js';
  */
 export default class Tile {
     /**
-      * @param {Dungeon} dungeon - The Dungeon this Tile will belong to.
       * @param {number} x - The x-coordinate this Tile will have within the Dungeon
       * @param {number} y - The y-coordinate this Tile will have within the Dungeon
-      * @todo Consider removing circular reference
       */
-    constructor(dungeon, x, y) {
-        if(!(dungeon instanceof Dungeon)) {
-            throw new Error('First parameter must be a Dungeon');
-        }
+    constructor(x, y) {
         if(!Number.isInteger(x) || !Number.isInteger(y)) {
             throw new Error('Must pass an x and y coordinate');
         }
-        this._dungeon = dungeon;
         this._x = x;
         this._y = y;
         this._items = [];
@@ -150,10 +144,10 @@ export default class Tile {
 
     /**
      * Gets the (up to) 4 neighbors in the cardinal directions from this Tile
+     * @param {Dungeon} dungeon - The dungeon this tile is in
      * @returns {Array<Tile>}
      */
-    getNeighbors4() {
-        var dungeon = this._dungeon;
+    getNeighbors4(dungeon) {
         var x = this._x;
         var y = this._y;
         return [
@@ -166,10 +160,10 @@ export default class Tile {
 
     /**
      * Gets all Tiles immediately adjacent to this Tile (including diagonally)
+     * @param {Dungeon} dungeon - The dungeon this tile is in
      * @returns {Array<Tile>}
      */
-    getNeighbors8() {
-        var dungeon = this._dungeon;
+    getNeighbors8(dungeon) {
         var x = this._x;
         var y = this._y;
         return [

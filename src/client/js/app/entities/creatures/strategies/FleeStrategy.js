@@ -27,11 +27,11 @@ export default class FleeStrategy extends Strategy {
                 }
             });
 
-            var surroundingTiles = tile.getNeighbors8().filter((tile) => {
+            var surroundingTiles = tile.getNeighbors8(dungeon).filter((tile) => {
                 return creature.canOccupyNow(tile);
             }).filter((tile) => {
                 // Fleeing creature won't stand next to enemy
-                return !tile.getNeighbors8().find((tile)=>tile.getCreature() && tile.getCreature().isEnemy(creature));
+                return !tile.getNeighbors8(dungeon).find((tile)=>tile.getCreature() && tile.getCreature().isEnemy(creature));
             });
 
             if(surroundingTiles.length === 0) {

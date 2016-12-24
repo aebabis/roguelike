@@ -20,7 +20,7 @@ export default class AggressiveFireballStrategy extends Strategy {
         var enemy = creature.getClosestEnemy(dungeon);
         var location = enemy && dungeon.getTile(enemy);
         if(!location && this._lastKnownEnemyLocation) {
-            location = [this._lastKnownEnemyLocation].concat(this._lastKnownEnemyLocation.getNeighbors8())
+            location = [this._lastKnownEnemyLocation].concat(this._lastKnownEnemyLocation.getNeighbors8(dungeon))
                     .filter((tile)=>creature.canSee(dungeon, tile))
                     .sort((tileA, tileB)=>creatureTile.getDirectDistance(tileA) - creatureTile.getDirectDistance(tileB))[0];
         }

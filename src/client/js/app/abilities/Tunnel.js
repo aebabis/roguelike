@@ -23,7 +23,7 @@ export default class Tunnel extends Ability {
         super.use(dungeon, creature, optionalTargetTile, isFree);
         const x = optionalTargetTile.getX();
         const y = optionalTargetTile.getY();
-        dungeon.setTile(new Tiles.Tile(dungeon, x, y), x, y);
+        dungeon.setTile(new Tiles.Tile(x, y), x, y);
         dungeon.moveCreature(creature, x, y);
     }
 

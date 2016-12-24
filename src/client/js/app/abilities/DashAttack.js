@@ -3,7 +3,7 @@ import GameEvents from '../events/GameEvents.js';
 
 function getToTile(dungeon, creature, optionalTargetTile) {
     const casterLocation = dungeon.getTile(creature);
-    return optionalTargetTile.getNeighbors8().sort(function(tile1, tile2) {
+    return optionalTargetTile.getNeighbors8(dungeon).sort(function(tile1, tile2) {
         return tile1.getEuclideanDistance(casterLocation) - tile2.getEuclideanDistance(casterLocation);
     })[0];
 }
@@ -19,7 +19,7 @@ export default class DashAttack extends Ability {
         const toTile = getToTile(dungeon, creature, optionalTargetTile, isFree);
         if(superReason) {
             return superReason;
-        } else if(dungeon.getTile(creature).getNeighbors8().includes(optionalTargetTile)) {
+        } else if(dungeon.getTile(creature).getNeighbors8(dungeon).includes(optionalTargetTile)) {
             return 'Can\'t use on adjacent enemy';
         } else if(!toTile) {
             return 'No tile to dash to';

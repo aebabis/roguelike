@@ -15,7 +15,7 @@ import GetTheTreasureConditions from '../../../conditions/GetTheTreasureConditio
 function fill(dungeon, Tile, x1, y1, x2, y2) {
     for(let x = x1; x < x2; x++) {
         for(let y = y1; y < y2; y++) {
-            dungeon.setTile(new Tile(dungeon, x, y), x, y);
+            dungeon.setTile(new Tile(x, y), x, y);
         }
     }
 }
@@ -33,11 +33,11 @@ export default {
         fill(dungeon, Tiles.Tile, 7, 1, 8, 7);
         fill(dungeon, Tiles.Tile, 7, 7, 9, 11);
 
-        dungeon.setTile(new Tiles.PitTile(dungeon, 7, 3), 7, 3);
-        dungeon.setTile(new Tiles.PitTile(dungeon, 7, 5), 7, 5);
-        dungeon.setTile(new Tiles.PitTile(dungeon, 6, 11), 6, 10);
+        dungeon.setTile(new Tiles.PitTile(7, 3), 7, 3);
+        dungeon.setTile(new Tiles.PitTile(7, 5), 7, 5);
+        dungeon.setTile(new Tiles.PitTile(6, 11), 6, 10);
 
-        dungeon.setTile(new Tiles.EntranceTile(dungeon, 2, 9), 2, 9);
+        dungeon.setTile(new Tiles.EntranceTile(2, 9), 2, 9);
 
         dungeon.moveCreature(new Rogue(), 2, 9);
         var bvsStrategy = new Strategies.CompositeStrategy(

@@ -9,8 +9,8 @@ var expect = require('chai').expect;
 describe('ChaseStrategy', function() {
     it('should cause a creature to move toward a tile it has seen the player occupy', function() {
         const dungeon = new Dungeon(3, 3);
-        dungeon.setTile(new Tiles.WallTile(dungeon, 1, 1), 1, 1);
-        dungeon.setTile(new Tiles.WallTile(dungeon, 1, 2), 1, 2);
+        dungeon.setTile(new Tiles.WallTile(1, 1), 1, 1);
+        dungeon.setTile(new Tiles.WallTile(1, 2), 1, 2);
         var player = new PlayableCharacter();
         var enemy = new Ent();
         dungeon.moveCreature(player, 0, 0);

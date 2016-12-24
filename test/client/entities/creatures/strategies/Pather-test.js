@@ -9,8 +9,8 @@ const expect = require('chai').expect;
 
 function getUDungeon() {
     const dungeon = new Dungeon(3, 3);
-    dungeon.setTile(new Tiles.WallTile(dungeon, 1, 0), 1, 0);
-    dungeon.setTile(new Tiles.WallTile(dungeon, 1, 1), 1, 1);
+    dungeon.setTile(new Tiles.WallTile(1, 0), 1, 0);
+    dungeon.setTile(new Tiles.WallTile(1, 1), 1, 1);
     return dungeon;
 }
 

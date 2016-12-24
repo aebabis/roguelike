@@ -42,7 +42,7 @@ describe('Creature', function() {
         it('should not see through walls', function() {
             const dungeon = new Dungeon(3, 1);
             const creature = new PlayableCharacter();
-            dungeon.setTile(new Tiles.WallTile(dungeon, 1, 0), 1, 0);
+            dungeon.setTile(new Tiles.WallTile(1, 0), 1, 0);
             dungeon.moveCreature(creature, 2, 0);
 
             expect(creature.canSee(dungeon, dungeon.getTile(0, 0))).to.equal(false);
@@ -55,7 +55,7 @@ describe('Creature', function() {
             [[0, 1], [1, 0], [2, 1], [1, 2]].forEach(function(coords) {
                 const x = coords[0];
                 const y = coords[1];
-                dungeon.setTile(new Tiles.WallTile(dungeon, x, y), x, y);
+                dungeon.setTile(new Tiles.WallTile(x, y), x, y);
             });
 
             dungeon.moveCreature(creature, 1, 1);

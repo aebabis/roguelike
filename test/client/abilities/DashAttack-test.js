@@ -78,7 +78,7 @@ describe('DashAttack', function() {
     it('should not let the player dash into pit', function() {
         player.addItem(weapon);
         dungeon.moveCreature(player, 0, 0);
-        dungeon.setTile(new Tiles.PitTile(dungeon, 0, 1), 0, 1);
+        dungeon.setTile(new Tiles.PitTile(0, 1), 0, 1);
         dungeon.moveCreature(new Ent(), 0, 2);
         dungeon.resolveUntilBlocked();
 

@@ -355,11 +355,6 @@ export default class GraphicalDungeonView {
                         }
                     }
 
-                    const creatureLocation = dungeon.getTile(creature);
-                    if(creatureLocation.isOpen) {
-                        cell.setAttribute('data-door-open', creatureLocation.isOpen());
-                    }
-
                     if(creature === player) {
                         self.scroll();
                     }
@@ -435,6 +430,11 @@ export default class GraphicalDungeonView {
                 self._animateBars(creature);
             });
         }
+        
+        Array.from(grid.querySelectorAll('[data-tile-type="DoorTile"]')).forEach(function(tile) {
+            const { x, y } = tile.dataset;
+            tile.dataset.doorOpen = dungeon.getTile(x, y).isOpen();
+        });
 
         // Tempory
         // Sync phone charge state

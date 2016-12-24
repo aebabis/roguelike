@@ -7,7 +7,6 @@ export default class DoorTile extends Tile {
       */
     constructor(x, y) {
         super(x, y);
-        this._isOpen = false;
     }
 
     isSolid() {
@@ -19,12 +18,7 @@ export default class DoorTile extends Tile {
     }
 
     isOpen() {
-        return this._isOpen;
-    }
-
-    setCreature(creature) {
-        super.setCreature(creature);
-        this._isOpen = true;
+        return !!this.getCreature();
     }
 
     getName() {

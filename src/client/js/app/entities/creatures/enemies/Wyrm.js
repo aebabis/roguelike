@@ -8,7 +8,6 @@ import Firebolt from '../../../abilities/Firebolt.js';
 
 class WyrmHide extends Armor {
     getReduction(type) {
-        console.log(type);
         if(type === DamageTypes.MELEE_PHYSICAL) {
             return 2;
         } else if(type === DamageTypes.RANGED_PHYSICAL) {

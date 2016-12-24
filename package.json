@@ -36,6 +36,7 @@
     "jquery": "^2",
     "jsdom": "^9.3.0",
     "mocha": "^3.0.2",
+    "mysql": "^2.12.0",
     "node-sass": "^3.13.0",
     "normalize.css": "^4.1.1",
     "random-js": "^1.0.8",

@@ -8,6 +8,8 @@
   - Refactor Tile (rename distance function, no pass Dungeon)
   - Go home button
   - UI highlighting
+  - Use Yarn
+  - nodemon with babel-node?
 - Med
   - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms

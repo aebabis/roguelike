@@ -36,17 +36,18 @@ angular.module('dungeon-picker', [])
 
     $scope.submit = function() {
         const index = $scope.selectedIndex;
-        const struct = $scope.dungeons[index];
+        const struct = $scope.dungeons[index].data;
         const dungeon = LightweightDungeonSerializer.deserialize(struct);
         resolve(dungeon);
     };
 }]).constant('promiseHandlers', promiseHandlers).run(['$templateCache', function($templateCache) {
     $templateCache.put('dungeon-info.html',
         `<div class="dungeon-info">
-            {{$ctrl.data.grid.length}} x {{$ctrl.data.grid[0].length}}
+            Dimensions: {{$ctrl.data.width}} x {{$ctrl.data.height}}
         </div>`);
     $templateCache.put('dungeon-picker.html',
         `<form method="dialog" class="gitrecht" ng-controller="dungeon-picker" ng-submit="submit()">
+            <h2>Select a Dungeon</h2>
             <button ng-repeat="dungeon in dungeons" ng-click="setSelectedDungeon($index)">
                 <dungeon-info data="dungeon"></dungeon-info>
             </button>

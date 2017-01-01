@@ -30,6 +30,7 @@
   - Offline-first
   - Rename distance functions
   - Autopath during enemies should go 1 tile at a time
+  - See corners when adjacent edges are in range (5/3 slope)
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars

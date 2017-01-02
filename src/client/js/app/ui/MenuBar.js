@@ -58,7 +58,7 @@ export default class MenuBar {
                 const headers = new Headers();
                 headers.set('Authorization', `Bearer ${token}`);
                 headers.set('Content-Type', 'application/json');
-                
+
                 const prng = Random.engines.mt19937();
                 prng.seed(localStorage.lastSeed);
                 const dungeon = new RandomMapDungeonFactory().getRandomMap(prng, null);
@@ -68,7 +68,10 @@ export default class MenuBar {
                     method,
                     headers,
                     body
-                }));
+                })).then(function() {
+                    // TODO: Give a link
+                    alert('Dungeon uploaded');
+                });
             })
         }).on('change', 'input', function() {
             localStorage.repeatPreviousLevel = $(this).prop('checked');

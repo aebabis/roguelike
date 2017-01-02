@@ -14,7 +14,7 @@ export default class Rogue extends PlayableCharacter {
     }
 
     getSpeed() {
-        return 350;
+        return 375;
     }
 
     toString() {

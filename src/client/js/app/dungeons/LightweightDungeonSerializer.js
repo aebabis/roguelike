@@ -2,6 +2,8 @@ import Tiles from '../tiles/Tiles.js';
 import Items from '../entities/Items.js';
 import Enemies from '../entities/creatures/enemies/Enemies.js';
 import Conditions from '../conditions/Conditions.js';
+import Abilities from '../abilities/Abilities.js';
+import AbilityConsumable from '../entities/consumables/AbilityConsumable';
 
 import Dungeon from '../dungeons/Dungeon.js';
 
@@ -14,8 +16,14 @@ export default {
         dungeon.forEachTile(function(tile, x, y) {
             const tileName = tile.constructor.name;
             const creature = tile.getCreature();
-            // TODO: Support AbilityConsumables
-            const itemNames = tile.getItems().map((item)=>item.constructor.name).filter(name=>name!=='AbilityConsumable');
+            const itemNames = tile.getItems().map((item)=>{
+                const name = item.constructor.name;
+                if(name === 'AbilityConsumable') {
+                    return item._ability.constructor.name;
+                } else {
+                    return name;
+                }
+            });
             grid[x][y] = {
                 tile: tileName,
                 creature: creature && creature.constructor.name || undefined,
@@ -38,7 +46,11 @@ export default {
             column.forEach(function({tile, items = [], creature}, y) {
                 const cell = new Tiles[tile](x, y);
                 items.forEach(function(itemName) {
-                    cell.addItem(new Items[itemName]());
+                    if(itemName in Abilities) {
+                        cell.addItem(new AbilityConsumable(new Abilities[itemName]()));
+                    } else {
+                        cell.addItem(new Items[itemName]());
+                    }
                 });
                 dungeon.setTile(cell, x, y);
                 if(creature) {
@@ -86,7 +98,8 @@ export default {
                         return `Items, if given, must be an Array`;
                     }
                     for(let i = 0, count = items.length; i < count; i++) {
-                        if(!(items[i] in Items)) {
+                        const item = items[i];
+                        if(!(item in Items || item in Abilities)) {
                             return `Illegal item name ${items[i]}`;
                         }
                     }

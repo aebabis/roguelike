@@ -64,14 +64,19 @@ export default class MenuBar {
                 const dungeon = new RandomMapDungeonFactory().getRandomMap(prng, null);
                 const body = JSON.stringify(LightweightDungeonSerializer.serialize(dungeon));
 
-                fetch(new Request('/dungeons', {
+                return fetch(new Request('/dungeons', {
                     method,
                     headers,
                     body
-                })).then(function() {
-                    // TODO: Give a link
-                    alert('Dungeon uploaded');
-                });
+                })).then(function(response) {
+                    if(response.ok) {
+                        alert('Dungeon uploaded');
+                    } else {
+                        alert(response.statusText);
+                    }
+                })
+            }).catch(function(reason) {
+                alert(reason);
             })
         }).on('change', 'input', function() {
             localStorage.repeatPreviousLevel = $(this).prop('checked');

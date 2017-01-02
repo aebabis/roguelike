@@ -1,3 +1,5 @@
+const getAppId = fetch('/oauth-client-id').then(response=>response.text());
+
 const getApi = new Promise(function(resolve, reject) {
     const script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
@@ -14,15 +16,17 @@ const getApi = new Promise(function(resolve, reject) {
         }(document, 'script', 'facebook-jssdk'));
 
         window.fbAsyncInit = function() {
-            FB.init({
-                appId      : '579260708936044',
-                status     : true, // check login status
-                cookie     : true, // enable cookies to allow the server to access the session
-                xfbml      : true,
-                version    : 'v2.8'
-            });
+            getAppId.then((function(appId) {
+                FB.init({
+                    appId      : appId,
+                    status     : true, // check login status
+                    cookie     : true, // enable cookies to allow the server to access the session
+                    xfbml      : true,
+                    version    : 'v2.8'
+                });
 
-            resolve(FB);
+                resolve(FB);
+            }));
         };
 
     });

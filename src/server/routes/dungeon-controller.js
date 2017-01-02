@@ -2,10 +2,8 @@ const DB_URL = process.env.JAWSDB_MARIA_URL;
 if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
     throw new Error('Must set database path env: JAWSDB_MARIA_URL');
 }
-const PASSWORD = process.env.DUNGEON_UPLOAD_PASSWORD;
-if(typeof PASSWORD === 'undefined' || PASSWORD.length === 0) {
-    throw new Error('Must set API token env: DUNGEON_UPLOAD_PASSWORD');
-}
+const APP_ID = process.env.OAUTH_CLIENT_ID;
+const APP_SECRET = process.env.OAUTH_CLIENT_SECRET;
 
 const express = require('express');
 const router = express.Router();
@@ -38,21 +36,46 @@ router.get('/:id', function(request, response) {
 
 router.post('/', function(request, response) {
     const {headers, body} = request;
-    if(headers.api_token !== PASSWORD) {
-        response.status(401).send();
-    } else {
-        const error = LightweightDungeonSerializer.validate(body);
-        if(error) {
-            response.status(400).send(error);
-        }
-        dungeonService.addDungeon(body, function(error, result) {
-            if(error) {
-                response.status(500).send(error);
-            } else {
-                response.send(result.insertId);
-            }
-        });
+
+    const authorization = headers.authorization;
+    if(authorization.indexOf('Bearer ') !== 0) {
+        response.status(400).send();
+        return;
     }
+    const token = authorization.substring('Bearer '.length);
+    const url = `https://graph.facebook.com/debug_token?input_token=${token}&access_token=${APP_ID}|${APP_SECRET}`;
+
+    require('request')({
+        url,
+        method: 'GET',
+        json: true
+    }, function(error, {statusCode}, {data}) {
+        if(error) {
+            console.error(error);
+            response.status(500).send();
+        } else if(data.error) {
+            response.status(401).send(data.error.message);
+        } else if(statusCode < 200 || statusCode >= 300) {
+            response.status(500).send();
+        } else {
+            try {
+                const error = LightweightDungeonSerializer.validate(body);
+                if(error) {
+                    response.status(400).send(error);
+                } else {
+                    dungeonService.addDungeon(body, function(error, result) {
+                        if(error) {
+                            response.status(500).send(error);
+                        } else {
+                            response.status(200).send(result.insertId);
+                        }
+                    });
+                }
+            } catch(error) {
+                response.status(400).send('Failed to save dungeon');
+            }
+        }
+    });
 });
 
 module.exports = router;

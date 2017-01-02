@@ -197,7 +197,9 @@ export default class RandomMapDungeonFactory {
 
         var playerLocation = locations.shift();
         dungeon.setTile(new EntranceTile(playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
-        dungeon.moveCreature(player, playerLocation.getX(), playerLocation.getY());
+        if(player) {
+            dungeon.moveCreature(player, playerLocation.getX(), playerLocation.getY());
+        }
 
         // Test game configuration
         var creatures = table.rollEntries(dungeon, prng, 70);

@@ -20,8 +20,8 @@ angular.module('dungeon-picker', [])
     const { resolve, reject } = promiseHandlers;
 
     fetch(new Request('/dungeons', {
+        method: 'GET',
         headers: new Headers({
-            method: 'GET',
             'Content-Type': 'application/json'
         })
     })).then(r=>r.json()).then(function(dungeons) {

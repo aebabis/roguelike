@@ -5,12 +5,15 @@ import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
 import DebugConsole from '../util/DebugConsole.js';
 import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializer.js';
 
+import Account from '../../account/Account.js';
+
 function template() {
     return $(`
         <div class="menu-bar">
             <button class="newgame" accesskey="n">New Game</button>
             <button class="restart" accesskey="r">Restart</button>
             <button class="load" accesskey="l">Load</button>
+            <button class="upload" accesskey="u">Upload</button>
             <label>Remember Previous Level <input type="checkbox" ${localStorage.repeatPreviousLevel === 'true' ? 'checked' : ''}></label>
         </div>`);
 }
@@ -49,6 +52,24 @@ export default class MenuBar {
                 });
                 sharedData.setDungeon(dungeon);
             });
+        }).on('click', '.upload', function() {
+            Account.getAuthToken().then(function(token) {
+                const method = 'POST';
+                const headers = new Headers();
+                headers.set('Authorization', `Bearer ${token}`);
+                headers.set('Content-Type', 'application/json');
+                
+                const prng = Random.engines.mt19937();
+                prng.seed(localStorage.lastSeed);
+                const dungeon = new RandomMapDungeonFactory().getRandomMap(prng, null);
+                const body = JSON.stringify(LightweightDungeonSerializer.serialize(dungeon));
+
+                fetch(new Request('/dungeons', {
+                    method,
+                    headers,
+                    body
+                }));
+            })
         }).on('change', 'input', function() {
             localStorage.repeatPreviousLevel = $(this).prop('checked');
         });

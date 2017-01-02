@@ -7,7 +7,25 @@ import Dungeon from '../dungeons/Dungeon.js';
 
 export default {
     serialize: function(dungeon) {
-        
+        const conditions = dungeon.getGameConditions().constructor.name;
+        const width = dungeon.getWidth();
+        const height = dungeon.getHeight();
+        const grid = new Array(width).fill(0).map(()=>[]);
+        dungeon.forEachTile(function(tile, x, y) {
+            const tileName = tile.constructor.name;
+            const creature = tile.getCreature();
+            // TODO: Support AbilityConsumables
+            const itemNames = tile.getItems().map((item)=>item.constructor.name).filter(name=>name!=='AbilityConsumable');
+            grid[x][y] = {
+                tile: tileName,
+                creature: creature && creature.constructor.name || undefined,
+                items: itemNames
+            };
+        });
+        return {
+            grid,
+            conditions
+        };
     },
 
     deserialize: function(json) {
@@ -50,12 +68,12 @@ export default {
             for(let y = 0, height = col.length; y < height; y++) {
                 const cell = col[y];
 
-                let illegalKey = Object.keys(cell).find((key)=>key !== 'tile' && key !== 'items' && key !== 'enemy');
+                let illegalKey = Object.keys(cell).find((key)=>key !== 'tile' && key !== 'items' && key !== 'creature');
                 if(illegalKey) {
                     return `Illegal cell contents ${illegalKey}`;
                 }
 
-                const {tile, items, enemy} = cell;
+                const {tile, items, creature} = cell;
                 if(!(tile in Tiles)) {
                     return `Illegal tile name ${tile}`;
                 }
@@ -73,8 +91,8 @@ export default {
                         }
                     }
                 }
-                if(enemy !== undefined && !(enemy in Enemies)) {
-                    return `Illegal enemy name ${enemy}`;
+                if(creature !== undefined && !(creature in Enemies)) {
+                    return `Illegal enemy name ${creature}`;
                 }
             }
         }

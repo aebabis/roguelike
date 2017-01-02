@@ -275,6 +275,14 @@ export default class Dungeon extends Observable {
     }
 
     /**
+     * Gets the conditions for victory and defeat in the Dungeon
+     * returns {GameConditions}
+     */
+    getGameConditions() {
+        return this._gameConditions;
+    }
+
+    /**
      * Tells if the dungeon's state can advance.
      * @return {boolean} - `false` if the game has ended or if the game is blocked
      * waiting for the player's move; `true` otherwise.

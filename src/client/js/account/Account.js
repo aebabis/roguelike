@@ -1,7 +1,7 @@
 const getApi = new Promise(function(resolve, reject) {
     const script = document.createElement('script');
     script.setAttribute('type', 'text/javascript');
-    script.setAttribute('src', 'http://connect.facebook.net/en_US/all.js');
+    script.setAttribute('src', 'https://connect.facebook.net/en_US/all.js');
     document.body.appendChild(script);
 
     script.addEventListener('load', function() {

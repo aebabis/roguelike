@@ -22,7 +22,9 @@ export default lib = {
                     <span class="name">${item.getName()}</span>
                     <span class="desc">${item.getFriendlyDescription()}</span>
                 </div>
-                ${(isNaN(index) || item instanceof TheTreasure) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
+                ${(isNaN(index) || item instanceof TheTreasure) ?
+                    '<button class="home" type="button" title="Walk to the exit" accesskey="h">&#127968;</button>' :
+                    '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
             </li>`)[0];
         } else {
             return $(`<li class="slot empty" tabindex="0" data-index="${index}">

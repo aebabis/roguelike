@@ -62,6 +62,11 @@ export default class InventoryView {
             dungeon.resolveUntilBlocked();
         });
 
+        $(dom).on('click tap', 'button.home', function(event) {
+            event.stopPropagation(); // Prevent parent "button" from being clicked
+            sharedData.dispatchUIEvent('GO_HOME');
+        });
+
         sharedData.addObserver((event)=>this.update(event));
         this.redraw();
     }

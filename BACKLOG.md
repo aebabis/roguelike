@@ -1,15 +1,14 @@
 # Backlog
 ## Technical
 - High
-  - Puzzles/Level-Select
   - Using keyboard to look at tiles
   - Make enemies drop their items
   - Show enemy resistances in UI
-  - Go home button
   - UI highlighting
   - Use Yarn
   - nodemon with babel-node?
 - Med
+  - Numbered levels from level database
   - Special inventory slot for TheTreasure?
   - Weights for random dungeon rooms
   - Keybindings Overlay

@@ -256,18 +256,46 @@ export default {
                 }
             }
             if(width !== 0 && height !== 0 && Random.bool(.4)(prng)) {
-                const doorX = Random.integer(x1, x2 - 1)(prng);
-                const doorY = Random.integer(y1, y2 - 1)(prng);
-                if(direction === 'x') {
-                    for(let y = y1; y < y2; y++) {
-                        dungeon.setTile(new Tiles.WallTile(doorX, y), doorX, y);
-                    }
+                const locations = [];
+                if(direction === 'x' && width >= 4) {
+                    // For long hallways, put a door at each end
+                    locations.push({
+                        doorX: x1,
+                        doorY: Random.integer(y1, y2 - 1)(prng)
+                    });
+                    locations.push({
+                        doorX: x2 - 1,
+                        doorY: Random.integer(y1, y2 - 1)(prng)
+                    });
+                } else if(direction === 'y' && (height >= 4)) {
+                    // For long hallways, put a door at each end
+                    locations.push({
+                        doorX: Random.integer(x1, x2 - 1)(prng),
+                        doorY: y1
+                    });
+                    locations.push({
+                        doorX: Random.integer(x1, x2 - 1)(prng),
+                        doorY: y2 - 1
+                    });
                 } else {
-                    for(let x = x1; x < x2; x++) {
-                        dungeon.setTile(new Tiles.WallTile(x, doorY), x, doorY);
-                    }
+                    locations.push({
+                        doorX: Random.integer(x1, x2 - 1)(prng),
+                        doorY: Random.integer(y1, y2 - 1)(prng)
+                    });
                 }
-                dungeon.setTile(new Tiles.DoorTile(doorX, doorY), doorX, doorY);
+
+                locations.forEach(function({doorX, doorY}) {
+                    if(direction === 'x') {
+                        for(let y = y1; y < y2; y++) {
+                            dungeon.setTile(new Tiles.WallTile(doorX, y), doorX, y);
+                        }
+                    } else {
+                        for(let x = x1; x < x2; x++) {
+                            dungeon.setTile(new Tiles.WallTile(x, doorY), x, doorY);
+                        }
+                    }
+                    dungeon.setTile(new Tiles.DoorTile(doorX, doorY), doorX, doorY);
+                });
             }
         });
 

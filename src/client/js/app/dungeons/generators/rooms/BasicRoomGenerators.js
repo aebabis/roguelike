@@ -30,7 +30,7 @@ export default [{
     minHeight: 3,
     maxHeight: 6,
     minHallLength: 1,
-    maxHallLength: 3,
+    maxHallLength: 4,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
         const x2 = x1 + width;
         const y2 = y1 + height;
@@ -47,7 +47,7 @@ export default [{
     minHeight: 5,
     maxHeight: 9,
     minHallLength: 1,
-    maxHallLength: 2,
+    maxHallLength: 4,
     fill: function(prng, dungeon, {x1, y1, width, height}) {
         const x2 = x1 + width;
         const y2 = y1 + height;

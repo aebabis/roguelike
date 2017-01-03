@@ -90,7 +90,7 @@ function getHall(prng, room, edge) {
         const lowerY = Random.integer(minY, maxY - 1)(prng);
         const upperY = Random.integer(lowerY + 1, maxY)(prng);
         return {
-            x1: (edge.side === EAST) ? edge.x : room.x,
+            x1: (edge.side === EAST) ? edge.x : room.x + room.width,
             y1: lowerY,
             x2: (edge.side === EAST) ? room.x : edge.x,
             y2: upperY,
@@ -247,12 +247,15 @@ export default {
         });
 
         halls.forEach(function({x1, y1, x2, y2, direction}) {
+            const width = x2 - x1;
+            const height = y2 - y1;
+
             for(let x = x1; x < x2; x++) {
                 for(let y = y1; y < y2; y++) {
                     dungeon.setTile(new Tiles.Tile(x, y), x, y);
                 }
             }
-            if(Random.bool(.4)(prng)) {
+            if(width !== 0 && height !== 0 && Random.bool(.4)(prng)) {
                 const doorX = Random.integer(x1, x2 - 1)(prng);
                 const doorY = Random.integer(y1, y2 - 1)(prng);
                 if(direction === 'x') {

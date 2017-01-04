@@ -4,10 +4,14 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: './src/client/js/app/Bootstrapper.js',
+    entry: [
+        'webpack-hot-middleware/client?reload=true',
+        './src/client/js/app/Bootstrapper.js',
+    ],
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -21,7 +25,9 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             Random: 'random-js'
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
     ],
     module: {
         loaders: [

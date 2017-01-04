@@ -5,7 +5,6 @@
   - Make enemies drop their items
   - Show enemy resistances in UI
   - UI highlighting
-  - Use Yarn
   - nodemon with babel-node?
 - Med
   - Numbered levels from level database
@@ -45,6 +44,7 @@
   - Color UI when holding accelerator keys (items during ctrl)
   - Typescript
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
+  - Use Yarn
 
 ## Content
   - Invisibility Spell

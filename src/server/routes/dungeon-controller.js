@@ -15,8 +15,6 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
 
     const LightweightDungeonSerializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer').default;
 
-    router.use(require('body-parser')());
-
     router.get('/', function(request, response) {
         const { lastId, limit } = request.params;
         dungeonService.getDungeons({

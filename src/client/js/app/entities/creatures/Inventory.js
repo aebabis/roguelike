@@ -89,6 +89,16 @@ var Inventory = class Inventory {
         }
     }
 
+    getItems() {
+        const equipment = this._equipment;
+        return this._backpack.concat(
+            equipment[Inventory.MELEE_SLOT],
+            equipment[Inventory.RANGED_SLOT],
+            equipment[Inventory.ARMOR_SLOT],
+            equipment[Inventory.ACCESSORY_SLOT],
+        ).filter(Boolean);
+    }
+
     getBackpack() {
         return this._backpack;
     }

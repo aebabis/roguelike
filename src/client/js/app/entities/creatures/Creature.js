@@ -20,6 +20,8 @@ import Strategy from './strategies/Strategy.js';
 
 import Geometry from '../../util/Geometry.js';
 
+import Items from '../Items.js';
+
 const visionLookup = {};
 
 function rangeBetween(a, b) {
@@ -313,10 +315,19 @@ export default class Creature extends Entity {
      * @param {Dungeon} - The Dungeon this Creature is in
      */
     die(dungeon) {
+        const tile = dungeon.getTile(this);
         this._isDead = true;
         dungeon.removeCreature(this);
         dungeon.fireEvent(new DeathEvent(dungeon, this));
-        this.onDeath(dungeon, dungeon.getTile(this));
+        this.onDeath(dungeon, tile);
+        // Drop items
+        this.getInventory().getItems().forEach(function(item) {
+            // Check if item is droppable. Items from private classes
+            // (e.g. Ent melee weapon are not droppable)
+            if(item.constructor.name in Items) {
+                tile.addItem(item);
+            }
+        });
     }
 
     /**

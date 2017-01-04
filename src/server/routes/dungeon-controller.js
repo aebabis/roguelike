@@ -4,10 +4,16 @@ const APP_SECRET = process.env.OAUTH_CLIENT_SECRET;
 
 const express = require('express');
 const router = express.Router();
+const request = require('request');
 
 if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
-    console.error('Must set database path env: JAWSDB_MARIA_URL');
-    console.log('Serving empty route for dungeon-controller');
+    const error = 'Must set database path env: JAWSDB_MARIA_URL';
+    if(process.env.NODE_ENV === 'production') {
+        throw new Error(error);
+    } else {
+        console.error(error);
+        console.info('Serving empty route for dungeon-controller');
+    }
 } else {
     const mysql = require('mysql');
     const connection = mysql.createConnection(DB_URL);
@@ -15,63 +21,61 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
 
     const LightweightDungeonSerializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer').default;
 
-    router.get('/', function(request, response) {
-        const { lastId, limit } = request.params;
+    router.get('/', function(req, res) {
+        const { lastId, limit } = req.params;
         dungeonService.getDungeons({
             lastId,
             limit
         }, function(error, dungeons) {
-            response.send(dungeons);
+            res.send(dungeons);
         });
     });
 
-    router.get('/:id', function(request, response) {
-        const { id } = request.params;
+    router.get('/:id', function(req, res) {
+        const { id } = req.params;
         dungeonService.getDungeon(id, function(error, dungeon) {
-            console.log(dungeon);
-            response.send(dungeon);
+            res.send(dungeon);
         });
     });
 
-    router.post('/', function(request, response) {
-        const {headers, body} = request;
+    router.post('/', function(req, res) {
+        const {headers, body} = req;
 
         const authorization = headers.authorization;
         if(authorization.indexOf('Bearer ') !== 0) {
-            response.status(400).send();
-            return;
+            return res.status(401).send('Bad OAuth token');
         }
         const token = authorization.substring('Bearer '.length);
         const url = `https://graph.facebook.com/debug_token?input_token=${token}&access_token=${APP_ID}|${APP_SECRET}`;
 
-        require('request')({
+        request({
             url,
             method: 'GET',
             json: true
         }, function(error, {statusCode}, {data}) {
             if(error) {
                 console.error(error);
-                response.status(500).send();
+                res.sendStatus(500);
             } else if(data.error) {
-                response.status(401).send(data.error.message);
+                res.status(401).send(data.error.message);
             } else if(statusCode < 200 || statusCode >= 300) {
-                response.status(500).send();
+                res.sendStatus(500);
             } else {
                 try {
                     const error = LightweightDungeonSerializer.validate(body);
                     if(error) {
-                        response.status(400).send(error);
+                        res.status(400).send(error);
                     } else {
                         dungeonService.addDungeon(body, function(error, result) {
                             if(error) {
-                                response.status(500).send(error);
+                                res.status(500).send(error);
                             } else {
-                                response.status(200).send(result.insertId);
+                                res.status(200).send(result.insertId);
                             }
                         });
                     }
                 } catch(error) {
-                    response.status(400).send('Failed to save dungeon');
+                    res.status(400).send('Failed to save dungeon');
                 }
             }
         });

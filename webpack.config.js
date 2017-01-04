@@ -5,13 +5,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: [
-        'webpack-hot-middleware/client?reload=true',
         './src/client/js/app/Bootstrapper.js',
     ],
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js',
-        publicPath: '/'
+        filename: 'bundle.js'
     },
     plugins: [
         new HtmlWebpackPlugin({

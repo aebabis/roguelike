@@ -6,7 +6,9 @@ module.exports = function(app) {
         const path = require('path');
         const webpack = require('webpack');
         const webpackConfig = require(path.join(__dirname, '..', '..', 'webpack.config.js'));
-        const compiler = webpack(webpackConfig);
+
+        const entryWithAutoReload = ['webpack-hot-middleware/client?reload=true'].concat(webpackConfig.entry);
+        const compiler = webpack(Object.assign({}, webpackConfig, { entry: entryWithAutoReload }));
 
         // Step 2: Attach the dev middleware to the compiler & the server
         app.use(require('webpack-dev-middleware')(compiler, {

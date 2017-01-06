@@ -78,6 +78,9 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
                     res.status(400).send('Failed to save dungeon');
                 }
             }
+        }).on('error', function(error) {
+            console.error(error);
+            res.sendStatus(500);
         });
     });
 }

@@ -179,7 +179,18 @@ function reportCreaturesToConsole(creatures) {
     DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
 }
 
+/**
+ * Factory for creating random dungeons. Uses a generator to create random rooms,
+ * then fills them with monsters and loot
+ */
 export default class RandomMapDungeonFactory {
+    /**
+     * Generates a new psuedorandom map
+     * @param {Random} prng - A RandomJS PRNG
+     * @param {PlayableCharacter} [player] - A player character. If not given,
+     * it can be manually added later
+     * @return {Dungeon}
+     */
     getRandomMap(prng, player) {
         var dungeon = ConnectedRoomLayoutGenerator.generate(prng, {
             numRooms: 6

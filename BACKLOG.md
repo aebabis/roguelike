@@ -2,7 +2,6 @@
 ## Technical
 - High
   - Using keyboard to look at tiles
-  - Make enemies drop their items
   - Show enemy resistances in UI
   - UI highlighting
   - nodemon with babel-node?

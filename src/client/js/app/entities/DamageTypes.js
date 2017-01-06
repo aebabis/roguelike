@@ -1,4 +1,4 @@
-var DAMAGE_TYPES = [
+const TYPE_LIST = [
     'MELEE_PHYSICAL',
     'RANGED_PHYSICAL',
     'FIRE',
@@ -8,14 +8,19 @@ var DAMAGE_TYPES = [
     'POISON'
 ];
 
-var TYPE_MAP = DAMAGE_TYPES.reduce((obj, type) => {
+const TYPE_MAP = TYPE_LIST.reduce((obj, type) => {
     obj[type] = type;
     return obj;
 }, {});
 
-DAMAGE_TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
+/**
+ * A map of legal damage types in the game. All damage must
+ * have a type. This object is guarded to make sure that
+ * illegal types aren't silently accessed.
+ */
+const DAMAGE_TYPES = (typeof Proxy === 'undefined') ? TYPE_MAP : new Proxy(TYPE_MAP, {
     get: function(obj, prop) {
-        var value = obj[prop];
+        const value = obj[prop];
         if(typeof value === 'undefined') {
             throw new Error(`Unrecognized damage type: ${prop}. Choose from: ${Object.keys(obj)}`);
         } else {

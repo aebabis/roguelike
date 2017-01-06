@@ -297,7 +297,7 @@ export default class Creature extends Entity {
     /**
      * Modifies the Creature's current mana by the given amount. Mana cannot
      * go below zero or above the Creature's base mana value
-     * @param {number} - An integer to add to the Creature's current mana.
+     * @param {number} amount - An integer to add to the Creature's current mana.
      * Negative numbers are allowed
      */
     modifyMana(amount) {
@@ -312,7 +312,7 @@ export default class Creature extends Entity {
 
     /**
      * Kills this creature, removing it from the Dungeon
-     * @param {Dungeon} - The Dungeon this Creature is in
+     * @param {Dungeon} dungeon - The Dungeon this Creature is in
      */
     die(dungeon) {
         const tile = dungeon.getTile(this);

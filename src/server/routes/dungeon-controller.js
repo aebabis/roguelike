@@ -4,7 +4,6 @@ const APP_SECRET = process.env.OAUTH_CLIENT_SECRET;
 
 const express = require('express');
 const router = express.Router();
-const request = require('request');
 
 if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
     const error = 'Must set database path env: JAWSDB_MARIA_URL';
@@ -39,49 +38,24 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
     });
 
     router.post('/', function(req, res) {
-        const {headers, body} = req;
-
-        const authorization = headers.authorization;
-        if(authorization.indexOf('Bearer ') !== 0) {
-            return res.status(401).send('Bad OAuth token');
-        }
-        const token = authorization.substring('Bearer '.length);
-        const url = `https://graph.facebook.com/debug_token?input_token=${token}&access_token=${APP_ID}|${APP_SECRET}`;
-
-        request({
-            url,
-            method: 'GET',
-            json: true
-        }, function(error, {statusCode}, {data}) {
+        const user = req.session.user;
+        const body = req.body;
+        try {
+            const error = LightweightDungeonSerializer.validate(body);
             if(error) {
-                console.error(error);
-                res.sendStatus(500);
-            } else if(data.error) {
-                res.status(401).send(data.error.message);
-            } else if(statusCode < 200 || statusCode >= 300) {
-                res.sendStatus(500);
+                res.status(400).send(error);
             } else {
-                try {
-                    const error = LightweightDungeonSerializer.validate(body);
+                dungeonService.addDungeon(body, user.user_id, function(error, result) {
                     if(error) {
-                        res.status(400).send(error);
+                        res.status(500).send(error);
                     } else {
-                        dungeonService.addDungeon(body, function(error, result) {
-                            if(error) {
-                                res.status(500).send(error);
-                            } else {
-                                res.status(200).send(result.insertId);
-                            }
-                        });
+                        res.status(200).send(result.insertId);
                     }
-                } catch(error) {
-                    res.status(400).send('Failed to save dungeon');
-                }
+                });
             }
-        }).on('error', function(error) {
-            console.error(error);
-            res.sendStatus(500);
-        });
+        } catch(error) {
+            res.status(400).send('Failed to save dungeon');
+        }
     });
 }
 

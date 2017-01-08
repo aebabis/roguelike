@@ -5,6 +5,7 @@
   - Show enemy resistances in UI
   - UI highlighting
   - nodemon with babel-node?
+  - CSRF
 - Med
   - Numbered levels from level database
   - Special inventory slot for TheTreasure?
@@ -28,6 +29,7 @@
   - Rename distance functions
   - Autopath during enemies should go 1 tile at a time
   - See corners when adjacent edges are in range (5/3 slope)
+  - Non-default session store
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars
@@ -71,9 +73,7 @@
   - Trash can icon
   - Parchment scroll background image for game log
   - Knight
-  - Pillar
   - Magic sword
-  - A PC who can tunnel (mole, miner, ect.)
   - Troll
   - Mimic
   - Dragon

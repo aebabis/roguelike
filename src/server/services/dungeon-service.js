@@ -2,8 +2,9 @@ const TABLE_NAME = 'custom_dungeons';
 
 const CREATE_DUNGEON_TABLE = `
     CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
-        id INT NOT NULL AUTO_INCREMENT,
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT,
         date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        creator BIGINT UNSIGNED NOT NULL,
         width SMALLINT UNSIGNED NOT NULL,
         height SMALLINT UNSIGNED NOT NULL,
         conditions VARCHAR(127) NOT NULL,
@@ -16,7 +17,7 @@ const SELECT_DUNGEONS = `SELECT * FROM ${TABLE_NAME} WHERE id > ? LIMIT ?`;
 
 const SELECT_DUNGEON = `SELECT * FROM ${TABLE_NAME} WHERE id = ?`;
 
-const CREATE_DUNGEON = `INSERT INTO ${TABLE_NAME} (width, height, conditions, data) VALUES (?, ?, ?, ?)`;
+const CREATE_DUNGEON = `INSERT INTO ${TABLE_NAME} (creator, width, height, conditions, data) VALUES (?, ?, ?, ?, ?)`;
 
 function normalizeDungeon(record) {
     if(record.data) {
@@ -68,11 +69,11 @@ module.exports = function(connection) {
             });
         },
 
-        addDungeon: function(data, callback) {
+        addDungeon: function(data, userId, callback) {
             const {conditions, grid} = data;
             const width = grid.length;
             const height = grid[0].length;
-            const query = connection.format(CREATE_DUNGEON, [width, height, conditions, JSON.stringify(data)]);
+            const query = connection.format(CREATE_DUNGEON, [userId, width, height, conditions, JSON.stringify(data)]);
             connection.query(query, function(error, result) {
                 if(error) {
                     console.error(error);

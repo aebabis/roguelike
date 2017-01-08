@@ -39,7 +39,7 @@ export default {
                 FB.getLoginStatus(function({status, authResponse}) {
                     if(status === 'connected') {
                         resolve(authResponse.accessToken);
-                    } else if(status === 'not_authorized') {
+                    } else {
                         FB.login(function({status, authResponse}){
                             if(status === 'connected') {
                                 resolve(authResponse.accessToken);
@@ -47,8 +47,6 @@ export default {
                                 reject(status);
                             }
                         });
-                    } else {
-                        reject(status);
                     }
                 });
             })

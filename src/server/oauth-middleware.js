@@ -1,4 +1,3 @@
-const Facebook = require('facebook-oauth-agent');
 const request = require('request');
 
 const APP_ID = process.env.OAUTH_CLIENT_ID;

@@ -20,8 +20,8 @@ class CellPhoneZap extends Weapon {
         this.charge(dungeon);
     }
 
-    getUseMessage(creature) {
-        return creature +  ' is charging its lazer';
+    getUseMessage(dungeon, creature) {
+        return creature.getName() +  ' is charging its lazer';
     }
 
     isUseable(dungeon) {

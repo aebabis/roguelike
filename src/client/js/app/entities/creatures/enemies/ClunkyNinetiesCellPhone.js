@@ -77,6 +77,6 @@ export default class ClunkyNinetiesCellPhone extends Creature {
     }
 
     getSpeed() {
-        return 400;
+        return 425;
     }
 }

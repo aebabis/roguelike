@@ -20,7 +20,9 @@ import DebugConsole from '../util/DebugConsole.js';
 
 import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayoutGenerator.js';
 
-var itemTable = new EntityTable([{
+const LOOT_VALUE = 70;
+
+const itemTable = new EntityTable([{
     entity: Weapons.Stick,
     weight: 3,
     cost: 5
@@ -94,7 +96,7 @@ var itemTable = new EntityTable([{
     cost: 40
 }]);
 
-var table = new EntityTable([{
+const table = new EntityTable([{
     entity: Enemies.Archer,
     weight: 40,
     cost: 10
@@ -160,22 +162,22 @@ var table = new EntityTable([{
     cost: 15
 }]);
 
-var rightPad = (s,c,n) => s + c.repeat(Math.max(0, n-s.length));
+const rightPad = (s,c,n) => s + c.repeat(Math.max(0, n-s.length));
 
 function reportCreaturesToConsole(creatures) {
     // Record creature data in the debug console
-    var data = creatures.map(function(creature) {
+    const data = creatures.map(function(creature) {
         return {
             name: creature.getName(),
             cost: table.getCost(creature)
         };
     }).sort((c1, c2)=>c1.cost-c2.cost);
-    var maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
+    const maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
     DebugConsole.log('SPAWNED ENEMIES');
     DebugConsole.log(data.map(function(creature) {
         return `${rightPad(creature.name, ' ', maxNameLength)} (${creature.cost})`;
     }).join('\n'));
-    var totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
+    const totalCost = data.map((c)=>c.cost).reduce((a,b)=>a+b);
     DebugConsole.log(`${rightPad('TOTAL COST', ' ', maxNameLength)} (${totalCost})`);
 }
 
@@ -192,41 +194,41 @@ export default class RandomMapDungeonFactory {
      * @return {Dungeon}
      */
     getRandomMap(prng, player) {
-        var dungeon = ConnectedRoomLayoutGenerator.generate(prng, {
+        const dungeon = ConnectedRoomLayoutGenerator.generate(prng, {
             numRooms: 6
         });
 
-        var emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
-        var locations = Random.shuffle(prng, emptyTiles);
+        const emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
+        const locations = Random.shuffle(prng, emptyTiles);
 
-        var drops = itemTable.rollEntries(dungeon, prng, 80);
+        const drops = itemTable.rollEntries(dungeon, prng, LOOT_VALUE);
         drops.forEach(function(item) {
-            var position = Random.integer(0, emptyTiles.length - 1)(prng);
-            var tile = emptyTiles[position];
+            const position = Random.integer(0, emptyTiles.length - 1)(prng);
+            const tile = emptyTiles[position];
             tile.addItem(item);
         });
 
-        var playerLocation = locations.shift();
+        const playerLocation = locations.shift();
         dungeon.setTile(new EntranceTile(playerLocation.getX(), playerLocation.getY()), playerLocation.getX(), playerLocation.getY());
         if(player) {
             dungeon.moveCreature(player, playerLocation.getX(), playerLocation.getY());
         }
 
         // Test game configuration
-        var creatures = table.rollEntries(dungeon, prng, 70);
+        const creatures = table.rollEntries(dungeon, prng, 70);
 
         reportCreaturesToConsole(creatures);
 
         // Place enemies
-        var enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
+        const enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
         creatures.forEach(function(creature) {
-            var loc = enemyLocations.shift();
+            const loc = enemyLocations.shift();
             if(loc) {
                 dungeon.moveCreature(creature, loc.getX(), loc.getY());
             }
         });
 
-        var treasureLocation = Random.picker(enemyLocations)(prng);
+        const treasureLocation = Random.picker(enemyLocations)(prng);
         treasureLocation.addItem(new TheTreasure(dungeon));
 
         dungeon.setGameConditions(new GetTheTreasureConditions());

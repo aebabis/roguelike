@@ -19,6 +19,10 @@ module.exports = function(app) {
         app.use(require('webpack-hot-middleware')(compiler, {
             log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
         }));
+
+        // Serve spritesheet
+        // TODO: Make webpack dev server serve image from memory instead of file
+        app.use('/images', require('express').static(__dirname + '/../../dist/images'));
     } else {
         app.use('/', require('express').static(__dirname + '/../../dist'));
     }

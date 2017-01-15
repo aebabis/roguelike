@@ -47,7 +47,8 @@
     "traceur": "0.0.111",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.3",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-spritesmith": "^0.3.1"
   },
   "devDependencies": {
     "esdoc": "^0.4.8",

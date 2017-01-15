@@ -1,7 +1,8 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SpritesmithPlugin = require('webpack-spritesmith');
 
 module.exports = {
     entry: [
@@ -25,7 +26,21 @@ module.exports = {
             Random: 'random-js'
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new SpritesmithPlugin({
+            src: {
+                cwd: path.resolve(__dirname, 'src', 'client', 'images', 'small'),
+                glob: '*.png'
+            },
+            target: {
+                image: path.resolve(__dirname, 'dist', 'images', 'spritesheet.png'),
+                css: [
+                    [path.resolve(__dirname, 'dist', 'images', 'spritesheet.json'), {
+                        format: 'json_texture'
+                    }]
+                ]
+            }
+        })
     ],
     module: {
         loaders: [

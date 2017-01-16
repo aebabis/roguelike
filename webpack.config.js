@@ -36,9 +36,48 @@ module.exports = {
                 image: path.resolve(__dirname, 'dist', 'images', 'spritesheet.png'),
                 css: [
                     [path.resolve(__dirname, 'dist', 'images', 'spritesheet.json'), {
-                        format: 'json_texture'
+                        format: 'pixi_template'
                     }]
                 ]
+            },
+            apiOptions: {
+                cssImageRef: "spritesheet.png"
+            },
+            spritesmithOptions: {
+                padding: 2
+            },
+            customTemplates: {
+                pixi_template: function(data) {
+                    const json = {
+                        frames: data.sprites.reduce(function(obj, item) {
+                            obj[item.name] = {
+                                frame: {
+                                    x: item.x,
+                                    y: item.y,
+                                    w: item.width,
+                                    h: item.height
+                                },
+                                rotated: false,
+                                trimmed: false,
+                                spriteSourceSize: {x: item.x, y: item.y, w: item.w, h: item.h},
+                                sourceSize: {w: item.w, h: item.h}
+                            };
+                            return obj;
+                        }, {}),
+                        meta: {
+                            app: 'spritesheet-templates',
+                            //"version": "10.2.1",
+                            image: 'spritesheet.png',
+                            scale: 1,
+                            size: {
+                                w: data.spritesheet.width,
+                                h: data.spritesheet.height
+                            }
+                        }
+                    };
+
+                    return JSON.stringify(json, null, 4);
+                }
             }
         })
     ],

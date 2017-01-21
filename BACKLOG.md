@@ -30,6 +30,7 @@
   - Autopath during enemies should go 1 tile at a time
   - See corners when adjacent edges are in range (5/3 slope)
   - Non-default session store
+  - Make enemies that fail to find player at its last known location, go back to searching
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars

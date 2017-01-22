@@ -11,11 +11,9 @@ export default class GraphicalViewKeyboardController {
      * Instantiates a controller and binds event handlers to the document
      * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
      */
-    constructor(sharedData) {
-        const dom = document.querySelector('section.game');
-
+    constructor(sharedData, view) {
         // Arrow key handler
-        dom.addEventListener('keydown', function(event) {
+        document.querySelector('section.game').addEventListener('keydown', function(event) {
             const dungeon = sharedData.getDungeon();
             //var active = document.activeElement;
             const code = event.keyCode;

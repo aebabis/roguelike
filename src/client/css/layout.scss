@@ -34,6 +34,12 @@ section.game {
     height: 100%;
 }
 
+.canvas-container {
+    flex-grow: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
 .grid-scroll {
     display: inline-block;
 }

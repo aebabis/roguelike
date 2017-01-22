@@ -35,17 +35,17 @@
     }
 
     &[data-tile-type="Tile"] {
-        background-image: url(../images/small/DungeonTile.png);
+        background-image: url(../images/small/Tile.png);
         background-size: 100%;
     }
 
     &[data-tile-type="PillarTile"] {
-        background-image: url(../images/small/Pillar.png), url(../images/small/DungeonTile.png);
+        background-image: url(../images/small/Pillar.png), url(../images/small/Tile.png);
         background-size: 100%;
     }
 
     &[data-tile-type="WallTile"] {
-        background-image: url(../images/small/crummywall.png);
+        background-image: url(../images/small/WallTile.png);
         background-size: 100%;
     }
 
@@ -55,12 +55,12 @@
     }
 
     &[data-tile-type="DoorTile"][data-door-open="true"] {
-        background-image: url(../images/small/DoorOpen.png), url(../images/small/DungeonTile.png);
+        background-image: url(../images/small/DoorOpen.png), url(../images/small/Tile.png);
         background-size: 100%;
     }
 
     &[data-tile-type="PitTile"] {
-        background-image: url(../images/small/Spikes.png);
+        background-image: url(../images/small/PitTile.png);
         background-size: 100%;
         background-color: #100c00;
         box-shadow: inset 0 0 10px 7px black;
@@ -101,7 +101,7 @@
     }
 
     [data-creature-name="ClunkyNinetiesCellPhone"] {
-        background-image: url(../images/small/Chunky90sPhone.png);
+        background-image: url(../images/small/ClunkyNinetiesCellPhone.png);
     }
 
     [data-creature-name="ClunkyNinetiesCellPhone"][data-phone-charged="true"] {
@@ -113,7 +113,7 @@
     }
 
     [data-creature-name="Crier"] {
-        background-image: url(../images/small/Trumpet.png);
+        background-image: url(../images/small/Crier.png);
     }
 
     [data-creature-name="DustBunny"] {
@@ -141,7 +141,7 @@
     }
 
     [data-creature-name="Skeleton"] {
-        background-image: url(../images/small/SkeletonLight.png);
+        background-image: url(../images/small/Skeleton.png);
     }
 
     [data-creature-name="SlingshotImp"] {
@@ -149,7 +149,7 @@
     }
 
     [data-creature-name="Witch"] {
-        background-image: url(../images/small/LittleGreenWitch.png);
+        background-image: url(../images/small/Witch.png);
     }
 
     [data-creature-name="Wyrm"] {

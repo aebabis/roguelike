@@ -1,21 +1,23 @@
 import GraphicalDungeonView from '../views/GraphicalDungeonView.js';
+import PixiDungeonView from '../views/PixiDungeonView.js';
 import EventLogView from '../views/EventLogView.js';
 import AbilitiesView from '../views/AbilitiesView.js';
 import InventoryView from '../views/InventoryView.js';
 import PlayerLocationView from '../views/PlayerLocationView.js';
 
 import GraphicalViewKeyboardController from '../controllers/GraphicalViewKeyboardController.js';
-import GraphicalViewMouseController from '../controllers/GraphicalViewMouseController.js';
+import PixiDungeonViewMouseController from '../views/PixiDungeonViewMouseController.js';
 
 export default function(sharedData) {
-    const mapView = new GraphicalDungeonView(sharedData);
+    //const mapView = new GraphicalDungeonView(sharedData);
+    const mapView = new PixiDungeonView(sharedData);
     const eventLogView = new EventLogView(sharedData);
     const inventoryView = new InventoryView(sharedData);
     const abilitiesView = new AbilitiesView(sharedData);
     const playerLocationView = new PlayerLocationView(sharedData);
 
     new GraphicalViewKeyboardController(sharedData, mapView);
-    new GraphicalViewMouseController(sharedData, mapView);
+    new PixiDungeonViewMouseController(sharedData, mapView);
 
     const gameSection = document.querySelector('section');
     gameSection.innerHTML = '';

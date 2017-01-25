@@ -11,7 +11,7 @@ import UIMessageEvent from './UIMessageEvent.js';
 export default class GraphicalViewMouseController {
     /**
      * Instantiates a controller and binds event handlers to the document
-     * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
+     * @param {SharedUIDataController} sharedData - The data object containing the dungeon
      * @param {graphicalDungeonView} graphicalDungeonView - The view that will receive the clicks
      */
     constructor(sharedData, graphicalDungeonView) {

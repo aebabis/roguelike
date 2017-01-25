@@ -6,7 +6,7 @@ import DungeonTooltips from './DungeonTooltips.js';
 
 import DamageTypes from '../entities/DamageTypes.js';
 
-import GraphicalViewSharedData from '../controllers/GraphicalViewSharedData.js';
+import SharedUIDataController from '../controllers/SharedUIDataController.js';
 
 import Moves from '../entities/creatures/moves/Moves.js';
 
@@ -73,8 +73,8 @@ function getCreatureSprite(creature) {
 
 export default class PixiDungeonView {
     constructor(sharedData) {
-        if(!(sharedData instanceof GraphicalViewSharedData)) {
-            throw new Error('First parameter must be a GraphicalViewSharedData');
+        if(!(sharedData instanceof SharedUIDataController)) {
+            throw new Error('First parameter must be a SharedUIDataController');
         }
         const self = this;
         this._sharedData = sharedData;

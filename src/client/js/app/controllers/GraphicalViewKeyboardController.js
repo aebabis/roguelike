@@ -9,7 +9,7 @@ import UIMessageEvent from './UIMessageEvent.js';
 export default class GraphicalViewKeyboardController {
     /**
      * Instantiates a controller and binds event handlers to the document
-     * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
+     * @param {SharedUIDataController} sharedData - The data object containing the dungeon
      */
     constructor(sharedData, view) {
         // Arrow key handler

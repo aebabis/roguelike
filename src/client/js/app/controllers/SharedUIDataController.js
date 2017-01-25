@@ -13,9 +13,8 @@ import GameEvents from '../events/GameEvents.js';
  * Dungeon itself switches.
  * Additionally, this class stores information that needs to be shared between
  * multiple views and controllers, such as the currently hovered tile
- * @todo Consider renaming this to `UiSharedData` or similar
  */
-export default class GraphicalViewSharedData extends Observable {
+export default class SharedUIDataController extends Observable {
     /**
      * @param {Dungeon} [dungeon] - The initial dungeon for the views to show
      */

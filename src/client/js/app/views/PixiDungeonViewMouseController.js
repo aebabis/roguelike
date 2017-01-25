@@ -11,7 +11,7 @@ import UIMessageEvent from '../controllers/UIMessageEvent.js';
 export default class PixiDungeonViewMouseController {
     /**
      * Instantiates a controller and binds event handlers to the document
-     * @param {GraphicalViewSharedData} sharedData - The data object containing the dungeon
+     * @param {SharedUIDataController} sharedData - The data object containing the dungeon
      * @param {PixiDungeonView} dungeonView - The view that will receive the clicks
      */
     constructor(sharedData, graphicalDungeonView) {

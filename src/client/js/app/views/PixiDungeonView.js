@@ -221,8 +221,8 @@ export default class PixiDungeonView {
                 hoverIndicator = new PIXI.Graphics();
                 hoverIndicator.lineStyle(1, color);
                 hoverIndicator.drawRect(
-                    x * (TILE_WIDTH + GAP_WIDTH), y * (TILE_WIDTH + GAP_WIDTH) - GAP_WIDTH, // TODO: Figure out why only 1 of these needs -1
-                    TILE_WIDTH + GAP_WIDTH, TILE_WIDTH + GAP_WIDTH
+                    x * (TILE_WIDTH + GAP_WIDTH) + 1, y * (TILE_WIDTH + GAP_WIDTH) - GAP_WIDTH, // TODO: Figure out why only 1 of these needs -1
+                    TILE_WIDTH + GAP_WIDTH - 1, TILE_WIDTH + GAP_WIDTH - 1
                 );
                 
                 stage.addChild(hoverIndicator);

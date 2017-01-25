@@ -13,6 +13,7 @@ import Moves from '../entities/creatures/moves/Moves.js';
 const PIXI = require('pixi.js');
 
 const TILE_WIDTH = 50;
+const GAP_WIDTH = 0;
 
 const DAMAGE_COLORS = {
     [DamageTypes.MELEE_PHYSICAL]: 'darkred',
@@ -101,8 +102,8 @@ export default class PixiDungeonView {
                 
                 dungeon.forEachTile(function(tile, x, y) {
                     const tileContainer = getTileContainer(tile);
-                    tileContainer.x = x * (TILE_WIDTH + 1);
-                    tileContainer.y = y * (TILE_WIDTH + 1);
+                    tileContainer.x = x * (TILE_WIDTH + GAP_WIDTH);
+                    tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
                     tileContainers[x][y] = tileContainer;
 
                     const creature = tile.getCreature();
@@ -220,8 +221,8 @@ export default class PixiDungeonView {
                 hoverIndicator = new PIXI.Graphics();
                 hoverIndicator.lineStyle(1, color);
                 hoverIndicator.drawRect(
-                    x * (TILE_WIDTH + 1), y * (TILE_WIDTH + 1) - 1, // TODO: Figure out why only 1 of these needs -1
-                    TILE_WIDTH + 1, TILE_WIDTH + 1
+                    x * (TILE_WIDTH + GAP_WIDTH), y * (TILE_WIDTH + GAP_WIDTH) - GAP_WIDTH, // TODO: Figure out why only 1 of these needs -1
+                    TILE_WIDTH + GAP_WIDTH, TILE_WIDTH + GAP_WIDTH
                 );
                 
                 stage.addChild(hoverIndicator);

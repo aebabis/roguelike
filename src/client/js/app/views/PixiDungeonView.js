@@ -35,6 +35,11 @@ const DAMAGE_OUTLINE_COLORS = {
     [DamageTypes.POISON]: 'darkgreen'
 };
 
+const NEUTRAL_COLOR = 0x46465a;
+const ATTACK_MOVE_COLOR = 0x8b0000;
+const ITEM_MOVE_COLOR = 0x7F00FF;
+const ABILITY_MOVE_COLOR = 0x9400D3;
+
 function setDefaultSpriteProps(sprite) {
     sprite.x = 0;
     sprite.y = 0;
@@ -79,7 +84,8 @@ export default class PixiDungeonView {
         const self = this;
         this._sharedData = sharedData;
         this._clickHanders = [];
-        this._hoverHandlers = [];
+        this._mouseOverHandlers = [];
+        this._mouseOutHandlers = [];
         
         const canvasContainer = this._canvasContainer = document.createElement('div');
         canvasContainer.classList.add('canvas-container');
@@ -186,46 +192,70 @@ export default class PixiDungeonView {
                 stage.addChild(rangeIndicator);
             }
 
-            let hoverIndicator;
-            function updateHoverIndicator() {
-                if(hoverIndicator && hoverIndicator.parent) {
-                    hoverIndicator.parent.removeChild(hoverIndicator);
+            function getTileColor(x, y) {
+                const dungeon = sharedData.getDungeon();
+                const player = dungeon.getPlayableCharacter();
+                const playerLocation = dungeon.getTile(player);
+
+                switch(sharedData.getMode()) {
+                    case SharedUIDataController.EXAMINE_MODE:
+                        return NEUTRAL_COLOR;
+                    case SharedUIDataController.ATTACK_MODE:
+                        return new Moves.AttackMove(playerLocation, x, y)
+                            .getReasonIllegal(dungeon, player) ?
+                            NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
+                    case SharedUIDataController.TARGETTED_ABILITY_MODE:
+                        const abilityIndex = sharedData.getTargettedAbility();
+                        return new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y)
+                            .getReasonIllegal(dungeon, player) ?
+                            NEUTRAL_COLOR : ABILITY_MOVE_COLOR;
+                    case SharedUIDataController.TARGETTED_ITEM_MODE:
+                        const itemIndex = sharedData.getTargettedItem();
+                        return new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y))
+                            .getReasonIllegal(dungeon, player) ?
+                            NEUTRAL_COLOR : ITEM_MOVE_COLOR;
+                    case SharedUIDataController.NEUTRAL_MODE:
+                        return new Moves.AttackMove(playerLocation, x, y)
+                            .getReasonIllegal(dungeon, player) ?
+                            NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
+                    default:
+                        throw new Error('This should never happen');
                 }
+            }
+
+            function getIndicator(x, y, color) {
+                const indicator = new PIXI.Graphics();
+                indicator.lineStyle(1, color);
+                indicator.drawRect(
+                    x * (TILE_WIDTH + GAP_WIDTH) + 1, y * (TILE_WIDTH + GAP_WIDTH),
+                    TILE_WIDTH + GAP_WIDTH - 1, TILE_WIDTH + GAP_WIDTH - 1
+                );
+                return indicator;
+            }
+
+            let indicators = [];
+            function updateSelectedTileIndicator() {
+                indicators.forEach(function(indicator) {
+                    if(indicator.parent) {
+                        indicator.parent.removeChild(indicator);
+                    }
+                });
 
                 const dungeon = sharedData.getDungeon();
                 const player = dungeon.getPlayableCharacter();
                 const playerLocation = dungeon.getTile(player);
 
-                const tile = sharedData.getInspectedTile(); // TODO: getHoverTile? Make sharedData keep track of mouse vs keyboard?
-                if(!tile) {
-                    return;
-                }
-                const { x, y } = tile;
-
-                let color = 0x46465a;
-
-                const abilityIndex = sharedData.getTargettedAbility();
-                const itemIndex = sharedData.getTargettedItem();
-                if(typeof abilityIndex === 'number') {
-                    if(!new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y).getReasonIllegal(dungeon, player)) {
-                        color = 0x9400D3;
-                    }
-                } if(typeof itemIndex === 'number') {
-                    if(!new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y)).getReasonIllegal(dungeon, player)) {
-                        color = 0x7F00FF;
-                    }
-                } else if(!new Moves.AttackMove(playerLocation, x, y).getReasonIllegal(dungeon, player)) {
-                    color = 0x8b0000;
-                }
-
-                hoverIndicator = new PIXI.Graphics();
-                hoverIndicator.lineStyle(1, color);
-                hoverIndicator.drawRect(
-                    x * (TILE_WIDTH + GAP_WIDTH) + 1, y * (TILE_WIDTH + GAP_WIDTH) - GAP_WIDTH, // TODO: Figure out why only 1 of these needs -1
-                    TILE_WIDTH + GAP_WIDTH - 1, TILE_WIDTH + GAP_WIDTH - 1
-                );
-                
-                stage.addChild(hoverIndicator);
+                indicators = [
+                    sharedData.getHoverTile(),
+                    sharedData.getFocusTile()
+                ].filter(Boolean).map(function(tile) {
+                    const x = tile.getX();
+                    const y = tile.getY();
+                    const color = getTileColor(x, y);
+                    const indicator = getIndicator(x, y, color);
+                    stage.addChild(indicator);
+                    return indicator;
+                });
             }
 
             function updateCreatureLocations() {
@@ -284,7 +314,7 @@ export default class PixiDungeonView {
                     populateStage();
                     document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
                 }
-                updateHoverIndicator();
+                updateSelectedTileIndicator();
             });
 
             sharedData.addObserver(function observer(event) {
@@ -335,7 +365,13 @@ export default class PixiDungeonView {
                     handler(x, y);
                 });
             }).on('mouseover', function(event) {
-                self._hoverHandlers.forEach(function(handler) {
+                setTimeout(function() { // Ensure mouseout fires first
+                    self._mouseOverHandlers.forEach(function(handler) {
+                        handler(x, y);
+                    });
+                });
+            }).on('mouseout', function(event) {
+                self._mouseOutHandlers.forEach(function(handler) {
                     handler(x, y);
                 });
             });
@@ -367,11 +403,18 @@ export default class PixiDungeonView {
         this._clickHanders.push(handler);
     }
 
-    onHover(handler) {
+    onMouseOver(handler) {
         if(typeof handler !== 'function') {
             throw new Error('Handler must be a function');
         }
-        this._hoverHandlers.push(handler);
+        this._mouseOverHandlers.push(handler);
+    }
+
+    onMouseOut(handler) {
+        if(typeof handler !== 'function') {
+            throw new Error('Handler must be a function');
+        }
+        this._mouseOutHandlers.push(handler);
     }
 
     // TODO: HP bar

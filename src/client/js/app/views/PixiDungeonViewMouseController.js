@@ -82,9 +82,12 @@ export default class PixiDungeonViewMouseController {
             }
         });
 
-        graphicalDungeonView.onHover(function(x, y) {
-            sharedData.setInspectedTile(x, y);
-            //sharedData.setInspectedTileMoveType(x, y, getMoveNameFor(x, y));
+        graphicalDungeonView.onMouseOver(function(x, y) {
+            sharedData.setHoverTile(x, y);
+        });
+
+        graphicalDungeonView.onMouseOut(function() {
+            sharedData.unsetHoverTile();
         });
 
         sharedData.addObserver(function(event) {

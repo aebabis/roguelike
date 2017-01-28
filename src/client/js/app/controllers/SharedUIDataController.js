@@ -6,6 +6,13 @@ import Moves from '../entities/creatures/moves/Moves.js';
 
 import GameEvents from '../events/GameEvents.js';
 
+let incr = 0;
+const NEUTRAL_MODE = incr++;
+const ATTACK_MODE = incr++;
+const TARGETTED_ABILITY_MODE = incr++;
+const TARGETTED_ITEM_MODE = incr++;
+const EXAMINE_MODE = incr++;
+
 /**
  * An object for decoupling the Dungeon from views and controllers
  * Holds the current Dungeon and acts as a proxy for the Dungeon's events.
@@ -15,6 +22,12 @@ import GameEvents from '../events/GameEvents.js';
  * multiple views and controllers, such as the currently hovered tile
  */
 export default class SharedUIDataController extends Observable {
+    static get NEUTRAL_MODE() { return NEUTRAL_MODE }
+    static get ATTACK_MODE() { return ATTACK_MODE }
+    static get TARGETTED_ABILITY_MODE() { return TARGETTED_ABILITY_MODE }
+    static get TARGETTED_ITEM_MODE() { return TARGETTED_ITEM_MODE }
+    static get EXAMINE_MODE() { return EXAMINE_MODE }
+
     /**
      * @param {Dungeon} [dungeon] - The initial dungeon for the views to show
      */
@@ -70,7 +83,7 @@ export default class SharedUIDataController extends Observable {
      * @param {number} x - The x-coordinate of the tile
      * @param {number} y - The y-coordinate of the tile
      */
-    setInspectedTile(x, y) {
+    setHoverTile(x, y) {
         if(isNaN(x) || isNaN(y)) {
             throw new Error('x and y must be numbers');
         }
@@ -81,12 +94,23 @@ export default class SharedUIDataController extends Observable {
         this._notifyObservers();
     }
 
+    unsetHoverTile() {
+        this._inspectedTile = null;
+        this._notifyObservers();
+    }
+
     /**
      * Gets the tile set by {@link setInspectedTile}
-     * @return {object} - An object with `x` and `y` properties
+     * @return {Tile}
      */
-    getInspectedTile() {
-        return this._inspectedTile;
+    getHoverTile() {
+        const coords = this._inspectedTile;
+        if(coords) {
+            const {x, y} = coords;
+            return this.getDungeon().getTile(x, y);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -126,6 +150,7 @@ export default class SharedUIDataController extends Observable {
 
         this.unsetTargettedItem();
         this.unsetAttackMode();
+        this.unsetExamineMode();
         this._notifyObservers();
     }
 
@@ -194,6 +219,7 @@ export default class SharedUIDataController extends Observable {
 
         this.unsetTargettedAbility();
         this.unsetAttackMode();
+        this.unsetExamineMode();
         this._notifyObservers();
     }
 
@@ -244,6 +270,7 @@ export default class SharedUIDataController extends Observable {
         }
         this.unsetTargettedAbility();
         this.unsetTargettedItem();
+        this.unsetExamineMode();
         this._notifyObservers();
     }
 
@@ -266,8 +293,58 @@ export default class SharedUIDataController extends Observable {
     }
 
     /**
-     * Cycles focus to the next ability, attack, or item target depending
-     * on what the user has selected
+     * Puts this controller in attack mode so that keyboard users
+     * can select a target for an attack
+     */
+    setExamineMode() {
+        const dungeon = this.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const playerTile = dungeon.getTile(player);
+        this._examineTarget = playerTile;
+        this.unsetAttackMode();
+        this.unsetTargettedAbility();
+        this.unsetTargettedItem();
+        this._notifyObservers();
+    }
+
+    /**
+     * Returns this controller to the default mode (movement mode)
+     */
+    unsetExamineMode() {
+        this._examineTarget = null;
+        this._notifyObservers();
+    }
+
+    /**
+     * Gets the currently focused legal attack target
+     * for the currently selected weapon, if any
+     * @return {Tile} - A tile that is a legal target for the targetted
+     * weapon, or null if no weapon is selected
+     */
+    getExamineTarget() {
+        return this._examineTarget;
+    }
+
+    getFocusTile() {
+        switch(this.getMode()) {
+            case SharedUIDataController.ATTACK_MODE:
+                return this.getAttackTarget();
+            case SharedUIDataController.TARGETTED_ABILITY_MODE:
+                return this.getAbilityTarget();
+            case SharedUIDataController.TARGETTED_ITEM_MODE:
+                return this.getItemTarget();
+            case SharedUIDataController.EXAMINE_MODE:
+                return this.getExamineTarget();
+            case SharedUIDataController.NEUTRAL_MODE:
+                return null;
+            default:
+                throw new Error('This should never happen');
+        }
+    }
+
+    /**
+     * Cycles focus to the next ability target, attack target, item target, or tile depending
+     * on what mode the controller is in
      */
     cycleTarget(dx, dy) {
         const self = this;
@@ -294,6 +371,20 @@ export default class SharedUIDataController extends Observable {
             array.push(array.shift());
         }
         this._notifyObservers();
+    }
+
+    getMode() {
+        if(this.getAttackTarget()) {
+            return ATTACK_MODE;
+        } else if(typeof this.getTargettedAbility() === 'number') {
+            return TARGETTED_ABILITY_MODE;
+        } else if(typeof this.getTargettedItem() === 'number') {
+            return TARGETTED_ITEM_MODE;
+        } else if(this.getExamineTarget()) {
+            return EXAMINE_MODE;
+        } else {
+            return NEUTRAL_MODE;
+        }
     }
 
     /**

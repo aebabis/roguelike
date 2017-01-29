@@ -11,6 +11,8 @@ import SharedUIDataController from '../controllers/SharedUIDataController.js';
 import Moves from '../entities/creatures/moves/Moves.js';
 
 const PIXI = require('pixi.js');
+const TextureCache = (PIXI.utils.TextureCache);
+const Sprite = PIXI.Sprite;
 
 const TILE_WIDTH = 50;
 const GAP_WIDTH = 0;
@@ -48,24 +50,29 @@ function setDefaultSpriteProps(sprite) {
     return sprite;
 }
 
+function getSpriteStack(spriteNames) {
+    const group = new PIXI.Container();
+    spriteNames.forEach(function(spriteName) {
+        group.addChild(
+            setDefaultSpriteProps(
+                new Sprite(TextureCache[spriteName])
+            )
+        );
+    });
+    return group;
+}
+
 function getTileSprite(tile) {
-    const TextureCache = (PIXI.utils.TextureCache);
-    const Sprite = PIXI.Sprite;
     if(tile.constructor.name === 'DoorTile') {
         if(tile.isOpen()) {
-            return new Sprite(TextureCache['DoorOpen']);
+            return getSpriteStack(['Tile', 'DoorOpen']);
         } else {
             return new Sprite(TextureCache['DoorClosed']);
         }
-    } if(tile.constructor.name === 'PillarTile') {
-        const group = new PIXI.Container();
-        const tile = new Sprite(TextureCache['Tile']);
-        const pillar = new Sprite(TextureCache['Pillar']);
-        setDefaultSpriteProps(tile);
-        setDefaultSpriteProps(pillar);
-        group.addChild(tile);
-        group.addChild(pillar);
-        return group;
+    } else if(tile.constructor.name === 'EntranceTile') {
+        return getSpriteStack(['Tile', 'Ladder']);
+    } else if(tile.constructor.name === 'PillarTile') {
+        return getSpriteStack(['Tile', 'Pillar']);
     } else {
         const texture = TextureCache[tile.constructor.name] || TextureCache['ThisIsAThing'];
         return new Sprite(texture);

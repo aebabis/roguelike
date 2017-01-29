@@ -3,7 +3,7 @@ import Rogue from '../../../src/client/js/app/entities/creatures/classes/Rogue.j
 import Moves from '../../../src/client/js/app/entities/creatures/moves/Moves.js';
 import Slingshot from '../../../src/client/js/app/entities/weapons/Slingshot.js';
 
-import GraphicalViewSharedData from '../../../src/client/js/app/controllers/GraphicalViewSharedData.js';
+import SharedUIDataController from '../../../src/client/js/app/controllers/SharedUIDataController.js';
 import InventoryView from '../../../src/client/js/app/views/InventoryView.js';
 
 var expect = require('chai').expect;
@@ -14,7 +14,7 @@ describe('InventoryView', function() {
         dungeon.moveCreature(new Rogue(), 0, 0);
         dungeon.getTile(1, 1).addItem(new Slingshot());
 
-        const sharedData = new GraphicalViewSharedData(dungeon);
+        const sharedData = new SharedUIDataController(dungeon);
         const view = new InventoryView(sharedData);
 
         const showedSlingshot = !!view.getDom().querySelector('.slot.item');
@@ -36,7 +36,7 @@ describe('InventoryView', function() {
         const newPlayer = new Rogue();
         newDungeon.moveCreature(newPlayer, 0, 0);
 
-        const sharedData = new GraphicalViewSharedData(dungeon);
+        const sharedData = new SharedUIDataController(dungeon);
         const view = new InventoryView(sharedData);
 
         const showedSlingshot = !!view.getDom().querySelector('.slot.item');

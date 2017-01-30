@@ -150,6 +150,7 @@ export default class PixiDungeonView {
         }
         const self = this;
         this._sharedData = sharedData;
+        this._indicators = [];
         this._clickHanders = [];
         this._mouseOverHandlers = [];
         this._mouseOutHandlers = [];
@@ -172,87 +173,18 @@ export default class PixiDungeonView {
     }
 
     init() {
-        const self = this;
         const stage = this._stage = new PIXI.Container();
-        stage.backgroundColor = 'gray';
 
         const entitySprites = this._entiteSprites = {};
 
-        let rangeIndicator;
-        function updateRangeIndicator() {
-            if(rangeIndicator && rangeIndicator.parent) {
-                rangeIndicator.parent.removeChild(rangeIndicator); // TODO: Is there a remove self function?
-            }
-
-            const dungeon = sharedData.getDungeon();
-            const player = dungeon.getPlayableCharacter();
-            let rangedAttack;
-            if(typeof sharedData.getTargettedAbility() === 'number') {
-                rangedAttack = player.getAbility(sharedData.getTargettedAbility());
-            } else if(typeof sharedData.getTargettedItem() === 'number') {
-                rangedAttack = player.getInventory().getItem(sharedData.getTargettedItem());
-            } else {
-                rangedAttack = player.getRangedWeapon();
-            }
-            if(!rangedAttack) {
-                return;
-            }
-
-            rangeIndicator = new PIXI.Graphics();
-            
-            let color;
-            if(typeof rangedAttack.isMovementAbility === 'function') {
-                color = 0x9400D3;
-            } else if(rangedAttack.isTargetted()) {
-                color = 0x7F00FF;
-            } else {
-                color = 0x46465a;
-            }
-
-            const playerTile = dungeon.getTile(player);
-            rangeIndicator.lineStyle(1, color, 1);
-            rangeIndicator.drawCircle(
-                (playerTile.getX() + .5) * TILE_WIDTH,
-                (playerTile.getY() + .5) * TILE_WIDTH,
-                rangedAttack.getRange() * TILE_WIDTH
-            );
-            
-            stage.addChild(rangeIndicator);
-        }
-
-        let indicators = [];
-        function updateSelectedTileIndicator() {
-            indicators.forEach(function(indicator) {
-                if(indicator.parent) {
-                    indicator.parent.removeChild(indicator);
-                }
-            });
-
-            const dungeon = sharedData.getDungeon();
-            const player = dungeon.getPlayableCharacter();
-            const playerLocation = dungeon.getTile(player);
-
-            indicators = [
-                sharedData.getHoverTile(),
-                sharedData.getFocusTile()
-            ].filter(Boolean).map(function(tile) {
-                const x = tile.getX();
-                const y = tile.getY();
-                const color = getTileColor(sharedData, x, y);
-                const indicator = getIndicator(x, y, color);
-                stage.addChild(indicator);
-                return indicator;
-            });
-        }
-
         const sharedData = this._sharedData;
         const renderer = this._renderer;
-        sharedData.addObserver(function observer(event) {
+        
+        sharedData.addObserver((event) => {
             if(event instanceof Dungeon){
-                self.populateStage(stage);
+                this.populateStage(stage);
                 document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
             }
-            updateSelectedTileIndicator();
         });
 
         sharedData.addObserver((event) => {
@@ -277,11 +209,11 @@ export default class PixiDungeonView {
                 this.updateItems();
             }
             this.scrollToPlayer();
-            updateRangeIndicator();
+            this.updateRangeIndicator();
+            this.updateSelectedTileIndicator();
             renderer.render(stage);
         });
 
-        updateRangeIndicator();
         renderer.render(stage);
     }
 
@@ -322,13 +254,6 @@ export default class PixiDungeonView {
                     handler(x, y);
                 });
             });
-
-            /*const creature = tile.getCreature();
-            if(creature) {
-                const creatureSprite = setDefaultSpriteProps(getCreatureSprite(creature));
-                entitySprites[creature.getId()] = creatureSprite;
-                tileContainer.children[2].addChild(creatureSprite);
-            }*/
 
             stage.addChild(tileContainer);
         });
@@ -384,6 +309,74 @@ export default class PixiDungeonView {
                 tileContainers[tile.getX()][tile.getY()].children[2].addChild(sprite);
             }
         })
+    }
+
+    updateRangeIndicator() {
+        let rangeIndicator = this._rangeIndicator;
+        if(rangeIndicator && rangeIndicator.parent) {
+            rangeIndicator.parent.removeChild(rangeIndicator); // TODO: Is there a remove self function?
+        }
+
+        const sharedData = this._sharedData;
+        const dungeon = sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        let rangedAttack;
+        if(typeof sharedData.getTargettedAbility() === 'number') {
+            rangedAttack = player.getAbility(sharedData.getTargettedAbility());
+        } else if(typeof sharedData.getTargettedItem() === 'number') {
+            rangedAttack = player.getInventory().getItem(sharedData.getTargettedItem());
+        } else {
+            rangedAttack = player.getRangedWeapon();
+        }
+        if(!rangedAttack) {
+            return;
+        }
+
+        rangeIndicator = this._rangeIndicator = new PIXI.Graphics();
+        
+        let color;
+        if(typeof rangedAttack.isMovementAbility === 'function') {
+            color = 0x9400D3;
+        } else if(rangedAttack.isTargetted()) {
+            color = 0x7F00FF;
+        } else {
+            color = 0x46465a;
+        }
+
+        const playerTile = dungeon.getTile(player);
+        rangeIndicator.lineStyle(1, color, 1);
+        rangeIndicator.drawCircle(
+            (playerTile.getX() + .5) * TILE_WIDTH,
+            (playerTile.getY() + .5) * TILE_WIDTH,
+            rangedAttack.getRange() * TILE_WIDTH
+        );
+        
+        this._stage.addChild(rangeIndicator);
+    }
+
+    updateSelectedTileIndicator() {
+        this._indicators.forEach((indicator) => {
+            if(indicator.parent) {
+                indicator.parent.removeChild(indicator);
+            }
+        });
+
+        const sharedData = this._sharedData;
+        const dungeon = sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const playerLocation = dungeon.getTile(player);
+
+        this._indicators = [
+            sharedData.getHoverTile(),
+            sharedData.getFocusTile()
+        ].filter(Boolean).map((tile) => {
+            const x = tile.getX();
+            const y = tile.getY();
+            const color = getTileColor(sharedData, x, y);
+            const indicator = getIndicator(x, y, color);
+            this._stage.addChild(indicator);
+            return indicator;
+        });
     }
 
     scrollToPlayer() {

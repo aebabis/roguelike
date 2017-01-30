@@ -83,6 +83,47 @@ function getCreatureSprite(creature) {
     return new PIXI.Sprite(PIXI.utils.TextureCache[creature.constructor.name]);
 }
 
+function getTileColor(sharedData, x, y) {
+    const dungeon = sharedData.getDungeon();
+    const player = dungeon.getPlayableCharacter();
+    const playerLocation = dungeon.getTile(player);
+
+    switch(sharedData.getMode()) {
+        case SharedUIDataController.EXAMINE_MODE:
+            return NEUTRAL_COLOR;
+        case SharedUIDataController.ATTACK_MODE:
+            return new Moves.AttackMove(playerLocation, x, y)
+                .getReasonIllegal(dungeon, player) ?
+                NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
+        case SharedUIDataController.TARGETTED_ABILITY_MODE:
+            const abilityIndex = sharedData.getTargettedAbility();
+            return new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y)
+                .getReasonIllegal(dungeon, player) ?
+                NEUTRAL_COLOR : ABILITY_MOVE_COLOR;
+        case SharedUIDataController.TARGETTED_ITEM_MODE:
+            const itemIndex = sharedData.getTargettedItem();
+            return new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y))
+                .getReasonIllegal(dungeon, player) ?
+                NEUTRAL_COLOR : ITEM_MOVE_COLOR;
+        case SharedUIDataController.NEUTRAL_MODE:
+            return new Moves.AttackMove(playerLocation, x, y)
+                .getReasonIllegal(dungeon, player) ?
+                NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
+        default:
+            throw new Error('This should never happen');
+    }
+}
+
+function getIndicator(x, y, color) {
+    const indicator = new PIXI.Graphics();
+    indicator.lineStyle(1, color);
+    indicator.drawRect(
+        x * (TILE_WIDTH + GAP_WIDTH) + 1, y * (TILE_WIDTH + GAP_WIDTH),
+        TILE_WIDTH + GAP_WIDTH - 1, TILE_WIDTH + GAP_WIDTH - 1
+    );
+    return indicator;
+}
+
 export default class PixiDungeonView {
     constructor(sharedData) {
         if(!(sharedData instanceof SharedUIDataController)) {
@@ -97,263 +138,27 @@ export default class PixiDungeonView {
         const canvasContainer = this._canvasContainer = document.createElement('div');
         canvasContainer.classList.add('canvas-container');
 
-        const renderer = PIXI.autoDetectRenderer();
+        const renderer = this._renderer = PIXI.autoDetectRenderer();
         canvasContainer.appendChild(renderer.view);
 
-        PIXI.loader.add('images/spritesheet.json').load(function() {
-            const stage = new PIXI.Container();
-            stage.backgroundColor = 'gray';
+        PIXI.loader.add('images/spritesheet.json').load(() => this.init());
 
-            let tileContainers;
-            const entitySprites = {};
+        function resize() {
+            const {clientWidth, clientHeight} = canvasContainer;
+            renderer.resize(clientWidth, clientHeight);
+        }
 
-            function populateSprites() {
-                while(stage.children.length) stage.removeChild(stage.children[0]);
+        setTimeout(resize);
+        window.addEventListener('resize', resize);
+    }
 
-                const dungeon = sharedData.getDungeon();
-                tileContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
-                
-                dungeon.forEachTile(function(tile, x, y) {
-                    const tileContainer = getTileContainer(tile);
-                    tileContainer.x = x * (TILE_WIDTH + GAP_WIDTH);
-                    tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
-                    tileContainers[x][y] = tileContainer;
+    init() {
+        const self = this;
+        const stage = new PIXI.Container();
+        stage.backgroundColor = 'gray';
 
-                    const creature = tile.getCreature();
-                    if(creature) {
-                        const creatureSprite = getCreatureSprite(creature);
-                        creatureSprite.x = 0;
-                        creatureSprite.y = 0;
-                        creatureSprite.width = TILE_WIDTH;
-                        creatureSprite.height = TILE_WIDTH;
-                        entitySprites[creature.getId()] = creatureSprite;
-                        tileContainer.children[2].addChild(creatureSprite);
-                    }
-
-                    stage.addChild(tileContainer);
-                });
-
-                updateVision();
-            }
-
-            function updateVision() {
-                const dungeon = sharedData.getDungeon();
-                const player = dungeon.getPlayableCharacter();
-                if(player) {
-                    dungeon.forEachTile(function(tile, x, y) {
-                        const creature = tile.getCreature();
-                        const tileContainer = tileContainers[x][y];
-                        const [tileSprite, itemContainer, creatureContainer] = tileContainer.children;
-                        const playerCanSeeTile = player.canSee(dungeon, tile);
-                        if(playerCanSeeTile) {
-                            tileContainer.alpha = 1;
-                        } else if(player.hasSeen(tile)) {
-                            tileContainer.alpha = .5;
-                        } else {
-                            tileContainer.alpha = 0;
-                        }
-                        itemContainer.visible = creatureContainer.visible = playerCanSeeTile;
-                    });
-                }
-            }
-
-            let rangeIndicator;
-            function updateRangeIndicator() {
-                if(rangeIndicator && rangeIndicator.parent) {
-                    rangeIndicator.parent.removeChild(rangeIndicator); // TODO: Is there a remove self function?
-                }
-
-                const dungeon = sharedData.getDungeon();
-                const player = dungeon.getPlayableCharacter();
-                let rangedAttack;
-                if(typeof sharedData.getTargettedAbility() === 'number') {
-                    rangedAttack = player.getAbility(sharedData.getTargettedAbility());
-                } else if(typeof sharedData.getTargettedItem() === 'number') {
-                    rangedAttack = player.getInventory().getItem(sharedData.getTargettedItem());
-                } else {
-                    rangedAttack = player.getRangedWeapon();
-                }
-                if(!rangedAttack) {
-                    return;
-                }
-
-                rangeIndicator = new PIXI.Graphics();
-                
-                let color;
-                if(typeof rangedAttack.isMovementAbility === 'function') {
-                    color = 0x9400D3;
-                } else if(rangedAttack.isTargetted()) {
-                    color = 0x7F00FF;
-                } else {
-                    color = 0x46465a;
-                }
-
-                const playerTile = dungeon.getTile(player);
-                rangeIndicator.lineStyle(1, color, 1);
-                rangeIndicator.drawCircle(
-                    (playerTile.getX() + .5) * TILE_WIDTH,
-                    (playerTile.getY() + .5) * TILE_WIDTH,
-                    rangedAttack.getRange() * TILE_WIDTH
-                );
-                
-                stage.addChild(rangeIndicator);
-            }
-
-            function getTileColor(x, y) {
-                const dungeon = sharedData.getDungeon();
-                const player = dungeon.getPlayableCharacter();
-                const playerLocation = dungeon.getTile(player);
-
-                switch(sharedData.getMode()) {
-                    case SharedUIDataController.EXAMINE_MODE:
-                        return NEUTRAL_COLOR;
-                    case SharedUIDataController.ATTACK_MODE:
-                        return new Moves.AttackMove(playerLocation, x, y)
-                            .getReasonIllegal(dungeon, player) ?
-                            NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
-                    case SharedUIDataController.TARGETTED_ABILITY_MODE:
-                        const abilityIndex = sharedData.getTargettedAbility();
-                        return new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y)
-                            .getReasonIllegal(dungeon, player) ?
-                            NEUTRAL_COLOR : ABILITY_MOVE_COLOR;
-                    case SharedUIDataController.TARGETTED_ITEM_MODE:
-                        const itemIndex = sharedData.getTargettedItem();
-                        return new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y))
-                            .getReasonIllegal(dungeon, player) ?
-                            NEUTRAL_COLOR : ITEM_MOVE_COLOR;
-                    case SharedUIDataController.NEUTRAL_MODE:
-                        return new Moves.AttackMove(playerLocation, x, y)
-                            .getReasonIllegal(dungeon, player) ?
-                            NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
-                    default:
-                        throw new Error('This should never happen');
-                }
-            }
-
-            function getIndicator(x, y, color) {
-                const indicator = new PIXI.Graphics();
-                indicator.lineStyle(1, color);
-                indicator.drawRect(
-                    x * (TILE_WIDTH + GAP_WIDTH) + 1, y * (TILE_WIDTH + GAP_WIDTH),
-                    TILE_WIDTH + GAP_WIDTH - 1, TILE_WIDTH + GAP_WIDTH - 1
-                );
-                return indicator;
-            }
-
-            let indicators = [];
-            function updateSelectedTileIndicator() {
-                indicators.forEach(function(indicator) {
-                    if(indicator.parent) {
-                        indicator.parent.removeChild(indicator);
-                    }
-                });
-
-                const dungeon = sharedData.getDungeon();
-                const player = dungeon.getPlayableCharacter();
-                const playerLocation = dungeon.getTile(player);
-
-                indicators = [
-                    sharedData.getHoverTile(),
-                    sharedData.getFocusTile()
-                ].filter(Boolean).map(function(tile) {
-                    const x = tile.getX();
-                    const y = tile.getY();
-                    const color = getTileColor(x, y);
-                    const indicator = getIndicator(x, y, color);
-                    stage.addChild(indicator);
-                    return indicator;
-                });
-            }
-
-            function updateCreatureLocations() {
-                const dungeon = sharedData.getDungeon();
-                dungeon.getCreatures().forEach(function(creature) {
-                    const sprite = entitySprites[creature.getId()] || 
-                            (entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureSprite(creature)));
-                    if(sprite.parent) {
-                        sprite.parent.removeChild(sprite);
-                    }
-                    if(!creature.isDead()) {
-                        const tile = dungeon.getTile(creature);
-                        tileContainers[tile.getX()][tile.getY()].children[2].addChild(sprite);
-                    }
-                })
-            }
-
-            function updateItems() {
-                const dungeon = sharedData.getDungeon();
-                dungeon.forEachTile(function(tile, x, y) {
-                    const tileContainer = tileContainers[x][y];
-                    const itemsContainer = tileContainer.children[1];
-                    while(itemsContainer.children.length) itemsContainer.removeChildAt(0);
-                    tile.getItems().forEach(function(item) {
-                        itemsContainer.addChild(setDefaultSpriteProps(new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])));
-                    })
-                });
-            }
-
-            function scroll() {
-                const dungeon = sharedData.getDungeon();
-                const player = dungeon.getPlayableCharacter();
-                const tile = dungeon.getTile(player);
-
-                const canvasWidth = renderer.view.width;
-                const canvasHeight = renderer.view.height;
-
-                const cellDimension = TILE_WIDTH;
-                const halfDimension = TILE_WIDTH / 2;
-                const playerOffsetX = tile.getX() * cellDimension + halfDimension;
-                const playerOffsetY = tile.getY() * cellDimension + halfDimension;
-
-                stage.x = (canvasWidth / 2) - playerOffsetX;
-                stage.y = (canvasHeight / 2) - playerOffsetY;
-            }
-
-            function populateStage() {
-                populateSprites();
-                updateItems();
-                updateVision();
-                renderer.render(stage);
-            }
-
-            sharedData.addObserver(function observer(event) {
-                if(event instanceof Dungeon){
-                    populateStage();
-                    document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
-                }
-                updateSelectedTileIndicator();
-            });
-
-            sharedData.addObserver(function observer(event) {
-                const dungeon = sharedData.getDungeon();
-                if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
-                    updateVision();
-                    updateCreatureLocations();
-                    renderer.render(stage);
-                } else if(event instanceof GameEvents.DeathEvent) {
-                    const creature = event.getCreature();
-                    const tile = dungeon.getTile(creature);
-                    const x = tile.getX();
-                    const y = tile.getY();
-                    const tileContainer = tileContainers[x][y].children[2].removeChildAt(0);
-                    setTimeout(updateItems); // TODO: Fix with item spawn/drop event
-                } else if(event instanceof GameEvents.HitpointsEvent) {
-                    /*if(event.getAmount() < 0) {
-                        getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
-                            .appendTo(grid.children[0]);
-                    }*/
-                } else if(event instanceof GameEvents.TakeItemEvent) {
-                    updateItems();
-                }
-                scroll();
-                updateRangeIndicator();
-                renderer.render(stage);
-            });
-
-            scroll();
-            updateRangeIndicator();
-            renderer.render(stage);
-        });
+        let tileContainers;
+        const entitySprites = {};
 
         function getTileContainer(tile) {
             const tileContainer = new PIXI.Container(); // TODO: Look at ParticleContainer
@@ -390,13 +195,209 @@ export default class PixiDungeonView {
             return tileContainer;
         }
 
-        function resize() {
-            const {clientWidth, clientHeight} = canvasContainer;
-            renderer.resize(clientWidth, clientHeight);
+        function populateSprites() {
+            while(stage.children.length) stage.removeChild(stage.children[0]);
+
+            const dungeon = sharedData.getDungeon();
+            tileContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
+            
+            dungeon.forEachTile(function(tile, x, y) {
+                const tileContainer = getTileContainer(tile);
+                tileContainer.x = x * (TILE_WIDTH + GAP_WIDTH);
+                tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
+                tileContainers[x][y] = tileContainer;
+
+                const creature = tile.getCreature();
+                if(creature) {
+                    const creatureSprite = setDefaultSpriteProps(getCreatureSprite(creature));
+                    entitySprites[creature.getId()] = creatureSprite;
+                    tileContainer.children[2].addChild(creatureSprite);
+                }
+
+                stage.addChild(tileContainer);
+            });
+
+            updateVision();
         }
 
-        setTimeout(resize);
-        window.addEventListener('resize', resize);
+        function updateVision() {
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            if(player) {
+                dungeon.forEachTile(function(tile, x, y) {
+                    const creature = tile.getCreature();
+                    const tileContainer = tileContainers[x][y];
+                    const [tileSprite, itemContainer, creatureContainer] = tileContainer.children;
+                    const playerCanSeeTile = player.canSee(dungeon, tile);
+                    if(playerCanSeeTile) {
+                        tileContainer.alpha = 1;
+                    } else if(player.hasSeen(tile)) {
+                        tileContainer.alpha = .5;
+                    } else {
+                        tileContainer.alpha = 0;
+                    }
+                    itemContainer.visible = creatureContainer.visible = playerCanSeeTile;
+                });
+            }
+        }
+
+        let rangeIndicator;
+        function updateRangeIndicator() {
+            if(rangeIndicator && rangeIndicator.parent) {
+                rangeIndicator.parent.removeChild(rangeIndicator); // TODO: Is there a remove self function?
+            }
+
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            let rangedAttack;
+            if(typeof sharedData.getTargettedAbility() === 'number') {
+                rangedAttack = player.getAbility(sharedData.getTargettedAbility());
+            } else if(typeof sharedData.getTargettedItem() === 'number') {
+                rangedAttack = player.getInventory().getItem(sharedData.getTargettedItem());
+            } else {
+                rangedAttack = player.getRangedWeapon();
+            }
+            if(!rangedAttack) {
+                return;
+            }
+
+            rangeIndicator = new PIXI.Graphics();
+            
+            let color;
+            if(typeof rangedAttack.isMovementAbility === 'function') {
+                color = 0x9400D3;
+            } else if(rangedAttack.isTargetted()) {
+                color = 0x7F00FF;
+            } else {
+                color = 0x46465a;
+            }
+
+            const playerTile = dungeon.getTile(player);
+            rangeIndicator.lineStyle(1, color, 1);
+            rangeIndicator.drawCircle(
+                (playerTile.getX() + .5) * TILE_WIDTH,
+                (playerTile.getY() + .5) * TILE_WIDTH,
+                rangedAttack.getRange() * TILE_WIDTH
+            );
+            
+            stage.addChild(rangeIndicator);
+        }
+
+        let indicators = [];
+        function updateSelectedTileIndicator() {
+            indicators.forEach(function(indicator) {
+                if(indicator.parent) {
+                    indicator.parent.removeChild(indicator);
+                }
+            });
+
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            const playerLocation = dungeon.getTile(player);
+
+            indicators = [
+                sharedData.getHoverTile(),
+                sharedData.getFocusTile()
+            ].filter(Boolean).map(function(tile) {
+                const x = tile.getX();
+                const y = tile.getY();
+                const color = getTileColor(sharedData, x, y);
+                const indicator = getIndicator(x, y, color);
+                stage.addChild(indicator);
+                return indicator;
+            });
+        }
+
+        function updateCreatureLocations() {
+            const dungeon = sharedData.getDungeon();
+            dungeon.getCreatures().forEach(function(creature) {
+                const sprite = entitySprites[creature.getId()] || 
+                        (entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureSprite(creature)));
+                if(sprite.parent) {
+                    sprite.parent.removeChild(sprite);
+                }
+                if(!creature.isDead()) {
+                    const tile = dungeon.getTile(creature);
+                    tileContainers[tile.getX()][tile.getY()].children[2].addChild(sprite);
+                }
+            })
+        }
+
+        function updateItems() {
+            const dungeon = sharedData.getDungeon();
+            dungeon.forEachTile(function(tile, x, y) {
+                const tileContainer = tileContainers[x][y];
+                const itemsContainer = tileContainer.children[1];
+                while(itemsContainer.children.length) itemsContainer.removeChildAt(0);
+                tile.getItems().forEach(function(item) {
+                    itemsContainer.addChild(setDefaultSpriteProps(new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])));
+                })
+            });
+        }
+
+        function scroll() {
+            const dungeon = sharedData.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            const tile = dungeon.getTile(player);
+
+            const canvasWidth = self.getDom().firstChild.width;
+            const canvasHeight = self.getDom().firstChild.height;
+
+            const cellDimension = TILE_WIDTH;
+            const halfDimension = TILE_WIDTH / 2;
+            const playerOffsetX = tile.getX() * cellDimension + halfDimension;
+            const playerOffsetY = tile.getY() * cellDimension + halfDimension;
+
+            stage.x = (canvasWidth / 2) - playerOffsetX;
+            stage.y = (canvasHeight / 2) - playerOffsetY;
+        }
+
+        function populateStage() {
+            populateSprites();
+            updateItems();
+            updateVision();
+            renderer.render(stage);
+        }
+
+        const sharedData = this._sharedData;
+        const renderer = this._renderer;
+        sharedData.addObserver(function observer(event) {
+            if(event instanceof Dungeon){
+                populateStage();
+                document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
+            }
+            updateSelectedTileIndicator();
+        });
+
+        sharedData.addObserver(function observer(event) {
+            const dungeon = sharedData.getDungeon();
+            if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
+                updateVision();
+                updateCreatureLocations();
+                renderer.render(stage);
+            } else if(event instanceof GameEvents.DeathEvent) {
+                const creature = event.getCreature();
+                const tile = dungeon.getTile(creature);
+                const x = tile.getX();
+                const y = tile.getY();
+                const tileContainer = tileContainers[x][y].children[2].removeChildAt(0);
+                setTimeout(updateItems); // TODO: Fix with item spawn/drop event
+            } else if(event instanceof GameEvents.HitpointsEvent) {
+                /*if(event.getAmount() < 0) {
+                    getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
+                        .appendTo(grid.children[0]);
+                }*/
+            } else if(event instanceof GameEvents.TakeItemEvent) {
+                updateItems();
+            }
+            scroll();
+            updateRangeIndicator();
+            renderer.render(stage);
+        });
+
+        scroll();
+        updateRangeIndicator();
+        renderer.render(stage);
     }
 
     getDom() {

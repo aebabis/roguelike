@@ -249,7 +249,12 @@ export default class PixiDungeonView {
             tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
             tileContainers[x][y] = tileContainer;
 
-            tileContainer.children[0].on('click', function(event) {
+            tileContainer.children[0]
+            .on('click', function(event) {
+                self._clickHanders.forEach(function(handler) {
+                    handler(x, y);
+                });
+            }).on('tap', function(event) {
                 self._clickHanders.forEach(function(handler) {
                     handler(x, y);
                 });
@@ -439,4 +444,5 @@ export default class PixiDungeonView {
     // TODO: Show buffs
     // TODO: Item drop event
     // TODO: Tooltips
+    // TODO: Blue outline for movement move
 }

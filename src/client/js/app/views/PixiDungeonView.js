@@ -62,25 +62,35 @@ function getSpriteStack(spriteNames) {
     return group;
 }
 
+function getContainerWrapping(obj) {
+    const group = new PIXI.Container();
+    group.addChild(obj);
+    return group;
+}
+
 function getTileSprite(tile) {
+    let tileDisp;
     if(tile.constructor.name === 'DoorTile') {
         if(tile.isOpen()) {
-            return getSpriteStack(['Tile', 'DoorOpen']);
+            tileDisp = getSpriteStack(['Tile', 'DoorOpen']);
         } else {
-            return new Sprite(TextureCache['DoorClosed']);
+            tileDisp = new Sprite(TextureCache['DoorClosed']);
         }
     } else if(tile.constructor.name === 'EntranceTile') {
-        return getSpriteStack(['Tile', 'Ladder']);
+        tileDisp = getSpriteStack(['Tile', 'Ladder']);
     } else if(tile.constructor.name === 'PillarTile') {
-        return getSpriteStack(['Tile', 'Pillar']);
+        tileDisp = getSpriteStack(['Tile', 'Pillar']);
     } else {
         const texture = TextureCache[tile.constructor.name] || TextureCache['ThisIsAThing'];
-        return new Sprite(texture);
+        tileDisp = new Sprite(texture);
     }
+    return getContainerWrapping(tileDisp);
 }
 
 function getCreatureSprite(creature) {
-    return new PIXI.Sprite(PIXI.utils.TextureCache[creature.constructor.name]);
+    return getContainerWrapping(
+        new PIXI.Sprite(PIXI.utils.TextureCache[creature.constructor.name])
+    );
 }
 
 function getTileColor(sharedData, x, y) {
@@ -179,7 +189,7 @@ export default class PixiDungeonView {
 
         const sharedData = this._sharedData;
         const renderer = this._renderer;
-        
+
         sharedData.addObserver((event) => {
             if(event instanceof Dungeon){
                 this.populateStage(stage);

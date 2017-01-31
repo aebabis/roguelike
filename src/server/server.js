@@ -3,6 +3,7 @@ const session = require('express-session');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const oauth = require('./oauth-middleware.js');
+const notFound = require('./routes/not-found.js');
 let SESSION_SECRET = process.env.SESSION_SECRET;
 
 if(!SESSION_SECRET) {
@@ -23,5 +24,8 @@ require('./serve-static')(app);
 app.use('/dungeons', require('./routes/dungeon-controller'));
 // Serve OAuth client ID based on environment
 app.use('/oauth-client-id', require('./routes/oauth-client-id'));
+
+console.log(notFound);
+app.use(notFound);
 
 app.listen(process.env.PORT || 8080);

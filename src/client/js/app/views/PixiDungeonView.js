@@ -219,6 +219,7 @@ export default class PixiDungeonView {
                 this.updateItems();
             }
             this.scrollToPlayer();
+            this.updateStatBars();
             this.updateRangeIndicator();
             this.updateSelectedTileIndicator();
             renderer.render(stage);
@@ -314,8 +315,11 @@ export default class PixiDungeonView {
         const entitySprites = this._entiteSprites; // TODO: Getter
         const tileContainers = this._tileContainers;
         dungeon.getCreatures().forEach(function(creature) {
-            const sprite = entitySprites[creature.getId()] || 
-                    (entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureSprite(creature)));
+            let sprite = entitySprites[creature.getId()];
+            if(!sprite) {
+                sprite = entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureSprite(creature));
+                sprite.addChild(new PIXI.Graphics());
+            }
             if(sprite.parent) {
                 sprite.parent.removeChild(sprite);
             }
@@ -324,6 +328,45 @@ export default class PixiDungeonView {
                 tileContainers[tile.getX()][tile.getY()].children[2].addChild(sprite);
             }
         })
+    }
+
+    updateStatBars() {
+        const dungeon = this._sharedData.getDungeon();
+        const player = dungeon.getPlayableCharacter();
+        const entitySprites = this._entiteSprites; // TODO: Getter
+        const tileContainers = this._tileContainers;
+        
+        dungeon.getCreatures().forEach(function(creature) {
+            const sprite = entitySprites[creature.getId()];
+            if(sprite) {
+                const creatureWidth = sprite.children[0].width;
+                const statGraphics = sprite.children[1];
+
+                statGraphics.clear();
+                const padding = 4;
+                const maxBarWidth = creatureWidth - 2 * padding;
+                const barHeight = 6;
+
+                const hpBarWidth = maxBarWidth * creature.getCurrentHP() / creature.getBaseHP();
+                const actionBarWidth = maxBarWidth * creature.getTimeToNextMove() / creature.getSpeed();
+
+                statGraphics.lineStyle(1, 0x660000);
+                statGraphics.drawRect(padding, padding, hpBarWidth, barHeight);
+                statGraphics.beginFill(0x8f0222);
+                statGraphics.drawRect(padding + 1, padding + 1, hpBarWidth - 2, barHeight);
+                statGraphics.endFill();
+
+                if(creature === player) {
+                    return;
+                }
+
+                statGraphics.lineStyle(1, 0xCC7000);
+                statGraphics.drawRect(padding, padding + barHeight + 2, actionBarWidth, barHeight);
+                statGraphics.beginFill(0xdddd00);
+                statGraphics.drawRect(padding + 1, padding + barHeight + 3, actionBarWidth - 2, barHeight - 1);
+                statGraphics.endFill();
+            }
+        });
     }
 
     updateRangeIndicator() {

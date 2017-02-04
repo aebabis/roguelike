@@ -82,3 +82,4 @@
   - Site icon (16x16?)
   - Poison splatter
   - More sodas
+  - Coin tile

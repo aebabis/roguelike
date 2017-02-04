@@ -273,7 +273,7 @@ angular.module('vog', [])
                     <div class="items">
                         <h3>Character</h3>
                         <label ng-repeat="(character, money) in CHARACTERS" class="icon" data-class-name="{{character}}" title="{{character | vogName}}" ng-class="{selected: selections.character === character}">
-                            <input type="radio" name="melee" value="{{character}}" ng-model="selections.character" ng-click="fixAbilities()">
+                            <input type="radio" name="class" value="{{character}}" ng-model="selections.character" ng-click="fixAbilities()">
                         </label>
                     </div>
                 </div>

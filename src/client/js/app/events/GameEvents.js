@@ -10,6 +10,7 @@ import HitpointsEvent from './HitpointsEvent.js';
 import HumanMovingEvent from './HumanMovingEvent.js';
 import HumanToMoveEvent from './HumanToMoveEvent.js';
 import InventoryChangeEvent from './InventoryChangeEvent.js';
+import ItemDropEvent from './ItemDropEvent.js';
 import MoveEvent from './MoveEvent.js';
 import PositionChangeEvent from './PositionChangeEvent.js';
 import SpawnEvent from './SpawnEvent.js';
@@ -33,6 +34,7 @@ export default {
     HumanMovingEvent,
     HumanToMoveEvent,
     InventoryChangeEvent,
+    ItemDropEvent,
     MoveEvent,
     PositionChangeEvent,
     SpawnEvent,

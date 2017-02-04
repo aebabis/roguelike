@@ -215,7 +215,7 @@ export default class PixiDungeonView {
                     getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
                         .appendTo(grid.children[0]);
                 }*/
-            } else if(event instanceof GameEvents.TakeItemEvent) {
+            } else if(event instanceof GameEvents.TakeItemEvent || event instanceof GameEvents.ItemDropEvent) {
                 this.updateItems();
             }
             this.scrollToPlayer();

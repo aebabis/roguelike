@@ -6,6 +6,7 @@ import BuffEndedEvent from '../../events/BuffEndedEvent.js';
 import DeathEvent from '../../events/DeathEvent.js';
 import HitpointsEvent from '../../events/HitpointsEvent.js';
 import InventoryChangeEvent from '../../events/InventoryChangeEvent.js';
+import ItemDropEvent from '../../events/ItemDropEvent.js';
 import TakeItemEvent from '../../events/TakeItemEvent.js';
 import ZeroDamageEvent from '../../events/ZeroDamageEvent.js';
 
@@ -326,6 +327,7 @@ export default class Creature extends Entity {
             // (e.g. Ent melee weapon are not droppable)
             if(item.constructor.name in Items) {
                 tile.addItem(item);
+                dungeon.fireEvent(new ItemDropEvent(dungeon, item));
             }
         });
     }

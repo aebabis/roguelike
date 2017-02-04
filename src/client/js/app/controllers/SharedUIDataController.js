@@ -145,6 +145,7 @@ export default class SharedUIDataController extends Observable {
         });
 
         if(this._abilityTargets.length === 0) {
+            this._targettedAbilityIndex = null;
             this._abilityTargets = null;
         }
 

@@ -4,24 +4,25 @@ import GameEvent from './GameEvent.js';
 export default class PositionChangeEvent extends GameEvent {
     /**
       * @class PositionChangeEvent
-      * @description Event fired whenever a Creature moves by means other than a MovementMove
+      * @description Event fired whenever a Creature moves, regardless of cause
       */
-    constructor(dungeon, creature, x, y) {
+    constructor(dungeon, creature, x1, y1, x2, y2) {
         super(dungeon);
         if(!(creature instanceof Creature)) {
-            throw new Error('First parameter must be a creature');
-        } else if(isNaN(x) || isNaN(y)) {
-            throw new Error('Second and third parameters must be numbers');
+            throw new Error('Second parameter must be a creature');
+        } else if(!dungeon.getTile(x1, y1)) {
+            throw new Error(`Illegal coordinates (${x1}, ${y1})`);
+        } else if(!dungeon.getTile(x2, y2)) {
+            throw new Error(`Illegal coordinates (${x2}, ${y2})`);
         }
         this._creature = creature;
-        var location = dungeon.getTile(creature);
         this._from = Object.freeze({
-            x: location.getX(),
-            y: location.getY()
+            x: x1,
+            y: y1
         });
         this._to = Object.freeze({
-            x: x,
-            y: y
+            x: x2,
+            y: y2
         });
     }
 

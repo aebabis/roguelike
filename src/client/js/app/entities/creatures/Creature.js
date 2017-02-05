@@ -562,6 +562,13 @@ export default class Creature extends Entity {
         }
     }
 
+    observeEvent(dungeon, event) {
+        const strategy = this.getStrategy();
+        if(strategy) {
+            strategy.observeEvent(dungeon, event);
+        }
+    }
+
     /**
      * @description Gets the Creature's next move
      * @return {Move | Promise} - A Move or a Promise for a Move

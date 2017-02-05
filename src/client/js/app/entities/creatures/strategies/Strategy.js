@@ -5,6 +5,7 @@ export default class Strategy {
         throw new Error('Default method not implemented');
     }
 
+    // TODO: Only observe events?
     observeMove(dungeon, observer, actor, move) {
         if(observer.isEnemy(actor)) {
             if(move.getDx) {
@@ -14,6 +15,14 @@ export default class Strategy {
                 let currentLocation = dungeon.getTile(actor);
                 this._lastKnownEnemyLocation = dungeon.getTile(currentLocation.getX(), currentLocation.getY());
             }
+        }
+    }
+
+    observeEvent(dungeon, event) {
+        if(event.constructor.name === 'PositionChangeEvent') {
+            const {x, y} = event.getToCoords();
+            const tile = dungeon.getTile(x, y);
+            this._lastKnownEnemyLocation = tile;
         }
     }
 }

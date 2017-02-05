@@ -185,19 +185,28 @@ export default class Dungeon extends Observable {
             throw new Error('Destination already occupied');
         }
         const existed = !!this._creatureMap.get(creature);
+        const fromTile = this.getTile(creature);
+        const toTile = this._grid[x][y];
         if(existed) {
             this.removeCreature(creature);
+            toTile.setCreature(creature);
+            this._creatureMap.set(creature, toTile);
+            this.fireEvent(new GameEvents.PositionChangeEvent(
+                this,
+                creature,
+                fromTile.getX(),
+                fromTile.getY(),
+                x,
+                y
+            ));
+        } else {
+            toTile.setCreature(creature);
+            this._creatureMap.set(creature, toTile);
+            this.fireEvent(new GameEvents.SpawnEvent(this, creature, x, y));
         }
-        const tile = this._grid[x][y];
-        tile.setCreature(creature);
-        this._creatureMap.set(creature, tile);
         if(creature instanceof PlayableCharacter) {
             this._player = creature;
             creature._updateVisionMap(this); // TODO: Figure out a way for player to know to update itself
-        }
-        this.fireEvent(new GameEvents.PositionChangeEvent(this, creature, x, y));
-        if(!existed) {
-            this.fireEvent(new GameEvents.SpawnEvent(this, creature, x, y));
         }
         this._notifyObservers();
     }
@@ -261,6 +270,11 @@ export default class Dungeon extends Observable {
     fireEvent(event) {
         // TODO: Should this be a separate subscriber list?
         this._notifyObservers(event);
+        this.getCreatures().forEach((creature) => {
+            if(event.isSeenBy(this, creature)) {
+                creature.observeEvent(this, event);
+            }
+        });
     }
 
     /**

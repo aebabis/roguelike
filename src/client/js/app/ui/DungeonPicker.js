@@ -19,16 +19,18 @@ angular.module('dungeon-picker', [])
 .controller('dungeon-picker', ['$scope', 'promiseHandlers', function($scope, promiseHandlers) {
     const { resolve, reject } = promiseHandlers;
 
-    fetch(new Request('/dungeons', {
-        method: 'GET',
-        headers: new Headers({
-            'Content-Type': 'application/json'
-        })
-    })).then(r=>r.json()).then(function(dungeons) {
-        $scope.dungeons = dungeons;
-        $scope.dungeonJSON = JSON.stringify(dungeons, null, 4);
-        $scope.$apply();
-    })
+    $scope.loadDungeons = function(prevIndex = 0) {
+        fetch(new Request(`/dungeons?lastId=${prevIndex}`, {
+            method: 'GET',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })).then(r=>r.json()).then(function(dungeons) {
+            $scope.dungeons = dungeons;
+            $scope.dungeonJSON = JSON.stringify(dungeons, null, 4);
+            $scope.$apply();
+        });
+    };
 
     $scope.setSelectedDungeon = function(index) {
         $scope.selectedIndex = index;
@@ -40,18 +42,28 @@ angular.module('dungeon-picker', [])
         const dungeon = LightweightDungeonSerializer.deserialize(struct);
         resolve(dungeon);
     };
+
+    $scope.nextPage = function() {
+        const lastItem = $scope.dungeons.slice(-1)[0];
+        $scope.loadDungeons(lastItem.id);
+    };
+
+    $scope.loadDungeons();
 }]).constant('promiseHandlers', promiseHandlers).run(['$templateCache', function($templateCache) {
     $templateCache.put('dungeon-info.html',
-        `<div class="dungeon-info">
+        `<div class="dungeon-info" data-id="{{$ctrl.data.id}}">
             Dimensions: {{$ctrl.data.width}} x {{$ctrl.data.height}}
         </div>`);
     $templateCache.put('dungeon-picker.html',
-        `<form method="dialog" class="gitrecht" ng-controller="dungeon-picker" ng-submit="submit()">
-            <h2>Select a Dungeon</h2>
-            <button ng-repeat="dungeon in dungeons" ng-click="setSelectedDungeon($index)">
-                <dungeon-info data="dungeon"></dungeon-info>
-            </button>
-        </form>`);
+        `<div ng-controller="dungeon-picker">
+            <form method="dialog" class="gitrecht" ng-submit="submit()">
+                <h2>Select a Dungeon</h2>
+                <button ng-repeat="dungeon in dungeons" ng-click="setSelectedDungeon($index)">
+                    <dungeon-info data="dungeon"></dungeon-info>
+                </button>
+            </form>
+            <button ng-click="nextPage()">Next Page</button>
+        </div>`);
 }]);
 
 export default class DungeonPicker {

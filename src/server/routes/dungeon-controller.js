@@ -21,13 +21,26 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
     const LightweightDungeonSerializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer').default;
 
     router.get('/', function(req, res) {
-        const { lastId, limit } = req.query;
-        dungeonService.getDungeons({
-            lastId,
-            limit
-        }, function(error, dungeons) {
-            res.send(dungeons);
-        });
+        const { lastId, limit = 10} = req.query;
+        try {
+            dungeonService.getDungeons({
+                lastId,
+                limit: limit + 1
+            }, function(error, dungeons) {
+                const hasMore = dungeons.length === limit + 1;
+                const payloadDungeons = dungeons.slice(0, limit);
+                res.set('Has-More', hasMore);
+                if(hasMore) {
+                    const lastDungeon = payloadDungeons.slice(-1)[0].id;
+                    const linkParams = Object.assign({}, req.query, {lastId: lastDungeon});
+                    const Link = '/dungeons?' + Object.keys(linkParams).map(key => `${key}=${linkParams[key]}`);
+                    res.set('Link', Link);
+                }
+                res.send(payloadDungeons);
+            });
+        } catch(e) {
+            res.sendStatus(500);
+        }
     });
 
     router.get('/:id', function(req, res) {

@@ -25,7 +25,10 @@ angular.module('dungeon-picker', [])
             headers: new Headers({
                 'Content-Type': 'application/json'
             })
-        })).then(r=>r.json()).then(function(dungeons) {
+        })).then(response => {
+            $scope.hasMore = response.headers.get('Has-More');
+            return response.json();
+        }).then(function(dungeons) {
             $scope.dungeons = dungeons;
             $scope.dungeonJSON = JSON.stringify(dungeons, null, 4);
             $scope.$apply();
@@ -62,7 +65,7 @@ angular.module('dungeon-picker', [])
                     <dungeon-info data="dungeon"></dungeon-info>
                 </button>
             </form>
-            <button ng-click="nextPage()">Next Page</button>
+            <button ng-if="hasMore" ng-click="nextPage()">Next Page</button>
         </div>`);
 }]);
 

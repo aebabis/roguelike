@@ -25,7 +25,6 @@ app.use('/dungeons', require('./routes/dungeon-controller'));
 // Serve OAuth client ID based on environment
 app.use('/oauth-client-id', require('./routes/oauth-client-id'));
 
-console.log(notFound);
 app.use(notFound);
 
 app.listen(process.env.PORT || 8080);

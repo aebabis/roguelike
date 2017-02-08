@@ -19,6 +19,8 @@ const SELECT_DUNGEON = `SELECT * FROM ${TABLE_NAME} WHERE id = ?`;
 
 const CREATE_DUNGEON = `INSERT INTO ${TABLE_NAME} (creator, width, height, conditions, data) VALUES (?, ?, ?, ?, ?)`;
 
+const mysql = require('mysql');
+
 function normalizeDungeon(record) {
     if(record.data) {
         return Object.assign({}, record, {
@@ -30,7 +32,6 @@ function normalizeDungeon(record) {
 }
 
 module.exports = function(connection) {
-    connection.connect();
     connection.query(CREATE_DUNGEON_TABLE, function(error) {
         if(error) {
             console.error(error);
@@ -46,7 +47,7 @@ module.exports = function(connection) {
             lastId=0,
             limit=10
         }, callback) {
-            const query = connection.format(SELECT_DUNGEONS, [lastId, limit]);
+            const query = mysql.format(SELECT_DUNGEONS, [lastId, limit]);
             connection.query(query, function(error, records, fields) {
                 if(error) {
                     console.error(error);
@@ -58,7 +59,7 @@ module.exports = function(connection) {
         },
 
         getDungeon: function(id, callback) {
-            const query = connection.format(SELECT_DUNGEON, [id]);
+            const query = mysql.format(SELECT_DUNGEON, [id]);
             connection.query(query, function(error, records, fields) {
                 if(error) {
                     console.error(error);
@@ -73,7 +74,7 @@ module.exports = function(connection) {
             const {conditions, grid} = data;
             const width = grid.length;
             const height = grid[0].length;
-            const query = connection.format(CREATE_DUNGEON, [userId, width, height, conditions, JSON.stringify(data)]);
+            const query = mysql.format(CREATE_DUNGEON, [userId, width, height, conditions, JSON.stringify(data)]);
             connection.query(query, function(error, result) {
                 if(error) {
                     console.error(error);

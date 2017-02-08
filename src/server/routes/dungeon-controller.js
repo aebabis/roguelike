@@ -15,8 +15,8 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
     }
 } else {
     const mysql = require('mysql');
-    const connection = mysql.createConnection(DB_URL);
-    const dungeonService = require('../services/dungeon-service')(connection);
+    const dbPool = mysql.createPool(DB_URL);
+    const dungeonService = require('../services/dungeon-service')(dbPool);
 
     const LightweightDungeonSerializer = require('../../client/js/app/dungeons/LightweightDungeonSerializer').default;
 
@@ -39,6 +39,7 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
                 res.send(payloadDungeons);
             });
         } catch(e) {
+            console.error(e);
             res.sendStatus(500);
         }
     });

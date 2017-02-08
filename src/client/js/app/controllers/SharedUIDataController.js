@@ -6,6 +6,8 @@ import Moves from '../entities/creatures/moves/Moves.js';
 
 import GameEvents from '../events/GameEvents.js';
 
+import Pather from '../entities/creatures/strategies/Pather.js';
+
 let incr = 0;
 const NEUTRAL_MODE = incr++;
 const ATTACK_MODE = incr++;
@@ -75,6 +77,51 @@ export default class SharedUIDataController extends Observable {
      */
     getDungeon() {
         return this._dungeon;
+    }
+
+    pathTo(x, y) {
+        var dungeon = this.getDungeon();
+        var player = dungeon.getPlayableCharacter();
+        var playerLocation = dungeon.getTile(player); // TODO: Ensure that tile isn't empty
+        var creature = dungeon.getTile(x, y).getCreature();
+        var abilityIndex = this.getTargettedAbility();
+        var itemIndex = this.getTargettedItem();
+        let moves;
+        if(abilityIndex !== null) {
+            moves = [new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y)];
+        } else if(itemIndex !== null) {
+            moves = [new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y))];
+        } else if(creature && creature.isEnemy(player)) {
+            moves = [new Moves.AttackMove(playerLocation, x, y)];
+        } else {
+            var dx = x - playerLocation.getX();
+            var dy = y - playerLocation.getY();
+            if(dx === 0 && dy === 0) {
+                moves = [new Moves.WaitMove(playerLocation)];
+            } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
+                moves = [new Moves.MovementMove(playerLocation, dx, dy)];
+            } else if(playerLocation.getCreature()) {
+                moves = Pather.getMoveSequenceToward(dungeon, player, dungeon.getTile(x, y));
+            }
+        }
+        if(moves.length === 0) {
+            this.dispatchUIEvent(new UIMessageEvent('No path to location'));
+        } else {
+            moves.forEach((move) => {
+                // Note, optionalTargetTile (3rd param) only relevant for 1-length move sequences
+                var reason = move.getReasonIllegal(dungeon, player, dungeon.getTile(x, y));
+                if(reason) {
+                    this.dispatchUIEvent(new UIMessageEvent(reason));
+                    return false;
+                } else {
+                    player.setNextMove(move);
+                    dungeon.resolveUntilBlocked();
+                    this.unsetAttackMode();
+                    this.unsetTargettedAbility();
+                    this.unsetTargettedItem();
+                }
+            });
+        }
     }
 
     /**

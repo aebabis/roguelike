@@ -108,12 +108,6 @@ export default class GraphicalViewMouseController {
             }
         });
 
-        sharedData.addObserver(function(event) {
-            if(event === 'GO_HOME') {
-                $(dom).find('[data-tile-type="EntranceTile"]').click();
-            }
-        })
-
         var lastHoverTile;
         $(dom).on('mouseover', '.cell', function() {
             var tileDom = lastHoverTile = this;

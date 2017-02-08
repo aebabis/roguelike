@@ -33,7 +33,9 @@ if(typeof DB_URL === 'undefined' || DB_URL.length === 0) {
                 if(hasMore) {
                     const lastDungeon = payloadDungeons.slice(-1)[0].id;
                     const linkParams = Object.assign({}, req.query, {lastId: lastDungeon});
-                    const Link = '/dungeons?' + Object.keys(linkParams).map(key => `${key}=${linkParams[key]}`);
+                    const query = Object.keys(linkParams).map(key => `${key}=${linkParams[key]}`);
+                    const url = `/dungeons?${query}`;
+                    const Link = `<${url}>; rel="next"`;
                     res.set('Link', Link);
                 }
                 res.send(payloadDungeons);

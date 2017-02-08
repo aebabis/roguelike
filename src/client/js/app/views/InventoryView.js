@@ -64,7 +64,10 @@ export default class InventoryView {
 
         $(dom).on('click tap', 'button.home', function(event) {
             event.stopPropagation(); // Prevent parent "button" from being clicked
-            sharedData.dispatchUIEvent('GO_HOME');
+            const home = sharedData.getDungeon().getTiles(tile => tile.constructor.name === 'EntranceTile')[0];
+            const x = home.getX();
+            const y = home.getY();
+            sharedData.pathTo(x, y);
         });
 
         sharedData.addObserver((event)=>this.update(event));

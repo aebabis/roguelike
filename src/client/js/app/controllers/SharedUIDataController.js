@@ -8,6 +8,8 @@ import GameEvents from '../events/GameEvents.js';
 
 import Pather from '../entities/creatures/strategies/Pather.js';
 
+import UIMessageEvent from '../controllers/UIMessageEvent.js';
+
 let incr = 0;
 const NEUTRAL_MODE = incr++;
 const ATTACK_MODE = incr++;

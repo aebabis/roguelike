@@ -1,7 +1,5 @@
 import Moves from '../entities/creatures/moves/Moves.js';
 
-import UIMessageEvent from '../controllers/UIMessageEvent.js';
-
 /**
  * Controller that listens for mouse actions on dungeon views
  * and converts them to game moves

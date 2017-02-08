@@ -26,7 +26,7 @@ angular.module('dungeon-picker', [])
                 'Content-Type': 'application/json'
             })
         })).then(response => {
-            $scope.hasMore = response.headers.get('Has-More');
+            $scope.hasMore = response.headers.get('Has-More') === 'true';
             return response.json();
         }).then(function(dungeons) {
             $scope.dungeons = dungeons;

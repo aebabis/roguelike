@@ -50,6 +50,7 @@ export default class InventoryView {
                 player.setNextMove(new Moves.UseItemMove(dungeon.getTile(player), index));
             }
             dungeon.resolveUntilBlocked();
+            $('section.game').focus();
         });
 
         $(dom).on('click tap', 'button.trash', function(event) {
@@ -60,6 +61,7 @@ export default class InventoryView {
             const index = $(this).parent('.item').attr('data-index');
             player.setNextMove(new Moves.TrashItemMove(dungeon.getTile(player), index));
             dungeon.resolveUntilBlocked();
+            $('section.game').focus();
         });
 
         $(dom).on('click tap', 'button.home', function(event) {
@@ -68,6 +70,7 @@ export default class InventoryView {
             const x = home.getX();
             const y = home.getY();
             sharedData.pathTo(x, y);
+            $('section.game').focus();
         });
 
         sharedData.addObserver((event)=>this.update(event));

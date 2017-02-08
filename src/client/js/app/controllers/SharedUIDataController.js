@@ -4,6 +4,7 @@ import Dungeon from '../dungeons/Dungeon.js';
 
 import Moves from '../entities/creatures/moves/Moves.js';
 
+import GameEvent from '../events/GameEvent.js';
 import GameEvents from '../events/GameEvents.js';
 
 import Pather from '../entities/creatures/strategies/Pather.js';
@@ -50,6 +51,16 @@ export default class SharedUIDataController extends Observable {
                 this.unsetAttackMode();
                 this.unsetTargettedAbility();
                 this.unsetTargettedItem();
+            }
+
+            const dungeon = this.getDungeon();
+            const player = dungeon.getPlayableCharacter();
+            if(event instanceof GameEvent &&
+                    event.getCreature &&
+                    event.getCreature() !== player &&
+                    event.isSeenBy(dungeon, player)) {
+                // Mark whenever the player observes another creature act
+                this._playerSawEnemyAct = true;
             }
         });
     }
@@ -109,7 +120,14 @@ export default class SharedUIDataController extends Observable {
         if(moves.length === 0) {
             this.dispatchUIEvent(new UIMessageEvent('No path to location'));
         } else {
+            this._playerSawEnemyAct = false;
             moves.forEach((move) => {
+                if(this._playerSawEnemyAct) {
+                    // If the player has seen an enemy move since
+                    // starting this path, stop the path and let
+                    // the player re-evaluate.
+                    return;
+                }
                 // Note, optionalTargetTile (3rd param) only relevant for 1-length move sequences
                 var reason = move.getReasonIllegal(dungeon, player, dungeon.getTile(x, y));
                 if(reason) {

@@ -27,10 +27,10 @@
   - Make ranged enemies avoid getting in melee range
   - Offline-first
   - Rename distance functions
-  - Autopath during enemies should go 1 tile at a time
   - See corners when adjacent edges are in range (5/3 slope)
   - Non-default session store
   - Make enemies that fail to find player at its last known location, go back to searching
+  - Tell user they can't path onto an unvisited tile
 - Low
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars
@@ -58,7 +58,6 @@
   - Tooltips don't update on state change
   - Enemies try to move when they're snared
   - number hotkeys not working in firefox
-  - Autopath only stops if an enemy is visible during the player's turn, and not if an enemy became visible while waiting
   - Door opening animation should be delayed same as creature moving
   - Leap
     - should not let you jump to a solid tile

@@ -1,3 +1,5 @@
+import PlayableCharacter from '../PlayableCharacter.js';
+
 var AStar = (function() {
     var StringSet = function() {};
     StringSet.prototype.add = function(key) {this[key] = true;};
@@ -157,11 +159,26 @@ export default module = {
             console.warn('Creature trying to move to path to its own location', this);
         }
 
+        let getNeighbors;
+        if(creature instanceof PlayableCharacter) {
+            getNeighbors = (node) => node.getNeighbors8(dungeon)
+                .filter(neighbor => creature.hasSeen(neighbor))
+                .filter(neighbor => neighbor === target ||
+                    creature.canSee(dungeon, neighbor) ?
+                        creature.canOccupyNow(neighbor) :
+                        creature.canOccupy(neighbor)); // Assume unseen tiles are unoccupied when player paths
+        } else {
+            getNeighbors = (node)=>node.getNeighbors8(dungeon)
+                .filter(neighbor => creature.canOccupy(neighbor)) // Monsters implicitly know the dungeon layout
+                .filter(neighbor => neighbor === target ||
+                    !creature.canSee(dungeon, neighbor) ||
+                    creature.canOccupyNow(neighbor));
+        }
+
         var pathfinding = AStar({
             start: start,
             isEnd: (node)=>node===target,
-            neighbor: (node)=>node.getNeighbors8(dungeon).filter(
-                (neighbor)=>(creature.canOccupy(neighbor) && (neighbor===target || neighbor.getCreature() == null || !creature.canSee(dungeon, dungeon.getTile(neighbor.getCreature()))))),
+            neighbor: getNeighbors,
             distance: (a,b)=>a.getDirectDistance(b),
             heuristic: (a)=>a.getEuclideanDistance(target)
         });

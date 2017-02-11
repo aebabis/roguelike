@@ -4,8 +4,8 @@ import DamageTypes from '../../DamageTypes.js';
 
 export default class PoisonDebuff extends Buff {
     /**
-      * @class Creature
-      * @description Represents an entity that can act
+      * @class PoisonDebuff
+      * @description A debuff that poisons the affected creature over time
       */
     constructor(dungeon, damage, period, count, name) {
         super(dungeon);

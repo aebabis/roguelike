@@ -6,6 +6,7 @@ import { default as BlackVoidSphere } from '../../../../../src/client/js/app/ent
 import { default as Pather } from '../../../../../src/client/js/app/entities/creatures/strategies/Pather.js';
 
 const expect = require('chai').expect;
+const sinon = require('sinon');
 
 function getUDungeon() {
     const dungeon = new Dungeon(3, 3);
@@ -15,7 +16,7 @@ function getUDungeon() {
 }
 
 describe('Pather', function() {
-    it('should attempt to path through unseen tunnels', function() {
+    it('should attempt to path through unknown tunnels', function() {
         const dungeon = getUDungeon();
         const player = new PlayableCharacter();
         dungeon.moveCreature(player, 0, 0);
@@ -23,13 +24,14 @@ describe('Pather', function() {
         const targetTile = dungeon.getTile(2, 0);
 
         const path = Pather.getMoveSequenceToward(dungeon, player, targetTile);
-        expect(path).to.be.an('array');
+        expect(path).to.equal(null);
     });
 
-    it('should attempt to path through unseen enemies', function() {
+    it('should attempt to path through unseen enemies on visited tiles', function() {
         const dungeon = getUDungeon();
         const player = new PlayableCharacter();
         const enemy = new BlackVoidSphere();
+        sinon.stub(player, 'hasSeen', () => true);
         dungeon.moveCreature(player, 0, 0);
         dungeon.moveCreature(enemy, 2, 1);
 

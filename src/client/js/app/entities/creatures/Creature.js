@@ -476,7 +476,7 @@ export default class Creature extends Entity {
         }
     }
 
-    hasSeen(tile) {
+    hasSeen(tile) { // TODO: Does this belong to PlayableCharacter?
         return this._visionMap[tile.getX()][tile.getY()];
     }
 

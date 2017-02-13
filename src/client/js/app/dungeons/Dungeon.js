@@ -417,4 +417,10 @@ export default class Dungeon extends Observable {
             }
         }
     }
+
+    resolveSteps(count) {
+        for(let i = 0; i < count; i++) {
+            this.resolveNextStep();
+        }
+    }
 }

@@ -93,6 +93,12 @@ function getCreatureSprite(creature) {
     );
 }
 
+function getItemSprite(item) {
+    return setDefaultSpriteProps(
+        new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])
+    );
+}
+
 function getTileColor(sharedData, x, y) {
     const dungeon = sharedData.getDungeon();
     const player = dungeon.getPlayableCharacter();
@@ -283,7 +289,7 @@ export default class PixiDungeonView {
             const itemsContainer = tileContainer.children[1];
             while(itemsContainer.children.length) itemsContainer.removeChildAt(0);
             tile.getItems().forEach(function(item) {
-                itemsContainer.addChild(setDefaultSpriteProps(new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])));
+                itemsContainer.addChild(getItemSprite(item));
             })
         });
     }

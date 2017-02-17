@@ -51,14 +51,16 @@ function setDefaultSpriteProps(sprite) {
     return sprite;
 }
 
+function getSprite(name) {
+    return setDefaultSpriteProps(
+        new Sprite(TextureCache[name] || TextureCache['ThisIsAThing'])
+    );
+}
+
 function getSpriteStack(spriteNames) {
     const group = new PIXI.Container();
     spriteNames.forEach(function(spriteName) { // TODO: Shift stack instead
-        group.addChild(
-            setDefaultSpriteProps(
-                new Sprite(TextureCache[spriteName])
-            )
-        );
+        group.addChild(getSprite(spriteName));
     });
     return group;
 }
@@ -75,22 +77,21 @@ function getTileSprite(tile) {
         if(tile.isOpen()) {
             tileDisp = getSpriteStack(['Tile', 'DoorOpen']);
         } else {
-            tileDisp = new Sprite(TextureCache['DoorClosed']);
+            tileDisp = getSprite('DoorClosed');
         }
     } else if(tile.constructor.name === 'EntranceTile') {
         tileDisp = getSpriteStack(['Tile', 'Ladder']);
     } else if(tile.constructor.name === 'PillarTile') {
         tileDisp = getSpriteStack(['Tile', 'Pillar']);
     } else {
-        const texture = TextureCache[tile.constructor.name] || TextureCache['ThisIsAThing'];
-        tileDisp = new Sprite(texture);
+        tileDisp = getSprite(tile.constructor.name);
     }
     return getContainerWrapping(tileDisp);
 }
 
 function getCreatureSprite(creature) {
     return getContainerWrapping(
-        new PIXI.Sprite(PIXI.utils.TextureCache[creature.constructor.name])
+        new Sprite(TextureCache[creature.constructor.name])
     );
 }
 
@@ -98,10 +99,8 @@ function getItemSprite(item) {
     if(item.constructor.name === 'AbilityConsumable') {
         const abilityName = item.getAbility().constructor.name;
         const group = new PIXI.Container();
-        const scrollImage = setDefaultSpriteProps(new Sprite(TextureCache['Scroll']));
-        const spellImage = setDefaultSpriteProps(
-            new Sprite(TextureCache[abilityName] || TextureCache['ThisIsAThing'])
-        );
+        const scrollImage = getSprite('Scroll');
+        const spellImage = getSprite(abilityName);
         spellImage.x = spellImage.y = TILE_WIDTH / 2;
         spellImage.width = spellImage.height = SCROLL_ICON_WIDTH;
         spellImage.anchor.x = spellImage.anchor.y = .5;
@@ -110,9 +109,7 @@ function getItemSprite(item) {
         group.addChild(spellImage);
         return group;
     } else {
-        return setDefaultSpriteProps(
-            new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])
-        )
+        return getSprite(item.constructor.name);
     };
 }
 

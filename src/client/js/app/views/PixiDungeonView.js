@@ -157,11 +157,6 @@ function getIndicator(x, y, color) {
 function getTileContainer(tile) {
     const tileContainer = new PIXI.Container(); // TODO: Look at ParticleContainer
     const tileSprite = getTileSprite(tile);
-    const x = tile.getX();
-    const y = tile.getY();
-
-    tileSprite.x = 0;
-    tileSprite.y = 0;
     tileSprite.width = TILE_WIDTH;
     tileSprite.height = TILE_WIDTH;
     tileSprite.interactive = true;
@@ -219,10 +214,9 @@ export default class PixiDungeonView {
 
         sharedData.addObserver((event) => {
             const dungeon = sharedData.getDungeon();
-            if(event instanceof GameEvents.MoveEvent || event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
+            if(event instanceof GameEvents.PositionChangeEvent || event instanceof GameEvents.SpawnEvent) {
                 this.updateVision();
                 this.updateCreatureLocations();
-                this.scrollToPlayer();
             } else if(event instanceof GameEvents.DeathEvent) {
                 const creature = event.getCreature();
                 const tile = dungeon.getTile(creature);
@@ -501,11 +495,9 @@ export default class PixiDungeonView {
         this._mouseOutHandlers.push(handler);
     }
 
-    // TODO: HP bar
     // TODO: Cellphone zap
     // TODO: Projectile animations
     // TODO: Show buffs
-    // TODO: Item drop event
     // TODO: Tooltips
     // TODO: Blue outline for movement move
 }

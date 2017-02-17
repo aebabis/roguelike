@@ -16,6 +16,7 @@ const Sprite = PIXI.Sprite;
 
 const TILE_WIDTH = 50;
 const GAP_WIDTH = 0;
+const SCROLL_ICON_WIDTH = TILE_WIDTH * .7;
 
 const DAMAGE_COLORS = {
     [DamageTypes.MELEE_PHYSICAL]: 'darkred',
@@ -52,7 +53,7 @@ function setDefaultSpriteProps(sprite) {
 
 function getSpriteStack(spriteNames) {
     const group = new PIXI.Container();
-    spriteNames.forEach(function(spriteName) {
+    spriteNames.forEach(function(spriteName) { // TODO: Shift stack instead
         group.addChild(
             setDefaultSpriteProps(
                 new Sprite(TextureCache[spriteName])
@@ -94,9 +95,25 @@ function getCreatureSprite(creature) {
 }
 
 function getItemSprite(item) {
-    return setDefaultSpriteProps(
-        new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])
-    );
+    if(item.constructor.name === 'AbilityConsumable') {
+        const abilityName = item.getAbility().constructor.name;
+        const group = new PIXI.Container();
+        const scrollImage = setDefaultSpriteProps(new Sprite(TextureCache['Scroll']));
+        const spellImage = setDefaultSpriteProps(
+            new Sprite(TextureCache[abilityName] || TextureCache['ThisIsAThing'])
+        );
+        spellImage.x = spellImage.y = TILE_WIDTH / 2;
+        spellImage.width = spellImage.height = SCROLL_ICON_WIDTH;
+        spellImage.anchor.x = spellImage.anchor.y = .5;
+        spellImage.rotation = -Math.PI / 8;
+        group.addChild(scrollImage);
+        group.addChild(spellImage);
+        return group;
+    } else {
+        return setDefaultSpriteProps(
+            new PIXI.Sprite(PIXI.utils.TextureCache[item.constructor.name])
+        )
+    };
 }
 
 function getTileColor(sharedData, x, y) {

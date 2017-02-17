@@ -8,6 +8,10 @@ export default class AbilityConsumable extends Consumable {
         this._name = name || ability.getName() + ' Scroll';
     }
 
+    getAbility() {
+        return this._ability;
+    }
+
     isTargetted() {
         return this._ability.isTargetted();
     }

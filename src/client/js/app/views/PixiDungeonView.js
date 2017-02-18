@@ -159,7 +159,6 @@ function getTileContainer(tile) {
     const tileSprite = getTileSprite(tile);
     tileSprite.width = TILE_WIDTH;
     tileSprite.height = TILE_WIDTH;
-    tileSprite.interactive = true;
 
     tileContainer.addChild(tileSprite);
     tileContainer.addChild(new PIXI.Container());
@@ -262,9 +261,11 @@ export default class PixiDungeonView {
             const tileContainer = getTileContainer(tile);
             tileContainer.x = x * (TILE_WIDTH + GAP_WIDTH);
             tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
+            tileContainer.interactive = true;
+            tileContainer.hitArea = new PIXI.Rectangle(0, 0, TILE_WIDTH, TILE_WIDTH);
             tileContainers[x][y] = tileContainer;
 
-            tileContainer.children[0]
+            tileContainer
             .on('click', function(event) {
                 self._clickHanders.forEach(function(handler) {
                     handler(x, y);

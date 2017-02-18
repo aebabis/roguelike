@@ -112,7 +112,7 @@ export default class SharedUIDataController extends Observable {
             if(dx === 0 && dy === 0) {
                 moves = [new Moves.WaitMove(playerLocation)];
             } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
-                moves = [new Moves.MovementMove(playerLocation, dx, dy)];
+                moves = [new Moves.MovementMove(playerLocation, x, y)];
             } else if(playerLocation.getCreature()) {
                 moves = Pather.getMoveSequenceToward(dungeon, player, dungeon.getTile(x, y));
             }

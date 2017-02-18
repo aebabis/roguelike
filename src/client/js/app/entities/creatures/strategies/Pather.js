@@ -187,14 +187,13 @@ export default module = {
             var prevX = start.getX();
             var prevY = start.getY();
             return pathfinding.path.slice(1).map(function(location) {
-                // TODO: Consider making MovementMove take two tiles instead of deltas
                 var nextX = location.getX();
                 var nextY = location.getY();
                 var dx = nextX - prevX;
                 var dy = nextY - prevY;
                 prevX = nextX;
                 prevY = nextY;
-                return new Moves.MovementMove(dungeon.getTile(prevX, prevY), dx, dy);
+                return new Moves.MovementMove(dungeon.getTile(prevX, prevY), nextX, nextY);
             });
         } else {
             return null;

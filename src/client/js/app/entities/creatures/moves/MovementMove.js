@@ -8,24 +8,22 @@ import PlayableCharacter from '../PlayableCharacter.js';
  * @todo Only take two absolute coord params
  */
 export default class MovementMove extends Move {
-    constructor(actorTile, param1, param2) {
+    constructor(actorTile, x, y) {
         super(actorTile);
-        if(Number.isInteger(param1) && Number.isInteger(param2)
-                && Math.abs(param1) <= 1 && Math.abs(param2) <= 1
-                && (Math.abs(param1) === 1 || Math.abs(param2) === 1)) {
-            this._dx = param1;
-            this._dy = param2;
+        if(Number.isInteger(x) && Number.isInteger(y)) {
+            this._x = x;
+            this._y = y;
         } else {
-            throw new Error('Must pass two integers that represent a move to an adjacent tile');
+            throw new Error('Must pass two integers');
         }
     }
 
-    getDx() {
-        return this._dx;
+    getX() {
+        return this._x;
     }
 
-    getDy() {
-        return this._dy;
+    getY() {
+        return this._y;
     }
 
     getCostMultiplier() {
@@ -33,10 +31,18 @@ export default class MovementMove extends Move {
     }
 
     getReasonIllegal(dungeon, creature) {
-        var tile = dungeon.getTile(creature);
-        var x = tile.getX() + this.getDx();
-        var y = tile.getY() + this.getDy();
+        const tile = dungeon.getTile(creature);
+        const x = this.getX();
+        const y = this.getY();
+        const adx = Math.abs(x - tile.getX());
+        const ady = Math.abs(y - tile.getY());
         var newLocation = dungeon.getTile(x, y);
+        if(!newLocation) {
+            return `Tile [${x}, ${y}] does not exist`;
+        }
+        if(adx > 1 || ady > 1 || (adx === 0 && ady === 0)) {
+            return `New location [${x}, ${y}] is not an adjacent tile`;
+        }
         if(!creature.canOccupy(newLocation)) {
             return `${creature} cannot legally occupy new location [${x}, ${y}]`;
         }
@@ -56,8 +62,8 @@ export default class MovementMove extends Move {
             throw new Error(reason);
         }
         var tile = dungeon.getTile(creature);
-        var x = tile.getX() + this.getDx();
-        var y = tile.getY() + this.getDy();
+        var x = this.getX();
+        var y = this.getY();
         tile.removeCreature();
         dungeon.moveCreature(creature, x, y);
         dungeon.fireEvent(new GameEvents.MoveEvent(dungeon, creature, x, y));
@@ -67,6 +73,6 @@ export default class MovementMove extends Move {
         var actorX = this.getActorX();
         var actorY = this.getActorY();
         return observer.canSee(dungeon, dungeon.getTile(actorX, actorY)) ||
-                observer.canSee(dungeon, dungeon.getTile(actorX + this.getDx(), actorY + this.getDy()));
+                observer.canSee(dungeon, dungeon.getTile(this.getX(), this.getY()));
     }
 }

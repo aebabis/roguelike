@@ -8,7 +8,7 @@ export default class Strategy {
     // TODO: Only observe events?
     observeMove(dungeon, observer, actor, move) {
         if(observer.isEnemy(actor)) {
-            if(move.getDx) {
+            if(move.constructor.name === 'MovementMove') {
                 let currentLocation = dungeon.getTile(actor);
                 this._lastKnownEnemyLocation = dungeon.getTile(currentLocation.getX(), currentLocation.getY());
             } else if(move.getAbility && actor.getAbility(move.getIndex()).isMovementAbility()) {

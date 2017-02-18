@@ -33,7 +33,7 @@ export default class GraphicalViewKeyboardController {
                     if(creature && creature.isEnemy(character)) {
                         attemptMove(new Moves.AttackMove(tile, x, y));
                     } else {
-                        attemptMove(new Moves.MovementMove(tile, dx, dy));
+                        attemptMove(new Moves.MovementMove(tile, x, y));
                     }
                 }
             }

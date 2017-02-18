@@ -156,13 +156,18 @@ function getIndicator(x, y, color) {
 
 function getTileContainer(tile) {
     const tileContainer = new PIXI.Container(); // TODO: Look at ParticleContainer
-    const tileSprite = getTileSprite(tile);
-    tileSprite.width = TILE_WIDTH;
-    tileSprite.height = TILE_WIDTH;
 
-    tileContainer.addChild(tileSprite);
     tileContainer.addChild(new PIXI.Container());
     tileContainer.addChild(new PIXI.Container());
+    tileContainer.addChild(new PIXI.Container());
+
+    tileContainer.update = () => {
+        const spriteContainer = tileContainer.children[0];
+        while(spriteContainer.children.length) spriteContainer.removeChildAt(0);
+        spriteContainer.addChild(getTileSprite(tile));
+    }
+
+    tileContainer.update();
 
     return tileContainer;
 }

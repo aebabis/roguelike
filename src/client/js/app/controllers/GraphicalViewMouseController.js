@@ -38,7 +38,7 @@ export default class GraphicalViewMouseController {
                 if(dx === 0 && dy === 0) {
                     return [new Moves.WaitMove(playerLocation)];
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
-                    return [new Moves.MovementMove(playerLocation, dx, dy)];
+                    return [new Moves.MovementMove(playerLocation, x, y)];
                 } else if(playerLocation.getCreature()) {
                     return Pather.getMoveSequenceToward(dungeon, player, dungeon.getTile(targetX, targetY));
                 }

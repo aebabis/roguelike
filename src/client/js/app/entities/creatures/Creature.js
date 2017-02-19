@@ -399,10 +399,10 @@ export default class Creature extends Entity {
      * Determines if the Creature can see the given tile and what's on it.
      * @return {Boolean} `true` if the Creature can see the tile; false otherwise
      */
-    canSee(dungeon, tile) {
-        // TODO: Allow creature
+    canSee(dungeon, param) {
+        const tile = param instanceof Creature ? dungeon.getTile(creature) : param;
         if(!(tile instanceof Tile)) {
-            throw new Error('Must pass a Tile to canSee');
+            throw new Error('Must pass a Tile or Creature');
         }
         const location = dungeon.getTile(this);
 

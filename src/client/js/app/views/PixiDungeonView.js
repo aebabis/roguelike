@@ -187,14 +187,15 @@ export default class PixiDungeonView {
         const canvasContainer = this._canvasContainer = document.createElement('div');
         canvasContainer.classList.add('canvas-container');
 
-        const renderer = this._renderer = PIXI.autoDetectRenderer();
-        canvasContainer.appendChild(renderer.view);
+        console.log(PIXI);
+        const pixiApp = this._pixiApp = new PIXI.Application();
+        canvasContainer.appendChild(pixiApp.view);
 
         PIXI.loader.add('images/spritesheet.json').load(() => this.init());
 
         function resize() {
             const {clientWidth, clientHeight} = canvasContainer;
-            renderer.resize(clientWidth, clientHeight);
+            pixiApp.renderer.resize(clientWidth, clientHeight);
         }
 
         setTimeout(resize);
@@ -207,7 +208,7 @@ export default class PixiDungeonView {
         const entitySprites = this._entiteSprites = {};
 
         const sharedData = this._sharedData;
-        const renderer = this._renderer;
+        const renderer = this._pixiApp.renderer;
 
         sharedData.addObserver((event) => {
             if(event instanceof Dungeon){
@@ -259,7 +260,7 @@ export default class PixiDungeonView {
         this.updateCreatureLocations();
         this.updateItems();
         this.updateVision();
-        this._renderer.render(stage);
+        this._pixiApp.renderer.render(stage);
     }
     
     populateSprites(stage) {

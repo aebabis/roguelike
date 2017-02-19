@@ -187,7 +187,6 @@ export default class PixiDungeonView {
         const canvasContainer = this._canvasContainer = document.createElement('div');
         canvasContainer.classList.add('canvas-container');
 
-        console.log(PIXI);
         const pixiApp = this._pixiApp = new PIXI.Application();
         canvasContainer.appendChild(pixiApp.view);
 
@@ -202,8 +201,12 @@ export default class PixiDungeonView {
         window.addEventListener('resize', resize);
     }
 
+    getStage() {
+        return this._pixiApp.stage;
+    }
+
     init() {
-        const stage = this._stage = new PIXI.Container();
+        const stage = this.getStage();
 
         const entitySprites = this._entiteSprites = {};
 
@@ -249,29 +252,25 @@ export default class PixiDungeonView {
             this.updateStatBars();
             this.updateRangeIndicator();
             this.updateSelectedTileIndicator();
-            renderer.render(stage);
         });
-
-        renderer.render(stage);
     }
 
-    populateStage(stage) {
-        this.populateSprites(stage);
+    populateStage() {
+        this.populateSprites();
         this.updateCreatureLocations();
         this.updateItems();
         this.updateVision();
-        this._pixiApp.renderer.render(stage);
     }
     
-    populateSprites(stage) {
-        const self = this;
+    populateSprites() {
+        const stage = this.getStage();
         while(stage.children.length) stage.removeChild(stage.children[0]);
 
         const dungeon = this._sharedData.getDungeon();
         const tileContainers = this._tileContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
         const entitySprites = this._entiteSprites;
         
-        dungeon.forEachTile(function(tile, x, y) {
+        dungeon.forEachTile((tile, x, y) => {
             const tileContainer = getTileContainer(tile);
             tileContainer.x = x * (TILE_WIDTH + GAP_WIDTH);
             tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
@@ -280,24 +279,16 @@ export default class PixiDungeonView {
             tileContainers[x][y] = tileContainer;
 
             tileContainer
-            .on('click', function(event) {
-                self._clickHanders.forEach(function(handler) {
-                    handler(x, y);
+            .on('click', (event) => {
+                this._clickHanders.forEach(handler => handler(x, y));
+            }).on('tap', (event) => {
+                this._clickHanders.forEach(handler => handler(x, y));
+            }).on('mouseover', (event) => {
+                setTimeout(() => { // Ensure mouseout fires first
+                    this._mouseOverHandlers.forEach(handler => handler(x, y));
                 });
-            }).on('tap', function(event) {
-                self._clickHanders.forEach(function(handler) {
-                    handler(x, y);
-                });
-            }).on('mouseover', function(event) {
-                setTimeout(function() { // Ensure mouseout fires first
-                    self._mouseOverHandlers.forEach(function(handler) {
-                        handler(x, y);
-                    });
-                });
-            }).on('mouseout', function(event) {
-                self._mouseOutHandlers.forEach(function(handler) {
-                    handler(x, y);
-                });
+            }).on('mouseout', (event) => {
+                this._mouseOutHandlers.forEach(handler => handler(x, y));
             });
 
             stage.addChild(tileContainer);
@@ -438,7 +429,7 @@ export default class PixiDungeonView {
             rangedAttack.getRange() * TILE_WIDTH
         );
         
-        this._stage.addChild(rangeIndicator);
+        this.getStage().addChild(rangeIndicator);
     }
 
     updateSelectedTileIndicator() {
@@ -461,14 +452,14 @@ export default class PixiDungeonView {
             const y = tile.getY();
             const color = getTileColor(sharedData, x, y);
             const indicator = getIndicator(x, y, color);
-            this._stage.addChild(indicator);
+            this.getStage().addChild(indicator);
             return indicator;
         });
     }
 
     scrollToPlayer() {
         const sharedData = this._sharedData;
-        const stage = this._stage;
+        const stage = this.getStage();
         const dungeon = sharedData.getDungeon();
         const player = dungeon.getPlayableCharacter();
         const tile = dungeon.getTile(player);

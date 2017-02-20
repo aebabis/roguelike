@@ -54,10 +54,10 @@ import RandomMapDungeonFactory from '../src/client/js/app/dungeons/RandomMapDung
 import Rogue from '../src/client/js/app/entities/creatures/classes/Rogue.js';
 
 
-
-let prng = Random.engines.mt19937();
-var seed = Math.random().toString().slice(2);
-console.log(`Integration testing with seed: ${seed}`);
-prng.seed(seed);
-new RandomMapDungeonFactory().getRandomMap(prng, new Rogue());
-//Bootstrapper();
+for(let i = 0; i < 10; i++) {
+    const prng = Random.engines.mt19937();
+    const seed = Math.random().toString().slice(2);
+    console.log(`Integration testing with seed: ${seed}`);
+    prng.seed(seed);
+    new RandomMapDungeonFactory().getRandomMap(prng, new Rogue());
+}

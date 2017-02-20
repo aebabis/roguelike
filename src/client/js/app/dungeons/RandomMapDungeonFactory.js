@@ -228,7 +228,20 @@ export default class RandomMapDungeonFactory {
             }
         });
 
-        const treasureLocation = Random.picker(enemyLocations)(prng);
+        const treasureLocations = enemyLocations.sort((locA, locB) => {
+            const distA = locA.getEuclideanDistance(playerLocation);
+            const distB = locB.getEuclideanDistance(playerLocation);
+            if(distA < distB) {
+                return -1;
+            } else if(distA > distB) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        const treasureLocation = Random.picker(
+            treasureLocations.slice(-Math.floor(treasureLocations.length / 3))
+        )(prng);
         treasureLocation.addItem(new TheTreasure(dungeon));
 
         dungeon.setGameConditions(new GetTheTreasureConditions());

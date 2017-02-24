@@ -10,6 +10,9 @@ import SharedUIDataController from '../controllers/SharedUIDataController.js';
 
 import Moves from '../entities/creatures/moves/Moves.js';
 
+import DefaultPixiAnimationPack from './DefaultPixiAnimationPack.js';
+import PixiAnimationController from './PixiAnimationController.js';
+
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
 const Sprite = PIXI.Sprite;
@@ -212,11 +215,18 @@ export default class PixiDungeonView {
 
         const sharedData = this._sharedData;
         const renderer = this._pixiApp.renderer;
+        const animationController = this._animationController = new PixiAnimationController(
+            this._pixiApp,
+            new DefaultPixiAnimationPack()
+        );
 
         sharedData.addObserver((event) => {
             if(event instanceof Dungeon){
                 this.populateStage(stage);
                 document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
+                animationController.flush();
+            } else {
+                animationController.handleGameEvent(event);
             }
         });
 

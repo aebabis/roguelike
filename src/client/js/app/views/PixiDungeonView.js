@@ -221,10 +221,13 @@ export default class PixiDungeonView {
         );
 
         sharedData.addObserver((event) => {
+            if(!event) {
+                return; // TODO: Make mouse events have an event type?
+            }
             if(event instanceof Dungeon){
                 this.populateStage(stage);
                 document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
-                animationController.flush();
+                //animationController.flush();
             } else {
                 animationController.handleGameEvent(event);
             }

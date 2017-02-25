@@ -14,13 +14,13 @@ export default class PixiAnimationController {
             const modifiedDelta = isBehind ? SPEEDUP_RATE : 1;
             const currentAnimationGroup = queue[0];
             if(currentAnimationGroup) {
-                currentAnimationGroup.forEach((animation) => {
-                    if(!animation.isDone()) {
-                        animation.advance(modifiedDelta);
-                    }
-                });
-                if(currentAnimationGroup.every(animation => animation.isDone())) {
+                const newAnimationGroup = currentAnimationGroup.filter(
+                    animation => animation(modifiedDelta)
+                );
+                if(newAnimationGroup.length === 0 && queue.length > 1) {
                     queue.shift();
+                } else {
+                    queue[0] = newAnimationGroup;
                 }
             }
         });

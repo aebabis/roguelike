@@ -11,11 +11,11 @@ export default class PixiAnimationController {
 
         pixiApp.ticker.add(function(delta) {
             const isBehind = queue.length > 1;
-            const modifiedDelta = isBehind ? SPEEDUP_RATE : 1;
+            const speedup = isBehind ? SPEEDUP_RATE : 1;
             const currentAnimationGroup = queue[0];
             if(currentAnimationGroup) {
                 const newAnimationGroup = currentAnimationGroup.filter(
-                    animation => animation(modifiedDelta)
+                    animation => animation(speedup * delta)
                 );
                 if(newAnimationGroup.length === 0 && queue.length > 1) {
                     queue.shift();

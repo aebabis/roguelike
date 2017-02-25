@@ -8,6 +8,10 @@ const Sprite = PIXI.Sprite;
 const MS_PER_TICK = 1;
 const PROJECTILE_SPEED = 10; // Tiles per second
 
+const Easings = {
+    easeIn: (t) => t*t
+}
+
 export default class DefaultPixiAnimationPack {
     getAnimation(gameEvent, stage) {
         let cumulativeTime = 0;
@@ -17,6 +21,9 @@ export default class DefaultPixiAnimationPack {
             const tile = gameEvent.getTile();
             const TILE_WIDTH = 50; // TODO: De-dupe
             if(ability instanceof Abilities.Fireball) {
+                const EXPAND_FRAMES = 25;
+                const FADE_FRAMES = 15;
+                const MAX_SCALE = 2.5;
                 const sprite = new Sprite(TextureCache['Fireball']);
                 sprite.x = (tile.getX() + .5) * TILE_WIDTH;
                 sprite.y = (tile.getY() + .5) * TILE_WIDTH;
@@ -27,13 +34,18 @@ export default class DefaultPixiAnimationPack {
                 stage.addChild(sprite);
                 return (delta) => {
                     cumulativeTime += delta;
-                    let size = cumulativeTime / 10;
-                    if(size > 2.5) {
+                    if(cumulativeTime < EXPAND_FRAMES) {
+                        const scale = MAX_SCALE * Easings.easeIn(cumulativeTime / EXPAND_FRAMES);
+                        sprite.scale.set(scale, scale);
+                        return true;
+                    } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
+                        sprite.scale.set(MAX_SCALE, MAX_SCALE);
+                        sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES;
+                        return true;
+                    } else {
                         stage.removeChild(sprite);
                         return false;
                     }
-                    sprite.scale.set(size, size);
-                    return true;
                 };
             }
         }

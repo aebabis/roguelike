@@ -236,6 +236,7 @@ export default class PixiDungeonView {
         sharedData.addObserver((event) => {
             const dungeon = sharedData.getDungeon();
             if(event instanceof GameEvents.PositionChangeEvent) {
+                console.log(event.getCause());
                 this.updateVision();
                 this.updateCreatureLocations();
                 [event.getFromCoords(), event.getToCoords()].forEach(({x, y}) =>

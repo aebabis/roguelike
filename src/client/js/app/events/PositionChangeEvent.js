@@ -6,7 +6,7 @@ export default class PositionChangeEvent extends GameEvent {
       * @class PositionChangeEvent
       * @description Event fired whenever a Creature moves, regardless of cause
       */
-    constructor(dungeon, creature, x1, y1, x2, y2) {
+    constructor(dungeon, creature, x1, y1, x2, y2, cause) {
         super(dungeon);
         if(!(creature instanceof Creature)) {
             throw new Error('Second parameter must be a creature');
@@ -24,6 +24,7 @@ export default class PositionChangeEvent extends GameEvent {
             x: x2,
             y: y2
         });
+        this._cause = cause;
     }
 
     getCreature() {
@@ -36,6 +37,10 @@ export default class PositionChangeEvent extends GameEvent {
 
     getToCoords() {
         return this._to;
+    }
+    
+    getCause() {
+        return this._cause;
     }
 
     getText() {

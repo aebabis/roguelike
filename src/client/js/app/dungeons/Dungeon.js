@@ -175,8 +175,9 @@ export default class Dungeon extends Observable {
      * @param {Creature} creature - The creature to add or reposition
      * @param {number} x - The x-coordinate
      * @param {number} y - The y-coordinate
+     * @param {Object} [cause] - The effect or move that caused the creature's position to change
      */
-    moveCreature(creature, x, y) {
+    moveCreature(creature, x, y, cause) {
         if(!(creature instanceof Creature)) {
             throw new Error('First parameter must be a creature: ' + creature);
         } else if(!Number.isInteger(x) || !Number.isInteger(y)) {
@@ -197,7 +198,8 @@ export default class Dungeon extends Observable {
                 fromTile.getX(),
                 fromTile.getY(),
                 x,
-                y
+                y,
+                cause
             ));
         } else {
             toTile.setCreature(creature);

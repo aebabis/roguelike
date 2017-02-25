@@ -22,7 +22,7 @@ export default class Leap extends Ability {
      * to a visible tile within 3 spaces */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-        dungeon.moveCreature(creature, optionalTargetTile.getX(), optionalTargetTile.getY()); // TODO: Make setCreature interface more intuitive
+        dungeon.moveCreature(creature, optionalTargetTile.getX(), optionalTargetTile.getY(), this); // TODO: Make setCreature interface more intuitive
     }
 
     /** @override */

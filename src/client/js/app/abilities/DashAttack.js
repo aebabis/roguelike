@@ -44,7 +44,7 @@ export default class DashAttack extends Ability {
         super.use(dungeon, creature, optionalTargetTile, isFree);
         let toTile = getToTile(dungeon, creature, optionalTargetTile);
 
-        dungeon.moveCreature(creature, toTile.getX(), toTile.getY());
+        dungeon.moveCreature(creature, toTile.getX(), toTile.getY(), this);
 
         var target = optionalTargetTile.getCreature();
         var weapon = creature.getMeleeWeapon();

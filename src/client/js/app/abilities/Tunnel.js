@@ -24,7 +24,7 @@ export default class Tunnel extends Ability {
         const x = optionalTargetTile.getX();
         const y = optionalTargetTile.getY();
         dungeon.setTile(new Tiles.Tile(x, y), x, y);
-        dungeon.moveCreature(creature, x, y);
+        dungeon.moveCreature(creature, x, y, this);
     }
 
     /** @override */

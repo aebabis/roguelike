@@ -65,7 +65,7 @@ export default class MovementMove extends Move {
         var x = this.getX();
         var y = this.getY();
         tile.removeCreature();
-        dungeon.moveCreature(creature, x, y);
+        dungeon.moveCreature(creature, x, y, this);
         dungeon.fireEvent(new GameEvents.MoveEvent(dungeon, creature, x, y));
     }
 

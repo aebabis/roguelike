@@ -38,20 +38,22 @@ export default class DefaultPixiAnimationPack {
                 sprite.height = TILE_WIDTH;
                 sprite.anchor.x = sprite.anchor.y = .5;
                 sprite.scale = 0;
-                stage.addChild(sprite);
-                return (delta) => {
-                    cumulativeTime += delta;
-                    if(cumulativeTime < EXPAND_FRAMES) {
-                        const scale = MAX_SCALE * Easings.easeIn(cumulativeTime / EXPAND_FRAMES);
-                        sprite.scale.set(scale, scale);
-                        return true;
-                    } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
-                        sprite.scale.set(MAX_SCALE, MAX_SCALE);
-                        sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES;
-                        return true;
-                    } else {
-                        stage.removeChild(sprite);
-                        return false;
+                return {
+                    start: stage.addChild(sprite),
+                    advance: (delta) => {
+                        cumulativeTime += delta;
+                        if(cumulativeTime < EXPAND_FRAMES) {
+                            const scale = MAX_SCALE * Easings.easeIn(cumulativeTime / EXPAND_FRAMES);
+                            sprite.scale.set(scale, scale);
+                            return true;
+                        } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
+                            sprite.scale.set(MAX_SCALE, MAX_SCALE);
+                            sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES;
+                            return true;
+                        } else {
+                            stage.removeChild(sprite);
+                            return false;
+                        }
                     }
                 };
             }

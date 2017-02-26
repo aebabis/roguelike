@@ -16,7 +16,7 @@ export default class PixiAnimationController {
             const currentAnimationGroup = queue[0];
             if(currentAnimationGroup) {
                 const newAnimationGroup = currentAnimationGroup.filter(
-                    animation => animation(speedup * delta)
+                    animation => animation.advance(speedup * delta)
                 );
                 if(newAnimationGroup.length === 0 && queue.length > 1) {
                     queue.shift();
@@ -43,6 +43,7 @@ export default class PixiAnimationController {
         const currentAnimationGroup = queue[queue.length - 1];
         const animation = this.getAnimationPack().getAnimation(this._pixiDungeonView, event);
         if(animation) {
+            animation.start(); // TODO: Delay start based on timestamp
             currentAnimationGroup.push(animation);
         }
     }

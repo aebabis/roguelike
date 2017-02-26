@@ -13,9 +13,16 @@ const Easings = {
 }
 
 export default class DefaultPixiAnimationPack {
-    getAnimation(gameEvent, stage) {
+    getAnimation(pixiDungeonView, gameEvent) {
+        const stage = pixiDungeonView.getStage();
         let cumulativeTime = 0;
-        if(gameEvent instanceof GameEvents.AbilityEvent) {
+        if(gameEvent instanceof GameEvents.PositionChangeEvent) {
+            pixiDungeonView.updateVision();
+            pixiDungeonView.updateCreatureLocations();
+            [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
+                pixiDungeonView.getTileContainer(x, y).update()
+            );
+        } else if(gameEvent instanceof GameEvents.AbilityEvent) {
             const ability = gameEvent.getAbility();
             const creature = gameEvent.getCreature();
             const tile = gameEvent.getTile();

@@ -208,6 +208,10 @@ export default class PixiDungeonView {
         return this._pixiApp.stage;
     }
 
+    getTileContainer(x, y) {
+        return this._tileContainers[x][y];
+    }
+
     init() {
         const stage = this.getStage();
 
@@ -216,6 +220,7 @@ export default class PixiDungeonView {
         const sharedData = this._sharedData;
         const renderer = this._pixiApp.renderer;
         const animationController = this._animationController = new PixiAnimationController(
+            this,
             this._pixiApp,
             new DefaultPixiAnimationPack()
         );
@@ -235,14 +240,7 @@ export default class PixiDungeonView {
 
         sharedData.addObserver((event) => {
             const dungeon = sharedData.getDungeon();
-            if(event instanceof GameEvents.PositionChangeEvent) {
-                console.log(event.getCause());
-                this.updateVision();
-                this.updateCreatureLocations();
-                [event.getFromCoords(), event.getToCoords()].forEach(({x, y}) =>
-                    this._tileContainers[x][y].update()
-                );
-            } else if(event instanceof GameEvents.SpawnEvent) {
+            if(event instanceof GameEvents.SpawnEvent) {
                 this.updateCreatureLocations();
                 this._tileContainers[event.getX()][event.getY()].update();
             } else if(event instanceof GameEvents.DeathEvent) {

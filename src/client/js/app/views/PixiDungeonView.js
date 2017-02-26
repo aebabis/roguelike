@@ -212,6 +212,22 @@ export default class PixiDungeonView {
         return this._tileContainers[x][y];
     }
 
+    getCreatureSprite(x, y) {
+        return this.getTileContainer(x, y).children[2].children[0];
+    }
+
+    addCreatureSprite(sprite, x, y) {
+        this.getTileContainer(x, y).children[2].addChild(sprite);
+    }
+
+    removeCreatureSprite(x, y) {
+        const container = this.getTileContainer(x, y);
+        const spriteContainer = container.children[2];
+        const sprite = spriteContainer.children[0];
+        spriteContainer.removeChild(sprite);
+        return sprite;
+    }
+
     init() {
         const stage = this.getStage();
 

@@ -1,5 +1,6 @@
 import Abilities from '../abilities/Abilities.js';
 import GameEvents from '../events/GameEvents.js';
+import Moves from '../entities/creatures/moves/Moves.js';
 
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
@@ -8,7 +9,10 @@ const Sprite = PIXI.Sprite;
 const MS_PER_TICK = 1;
 const PROJECTILE_SPEED = 10; // Tiles per second
 
+const TILE_WIDTH = 50; // TODO: De-dupe
+
 const Easings = {
+    linear: t => t,
     easeIn: (t) => t*t
 }
 
@@ -17,16 +21,57 @@ export default class DefaultPixiAnimationPack {
         const stage = pixiDungeonView.getStage();
         let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
-            pixiDungeonView.updateVision();
-            pixiDungeonView.updateCreatureLocations();
-            [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
-                pixiDungeonView.getTileContainer(x, y).update()
-            );
+            const cause = gameEvent.getCause();
+            if(cause instanceof Moves.MovementMove) {
+                const MOVE_FRAMES = 20;
+                const from = gameEvent.getFromCoords();
+                const to = gameEvent.getToCoords();
+                const dx = to.x - from.x;
+                const dy = to.y - from.y;
+                const container = pixiDungeonView.getTileContainer(to.x, to.y);
+                return {
+                    start: () => {
+                        pixiDungeonView.addCreatureSprite(
+                            pixiDungeonView.removeCreatureSprite(from.x, from.y),
+                            to.x,
+                            to.y
+                        );
+                        pixiDungeonView.updateVision();
+                        [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
+                            pixiDungeonView.getTileContainer(x, y).update()
+                        );
+                    },
+                    advance: (delta) => {
+                        cumulativeTime += delta;
+                        const creatureSprite = pixiDungeonView.getCreatureSprite(to.x, to.y);
+                        if(!creatureSprite) {
+                            console.warn('No creature sprite found for animation'); // TODO: Prevent other updates from moving sprite
+                            return;
+                        }
+                        let x, y;
+                        if(cumulativeTime > MOVE_FRAMES) {
+                            creatureSprite.x = 0;
+                            creatureSprite.y = 0;
+                            return false;
+                        } else {
+                            const displacement = 1 - Easings.linear(cumulativeTime / MOVE_FRAMES);
+                            creatureSprite.x = -dx * displacement * TILE_WIDTH;
+                            creatureSprite.y = -dy * displacement * TILE_WIDTH;
+                            return true;
+                        }
+                    }
+                }
+            } else {
+                pixiDungeonView.updateVision();
+                pixiDungeonView.updateCreatureLocations();
+                [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
+                    pixiDungeonView.getTileContainer(x, y).update()
+                );
+            }
         } else if(gameEvent instanceof GameEvents.AbilityEvent) {
             const ability = gameEvent.getAbility();
             const creature = gameEvent.getCreature();
             const tile = gameEvent.getTile();
-            const TILE_WIDTH = 50; // TODO: De-dupe
             if(ability instanceof Abilities.Fireball) {
                 const EXPAND_FRAMES = 25;
                 const FADE_FRAMES = 15;

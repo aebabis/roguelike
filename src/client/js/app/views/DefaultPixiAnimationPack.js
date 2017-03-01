@@ -43,7 +43,7 @@ export default class DefaultPixiAnimationPack {
                     },
                     advance: (delta) => {
                         cumulativeTime += delta;
-                        const creatureSprite = pixiDungeonView.getCreatureSprite(to.x, to.y);
+                        const creatureSprite = pixiDungeonView.getCreatureContainer(to.x, to.y).children[0];
                         if(!creatureSprite) {
                             console.warn('No creature sprite found for animation'); // TODO: Prevent other updates from moving sprite
                             return;

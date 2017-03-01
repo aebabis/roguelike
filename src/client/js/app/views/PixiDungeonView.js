@@ -92,7 +92,7 @@ function getTileSprite(tile) {
     return getContainerWrapping(tileDisp);
 }
 
-function getCreatureSprite(creature) {
+function getCreatureContainer(creature) {
     return getContainerWrapping(
         new Sprite(TextureCache[creature.constructor.name])
     );
@@ -160,14 +160,9 @@ function getIndicator(x, y, color) {
 function getTileContainer(tile) {
     const tileContainer = new PIXI.Container(); // TODO: Look at ParticleContainer
 
-    tileContainer.addChild(new PIXI.Container());
-    tileContainer.addChild(new PIXI.Container());
-    tileContainer.addChild(new PIXI.Container());
-
     tileContainer.update = () => {
-        const spriteContainer = tileContainer.children[0];
-        while(spriteContainer.children.length) spriteContainer.removeChildAt(0);
-        spriteContainer.addChild(getTileSprite(tile));
+        while(tileContainer.children.length) tileContainer.removeChildAt(0);
+        tileContainer.addChild(getTileSprite(tile));
     }
 
     tileContainer.update();
@@ -212,26 +207,29 @@ export default class PixiDungeonView {
         return this._tileContainers[x][y];
     }
 
-    getCreatureSprite(x, y) {
-        return this.getTileContainer(x, y).children[2].children[0];
+    getItemContainer(x, y) {
+        return this._itemContainers[x][y];
+    }
+
+    getCreatureContainer(x, y) {
+        return this._creatureContainers[x][y];
     }
 
     addCreatureSprite(sprite, x, y) {
-        this.getTileContainer(x, y).children[2].addChild(sprite);
+        this.getCreatureContainer(x, y).addChild(sprite);
     }
 
     removeCreatureSprite(x, y) {
-        const container = this.getTileContainer(x, y);
-        const spriteContainer = container.children[2];
-        const sprite = spriteContainer.children[0];
-        spriteContainer.removeChild(sprite);
+        const container = this.getCreatureContainer(x, y);
+        const sprite = container.children[0];
+        container.removeChild(sprite);
         return sprite;
     }
 
     init() {
         const stage = this.getStage();
 
-        const entitySprites = this._entiteSprites = {};
+        const entitySprites = this._entitySprites = {};
 
         const sharedData = this._sharedData;
         const renderer = this._pixiApp.renderer;
@@ -265,7 +263,7 @@ export default class PixiDungeonView {
                 const x = tile.getX();
                 const y = tile.getY();
                 const tileContainer = this._tileContainers[x][y];
-                tileContainer.children[2].removeChildAt(0);
+                //tileContainer.children[2].removeChildAt(0);
                 tileContainer.update();
                 //setTimeout(updateItems); // TODO: Fix with item spawn/drop event
             } else if(event instanceof GameEvents.HitpointsEvent) {
@@ -296,12 +294,20 @@ export default class PixiDungeonView {
 
         const dungeon = this._sharedData.getDungeon();
         const tileContainers = this._tileContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
-        const entitySprites = this._entiteSprites;
+        const itemContainers = this._itemContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
+        const creatureContainers = this._creatureContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
+        const entitySprites = this._entitySprites;
         
+        const tilesContainer = this._tilesContainer = new PIXI.Container();
+        const itemsContainer = this._itemsContainer = new PIXI.Container();
+        const creaturesContainer = this._creaturesContainer = new PIXI.Container();
+
         dungeon.forEachTile((tile, x, y) => {
             const tileContainer = getTileContainer(tile);
-            tileContainer.x = x * (TILE_WIDTH + GAP_WIDTH);
-            tileContainer.y = y * (TILE_WIDTH + GAP_WIDTH);
+            const xOffset = x * (TILE_WIDTH + GAP_WIDTH);
+            const yOffset = y * (TILE_WIDTH + GAP_WIDTH);
+            tileContainer.x = xOffset;
+            tileContainer.y = yOffset;
             tileContainer.interactive = true;
             tileContainer.hitArea = new PIXI.Rectangle(0, 0, TILE_WIDTH, TILE_WIDTH);
             tileContainers[x][y] = tileContainer;
@@ -319,16 +325,29 @@ export default class PixiDungeonView {
                 this._mouseOutHandlers.forEach(handler => handler(x, y));
             });
 
-            stage.addChild(tileContainer);
+            tilesContainer.addChild(tileContainer);
+
+            const itemContainer = itemContainers[x][y] = new PIXI.Container();
+            itemContainer.x = xOffset;
+            itemContainer.y = yOffset;
+            itemsContainer.addChild(itemContainer);
+
+            const creatureContainer = creatureContainers[x][y] = new PIXI.Container();
+            creatureContainer.x = xOffset;
+            creatureContainer.y = yOffset;
+            creaturesContainer.addChild(creatureContainer);
         });
+
+        stage.addChild(tilesContainer);
+        stage.addChild(itemsContainer);
+        stage.addChild(creaturesContainer);
     }
 
     updateItems() {
         const dungeon = this._sharedData.getDungeon();
-        const tileContainers = this._tileContainers;
-        dungeon.forEachTile(function(tile, x, y) {
-            const tileContainer = tileContainers[x][y];
-            const itemsContainer = tileContainer.children[1];
+        const itemContainers = this._itemContainers;
+        dungeon.forEachTile((tile, x, y) => {
+            const itemsContainer = this.getItemContainer(x, y);
             while(itemsContainer.children.length) itemsContainer.removeChildAt(0);
             tile.getItems().forEach(function(item) {
                 itemsContainer.addChild(getItemSprite(item));
@@ -341,10 +360,11 @@ export default class PixiDungeonView {
         const player = dungeon.getPlayableCharacter();
         const tileContainers = this._tileContainers;
         if(player) {
-            dungeon.forEachTile(function(tile, x, y) {
+            dungeon.forEachTile((tile, x, y) => {
                 const creature = tile.getCreature();
-                const tileContainer = tileContainers[x][y];
-                const [tileSprite, itemContainer, creatureContainer] = tileContainer.children;
+                const tileContainer = this.getTileContainer(x, y);
+                const itemContainer = this.getItemContainer(x, y);
+                const creatureContainer = this.getCreatureContainer(x, y);
                 const playerCanSeeTile = player.canSee(dungeon, tile);
                 if(playerCanSeeTile) {
                     tileContainer.alpha = 1;
@@ -360,12 +380,11 @@ export default class PixiDungeonView {
 
     updateCreatureLocations() {
         const dungeon = this._sharedData.getDungeon();
-        const entitySprites = this._entiteSprites; // TODO: Getter
-        const tileContainers = this._tileContainers;
-        dungeon.getCreatures().forEach(function(creature) {
+        const entitySprites = this._entitySprites; // TODO: Getter
+        dungeon.getCreatures().forEach((creature) => {
             let sprite = entitySprites[creature.getId()];
             if(!sprite) {
-                sprite = entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureSprite(creature));
+                sprite = entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureContainer(creature));
                 sprite.addChild(new PIXI.Graphics());
             }
             if(sprite.parent) {
@@ -373,7 +392,7 @@ export default class PixiDungeonView {
             }
             if(!creature.isDead()) {
                 const tile = dungeon.getTile(creature);
-                tileContainers[tile.getX()][tile.getY()].children[2].addChild(sprite);
+                this.getCreatureContainer(tile.getX(), tile.getY()).addChild(sprite);
             }
         })
     }
@@ -381,8 +400,7 @@ export default class PixiDungeonView {
     updateStatBars() {
         const dungeon = this._sharedData.getDungeon();
         const player = dungeon.getPlayableCharacter();
-        const entitySprites = this._entiteSprites; // TODO: Getter
-        const tileContainers = this._tileContainers;
+        const entitySprites = this._entitySprites; // TODO: Getter
         
         dungeon.getCreatures().forEach(function(creature) {
             const sprite = entitySprites[creature.getId()];

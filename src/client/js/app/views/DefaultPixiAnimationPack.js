@@ -89,7 +89,7 @@ export default class DefaultPixiAnimationPack {
                 sprite.anchor.x = sprite.anchor.y = .5;
                 sprite.scale = 0;
                 return {
-                    start: stage.addChild(sprite),
+                    start: () => stage.addChild(sprite),
                     advance: (delta) => {
                         cumulativeTime += delta;
                         if(cumulativeTime < EXPAND_FRAMES) {

@@ -20,7 +20,10 @@ export default class PixiAnimationController {
                 );
                 if(newAnimationGroup.length === 0 && queue.length > 1) {
                     queue.shift();
-                    queue[0].forEach(animation => animation.start());
+                    queue[0].forEach(animation => {
+                        animation.start();
+                        animation.advance(0);
+                    });
                 } else {
                     queue[0] = newAnimationGroup;
                 }

@@ -31,11 +31,16 @@ export default class DefaultPixiAnimationPack {
                 const container = pixiDungeonView.getTileContainer(to.x, to.y);
                 return {
                     start: () => {
-                        pixiDungeonView.addCreatureSprite(
-                            pixiDungeonView.removeCreatureSprite(from.x, from.y),
-                            to.x,
-                            to.y
-                        );
+                        const sprite = pixiDungeonView.removeCreatureSprite(from.x, from.y);
+                        if(sprite) {
+                            pixiDungeonView.addCreatureSprite(
+                                sprite,
+                                to.x,
+                                to.y
+                            );
+                        } else {
+                            console.warn('Sprite not there');
+                        }
                         pixiDungeonView.updateVision();
                         [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
                             pixiDungeonView.getTileContainer(x, y).update()

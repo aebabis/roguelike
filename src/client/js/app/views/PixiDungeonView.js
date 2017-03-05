@@ -299,6 +299,7 @@ export default class PixiDungeonView {
         const entitySprites = this._entitySprites;
         
         const tilesContainer = this._tilesContainer = new PIXI.Container();
+        const indicatorContainer = this._indicatorContainer = new PIXI.Container();
         const itemsContainer = this._itemsContainer = new PIXI.Container();
         const creaturesContainer = this._creaturesContainer = new PIXI.Container();
 
@@ -339,6 +340,7 @@ export default class PixiDungeonView {
         });
 
         stage.addChild(tilesContainer);
+        stage.addChild(indicatorContainer);
         stage.addChild(itemsContainer);
         stage.addChild(creaturesContainer);
     }
@@ -479,11 +481,8 @@ export default class PixiDungeonView {
     }
 
     updateSelectedTileIndicator() {
-        this._indicators.forEach((indicator) => {
-            if(indicator.parent) {
-                indicator.parent.removeChild(indicator);
-            }
-        });
+        const indicatorContainer = this._indicatorContainer;
+        while(indicatorContainer.children.length > 0) indicatorContainer.removeChildAt(0);
 
         const sharedData = this._sharedData;
         const dungeon = sharedData.getDungeon();
@@ -498,7 +497,7 @@ export default class PixiDungeonView {
             const y = tile.getY();
             const color = getTileColor(sharedData, x, y);
             const indicator = getIndicator(x, y, color);
-            this.getStage().addChild(indicator);
+            indicatorContainer.addChild(indicator);
             return indicator;
         });
     }

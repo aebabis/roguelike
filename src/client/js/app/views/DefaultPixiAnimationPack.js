@@ -98,7 +98,7 @@ export default class DefaultPixiAnimationPack {
                             return true;
                         } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
                             sprite.scale.set(MAX_SCALE, MAX_SCALE);
-                            sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES;
+                            sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES
                             return true;
                         } else {
                             stage.removeChild(sprite);
@@ -107,6 +107,22 @@ export default class DefaultPixiAnimationPack {
                     }
                 };
             }
+        } else if(gameEvent instanceof GameEvents.DeathEvent) {
+            const creature = gameEvent.getCreature();
+            const sprite = pixiDungeonView.getEntitySpriteById(creature.getId());
+            const FRAMES = 20;
+            return {
+                start: () => {},
+                advance(delta) {
+                    cumulativeTime += delta;
+                    if(cumulativeTime > FRAMES) {
+                        sprite.parent.removeChild(sprite);
+                    } else {
+                        sprite.alpha = 1 - Easings.linear(cumulativeTime / FRAMES);
+                        return true;
+                    }
+                }
+            };
         }
     }
 }

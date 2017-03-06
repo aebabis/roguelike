@@ -226,6 +226,10 @@ export default class PixiDungeonView {
         return sprite;
     }
 
+    getEntitySpriteById(id) {
+        return this._entitySprites[id];
+    }
+
     init() {
         const stage = this.getStage();
 
@@ -257,15 +261,6 @@ export default class PixiDungeonView {
             if(event instanceof GameEvents.SpawnEvent) {
                 this.updateCreatureLocations();
                 this._tileContainers[event.getX()][event.getY()].update();
-            } else if(event instanceof GameEvents.DeathEvent) {
-                const creature = event.getCreature();
-                const tile = dungeon.getTile(creature);
-                const x = tile.getX();
-                const y = tile.getY();
-                const tileContainer = this._tileContainers[x][y];
-                //tileContainer.children[2].removeChildAt(0);
-                tileContainer.update();
-                //setTimeout(updateItems); // TODO: Fix with item spawn/drop event
             } else if(event instanceof GameEvents.HitpointsEvent) {
                 /*if(event.getAmount() < 0) {
                     getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')

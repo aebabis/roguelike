@@ -410,7 +410,7 @@ export default class PixiDungeonView {
                 const maxBarWidth = creatureWidth - 2 * padding;
                 const barHeight = 6;
 
-                const hpBarWidth = maxBarWidth * creature.getCurrentHP() / creature.getBaseHP();
+                const hpBarWidth = maxBarWidth * Math.max(0, creature.getCurrentHP()) / creature.getBaseHP();
                 const actionBarWidth = maxBarWidth * creature.getTimeToNextMove() / creature.getSpeed();
 
                 statGraphics.lineStyle(1, 0x660000);

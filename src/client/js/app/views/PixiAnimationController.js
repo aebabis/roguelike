@@ -4,7 +4,8 @@ const SPEEDUP_RATE = 5;
 const ENEMY_ANIMATIONS_DELAYED = false;
 
 export default class PixiAnimationController {
-    constructor(pixiDungeonView, pixiApp, animationPack) {
+    constructor(sharedData, pixiDungeonView, pixiApp, animationPack) {
+        this._sharedData = sharedData;
         this._pixiDungeonView = pixiDungeonView;
         this._animationPack = animationPack;
         this._stage = pixiApp.stage;
@@ -45,7 +46,7 @@ export default class PixiAnimationController {
             queue.push([]);
         }
         const currentAnimationGroup = queue[queue.length - 1];
-        const animation = this.getAnimationPack().getAnimation(this._pixiDungeonView, event);
+        const animation = this.getAnimationPack().getAnimation(this._sharedData, this._pixiDungeonView, event);
         if(animation) {
             currentAnimationGroup.push(animation);
         }

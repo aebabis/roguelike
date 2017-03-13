@@ -238,6 +238,7 @@ export default class PixiDungeonView {
         const sharedData = this._sharedData;
         const renderer = this._pixiApp.renderer;
         const animationController = this._animationController = new PixiAnimationController(
+            sharedData,
             this,
             this._pixiApp,
             new DefaultPixiAnimationPack()

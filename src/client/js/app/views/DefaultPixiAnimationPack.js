@@ -16,8 +16,17 @@ const Easings = {
     easeIn: (t) => t*t
 }
 
+const buildSprite = (textureName) => {
+    const sprite = new Sprite(TextureCache[textureName]);
+    sprite.width = TILE_WIDTH;
+    sprite.height = TILE_WIDTH;
+    sprite.anchor.x = sprite.anchor.y = .5;
+    return sprite;
+}
+
 export default class DefaultPixiAnimationPack {
-    getAnimation(pixiDungeonView, gameEvent) {
+    getAnimation(sharedData, pixiDungeonView, gameEvent) {
+        const dungeon = sharedData.getDungeon();
         const stage = pixiDungeonView.getStage();
         let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
@@ -99,6 +108,31 @@ export default class DefaultPixiAnimationPack {
                         } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
                             sprite.scale.set(MAX_SCALE, MAX_SCALE);
                             sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES
+                            return true;
+                        } else {
+                            stage.removeChild(sprite);
+                            return false;
+                        }
+                    }
+                };
+            } else if(ability instanceof Abilities.ForceDart) {
+                const sprite = buildSprite('ForceDart');
+                return {
+                    start: () => stage.addChild(sprite),
+                    advance: (delta) => {
+                        cumulativeTime += delta;
+                        if(cumulativeTime < 15) {
+                            const creatureTile = dungeon.getTile(creature);
+                            const startX = (creatureTile.getX() + .5) * TILE_WIDTH;
+                            const startY = (creatureTile.getY() + .5) * TILE_WIDTH;
+                            const endX = (tile.getX() + .5) * TILE_WIDTH;
+                            const endY = (tile.getY() + .5) * TILE_WIDTH;
+                            const p = Easings.linear(cumulativeTime / 15);
+                            const x = startX + (endX - startX) * p;
+                            const y = startY + (endY - startY) * p;
+                            sprite.x = x;
+                            sprite.y = y;
+                            sprite.rotation = Math.atan2(endY -startY, endX - startX);
                             return true;
                         } else {
                             stage.removeChild(sprite);

@@ -11,20 +11,23 @@ export default class PixiAnimationController {
         this._stage = pixiApp.stage;
         const queue = this._animationGroupQueue = [[]];
 
-        pixiApp.ticker.add(function(delta) {
+        pixiApp.ticker.add((delta) => {
             const isBehind = queue.length > 1;
             const speedup = isBehind ? SPEEDUP_RATE : 1;
-            const currentAnimationGroup = queue[0];
+            const currentAnimationGroup = this.getCurrentAnimationGroup();
             if(currentAnimationGroup) {
+                if(!currentAnimationGroup.started) {
+                    currentAnimationGroup.forEach(animation => {
+                        animation.start();
+                        animation.advance(0);
+                    });
+                    currentAnimationGroup.started = true;
+                }
                 const newAnimationGroup = currentAnimationGroup.filter(
                     animation => animation.advance(speedup * delta)
                 );
                 if(newAnimationGroup.length === 0 && queue.length > 1) {
                     queue.shift();
-                    queue[0].forEach(animation => {
-                        animation.start();
-                        animation.advance(0);
-                    });
                 } else {
                     queue[0] = newAnimationGroup;
                 }
@@ -40,12 +43,26 @@ export default class PixiAnimationController {
         this._animationGroupQueue = [[]];
     }
 
+    getCurrentAnimationGroup() {
+        return this._animationGroupQueue[0];
+    }
+
+    getLastAnimationGroup() {
+        const list = this._animationGroupQueue;
+        return list[list.length - 1];
+    }
+
+    createAnimationGroup() {
+        const group = [];
+        this._animationGroupQueue.push(group);
+        return group;
+    }
+
     handleGameEvent(event) {
-        const queue = this._animationGroupQueue;
         if(event instanceof GameEvents.HumanMovingEvent) {
-            queue.push([]);
+            this.createAnimationGroup();
         }
-        const currentAnimationGroup = queue[queue.length - 1];
+        const currentAnimationGroup = this.getLastAnimationGroup();
         const animation = this.getAnimationPack().getAnimation(this._sharedData, this._pixiDungeonView, event);
         if(animation) {
             currentAnimationGroup.push(animation);

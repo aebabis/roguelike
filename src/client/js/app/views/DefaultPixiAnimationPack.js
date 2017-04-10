@@ -6,15 +6,15 @@ const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
 const Sprite = PIXI.Sprite;
 
-const MS_PER_TICK = 1;
-const PROJECTILE_SPEED = 10; // Tiles per second
+// const MS_PER_TICK = 1;
+// const PROJECTILE_SPEED = 10; // Tiles per second
 
 const TILE_WIDTH = 50; // TODO: De-dupe
 
 const Easings = {
     linear: t => t,
     easeIn: (t) => t*t
-}
+};
 
 const buildSprite = (textureName) => {
     const sprite = new Sprite(TextureCache[textureName]);
@@ -22,7 +22,7 @@ const buildSprite = (textureName) => {
     sprite.height = TILE_WIDTH;
     sprite.anchor.x = sprite.anchor.y = .5;
     return sprite;
-}
+};
 
 export default class DefaultPixiAnimationPack {
     getAnimation(sharedData, pixiDungeonView, gameEvent) {
@@ -33,17 +33,17 @@ export default class DefaultPixiAnimationPack {
             const cause = gameEvent.getCause();
             if(cause instanceof Moves.MovementMove) {
                 const MOVE_FRAMES = 20;
+                const creature = gameEvent.getCreature();
                 const from = gameEvent.getFromCoords();
                 const to = gameEvent.getToCoords();
                 const dx = to.x - from.x;
                 const dy = to.y - from.y;
-                const container = pixiDungeonView.getTileContainer(to.x, to.y);
                 return {
                     start: () => {
-                        const sprite = pixiDungeonView.removeCreatureSprite(from.x, from.y);
-                        if(sprite) {
+                        const container = pixiDungeonView.removeEntityById(creature.getId());
+                        if(container) {
                             pixiDungeonView.addCreatureSprite(
-                                sprite,
+                                container,
                                 to.x,
                                 to.y
                             );
@@ -57,12 +57,11 @@ export default class DefaultPixiAnimationPack {
                     },
                     advance: (delta) => {
                         cumulativeTime += delta;
-                        const creatureSprite = pixiDungeonView.getCreatureContainer(to.x, to.y).children[0];
+                        const creatureSprite = pixiDungeonView.getEntityById(creature.getId());
                         if(!creatureSprite) {
                             console.warn('No creature sprite found for animation'); // TODO: Prevent other updates from moving sprite
                             return;
                         }
-                        let x, y;
                         if(cumulativeTime > MOVE_FRAMES) {
                             creatureSprite.x = 0;
                             creatureSprite.y = 0;
@@ -74,7 +73,7 @@ export default class DefaultPixiAnimationPack {
                             return true;
                         }
                     }
-                }
+                };
             } else {
                 pixiDungeonView.updateVision();
                 pixiDungeonView.updateCreatureLocations();
@@ -107,7 +106,7 @@ export default class DefaultPixiAnimationPack {
                             return true;
                         } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
                             sprite.scale.set(MAX_SCALE, MAX_SCALE);
-                            sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES
+                            sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES;
                             return true;
                         } else {
                             stage.removeChild(sprite);
@@ -143,7 +142,7 @@ export default class DefaultPixiAnimationPack {
             }
         } else if(gameEvent instanceof GameEvents.DeathEvent) {
             const creature = gameEvent.getCreature();
-            const sprite = pixiDungeonView.getEntitySpriteById(creature.getId());
+            const sprite = pixiDungeonView.getEntityById(creature.getId());
             const FRAMES = 20;
             return {
                 start: () => {},

@@ -1,10 +1,10 @@
 import Dungeon from '../dungeons/Dungeon.js';
-import GameEvent from '../events/GameEvent.js';
+// import GameEvent from '../events/GameEvent.js';
 import GameEvents from '../events/GameEvents.js';
 
-import DungeonTooltips from './DungeonTooltips.js';
+// import DungeonTooltips from './DungeonTooltips.js';
 
-import DamageTypes from '../entities/DamageTypes.js';
+// import DamageTypes from '../entities/DamageTypes.js';
 
 import SharedUIDataController from '../controllers/SharedUIDataController.js';
 
@@ -21,25 +21,25 @@ const TILE_WIDTH = 50;
 const GAP_WIDTH = 0;
 const SCROLL_ICON_WIDTH = TILE_WIDTH * .7;
 
-const DAMAGE_COLORS = {
-    [DamageTypes.MELEE_PHYSICAL]: 'darkred',
-    [DamageTypes.RANGED_PHYSICAL]: 'darkred',
-    [DamageTypes.FIRE]: 'orange',
-    [DamageTypes.COLD]: 'darkblue',
-    [DamageTypes.ELECTRICAL]: 'yellow',
-    [DamageTypes.ENERGY]: 'white',
-    [DamageTypes.POISON]: 'emerald'
-};
+// const DAMAGE_COLORS = {
+//     [DamageTypes.MELEE_PHYSICAL]: 'darkred',
+//     [DamageTypes.RANGED_PHYSICAL]: 'darkred',
+//     [DamageTypes.FIRE]: 'orange',
+//     [DamageTypes.COLD]: 'darkblue',
+//     [DamageTypes.ELECTRICAL]: 'yellow',
+//     [DamageTypes.ENERGY]: 'white',
+//     [DamageTypes.POISON]: 'emerald'
+// };
 
-const DAMAGE_OUTLINE_COLORS = {
-    [DamageTypes.MELEE_PHYSICAL]: 'pink',
-    [DamageTypes.RANGED_PHYSICAL]: 'pink',
-    [DamageTypes.FIRE]: 'darkred',
-    [DamageTypes.COLD]: 'skyblue',
-    [DamageTypes.ELECTRICAL]: 'orange',
-    [DamageTypes.ENERGY]: 'yellow',
-    [DamageTypes.POISON]: 'darkgreen'
-};
+// const DAMAGE_OUTLINE_COLORS = {
+//     [DamageTypes.MELEE_PHYSICAL]: 'pink',
+//     [DamageTypes.RANGED_PHYSICAL]: 'pink',
+//     [DamageTypes.FIRE]: 'darkred',
+//     [DamageTypes.COLD]: 'skyblue',
+//     [DamageTypes.ELECTRICAL]: 'orange',
+//     [DamageTypes.ENERGY]: 'yellow',
+//     [DamageTypes.POISON]: 'darkgreen'
+// };
 
 const NEUTRAL_COLOR = 0x46465a;
 const ATTACK_MOVE_COLOR = 0x8b0000;
@@ -113,7 +113,7 @@ function getItemSprite(item) {
         return group;
     } else {
         return getSprite(item.constructor.name);
-    };
+    }
 }
 
 function getTileColor(sharedData, x, y) {
@@ -122,28 +122,30 @@ function getTileColor(sharedData, x, y) {
     const playerLocation = dungeon.getTile(player);
 
     switch(sharedData.getMode()) {
-        case SharedUIDataController.EXAMINE_MODE:
-            return NEUTRAL_COLOR;
-        case SharedUIDataController.ATTACK_MODE:
-            return new Moves.AttackMove(playerLocation, x, y)
-                .getReasonIllegal(dungeon, player) ?
-                NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
-        case SharedUIDataController.TARGETTED_ABILITY_MODE:
-            const abilityIndex = sharedData.getTargettedAbility();
-            return new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y)
-                .getReasonIllegal(dungeon, player) ?
-                NEUTRAL_COLOR : ABILITY_MOVE_COLOR;
-        case SharedUIDataController.TARGETTED_ITEM_MODE:
-            const itemIndex = sharedData.getTargettedItem();
-            return new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y))
-                .getReasonIllegal(dungeon, player) ?
-                NEUTRAL_COLOR : ITEM_MOVE_COLOR;
-        case SharedUIDataController.NEUTRAL_MODE:
-            return new Moves.AttackMove(playerLocation, x, y)
-                .getReasonIllegal(dungeon, player) ?
-                NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
-        default:
-            throw new Error('This should never happen');
+    case SharedUIDataController.EXAMINE_MODE:
+        return NEUTRAL_COLOR;
+    case SharedUIDataController.ATTACK_MODE:
+        return new Moves.AttackMove(playerLocation, x, y)
+            .getReasonIllegal(dungeon, player) ?
+            NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
+    case SharedUIDataController.TARGETTED_ABILITY_MODE: {
+        const abilityIndex = sharedData.getTargettedAbility();
+        return new Moves.UseAbilityMove(playerLocation, abilityIndex, x, y)
+            .getReasonIllegal(dungeon, player) ?
+            NEUTRAL_COLOR : ABILITY_MOVE_COLOR;
+    }
+    case SharedUIDataController.TARGETTED_ITEM_MODE: {
+        const itemIndex = sharedData.getTargettedItem();
+        return new Moves.UseItemMove(playerLocation, itemIndex, dungeon.getTile(x, y))
+            .getReasonIllegal(dungeon, player) ?
+            NEUTRAL_COLOR : ITEM_MOVE_COLOR;
+    }
+    case SharedUIDataController.NEUTRAL_MODE:
+        return new Moves.AttackMove(playerLocation, x, y)
+            .getReasonIllegal(dungeon, player) ?
+            NEUTRAL_COLOR : ATTACK_MOVE_COLOR;
+    default:
+        throw new Error('This should never happen');
     }
 }
 
@@ -163,7 +165,7 @@ function getTileContainer(tile) {
     tileContainer.update = () => {
         while(tileContainer.children.length) tileContainer.removeChildAt(0);
         tileContainer.addChild(getTileSprite(tile));
-    }
+    };
 
     tileContainer.update();
 
@@ -175,7 +177,6 @@ export default class PixiDungeonView {
         if(!(sharedData instanceof SharedUIDataController)) {
             throw new Error('First parameter must be a SharedUIDataController');
         }
-        const self = this;
         this._sharedData = sharedData;
         this._indicators = [];
         this._clickHanders = [];
@@ -226,17 +227,23 @@ export default class PixiDungeonView {
         return sprite;
     }
 
-    getEntitySpriteById(id) {
+    getEntityById(id) {
         return this._entitySprites[id];
+    }
+
+    removeEntityById(id) {
+        const container = this._entitySprites[id];
+        container.parent.removeChild(container);
+        return container;
     }
 
     init() {
         const stage = this.getStage();
 
-        const entitySprites = this._entitySprites = {};
+        this._entitySprites = {};
 
         const sharedData = this._sharedData;
-        const renderer = this._pixiApp.renderer;
+        this._pixiApp.renderer;
         const animationController = this._animationController = new PixiAnimationController(
             sharedData,
             this,
@@ -258,7 +265,6 @@ export default class PixiDungeonView {
         });
 
         sharedData.addObserver((event) => {
-            const dungeon = sharedData.getDungeon();
             if(event instanceof GameEvents.SpawnEvent) {
                 this.updateCreatureLocations();
                 this._tileContainers[event.getX()][event.getY()].update();
@@ -292,7 +298,6 @@ export default class PixiDungeonView {
         const tileContainers = this._tileContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
         const itemContainers = this._itemContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
         const creatureContainers = this._creatureContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
-        const entitySprites = this._entitySprites;
         
         const tilesContainer = this._tilesContainer = new PIXI.Container();
         const indicatorContainer = this._indicatorContainer = new PIXI.Container();
@@ -310,15 +315,15 @@ export default class PixiDungeonView {
             tileContainers[x][y] = tileContainer;
 
             tileContainer
-            .on('click', (event) => {
+            .on('click', () => {
                 this._clickHanders.forEach(handler => handler(x, y));
-            }).on('tap', (event) => {
+            }).on('tap', () => {
                 this._clickHanders.forEach(handler => handler(x, y));
-            }).on('mouseover', (event) => {
+            }).on('mouseover', () => {
                 setTimeout(() => { // Ensure mouseout fires first
                     this._mouseOverHandlers.forEach(handler => handler(x, y));
                 });
-            }).on('mouseout', (event) => {
+            }).on('mouseout', () => {
                 this._mouseOutHandlers.forEach(handler => handler(x, y));
             });
 
@@ -343,23 +348,23 @@ export default class PixiDungeonView {
 
     updateItems() {
         const dungeon = this._sharedData.getDungeon();
-        const itemContainers = this._itemContainers;
+        // const itemContainers = this._itemContainers;
         dungeon.forEachTile((tile, x, y) => {
             const itemsContainer = this.getItemContainer(x, y);
             while(itemsContainer.children.length) itemsContainer.removeChildAt(0);
             tile.getItems().forEach(function(item) {
                 itemsContainer.addChild(getItemSprite(item));
-            })
+            });
         });
     }
 
     updateVision() {
         const dungeon = this._sharedData.getDungeon();
         const player = dungeon.getPlayableCharacter();
-        const tileContainers = this._tileContainers;
+        // const tileContainers = this._tileContainers;
         if(player) {
             dungeon.forEachTile((tile, x, y) => {
-                const creature = tile.getCreature();
+                // const creature = tile.getCreature();
                 const tileContainer = this.getTileContainer(x, y);
                 const itemContainer = this.getItemContainer(x, y);
                 const creatureContainer = this.getCreatureContainer(x, y);
@@ -392,7 +397,7 @@ export default class PixiDungeonView {
                 const tile = dungeon.getTile(creature);
                 this.getCreatureContainer(tile.getX(), tile.getY()).addChild(sprite);
             }
-        })
+        });
     }
 
     updateStatBars() {
@@ -481,9 +486,9 @@ export default class PixiDungeonView {
         while(indicatorContainer.children.length > 0) indicatorContainer.removeChildAt(0);
 
         const sharedData = this._sharedData;
-        const dungeon = sharedData.getDungeon();
-        const player = dungeon.getPlayableCharacter();
-        const playerLocation = dungeon.getTile(player);
+        // const dungeon = sharedData.getDungeon();
+        // const player = dungeon.getPlayableCharacter();
+        // const playerLocation = dungeon.getTile(player);
 
         this._indicators = [
             sharedData.getHoverTile(),

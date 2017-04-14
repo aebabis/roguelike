@@ -46,7 +46,8 @@ const ATTACK_MOVE_COLOR = 0x8b0000;
 const ITEM_MOVE_COLOR = 0x7F00FF;
 const ABILITY_MOVE_COLOR = 0x9400D3;
 
-function setDefaultSpriteProps(sprite) {
+function getSprite(name) {
+    const sprite = new Sprite(TextureCache[name] || TextureCache['ThisIsAThing']);
     sprite.x = 0;
     sprite.y = 0;
     sprite.width = TILE_WIDTH;
@@ -54,23 +55,11 @@ function setDefaultSpriteProps(sprite) {
     return sprite;
 }
 
-function getSprite(name) {
-    return setDefaultSpriteProps(
-        new Sprite(TextureCache[name] || TextureCache['ThisIsAThing'])
-    );
-}
-
 function getSpriteStack(spriteNames) {
     const group = new PIXI.Container();
     spriteNames.forEach(function(spriteName) { // TODO: Shift stack instead
         group.addChild(getSprite(spriteName));
     });
-    return group;
-}
-
-function getContainerWrapping(obj) {
-    const group = new PIXI.Container();
-    group.addChild(obj);
     return group;
 }
 
@@ -89,13 +78,9 @@ function getTileSprite(tile) {
     } else {
         tileDisp = getSprite(tile.constructor.name);
     }
-    return getContainerWrapping(tileDisp);
-}
-
-function getCreatureContainer(creature) {
-    return getContainerWrapping(
-        new Sprite(TextureCache[creature.constructor.name])
-    );
+    const group = new PIXI.Container();
+    group.addChild(tileDisp);
+    return group;
 }
 
 function getItemSprite(item) {
@@ -387,7 +372,9 @@ export default class PixiDungeonView {
         dungeon.getCreatures().forEach((creature) => {
             let sprite = entitySprites[creature.getId()];
             if(!sprite) {
-                sprite = entitySprites[creature.getId()] = setDefaultSpriteProps(getCreatureContainer(creature));
+                sprite = entitySprites[creature.getId()] = getSpriteStack(
+                    [creature.constructor.name]
+                );
                 sprite.addChild(new PIXI.Graphics());
             }
             if(sprite.parent) {
@@ -414,15 +401,18 @@ export default class PixiDungeonView {
                 statGraphics.clear();
                 const padding = 4;
                 const maxBarWidth = creatureWidth - 2 * padding;
-                const barHeight = 6;
+                const barHeight = 3;
 
                 const hpBarWidth = maxBarWidth * Math.max(0, creature.getCurrentHP()) / creature.getBaseHP();
                 const actionBarWidth = maxBarWidth * creature.getTimeToNextMove() / creature.getSpeed();
 
+                statGraphics.x = padding;
+                statGraphics.y = padding;
+
                 statGraphics.lineStyle(1, 0x660000);
-                statGraphics.drawRect(padding, padding, hpBarWidth, barHeight);
+                statGraphics.drawRect(0, 0, hpBarWidth, barHeight);
                 statGraphics.beginFill(0x8f0222);
-                statGraphics.drawRect(padding + 1, padding + 1, hpBarWidth - 2, barHeight);
+                statGraphics.drawRect(1, 1, hpBarWidth - 1, barHeight);
                 statGraphics.endFill();
 
                 if(creature === player) {
@@ -430,9 +420,9 @@ export default class PixiDungeonView {
                 }
 
                 statGraphics.lineStyle(1, 0xCC7000);
-                statGraphics.drawRect(padding, padding + barHeight + 2, actionBarWidth, barHeight);
+                statGraphics.drawRect(0, barHeight + 2, actionBarWidth, barHeight);
                 statGraphics.beginFill(0xdddd00);
-                statGraphics.drawRect(padding + 1, padding + barHeight + 3, actionBarWidth - 2, barHeight - 1);
+                statGraphics.drawRect(1, barHeight + 3, actionBarWidth - 1, barHeight - 1);
                 statGraphics.endFill();
             }
         });

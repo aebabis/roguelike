@@ -40,7 +40,7 @@
     "mysql": "^2.13.0",
     "node-sass": "^4.5.0",
     "normalize.css": "^4.1.1",
-    "pixi.js": "^4.3.5",
+    "pixi.js": "^4.5.0",
     "random-js": "^1.0.8",
     "sass-loader": "^4.0.0",
     "sinon": "^1.17.4",

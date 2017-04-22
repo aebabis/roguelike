@@ -19,8 +19,6 @@ import Buff from './buffs/Buff.js';
 
 import Strategy from './strategies/Strategy.js';
 
-import Geometry from '../../util/Geometry.js';
-
 import Items from '../Items.js';
 
 const visionLookup = {};
@@ -400,7 +398,7 @@ export default class Creature extends Entity {
      * @return {Boolean} `true` if the Creature can see the tile; false otherwise
      */
     canSee(dungeon, param) {
-        const tile = param instanceof Creature ? dungeon.getTile(creature) : param;
+        const tile = param instanceof Creature ? dungeon.getTile(param) : param;
         if(!(tile instanceof Tile)) {
             throw new Error('Must pass a Tile or Creature');
         }

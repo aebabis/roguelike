@@ -19,6 +19,15 @@ var Inventory = class Inventory {
         return 'ACCESSORY_SLOT';
     }
 
+    static get SLOTS() {
+        return [
+            Inventory.MELEE_SLOT,
+            Inventory.RANGED_SLOT,
+            Inventory.ARMOR_SLOT,
+            Inventory.ACCESSORY_SLOT
+        ]
+    }
+
     /**
       * @class Inventory
       * @description A creature's inventory for holding items
@@ -95,8 +104,34 @@ var Inventory = class Inventory {
             equipment[Inventory.MELEE_SLOT],
             equipment[Inventory.RANGED_SLOT],
             equipment[Inventory.ARMOR_SLOT],
-            equipment[Inventory.ACCESSORY_SLOT],
+            equipment[Inventory.ACCESSORY_SLOT]
         ).filter(Boolean);
+    }
+    
+    findItem(predicate) {
+        const equipment = this._equipment;
+        const backpack = this._backpack;
+        return Inventory.SLOTS.map(slot => equipment[slot])
+            .filter(Boolean).find(predicate) ||
+            backpack.filter(Boolean).find(predicate);
+    }
+
+    removeItems(predicate) {
+        const equipment = this._equipment;
+        const backpack = this._backpack;
+        Inventory.SLOTS.forEach((slot) => {
+            const item = equipment[slot];
+            if(item && predicate(item, slot)) {
+                this.removeItem(slot);
+            }
+        });
+        backpack.filter(Boolean).forEach((item, index) => {
+            if(predicate(item, index)) {
+                // Mutating during loop is safe because
+                // array uses null placeholders
+                this.removeItem(index);
+            }
+        });
     }
 
     getBackpack() {

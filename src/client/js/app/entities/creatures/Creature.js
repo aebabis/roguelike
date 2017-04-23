@@ -20,6 +20,8 @@ import Buff from './buffs/Buff.js';
 import Strategy from './strategies/Strategy.js';
 
 import Items from '../Items.js';
+import Consumable from '../consumables/Consumable.js';
+import ItemComparator from './ItemComparator.js';
 
 const visionLookup = {};
 
@@ -133,11 +135,25 @@ export default class Creature extends Entity {
      */
     takeItems(dungeon) {
         const tile = dungeon.getTile(this);
-        tile.getItems().forEach((item) => {
-            if(this.canAddItem(item)) {
-                tile.removeItem(item);
-                this.addItem(item);
-                dungeon.fireEvent(new TakeItemEvent(dungeon, this, item));
+        tile.getItems().forEach((newItem) => {
+            if(this.getFaction() === 'Player' && !(newItem instanceof Consumable)) {
+                if(this.getInventory().findItem((oldItem) =>
+                    newItem instanceof oldItem.constructor ||
+                    ItemComparator.is(oldItem).strictlyBetterThan(newItem)
+                )) {
+                    // Destroy item
+                    tile.removeItem(newItem);
+                    dungeon.fireEvent(new TakeItemEvent(dungeon, this, newItem));
+                    return;
+                }
+                this.getInventory().removeItems((oldItem) =>
+                    ItemComparator.is(newItem).strictlyBetterThan(oldItem)
+                );
+            }
+            if(this.canAddItem(newItem)) {
+                tile.removeItem(newItem);
+                this.addItem(newItem);
+                dungeon.fireEvent(new TakeItemEvent(dungeon, this, newItem));
                 dungeon.fireEvent(new InventoryChangeEvent(dungeon, this));
             }
         });

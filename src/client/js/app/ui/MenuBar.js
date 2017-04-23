@@ -8,14 +8,16 @@ import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializ
 import Account from '../../account/Account.js';
 
 function template() {
-    return $(`
-        <div class="menu-bar">
-            <button class="newgame" accesskey="n">New Game</button>
-            <button class="restart" accesskey="r">Restart</button>
-            <button class="load" accesskey="l">Load</button>
-            <button class="upload" accesskey="u">Upload</button>
-            <label>Remember Previous Level <input type="checkbox" ${localStorage.repeatPreviousLevel === 'true' ? 'checked' : ''}></label>
-        </div>`);
+    const menuBar = document.createElement('div');
+    menuBar.classList.add('menu-bar');
+    menuBar.innerHTML = `
+        <button class="newgame" accesskey="n">New Game</button>
+        <button class="restart" accesskey="r">Restart</button>
+        <button class="load" accesskey="l">Load</button>
+        <button class="upload" accesskey="u">Upload</button>
+        <label>Remember Previous Level <input type="checkbox" ${localStorage.repeatPreviousLevel === 'true' ? 'checked' : ''}></label>
+    `;
+    return menuBar;
 }
 
 function getPrng(newSeed) {
@@ -31,16 +33,18 @@ function getPrng(newSeed) {
 
 export default class MenuBar {
     constructor(sharedData) {
-        this._dom = template()
-        .on('click', '.newgame', function() {
+        const dom = this._dom = template();
+        dom.querySelector('.newgame').addEventListener('click', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
                 sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(true), character));
             });
-        }).on('click', '.restart', function() {
+        });
+        dom.querySelector('.restart').addEventListener('click', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
                 sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
             });
-        }).on('click', '.load', function() {
+        });
+        dom.querySelector('.load').addEventListener('click', function() {
             const getDungeon = new DungeonPicker().getDungeon();
             const getCharacter = new CharacterBuilder().getCharacter();
 
@@ -52,7 +56,8 @@ export default class MenuBar {
                 });
                 sharedData.setDungeon(dungeon);
             });
-        }).on('click', '.upload', function() {
+        });
+        dom.querySelector('.upload').addEventListener('click', function() {
             Account.getAuthToken().then(function(token) {
                 const method = 'POST';
                 const headers = new Headers();
@@ -74,12 +79,13 @@ export default class MenuBar {
                     } else {
                         alert(response.statusText);
                     }
-                })
+                });
             }).catch(function(reason) {
                 alert(reason);
-            })
-        }).on('change', 'input', function() {
-            localStorage.repeatPreviousLevel = $(this).prop('checked');
+            });
+        });
+        dom.querySelector('input').addEventListener('change', function() {
+            localStorage.repeatPreviousLevel = this.checked;
         });
     }
 

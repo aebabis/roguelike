@@ -14,22 +14,31 @@ export default {
                     tmpDungeon.moveCreature(new Rogue(), 0, 0);
                     const sharedData = new SharedUIDataController(tmpDungeon);
 
-                    $('body').addClass('theme-default').append(`
-                        <header></header>
-                        <section class='game gitrecht' tabindex='0' role='application'></section>
-                        <footer></footer>`);
+                    const { body } = document;
+                    body.classList.add('theme-default');
+                    const header = document.createElement('header');
+                    const game = document.createElement('section');
+                    game.classList.add('game', 'gitrecht');
+                    game.setAttribute('tabindex', '0');
+                    game.setAttribute('role', 'application');
+                    const footer = document.createElement('footer');
+
+                    body.appendChild(header);
+                    body.appendChild(game);
+                    body.appendChild(footer);
+                    
                     const menu = new MenuBar(sharedData);
-                    $('header').append(menu.getDom());
+                    header.appendChild(menu.getDom());
 
                     new DungeonUIBootstrapper(sharedData);
                     return sharedData;
                 }).then(resolve, reject);
 
-                $('<link/>', {
-                    rel: 'stylesheet',
-                    type: 'text/css',
-                    href: 'https://code.jquery.com/ui/1.10.4/themes/swanky-purse/jquery-ui.css'
-                }).appendTo('head');
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'stylesheet');
+                link.setAttribute('type', 'text/css');
+                link.setAttribute('href', 'https://code.jquery.com/ui/1.10.4/themes/swanky-purse/jquery-ui.css');
+                document.head.appendChild(link);
             });
         });
     }

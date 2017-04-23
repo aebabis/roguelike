@@ -38,7 +38,7 @@ export default class GraphicalViewMouseController {
                 if(dx === 0 && dy === 0) {
                     return [new Moves.WaitMove(playerLocation)];
                 } else if(Math.abs(dx) <= 1 && Math.abs(dy) <= 1 && (dx !== 0 || dy !== 0)) {
-                    return [new Moves.MovementMove(playerLocation, x, y)];
+                    return [new Moves.MovementMove(playerLocation, targetX, targetY)];
                 } else if(playerLocation.getCreature()) {
                     return Pather.getMoveSequenceToward(dungeon, player, dungeon.getTile(targetX, targetY));
                 }
@@ -80,8 +80,10 @@ export default class GraphicalViewMouseController {
 
         // Arrow key handler
         /*eslint-env jquery*/
-        $(dom).on('click tap', '.cell', function() {
-            const self = this;
+        const pointerHander = ({target}) => {
+            if (!target.classList.contains('cell')) {
+                return;
+            }
             const dungeon = sharedData.getDungeon();
             const player = dungeon.getPlayableCharacter();
             const enemies = player.getVisibleEnemies(dungeon);
@@ -91,7 +93,7 @@ export default class GraphicalViewMouseController {
             } else {
                 moves.forEach(function(move) {
                     // Note, optionalTargetTile (3rd param) only relevant for 1-length move sequences
-                    var reason = move.getReasonIllegal(dungeon, player, getTileFor(self));
+                    var reason = move.getReasonIllegal(dungeon, player, getTileFor(target));
                     if(reason) {
                         sharedData.dispatchUIEvent(new UIMessageEvent(reason));
                         return false;
@@ -106,15 +108,21 @@ export default class GraphicalViewMouseController {
                     }
                 });
             }
-        });
+        };
 
-        var lastHoverTile;
-        $(dom).on('mouseover', '.cell', function() {
-            var tileDom = lastHoverTile = this;
-            var targetX = tileDom.getAttribute('data-x');
-            var targetY = tileDom.getAttribute('data-y');
+        dom.addEventListener('click', pointerHander);
+        dom.addEventListener('tap', pointerHander);
+
+        let lastHoverTile;
+        dom.addEventListener('mouseover', ({target}) => {
+            if (!target.classList.contains('cell')) {
+                return;
+            }
+            lastHoverTile = target;
+            const targetX = target.getAttribute('data-x');
+            const targetY = target.getAttribute('data-y');
             sharedData.setInspectedTile(targetX, targetY);
-            updateHoverAttribute(tileDom);
+            updateHoverAttribute(target);
         });
 
         sharedData.addObserver(()=>lastHoverTile && updateHoverAttribute(lastHoverTile));

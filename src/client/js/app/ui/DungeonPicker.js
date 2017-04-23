@@ -72,12 +72,10 @@ angular.module('dungeon-picker', [])
 export default class DungeonPicker {
     constructor() {
         this._promise = new Promise((resolve, reject) => {
-            var $dialog = $(`
-                <dialog class='dungeon-picker'>
-                    <ng-include src="'dungeon-picker.html'"></ng-include>
-                </dialog>`).appendTo('body');
-
-            const dialog = $dialog[0];
+            const dialog = document.createElement('dialog');
+            dialog.classList.add('dungeon-picker');
+            dialog.innerHTML = '<ng-include src="\'dungeon-picker.html\'"></ng-include>';
+            document.body.appendChild(dialog);
 
             if(!dialog.open) {
                 dialogPolyfill.registerDialog(dialog);

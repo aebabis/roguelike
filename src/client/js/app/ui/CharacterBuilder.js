@@ -361,12 +361,10 @@ angular.module('vog', [])
 export default class CharacterBuilder {
     constructor() {
         this._promise = new Promise((resolve, reject) => {
-            var $dialog = $(`
-                <dialog class='character-builder'>
-                    <ng-include src="'character-builder.html'"></ng-include>
-                </dialog>`).appendTo('body');
-
-            const dialog = $dialog[0];
+            const dialog = document.createElement('dialog');
+            dialog.classList.add('character-builder');
+            dialog.innerHTML = '<ng-include src="\'character-builder.html\'"></ng-include>';
+            document.body.appendChild(dialog);
 
             if(!dialog.open) {
                 dialogPolyfill.registerDialog(dialog);

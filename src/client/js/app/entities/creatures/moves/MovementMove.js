@@ -2,8 +2,6 @@ import Move from './Move.js';
 
 import GameEvents from '../../../events/GameEvents.js';
 
-import PlayableCharacter from '../PlayableCharacter.js';
-
 /**
  * @todo Only take two absolute coord params
  */

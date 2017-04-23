@@ -2,6 +2,12 @@ import Armor from '../entities/armor/Armor.js';
 import Weapon from '../entities/weapons/Weapon.js';
 import TheTreasure from '../entities/TheTreasure.js';
 
+const buildDom = str => {
+    const div = document.createElement('div');
+    div.innerHTML = str;
+    return div.children[0];
+};
+
 let lib;
 export default lib = {
     getItemDom: function(item, index, isTargetting) {
@@ -10,7 +16,7 @@ export default lib = {
         } else if(item instanceof Armor) {
             return lib.getArmorDom(item, index);
         } else if(item){
-            return $(
+            return buildDom(
             `<li class="slot item"
                  tabindex="0"
                  data-index="${index}"
@@ -25,12 +31,12 @@ export default lib = {
                 ${(isNaN(index) || item instanceof TheTreasure) ?
                     '<button class="home" type="button" title="Walk to the exit" accesskey="h">&#127968;</button>' :
                     '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
-            </li>`)[0];
+            </li>`);
         } else {
-            return $(`<li class="slot empty" tabindex="0" data-index="${index}">
+            return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
                 <div class="icon"></div>
                 <div class="info">(Empty slot)</div>
-            </li>`)[0];
+            </li>`);
         }
     },
 
@@ -41,7 +47,7 @@ export default lib = {
                 damage: weapon.getDamage(),
                 range: weapon.getRange()
             };
-            return $(`
+            return buildDom(`
                 <li class="slot item weapon" tabindex="0" data-index="${index}" data-item="${weapon.toString()}">
                     <div class="icon" data-item-name="${weapon.toString()}"></div>
                     <div class="info">
@@ -53,12 +59,12 @@ export default lib = {
                     </div>
                     ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
                 </li>
-            `)[0];
+            `);
         } else {
-            return $(`<li class="slot empty" tabindex="0" data-index="${index}">
+            return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
                 <div class="icon"></div>
                 <div class="info">(Empty weapon slot)</div>
-            </li>`)[0];
+            </li>`);
         }
     },
 
@@ -69,7 +75,7 @@ export default lib = {
                 physical: armor.getPhysicalReduction(),
                 magical: armor.getMagicalReduction()*/
             };
-            return $(`
+            return buildDom(`
                 <li class="slot item armor" tabindex="0" data-index="${index}" data-item="${armor.toString()}">
                     <div class="icon" data-item-name="${armor.toString()}"></div>
                     <div class="info">
@@ -81,12 +87,12 @@ export default lib = {
                     </div>
                     ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
                 </li>
-            `)[0];
+            `);
         } else {
-            return $(`<li class="slot empty" tabindex="0" data-index="${index}">
+            return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
                 <div class="icon"></div>
                 <div class="info">(Empty armor slot)</div>
-            </li>`)[0];
+            </li>`);
         }
     }
 };

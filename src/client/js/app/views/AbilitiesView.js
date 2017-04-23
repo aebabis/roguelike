@@ -6,13 +6,18 @@ export default class AbilitiesView {
      * @description List view for the player's abilities
      */
     constructor(sharedData) {
-        const dom = this._dom = $('<div class="abilities-buttons">');
+        const dom = this._dom = document.createElement('div');
+        dom.classList.add('abilities-buttons');
         this._sharedData = sharedData;
 
         sharedData.addObserver(()=>this.update());
 
-        $(dom).on('click tap', 'button', function() {
-            const index = +$(this).attr('data-index');
+        dom.addEventListener('click', ({target}) => {
+            if (target.tagName !== 'BUTTON') {
+                return;
+            }
+
+            const index = target.getAttribute('data-index');
             const prevAbility = sharedData.getTargettedAbility();
 
             if(prevAbility === index) {
@@ -35,7 +40,7 @@ export default class AbilitiesView {
             const code = event.keyCode;
             if(48 <= code && code <= 57) {
                 const index = (code + 1) % 10; // '0' key means 10th index
-                $(dom).find('button').eq(index).trigger('click');
+                dom.querySelectorAll('button')[index].click();
             }
         });
     }
@@ -45,7 +50,7 @@ export default class AbilitiesView {
         const dungeon = sharedData.getDungeon();
         const player = dungeon.getPlayableCharacter();
         const targettedIndex = sharedData.getTargettedAbility();
-        const template = $(`
+        this.getDom().innerHTML = `
         <h2>Abilities</h2>
         <div class="wrap">
             ${player.getAbilities().map((item, index)=>
@@ -56,11 +61,10 @@ export default class AbilitiesView {
                             <span class="hotkey">${index + 1}</span>
                         </div>
                     </button>`).join('')}
-        </div>`);
-        $(this.getDom()).empty().append(template);
+        </div>`;
     }
 
     getDom() {
-        return this._dom[0];
+        return this._dom;
     }
 }

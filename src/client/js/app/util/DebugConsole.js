@@ -1,17 +1,19 @@
 var getDom = (function() {
-    var $dom;
+    var dom;
     return function() {
-        if(!$dom) {
-            $dom = $(
-                `<div class="debug-console">
-                    <div class="feed"></div>
-                    <button title="Show developer console">&#128435;</button>
-                </div>`
-            ).appendTo(document.body).on('click', 'button', function() {
-                $dom.toggleClass('expanded');
+        if(!dom) {
+            dom = document.createElement('div');
+            dom.classList.add('debug-console');
+            dom.innerHTML = `
+                <div class="feed"></div>
+                <button title="Show developer console">&#128435;</button>
+            `;
+            dom.querySelector('button').addEventListener('click', function() {
+                dom.classList.toggle('expanded');
             });
+            document.body.appendChild(dom);
         }
-        return $dom;
+        return dom;
     };
 })();
 
@@ -20,6 +22,8 @@ export default {
         if(typeof message !== 'string') {
             message = JSON.stringify(message, null, 4);
         }
-        getDom().find('.feed').append(`<pre class="message">${message}</pre>`);
+        const messageDom = document.createElement('pre');
+        messageDom.textContent = message;
+        getDom().querySelector('.feed').appendChild(messageDom);
     }
 };

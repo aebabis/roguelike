@@ -6,7 +6,8 @@ export default class PlayerLocationView {
      * @description View summarizing the tile where the player is standing
      */
     constructor(sharedData) {
-        const dom = this._dom = $('<div class="player-location-view">');
+        const dom = this._dom = document.createElement('div');
+        dom.classList.add('player-location-view');
         this._sharedData = sharedData;
 
         sharedData.addObserver(()=>this.update());
@@ -41,7 +42,7 @@ export default class PlayerLocationView {
             };
         });
 
-        const template = $(`
+        this.getDom().innerHTML = `
         <div role="presentation" class="portrait"></div>
         <div class="stat-block player">
             <h2>${name}</h2>
@@ -64,12 +65,10 @@ export default class PlayerLocationView {
                     ${item.takeable ? '' : 'disabled'}
                     data-index="${item.index}">${item.name}
                 </button>`)}
-        </div>`);
-
-        $(this.getDom()).empty().append(template);
+        </div>`;
     }
 
     getDom() {
-        return this._dom[0];
+        return this._dom;
     }
 }

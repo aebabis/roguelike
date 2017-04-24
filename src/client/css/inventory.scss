@@ -53,6 +53,10 @@
             background-color: skyblue;
         }
 
+        :not(button) {
+            pointer-events: none;
+        }
+
         .icon {
             background-color: #c7573c;
         }

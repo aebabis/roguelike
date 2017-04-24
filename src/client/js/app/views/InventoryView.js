@@ -8,21 +8,26 @@ function getInventoryDom(creature, targettedIndex) {
     const rangedWeapon = creature.getRangedWeapon();
     const armor = creature.getArmor();
     const items = creature.getInventory().getBackpack();
-    return $('<ul class="inventory">')
-        .append(
-            $('<div class="subinventory equipment">')
-                .append('<h3>Equipment</h2>')
-                .append(ItemDomFactory.getWeaponDom(meleeWeapon))
-                .append(ItemDomFactory.getWeaponDom(rangedWeapon))
-                .append(ItemDomFactory.getArmorDom(armor))
-            )
-        .append(
-            $('<div class="subinventory backpack">')
-                .append('<h3>Backpack</h2>')
-                .append(items.map(function(item, index) {
-                    return ItemDomFactory.getItemDom(item, index, index === targettedIndex);
-                }))
-        );
+    const inventoryDom = document.createElement('ul');
+    inventoryDom.classList.add('inventory');
+
+    const equipmentDom = document.createElement('div');
+    equipmentDom.classList.add('subinventory', 'equipment');
+    equipmentDom.innerHTML = '<h3>Equipment</h3>';
+    equipmentDom.appendChild(ItemDomFactory.getWeaponDom(meleeWeapon));
+    equipmentDom.appendChild(ItemDomFactory.getWeaponDom(rangedWeapon));
+    equipmentDom.appendChild(ItemDomFactory.getArmorDom(armor));
+
+    const backpackDom = document.createElement('div');
+    backpackDom.classList.add('subinventory', 'backpack');
+    backpackDom.innerHTML = '<h3>Backpack</h3>';
+    items.map((item, index) =>
+        ItemDomFactory.getItemDom(item, index, index === targettedIndex)
+    ).forEach(dom => backpackDom.appendChild(dom));
+
+    inventoryDom.appendChild(equipmentDom);
+    inventoryDom.appendChild(backpackDom);
+    return inventoryDom;
 }
 
 export default class InventoryView {
@@ -31,13 +36,17 @@ export default class InventoryView {
      * @description Event feed widget
      */
     constructor(sharedData) {
-        const dom = this._dom = $('<div>');
+        const dom = this._dom = document.createElement('div');
         this._sharedData = sharedData;
 
-        $(dom).on('click tap', '.item', function() {
+        const focusGame = () => document.querySelector('section.game').focus();
+        const itemHandler = ({target}) => {
+            if (!target.classList.contains('item')) {
+                return;
+            }
             const dungeon = sharedData.getDungeon();
             const player = dungeon.getPlayableCharacter();
-            const index = +$(this).attr('data-index');
+            const index = target.getAttribute('data-index');
             const item = player.getInventory().getItem(index);
             if(item.isTargetted && item.isTargetted()) {
                 const targetIndex = sharedData.getTargettedItem();
@@ -50,27 +59,36 @@ export default class InventoryView {
                 player.setNextMove(new Moves.UseItemMove(dungeon.getTile(player), index));
             }
             dungeon.resolveUntilBlocked();
-            $('section.game').focus();
-        });
+            focusGame();
+        };
 
-        $(dom).on('click tap', 'button.trash', function(event) {
+        dom.addEventListener('click',  itemHandler);
+        dom.addEventListener('tap', itemHandler);
+
+        dom.addEventListener('click', ({target}) => {
             event.stopPropagation(); // Prevent parent "button" from being clicked
+            if (!target.classList.contains('trash')) {
+                return;
+            }
 
             const dungeon = sharedData.getDungeon();
             const player = dungeon.getPlayableCharacter();
-            const index = $(this).parent('.item').attr('data-index');
+            const index = target.getAttribute('data-index');
             player.setNextMove(new Moves.TrashItemMove(dungeon.getTile(player), index));
             dungeon.resolveUntilBlocked();
-            $('section.game').focus();
+            focusGame();
         });
 
-        $(dom).on('click tap', 'button.home', function(event) {
+        dom.addEventListener('click', ({target}) => {
             event.stopPropagation(); // Prevent parent "button" from being clicked
+            if (!target.classList.contains('home')) {
+                return;
+            }
             const home = sharedData.getDungeon().getTiles(tile => tile.constructor.name === 'EntranceTile')[0];
             const x = home.getX();
             const y = home.getY();
             sharedData.pathTo(x, y);
-            $('section.game').focus();
+            focusGame();
         });
 
         sharedData.addObserver((event)=>this.update(event));
@@ -84,10 +102,14 @@ export default class InventoryView {
     }
 
     redraw() {
-        $(this._dom).empty().append(getInventoryDom(this._sharedData.getDungeon().getPlayableCharacter(), this._sharedData.getTargettedItem()));
+        const dom = this._dom;
+        dom.innerHTML = '';
+        dom.appendChild(
+            getInventoryDom(this._sharedData.getDungeon().getPlayableCharacter(), this._sharedData.getTargettedItem())
+        );
     }
 
     getDom() {
-        return this._dom[0];
+        return this._dom;
     }
 }

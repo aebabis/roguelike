@@ -5,6 +5,8 @@ import TutorialLayoutGenerator from '../dungeons/generators/layouts/TutorialLayo
 import TutorialScenarioTriggers from './TutorialScenarioTriggers.js';
 import GameEvents from '../events/GameEvents.js';
 
+import DialogService from './DialogService.js';
+
 import DebugConsole from '../util/DebugConsole.js';
 
 function getPrng(newSeed) {
@@ -28,11 +30,10 @@ function newGame(sharedData) {
 export default {
     start: function(sharedData) {
         if(!UserProgressService.hasCompletedTutorial()) {
-            $('<div>').text('It looks like this is your first visit. Would you like to play the tutorial?').dialog({
+            DialogService.showFormDialog('It looks like this is your first visit. Would you like to play the tutorial?', {
                 buttons: [{
-                    text: 'OK',
-                    click: function() {
-                        $(this).dialog('close');
+                    content: 'OK',
+                    handler: () => {
                         let dungeon = TutorialLayoutGenerator.generate();
                         sharedData.setDungeon(dungeon);
                         dungeon.addObserver(function(event) {
@@ -43,9 +44,8 @@ export default {
                         TutorialScenarioTriggers.bind(dungeon);
                     }
                 }, {
-                    text: 'No thanks',
-                    click: function() {
-                        $(this).dialog('close');
+                    content: 'No thanks',
+                    handler: () => {
                         UserProgressService.markTutorialComplete();
                         newGame(sharedData);
                     }

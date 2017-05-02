@@ -16,12 +16,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Vaults of Git’recht'
         }),
-
-        new webpack.ProvidePlugin({
-            // http://stackoverflow.com/a/34354301/2993478
-            $: 'jquery',
-            jQuery: 'jquery'
-        }),
         new webpack.ProvidePlugin({
             Random: 'random-js'
         }),

@@ -169,7 +169,7 @@ export default class PixiDungeonView {
         this._mouseOutHandlers = [];
         
         const canvasContainer = this._canvasContainer = document.createElement('div');
-        canvasContainer.classList.add('canvas-container');
+        canvasContainer.classList.add('viewport-container');
 
         const pixiApp = this._pixiApp = new PIXI.Application();
         canvasContainer.appendChild(pixiApp.view);

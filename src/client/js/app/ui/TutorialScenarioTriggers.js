@@ -43,21 +43,22 @@ class Triggers {
     }
 }
 
-function setMessage(message, append) {
-    var $elem = $('.tutorial-dialog');
-    if(!$elem.length) {
-        $elem = $('<div>').addClass('tutorial-dialog').dialog({
-            position: {
-                my: 'left top',
-                at: 'left+5% top+40%'
-            }
-        });
-    }
-    if(!append) {
-        $elem.empty();
-    }
-    $elem.append($('<p>').text(message)).dialog('open');
-}
+const setMessage = (() => {
+    const container = document.createElement('div');
+    container.classList.add('message-container');
+
+    return (message, append) => {
+        if(!container.parentElement) {
+            document.querySelector('.viewport-container').appendChild(container);
+        }
+        if(!append) {
+            container.innerHTML = '';
+        }
+        const p = document.createElement('p');
+        p.textContent = message;
+        container.appendChild(p);
+    };
+})();
 
 export default {
     bind: function(dungeon) {
@@ -69,7 +70,7 @@ export default {
                     return true;
                 },
                 effect: function() {
-                    setMessage('Welcome to Git\'recht. lorem ipsum. To move around, click a tile near your character or use the num pad. Try moving down the hallway to the north');
+                    setMessage('Welcome to Git\'recht. To find the treasure, move using the mouse, numpad, or arrow keys');
                 }
             })
             .addTrigger({

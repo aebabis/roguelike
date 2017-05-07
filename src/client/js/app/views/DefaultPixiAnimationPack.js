@@ -1,6 +1,7 @@
 import Abilities from '../abilities/Abilities.js';
 import GameEvents from '../events/GameEvents.js';
 import Moves from '../entities/creatures/moves/Moves.js';
+import Effects from '../effects/Effects.js';
 
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
@@ -30,8 +31,9 @@ export default class DefaultPixiAnimationPack {
         const stage = pixiDungeonView.getStage();
         let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
+            console.log(gameEvent);
             const cause = gameEvent.getCause();
-            if(cause instanceof Moves.MovementMove) {
+            if(cause instanceof Moves.MovementMove || cause instanceof Effects.KnockbackEffect) {
                 const MOVE_FRAMES = 20;
                 const creature = gameEvent.getCreature();
                 const from = gameEvent.getFromCoords();

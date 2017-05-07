@@ -36,9 +36,8 @@ export default class Ability {
             } else if(!this.canTargetSelf() && optionalTargetTile === dungeon.getTile(creature)) {
                 return 'Not a self-target ability';
             }
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**

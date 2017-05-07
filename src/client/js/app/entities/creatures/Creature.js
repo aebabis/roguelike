@@ -35,6 +35,11 @@ function rangeBetween(a, b) {
     return arr;
 }
 
+/**
+ * Class representing creature's in the Dungeon. Includes
+ * both the player and the enemies. Does not include obstacles
+ * or loot.
+ */
 export default class Creature extends Entity {
     /**
       * @class Creature
@@ -379,32 +384,57 @@ export default class Creature extends Entity {
         return this.getTimeToNextMove() <= 0;
     }
 
+    /**
+     * Sets the creature's equipped melee weapon
+     */
     setMeleeWeapon(weapon) {
         this.getInventory().setMeleeWeapon(weapon);
     }
 
+    /**
+     * Sets the creature's equipped ranged weapon
+     */
     setRangedWeapon(weapon) {
         this.getInventory().setRangedWeapon(weapon);
     }
 
+    /**
+     * Sets the creature's equipped armor
+     */
     setArmor(armor) {
         this.getInventory().setArmor(armor);
     }
 
-    // Convenience function to get inventory item
-    // TODO: Consider removing
+    /**
+     * Gets the creature's currently held melee weapon
+     * @return {Weapon} The creature's equipped melee weapon, if any
+     */
     getMeleeWeapon() {
         return this.getInventory().getMeleeWeapon();
     }
 
+    /**
+     * Gets the creature's currently held ranged weapon
+     * @return {Weapon} The creature's equipped ranged weapon, if any
+     */
     getRangedWeapon() {
         return this.getInventory().getRangedWeapon();
     }
 
+    /**
+     * Gets the creature's currently worn armor
+     * @return {Armor} The creature's worn armor, if any
+     */
     getArmor() {
         return this.getInventory().getArmor();
     }
 
+    /**
+     * Gets the maximum distance the creature can
+     * see in any direction
+     * @return {number} The distance in tiles that the creature can
+     * see when there are no obstructions
+     */
     getVisionRadius() {
         return 5.5;
     }
@@ -490,20 +520,34 @@ export default class Creature extends Entity {
         }
     }
 
+    /**
+     * Tells whether the Creature has seen the given Tile
+     * @param {Tile} tile
+     * @return {boolean}
+     */
     hasSeen(tile) { // TODO: Does this belong to PlayableCharacter?
         return this._visionMap[tile.getX()][tile.getY()];
     }
 
+    /**
+     * Determines if the creature's vision would be obscured by the given tile.
+     * By default, vision is obscured by opaque tiles
+     * @return {boolean} `true` if the tile blocks the creature's vision; `false` otherwise
+     */
     visionObsuredBy(tile) {
         return tile.isOpaque();
     }
 
+    /**
+     * Tells whether the creature is flying. Flying creatures can move over pit tiles
+     * @return {boolean} `true` if the creature is currently flying; `false` otherwise
+     */
     isFlying() {
         return false;
     }
 
     /**
-     * @description Determines if the Creature could occupy the given tile based
+     * Determines if the Creature could occupy the given tile based
      * on what kind of tile it is. Does not regard whether the tile is already occiped.
      * @return {Boolean} `true` if the Creature could occupy the tile; false otherwise
      */
@@ -512,22 +556,44 @@ export default class Creature extends Entity {
                 (this.isFlying() || tile.hasFloor());
     }
 
+    /**
+     * Determines if the Creature can occupy the given tile.
+     * In order to occupy the tile, it must not obstruct the creature's movement,
+     * and it must not already be occupied.
+     * @return {Boolean} `true` if the Creature could be added to the tile immediately; `false` otherwise
+     */
     canOccupyNow(tile) {
         return this.canOccupy(tile) && !tile.getCreature();
     }
 
+    /**
+     * Gets the list of Tiles that the Creature can currently see
+     * @return {Tile[]}
+     */
     getVisibleTiles(dungeon) {
         return dungeon.getTiles((tile)=>this.canSee(dungeon, tile));
     }
 
+    /**
+     * Gets the list of other Creatures that this Creature can currently see
+     * @return {Creature[]}
+     */
     getVisibleCreatures(dungeon) {
         return this.getVisibleTiles(dungeon).filter((tile)=>(tile.getCreature()&&tile.getCreature()!==this)).map((tile)=>tile.getCreature());
     }
 
+    /**
+     * Gets the list of enemy Creatures that this Creature can currently see
+     * @return {Creature[]}
+     */
     getVisibleEnemies(dungeon) {
         return this.getVisibleCreatures(dungeon).filter((other)=>this.isEnemy(other));
     }
 
+    /**
+     * Gets the closest enemy Creature that this Creature can see
+     * @return {Creature}
+     */
     getClosestEnemy(dungeon) {
         const tile = dungeon.getTile(this);
         return this.getVisibleEnemies(dungeon).reduce(function(enemy1, enemy2) {
@@ -541,14 +607,29 @@ export default class Creature extends Entity {
         }, null);
     }
 
+    /**
+     * Gets the name of the "Faction" this Creature belongs to. Creatures
+     * in different factions are enemies. The player is in the "Player" faction.
+     * Most enemies are in the "Guards" faction.
+     * @return {string}
+     */
     getFaction() {
         return 'Guards';
     }
 
+    /**
+     * Determines if another creature is an enemy based on its faction name
+     * @return {boolean}
+     */
     isEnemy(other) {
         return this.getFaction() !== other.getFaction();
     }
 
+    /**
+     * Sets this Creature's movement strategy. NPCs have a Strategy object
+     * to determine their moves
+     * @param {Strategy} strategy
+     */
     setStrategy(strategy) {
         if(!(strategy instanceof Strategy)) {
             throw new Error('Must pass a Strategy');
@@ -557,10 +638,21 @@ export default class Creature extends Entity {
         }
     }
 
+    /**
+     * Gets the Creature's strategy
+     * @return {Strategy} strategy
+     */
     getStrategy() {
         return this._strategy || null;
     }
 
+    /**
+     * Causes the Creature to execute the given Move and sets its
+     * cooldown. The Creature will also automatically pick up items
+     * if allowed and able
+     * @param {Dungeon} dungeon - The Dungeon this Creature is in
+     * @param {Move} move - The Move this Creature will execute
+     */
     executeMove(dungeon, move) {
         move.execute(dungeon, this);
         if(this.canUseItems()) {
@@ -569,6 +661,14 @@ export default class Creature extends Entity {
         this._delay(move.getCostMultiplier());
     }
 
+    /**
+     * Invokes an observer function on the Creature's Strategy, if any.
+     * The Strategy can remember other Creature's Moves and base its own
+     * Moves on them. This is only called if the other Creature is visible.
+     * @param {Dungeon} dungeon - The Dungeon this Creature is in
+     * @param {Creature} actor - The Creature being observed
+     * @param {Move} move - The Move being performed
+     */
     observeMove(dungeon, actor, move) {
         const strategy = this.getStrategy();
         if(strategy) {
@@ -576,6 +676,13 @@ export default class Creature extends Entity {
         }
     }
 
+    /**
+     * Invokes an observer function on the Creature's Strategy, if any.
+     * The Strategy can remember events and base its own
+     * Moves on them. This is only called if the other Creature is visible.
+     * @param {Dungeon} dungeon - The Dungeon this Creature is in
+     * @param {Event} event - The event that occured
+     */
     observeEvent(dungeon, event) {
         const strategy = this.getStrategy();
         if(strategy) {
@@ -596,10 +703,22 @@ export default class Creature extends Entity {
         }
     }
 
+    /**
+     * Returns the number of game ticks the creature must wait in between
+     * its moves. Lower numbers are better
+     * @return {number} The number of base cooldown ticks in between the
+     * creature's moves.
+     */
     getSpeed() {
         return 500;
     }
 
+    /**
+     * Advances this creature through time in the simulation:
+     *   - Decrements the creature's move cooldown
+     *   - Removes any expired buffs/debuffs
+     * @param {Dungeon} dungeon - The Dungeon the creature is in
+     */
     timestep(dungeon) {
         this._timeToNextMove--;
         this._buffs = this._buffs.filter((buff)=>{

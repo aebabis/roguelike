@@ -109,7 +109,15 @@ export default class PixiDungeonView {
         return this._pixiApp.stage;
     }
 
-    getTileGroup(x, y) {
+    getTileGroup(param1, param2) {
+        let x, y;
+        if(param1.getX) {
+            x = param1.getX();
+            y = param1.getY();
+        } else {
+            x = param1;
+            y = param2;
+        }
         return this._tileGroups[x][y];
     }
 

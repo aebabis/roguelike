@@ -142,10 +142,13 @@ export default class DefaultPixiAnimationPack {
             }
         } else if(gameEvent instanceof GameEvents.DeathEvent) {
             const creature = gameEvent.getCreature();
+            const location = dungeon.getTile(creature);
             const sprite = pixiDungeonView.getEntityById(creature.getId());
             const FRAMES = 20;
             return {
-                start: () => {},
+                start: () => {
+                    pixiDungeonView.getTileGroup(location).update();
+                },
                 advance(delta) {
                     cumulativeTime += delta;
                     if(cumulativeTime > FRAMES) {

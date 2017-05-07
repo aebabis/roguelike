@@ -4,102 +4,23 @@ import GameEvents from '../events/GameEvents.js';
 
 // import DungeonTooltips from './DungeonTooltips.js';
 
-// import DamageTypes from '../entities/DamageTypes.js';
-
 import SharedUIDataController from '../controllers/SharedUIDataController.js';
 
 import Moves from '../entities/creatures/moves/Moves.js';
 
 import DefaultPixiAnimationPack from './DefaultPixiAnimationPack.js';
+import DefaultSpritePack from './DefaultSpritePack.js';
 import PixiAnimationController from './PixiAnimationController.js';
 
 const PIXI = require('pixi.js');
-const TextureCache = (PIXI.utils.TextureCache);
-const Sprite = PIXI.Sprite;
 
 const TILE_WIDTH = 50;
 const GAP_WIDTH = 0;
-const SCROLL_ICON_WIDTH = TILE_WIDTH * .7;
-
-// const DAMAGE_COLORS = {
-//     [DamageTypes.MELEE_PHYSICAL]: 'darkred',
-//     [DamageTypes.RANGED_PHYSICAL]: 'darkred',
-//     [DamageTypes.FIRE]: 'orange',
-//     [DamageTypes.COLD]: 'darkblue',
-//     [DamageTypes.ELECTRICAL]: 'yellow',
-//     [DamageTypes.ENERGY]: 'white',
-//     [DamageTypes.POISON]: 'emerald'
-// };
-
-// const DAMAGE_OUTLINE_COLORS = {
-//     [DamageTypes.MELEE_PHYSICAL]: 'pink',
-//     [DamageTypes.RANGED_PHYSICAL]: 'pink',
-//     [DamageTypes.FIRE]: 'darkred',
-//     [DamageTypes.COLD]: 'skyblue',
-//     [DamageTypes.ELECTRICAL]: 'orange',
-//     [DamageTypes.ENERGY]: 'yellow',
-//     [DamageTypes.POISON]: 'darkgreen'
-// };
 
 const NEUTRAL_COLOR = 0x46465a;
 const ATTACK_MOVE_COLOR = 0x8b0000;
 const ITEM_MOVE_COLOR = 0x7F00FF;
 const ABILITY_MOVE_COLOR = 0x9400D3;
-
-function getSprite(name) {
-    const sprite = new Sprite(TextureCache[name] || TextureCache['ThisIsAThing']);
-    sprite.x = 0;
-    sprite.y = 0;
-    sprite.width = TILE_WIDTH;
-    sprite.height = TILE_WIDTH;
-    return sprite;
-}
-
-function getSpriteStack(spriteNames) {
-    const group = new PIXI.Container();
-    spriteNames.forEach(function(spriteName) { // TODO: Shift stack instead
-        group.addChild(getSprite(spriteName));
-    });
-    return group;
-}
-
-function getTileSprite(tile) {
-    let tileDisp;
-    if(tile.constructor.name === 'DoorTile') {
-        if(tile.isOpen()) {
-            tileDisp = getSpriteStack(['Tile', 'DoorOpen']);
-        } else {
-            tileDisp = getSprite('DoorClosed');
-        }
-    } else if(tile.constructor.name === 'EntranceTile') {
-        tileDisp = getSpriteStack(['Tile', 'Ladder']);
-    } else if(tile.constructor.name === 'PillarTile') {
-        tileDisp = getSpriteStack(['Tile', 'Pillar']);
-    } else {
-        tileDisp = getSprite(tile.constructor.name);
-    }
-    const group = new PIXI.Container();
-    group.addChild(tileDisp);
-    return group;
-}
-
-function getItemSprite(item) {
-    if(item.constructor.name === 'AbilityConsumable') {
-        const abilityName = item.getAbility().constructor.name;
-        const group = new PIXI.Container();
-        const scrollImage = getSprite('Scroll');
-        const spellImage = getSprite(abilityName);
-        spellImage.x = spellImage.y = TILE_WIDTH / 2;
-        spellImage.width = spellImage.height = SCROLL_ICON_WIDTH;
-        spellImage.anchor.x = spellImage.anchor.y = .5;
-        spellImage.rotation = -Math.PI / 8;
-        group.addChild(scrollImage);
-        group.addChild(spellImage);
-        return group;
-    } else {
-        return getSprite(item.constructor.name);
-    }
-}
 
 function getTileColor(sharedData, x, y) {
     const dungeon = sharedData.getDungeon();
@@ -144,21 +65,10 @@ function getIndicator(x, y, color) {
     return indicator;
 }
 
-function getTileContainer(tile) {
-    const tileContainer = new PIXI.Container(); // TODO: Look at ParticleContainer
-
-    tileContainer.update = () => {
-        while(tileContainer.children.length) tileContainer.removeChildAt(0);
-        tileContainer.addChild(getTileSprite(tile));
-    };
-
-    tileContainer.update();
-
-    return tileContainer;
-}
-
 export default class PixiDungeonView {
-    constructor(sharedData) {
+    constructor(
+        sharedData,
+        spritePack = new DefaultSpritePack()) {
         if(!(sharedData instanceof SharedUIDataController)) {
             throw new Error('First parameter must be a SharedUIDataController');
         }
@@ -167,6 +77,8 @@ export default class PixiDungeonView {
         this._clickHanders = [];
         this._mouseOverHandlers = [];
         this._mouseOutHandlers = [];
+
+        this.setSpritePack(spritePack);
         
         const canvasContainer = this._canvasContainer = document.createElement('div');
         canvasContainer.classList.add('viewport-container');
@@ -184,13 +96,21 @@ export default class PixiDungeonView {
         setTimeout(resize);
         window.addEventListener('resize', resize);
     }
+    
+    setSpritePack(spritePack) {
+        this._spritePack = spritePack;
+    }
+
+    getSpritePack() {
+        return this._spritePack;
+    }
 
     getStage() {
         return this._pixiApp.stage;
     }
 
-    getTileContainer(x, y) {
-        return this._tileContainers[x][y];
+    getTileGroup(x, y) {
+        return this._tileGroups[x][y];
     }
 
     getItemContainer(x, y) {
@@ -252,7 +172,7 @@ export default class PixiDungeonView {
         sharedData.addObserver((event) => {
             if(event instanceof GameEvents.SpawnEvent) {
                 this.updateCreatureLocations();
-                this._tileContainers[event.getX()][event.getY()].update();
+                this._tileGroups[event.getX()][event.getY()].update();
             } else if(event instanceof GameEvents.HitpointsEvent) {
                 /*if(event.getAmount() < 0) {
                     getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
@@ -280,26 +200,26 @@ export default class PixiDungeonView {
         while(stage.children.length) stage.removeChild(stage.children[0]);
 
         const dungeon = this._sharedData.getDungeon();
-        const tileContainers = this._tileContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
+        const tileGroups = this._tileGroups = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
         const itemContainers = this._itemContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
         const creatureContainers = this._creatureContainers = new Array(dungeon.getWidth()).fill(0).map(()=>[]);
         
-        const tilesContainer = this._tilesContainer = new PIXI.Container();
-        const indicatorContainer = this._indicatorContainer = new PIXI.Container();
-        const itemsContainer = this._itemsContainer = new PIXI.Container();
-        const creaturesContainer = this._creaturesContainer = new PIXI.Container();
+        const tileLayer = this._tileLayer = new PIXI.Container();
+        const indicatorLayer = this._indicatorLayer = new PIXI.Container();
+        const itemLayer = this._itemLayer = new PIXI.Container();
+        const creatureLayer = this._creatureLayer = new PIXI.Container();
 
         dungeon.forEachTile((tile, x, y) => {
-            const tileContainer = getTileContainer(tile);
+            const tileGroup = this.getSpritePack().getTileGroup(tile);
             const xOffset = x * (TILE_WIDTH + GAP_WIDTH);
             const yOffset = y * (TILE_WIDTH + GAP_WIDTH);
-            tileContainer.x = xOffset;
-            tileContainer.y = yOffset;
-            tileContainer.interactive = true;
-            tileContainer.hitArea = new PIXI.Rectangle(0, 0, TILE_WIDTH, TILE_WIDTH);
-            tileContainers[x][y] = tileContainer;
+            tileGroup.x = xOffset;
+            tileGroup.y = yOffset;
+            tileGroup.interactive = true;
+            tileGroup.hitArea = new PIXI.Rectangle(0, 0, TILE_WIDTH, TILE_WIDTH);
+            tileGroups[x][y] = tileGroup;
 
-            tileContainer
+            tileGroup
             .on('click', () => {
                 this._clickHanders.forEach(handler => handler(x, y));
             }).on('tap', () => {
@@ -312,33 +232,34 @@ export default class PixiDungeonView {
                 this._mouseOutHandlers.forEach(handler => handler(x, y));
             });
 
-            tilesContainer.addChild(tileContainer);
+            tileLayer.addChild(tileGroup);
 
             const itemContainer = itemContainers[x][y] = new PIXI.Container();
             itemContainer.x = xOffset;
             itemContainer.y = yOffset;
-            itemsContainer.addChild(itemContainer);
+            itemLayer.addChild(itemContainer);
 
             const creatureContainer = creatureContainers[x][y] = new PIXI.Container();
             creatureContainer.x = xOffset;
             creatureContainer.y = yOffset;
-            creaturesContainer.addChild(creatureContainer);
+            creatureLayer.addChild(creatureContainer);
         });
 
-        stage.addChild(tilesContainer);
-        stage.addChild(indicatorContainer);
-        stage.addChild(itemsContainer);
-        stage.addChild(creaturesContainer);
+        stage.addChild(tileLayer);
+        stage.addChild(indicatorLayer);
+        stage.addChild(itemLayer);
+        stage.addChild(creatureLayer);
     }
 
     updateItems() {
         const dungeon = this._sharedData.getDungeon();
+        const spritePack = this.getSpritePack();
         // const itemContainers = this._itemContainers;
         dungeon.forEachTile((tile, x, y) => {
-            const itemsContainer = this.getItemContainer(x, y);
-            while(itemsContainer.children.length) itemsContainer.removeChildAt(0);
+            const itemLayer = this.getItemContainer(x, y);
+            while(itemLayer.children.length) itemLayer.removeChildAt(0);
             tile.getItems().forEach(function(item) {
-                itemsContainer.addChild(getItemSprite(item));
+                itemLayer.addChild(spritePack.getItemSprite(item));
             });
         });
     }
@@ -346,20 +267,18 @@ export default class PixiDungeonView {
     updateVision() {
         const dungeon = this._sharedData.getDungeon();
         const player = dungeon.getPlayableCharacter();
-        // const tileContainers = this._tileContainers;
         if(player) {
             dungeon.forEachTile((tile, x, y) => {
-                // const creature = tile.getCreature();
-                const tileContainer = this.getTileContainer(x, y);
+                const tileGroup = this.getTileGroup(x, y);
                 const itemContainer = this.getItemContainer(x, y);
                 const creatureContainer = this.getCreatureContainer(x, y);
                 const playerCanSeeTile = player.canSee(dungeon, tile);
                 if(playerCanSeeTile) {
-                    tileContainer.alpha = 1;
+                    tileGroup.alpha = 1;
                 } else if(player.hasSeen(tile)) {
-                    tileContainer.alpha = .5;
+                    tileGroup.alpha = .5;
                 } else {
-                    tileContainer.alpha = 0;
+                    tileGroup.alpha = 0;
                 }
                 itemContainer.visible = creatureContainer.visible = playerCanSeeTile;
             });
@@ -368,11 +287,12 @@ export default class PixiDungeonView {
 
     updateCreatureLocations() {
         const dungeon = this._sharedData.getDungeon();
+        const spritePack = this.getSpritePack();
         const entitySprites = this._entitySprites; // TODO: Getter
         dungeon.getCreatures().forEach((creature) => {
             let sprite = entitySprites[creature.getId()];
             if(!sprite) {
-                sprite = entitySprites[creature.getId()] = getSpriteStack(
+                sprite = entitySprites[creature.getId()] = spritePack.getSpriteStack(
                     [creature.constructor.name]
                 );
                 sprite.addChild(new PIXI.Graphics());
@@ -472,8 +392,8 @@ export default class PixiDungeonView {
     }
 
     updateSelectedTileIndicator() {
-        const indicatorContainer = this._indicatorContainer;
-        while(indicatorContainer.children.length > 0) indicatorContainer.removeChildAt(0);
+        const indicatorLayer = this._indicatorLayer;
+        while(indicatorLayer.children.length > 0) indicatorLayer.removeChildAt(0);
 
         const sharedData = this._sharedData;
         // const dungeon = sharedData.getDungeon();
@@ -488,7 +408,7 @@ export default class PixiDungeonView {
             const y = tile.getY();
             const color = getTileColor(sharedData, x, y);
             const indicator = getIndicator(x, y, color);
-            indicatorContainer.addChild(indicator);
+            indicatorLayer.addChild(indicator);
             return indicator;
         });
     }

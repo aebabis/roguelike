@@ -52,7 +52,7 @@ export default class DefaultPixiAnimationPack {
                         }
                         pixiDungeonView.updateVision();
                         [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
-                            pixiDungeonView.getTileContainer(x, y).update()
+                            pixiDungeonView.getTileGroup(x, y).update()
                         );
                     },
                     advance: (delta) => {
@@ -78,7 +78,7 @@ export default class DefaultPixiAnimationPack {
                 pixiDungeonView.updateVision();
                 pixiDungeonView.updateCreatureLocations();
                 [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
-                    pixiDungeonView.getTileContainer(x, y).update()
+                    pixiDungeonView.getTileGroup(x, y).update()
                 );
             }
         } else if(gameEvent instanceof GameEvents.AbilityEvent) {

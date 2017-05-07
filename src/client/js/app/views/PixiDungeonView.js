@@ -171,6 +171,7 @@ export default class PixiDungeonView {
             if(event instanceof Dungeon){
                 this.populateStage(stage);
                 document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
+                this.moveViewport();
                 //animationController.flush();
             } else {
                 animationController.handleGameEvent(event);
@@ -189,7 +190,6 @@ export default class PixiDungeonView {
             } else if(event instanceof GameEvents.TakeItemEvent || event instanceof GameEvents.ItemDropEvent) {
                 this.updateItems();
             }
-            this.scrollToPlayer();
             this.updateStatBars();
             this.updateRangeIndicator();
             this.updateSelectedTileIndicator();
@@ -421,23 +421,29 @@ export default class PixiDungeonView {
         });
     }
 
-    scrollToPlayer() {
+    moveViewport(
+        xOffset = 0,
+        yOffset = 0
+    ) {
         const sharedData = this._sharedData;
         const stage = this.getStage();
         const dungeon = sharedData.getDungeon();
         const player = dungeon.getPlayableCharacter();
         const tile = dungeon.getTile(player);
 
+        const x = tile.getX();
+        const y = tile.getY();
+
         const canvasWidth = this.getDom().firstChild.width;
         const canvasHeight = this.getDom().firstChild.height;
 
         const cellDimension = TILE_WIDTH;
         const halfDimension = TILE_WIDTH / 2;
-        const playerOffsetX = tile.getX() * cellDimension + halfDimension;
-        const playerOffsetY = tile.getY() * cellDimension + halfDimension;
+        const playerOffsetX = x * cellDimension + halfDimension;
+        const playerOffsetY = y * cellDimension + halfDimension;
 
-        stage.x = (canvasWidth / 2) - playerOffsetX;
-        stage.y = (canvasHeight / 2) - playerOffsetY;
+        stage.x = (canvasWidth / 2) - playerOffsetX - xOffset;
+        stage.y = (canvasHeight / 2) - playerOffsetY - yOffset;
     }
 
     getDom() {

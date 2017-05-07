@@ -67,18 +67,29 @@ export default class DefaultPixiAnimationPack {
                         if(cumulativeTime > MOVE_FRAMES) {
                             creatureSprite.x = 0;
                             creatureSprite.y = 0;
+                            if(creature.getFaction() === 'Player') {
+                                pixiDungeonView.moveViewport();
+                            }
                             return false;
                         } else {
                             const displacement = 1 - Easings.linear(cumulativeTime / MOVE_FRAMES);
-                            creatureSprite.x = -dx * displacement * TILE_WIDTH;
-                            creatureSprite.y = -dy * displacement * TILE_WIDTH;
+                            const xOffset = -dx * displacement * TILE_WIDTH;
+                            const yOffset = -dy * displacement * TILE_WIDTH;
+                            creatureSprite.x = xOffset;
+                            creatureSprite.y = yOffset;
+                            if(creature.getFaction() === 'Player') {
+                                pixiDungeonView.moveViewport(xOffset, yOffset);
+                            }
                             return true;
                         }
                     }
                 };
             } else {
+                // TODO: Extract slide animation to an animation factory.
+                // Use a fast slide for Leap ability
                 pixiDungeonView.updateVision();
                 pixiDungeonView.updateCreatureLocations();
+                pixiDungeonView.moveViewport();
                 [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
                     pixiDungeonView.getTileGroup(x, y).update()
                 );

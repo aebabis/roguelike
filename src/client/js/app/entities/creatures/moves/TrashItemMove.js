@@ -1,5 +1,5 @@
-import PlayableCharacter from '../PlayableCharacter.js';
 import GameEvents from '../../../events/GameEvents.js';
+import TheTreasure from '../../TheTreasure.js';
 
 import Move from './Move.js';
 
@@ -25,6 +25,8 @@ export default class TrashItemMove extends Move {
         var item = inventory.getItem(this.getItemIndex());
         if(!item) {
             return `No item in slot ${this.getItemIndex()}`;
+        } else if(item instanceof TheTreasure) {
+            return 'Cannot trash The Treasure';
         } else {
             return null;
         }

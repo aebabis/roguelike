@@ -1,4 +1,3 @@
-import PlayableCharacter from '../PlayableCharacter.js';
 import GameEvents from '../../../events/GameEvents.js';
 
 import Move from './Move.js';

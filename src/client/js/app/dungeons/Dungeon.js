@@ -85,7 +85,7 @@ export default class Dungeon extends Observable {
      * @param {number} y - The y coordinate
      */
     setTile(tile, x, y) {
-        if(!tile instanceof Tile) {
+        if(!(tile instanceof Tile)) {
             throw new Error('First parameter must be a tile');
         } else if(isNaN(x) || isNaN(y)) {
             throw new Error('Must pass an x and y coordinate');

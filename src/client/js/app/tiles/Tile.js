@@ -1,4 +1,4 @@
-import Dungeon from '../dungeons/Dungeon.js';
+import Dungeon from '../dungeons/Dungeon.js'; // TOOD: Update transpiler
 import Creature from '../entities/creatures/Creature.js';
 
 /**

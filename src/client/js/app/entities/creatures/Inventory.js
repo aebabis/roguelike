@@ -25,7 +25,7 @@ var Inventory = class Inventory {
             Inventory.RANGED_SLOT,
             Inventory.ARMOR_SLOT,
             Inventory.ACCESSORY_SLOT
-        ]
+        ];
     }
 
     /**

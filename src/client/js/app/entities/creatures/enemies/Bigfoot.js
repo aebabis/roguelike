@@ -1,7 +1,6 @@
 import Creature from '../Creature.js';
 import Strategies from '../strategies/Strategies.js';
 
-import LightArmor from '../../armor/LightArmor.js';
 import Weapon from '../../weapons/Weapon.js';
 import DamageTypes from '../../DamageTypes.js';
 

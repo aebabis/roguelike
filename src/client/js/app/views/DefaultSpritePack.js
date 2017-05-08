@@ -1,15 +1,10 @@
 // import DamageTypes from '../entities/DamageTypes.js';
 
-import SharedUIDataController from '../controllers/SharedUIDataController.js';
-
-import Moves from '../entities/creatures/moves/Moves.js';
-
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
 const Sprite = PIXI.Sprite;
 
 const TILE_WIDTH = 50;
-const GAP_WIDTH = 0;
 const SCROLL_ICON_WIDTH = TILE_WIDTH * .7;
 
 // const DAMAGE_COLORS = {

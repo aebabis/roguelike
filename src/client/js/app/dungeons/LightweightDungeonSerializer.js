@@ -11,7 +11,6 @@ export default {
     serialize: function(dungeon) {
         const conditions = dungeon.getGameConditions().constructor.name;
         const width = dungeon.getWidth();
-        const height = dungeon.getHeight();
         const grid = new Array(width).fill(0).map(()=>[]);
         dungeon.forEachTile(function(tile, x, y) {
             const tileName = tile.constructor.name;
@@ -67,15 +66,15 @@ export default {
             return `Illegal game conditions: ${conditions}`;
         }
         if(!Array.isArray(grid)) {
-            return `Grid must be an Array`;
+            return 'Grid must be an Array';
         }
         for(let x = 0, width = grid.length; x < width; x++) {
             const col = grid[x];
             if(!Array.isArray(col)) {
-                return `Grid must be an Array of Arrays`;
+                return 'Grid must be an Array of Arrays';
             }
             if(col.length !== grid[0].length) {
-                return `Columns must be uniform height`;
+                return 'Columns must be uniform height';
             }
             for(let y = 0, height = col.length; y < height; y++) {
                 const cell = col[y];
@@ -91,11 +90,11 @@ export default {
                 }
                 const isEdge = x === 0 || x === width - 1 || y === 0 || y == height - 1;
                 if(isEdge && tile !== 'WallTile') {
-                    return `Edge tiles must be walls`;
+                    return 'Edge tiles must be walls';
                 }
                 if(items !== undefined) {
                     if(!Array.isArray(items)) {
-                        return `Items, if given, must be an Array`;
+                        return 'Items, if given, must be an Array';
                     }
                     for(let i = 0, count = items.length; i < count; i++) {
                         const item = items[i];

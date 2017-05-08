@@ -1,4 +1,3 @@
-import GraphicalDungeonView from '../views/GraphicalDungeonView.js';
 import PixiDungeonView from '../views/PixiDungeonView.js';
 import EventLogView from '../views/EventLogView.js';
 import AbilitiesView from '../views/AbilitiesView.js';

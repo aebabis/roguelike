@@ -17,8 +17,6 @@ export default class ChaseStrategy extends Strategy {
             throw new Error('Second parameter must be a Creature');
         }
         const tile = dungeon.getTile(creature);
-        const meleeWeapon = creature.getMeleeWeapon();
-        const rangedWeapon = creature.getRangedWeapon();
         const enemies = creature.getVisibleEnemies(dungeon).sort(function(enemy1, enemy2) {
             const d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
             const d2 = tile.getDirectDistance(dungeon.getTile(enemy2));

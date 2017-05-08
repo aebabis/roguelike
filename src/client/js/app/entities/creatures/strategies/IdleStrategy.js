@@ -17,7 +17,7 @@ export default class IdleStrategy extends Strategy {
         return new Moves.WaitMove(dungeon.getTile(creature));
     }
 
-    observeMove(dungeon, observer, actor, move) {
+    observeMove() {
         // Do nothing
     }
 }

@@ -25,6 +25,6 @@ export default class RandomWalkStrategy extends Strategy {
         return null;
     }
 
-    observeMove(dungeon, observer, actor, move) {
+    observeMove() {
     }
 }

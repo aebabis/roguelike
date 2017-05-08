@@ -17,6 +17,7 @@ export default class FleeStrategy extends Strategy {
         if(enemies.length === 0) {
             return null;
         } else {
+            // TODO: Should this be used?
             var quarry = enemies.reduce(function(enemy1, enemy2) {
                 var d1 = tile.getDirectDistance(dungeon.getTile(enemy1));
                 var d2 = tile.getDirectDistance(dungeon.getTile(enemy2));

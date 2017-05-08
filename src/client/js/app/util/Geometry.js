@@ -1,4 +1,4 @@
-var Geometry = {
+const Geometry = {
     /**
      * @function orientation
      * @description Determines the cross-product orientation of three points.
@@ -17,6 +17,6 @@ var Geometry = {
         return Geometry.orientation(p0, q0, p1) !== Geometry.orientation(p0, q0, q1)
                 && Geometry.orientation(p1, q1, p0) !== Geometry.orientation(p1, q1, q0);
     }
-}
+};
 
 export default Geometry;

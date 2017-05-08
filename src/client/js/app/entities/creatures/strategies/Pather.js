@@ -151,7 +151,7 @@ var AStar = (function() {
 
 import Moves from '../moves/Moves.js';
 
-export default module = {
+const Pather = {
     getMoveSequenceToward: function(dungeon, creature, target) {
         const start = dungeon.getTile(creature);
 
@@ -189,8 +189,6 @@ export default module = {
             return pathfinding.path.slice(1).map(function(location) {
                 var nextX = location.getX();
                 var nextY = location.getY();
-                var dx = nextX - prevX;
-                var dy = nextY - prevY;
                 prevX = nextX;
                 prevY = nextY;
                 return new Moves.MovementMove(dungeon.getTile(prevX, prevY), nextX, nextY);
@@ -201,9 +199,11 @@ export default module = {
     },
 
     getMoveToward: function(dungeon, creature, target) {
-        var path = module.getMoveSequenceToward(dungeon, creature, target);
+        var path = Pather.getMoveSequenceToward(dungeon, creature, target);
         if(path) {
             return path[0];
         }
     }
 };
+
+export default Pather;

@@ -11,7 +11,7 @@ export default class GraphicalViewKeyboardController {
      * Instantiates a controller and binds event handlers to the document
      * @param {SharedUIDataController} sharedData - The data object containing the dungeon
      */
-    constructor(sharedData, view) {
+    constructor(sharedData) {
         // Arrow key handler
         document.querySelector('section.game').addEventListener('keydown', function(event) {
             const dungeon = sharedData.getDungeon();
@@ -67,7 +67,7 @@ export default class GraphicalViewKeyboardController {
                 const index = ({81: 0, 87: 1, 69: 2, 82: 3})[code];
                 const item = character.getInventory().getItem(index);
                 if(!item) {
-                	return;
+                    return;
                 }
                 if(event.ctrlKey) {
                     attemptMove(new Moves.TrashItemMove(tile, index));

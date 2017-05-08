@@ -31,7 +31,6 @@ export default class DefaultPixiAnimationPack {
         const stage = pixiDungeonView.getStage();
         let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
-            console.log(gameEvent);
             const cause = gameEvent.getCause();
             if(cause instanceof Moves.MovementMove || cause instanceof Effects.KnockbackEffect) {
                 const MOVE_FRAMES = 20;

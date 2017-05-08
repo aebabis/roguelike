@@ -24,7 +24,7 @@ export default {
     animateEvent: function(dungeon, grid, event) {
         if(event instanceof GameEvents.AbilityEvent) {
             switch(event.getAbility().getName()) {
-            case 'Fireball':
+            case 'Fireball': {
                 const tile = event.getTile(dungeon);
                 const $div = buildRenderingDiv(tile.getX(), tile.getY())
                 .appendTo(grid.getDom().querySelector('.grid'))
@@ -46,6 +46,7 @@ export default {
                     $div.remove();
                 });
                 break;
+            }
             }
         }
     },

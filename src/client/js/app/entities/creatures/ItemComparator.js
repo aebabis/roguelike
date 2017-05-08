@@ -16,6 +16,6 @@ export default {
                     return index1 !== -1 && index2 !== -1 && index1 > index2;
                 });
             }
-        }
+        };
     }
 };

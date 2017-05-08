@@ -1,5 +1,4 @@
 import Ability from './Ability.js';
-import GameEvents from '../events/GameEvents.js';
 
 function getToTile(dungeon, creature, optionalTargetTile) {
     const casterLocation = dungeon.getTile(creature);

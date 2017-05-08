@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(session({
     secret: SESSION_SECRET
-}))
+}));
 app.use(oauth);
 
 require('./serve-static')(app);

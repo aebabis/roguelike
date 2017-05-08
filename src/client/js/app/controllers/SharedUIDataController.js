@@ -27,11 +27,11 @@ const EXAMINE_MODE = incr++;
  * multiple views and controllers, such as the currently hovered tile
  */
 export default class SharedUIDataController extends Observable {
-    static get NEUTRAL_MODE() { return NEUTRAL_MODE }
-    static get ATTACK_MODE() { return ATTACK_MODE }
-    static get TARGETTED_ABILITY_MODE() { return TARGETTED_ABILITY_MODE }
-    static get TARGETTED_ITEM_MODE() { return TARGETTED_ITEM_MODE }
-    static get EXAMINE_MODE() { return EXAMINE_MODE }
+    static get NEUTRAL_MODE() { return NEUTRAL_MODE; }
+    static get ATTACK_MODE() { return ATTACK_MODE; }
+    static get TARGETTED_ABILITY_MODE() { return TARGETTED_ABILITY_MODE; }
+    static get TARGETTED_ITEM_MODE() { return TARGETTED_ITEM_MODE; }
+    static get EXAMINE_MODE() { return EXAMINE_MODE; }
 
     /**
      * @param {Dungeon} [dungeon] - The initial dungeon for the views to show
@@ -395,18 +395,18 @@ export default class SharedUIDataController extends Observable {
 
     getFocusTile() {
         switch(this.getMode()) {
-            case SharedUIDataController.ATTACK_MODE:
-                return this.getAttackTarget();
-            case SharedUIDataController.TARGETTED_ABILITY_MODE:
-                return this.getAbilityTarget();
-            case SharedUIDataController.TARGETTED_ITEM_MODE:
-                return this.getItemTarget();
-            case SharedUIDataController.EXAMINE_MODE:
-                return this.getExamineTarget();
-            case SharedUIDataController.NEUTRAL_MODE:
-                return null;
-            default:
-                throw new Error('This should never happen');
+        case SharedUIDataController.ATTACK_MODE:
+            return this.getAttackTarget();
+        case SharedUIDataController.TARGETTED_ABILITY_MODE:
+            return this.getAbilityTarget();
+        case SharedUIDataController.TARGETTED_ITEM_MODE:
+            return this.getItemTarget();
+        case SharedUIDataController.EXAMINE_MODE:
+            return this.getExamineTarget();
+        case SharedUIDataController.NEUTRAL_MODE:
+            return null;
+        default:
+            throw new Error('This should never happen');
         }
     }
 

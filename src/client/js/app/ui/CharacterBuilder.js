@@ -142,11 +142,11 @@ angular.module('vog', [])
 
     $scope.selectLastBuild = function(index) {
         $scope.selections = $scope.lastBuild;
-    }
+    };
 
     $scope.selectPrebuilt = function(index) {
         $scope.selections = $scope.prebuilts[index];
-    }
+    };
 
     let isBuilderVisible = false;
     $scope.isBuilderVisible = () => isBuilderVisible;
@@ -154,11 +154,11 @@ angular.module('vog', [])
 
     $scope.getSelectedAbilityNames = function() {
         return Object.keys(ABILITIES).filter((ability)=>$scope.selections.abilities[ability]);
-    }
+    };
 
     $scope.getConsumableName = function(consumable) {
         return consumable in Abilities ? `${consumable}_Consumable` : consumable;
-    }
+    };
 
     $scope.getPurchaseableAbilities = function() {
         const character = new Classes[$scope.selections.character]();
@@ -204,7 +204,7 @@ angular.module('vog', [])
 
     $scope.getMoney = function() {
         return CHARACTERS[$scope.selections.character];
-    }
+    };
 
     $scope.isBuildLegal = function() {
         return $scope.getCost() <= $scope.getMoney();

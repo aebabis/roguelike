@@ -8,7 +8,7 @@ export default class BlueberrySoda extends Consumable {
     }
 
     getUseMessage(dungeon, creature) {
-        return `${creature} drank a blueberry soda`
+        return `${creature} drank a blueberry soda`;
     }
 
     getFriendlyDescription() {

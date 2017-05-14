@@ -1,31 +1,9 @@
-// import DamageTypes from '../entities/DamageTypes.js';
-
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
 const Sprite = PIXI.Sprite;
 
 const TILE_WIDTH = 50;
 const SCROLL_ICON_WIDTH = TILE_WIDTH * .7;
-
-// const DAMAGE_COLORS = {
-//     [DamageTypes.MELEE_PHYSICAL]: 'darkred',
-//     [DamageTypes.RANGED_PHYSICAL]: 'darkred',
-//     [DamageTypes.FIRE]: 'orange',
-//     [DamageTypes.COLD]: 'darkblue',
-//     [DamageTypes.ELECTRICAL]: 'yellow',
-//     [DamageTypes.ENERGY]: 'white',
-//     [DamageTypes.POISON]: 'emerald'
-// };
-
-// const DAMAGE_OUTLINE_COLORS = {
-//     [DamageTypes.MELEE_PHYSICAL]: 'pink',
-//     [DamageTypes.RANGED_PHYSICAL]: 'pink',
-//     [DamageTypes.FIRE]: 'darkred',
-//     [DamageTypes.COLD]: 'skyblue',
-//     [DamageTypes.ELECTRICAL]: 'orange',
-//     [DamageTypes.ENERGY]: 'yellow',
-//     [DamageTypes.POISON]: 'darkgreen'
-// };
 
 const NEUTRAL_COLOR = 0x46465a;
 const ATTACK_MOVE_COLOR = 0x8b0000;

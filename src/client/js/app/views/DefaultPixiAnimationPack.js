@@ -2,10 +2,31 @@ import Abilities from '../abilities/Abilities.js';
 import GameEvents from '../events/GameEvents.js';
 import Moves from '../entities/creatures/moves/Moves.js';
 import Effects from '../effects/Effects.js';
+import DamageTypes from '../entities/DamageTypes.js';
 
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
 const Sprite = PIXI.Sprite;
+
+const DAMAGE_COLORS = {
+    [DamageTypes.MELEE_PHYSICAL]: 'darkred',
+    [DamageTypes.RANGED_PHYSICAL]: 'darkred',
+    [DamageTypes.FIRE]: 'orange',
+    [DamageTypes.COLD]: 'darkblue',
+    [DamageTypes.ELECTRICAL]: 'yellow',
+    [DamageTypes.ENERGY]: 'white',
+    [DamageTypes.POISON]: 'emerald'
+};
+
+const DAMAGE_OUTLINE_COLORS = {
+    [DamageTypes.MELEE_PHYSICAL]: 'pink',
+    [DamageTypes.RANGED_PHYSICAL]: 'pink',
+    [DamageTypes.FIRE]: 'darkred',
+    [DamageTypes.COLD]: 'skyblue',
+    [DamageTypes.ELECTRICAL]: 'orange',
+    [DamageTypes.ENERGY]: 'yellow',
+    [DamageTypes.POISON]: 'darkgreen'
+};
 
 // const MS_PER_TICK = 1;
 // const PROJECTILE_SPEED = 10; // Tiles per second
@@ -171,6 +192,45 @@ export default class DefaultPixiAnimationPack {
                     }
                 }
             };
+        } else if(gameEvent instanceof GameEvents.ZeroDamageEvent) {
+
+
+        } else if(gameEvent instanceof GameEvents.HitpointsEvent) {
+            const amount = gameEvent.getAmount();
+            const damageType = gameEvent.getDamageType();
+            const creature = gameEvent.getCreature();
+            const tile = dungeon.getTile(creature);
+            const x = tile.getX();
+            const y = tile.getY();
+            const TIME = 40;
+
+            if(amount < 0) {
+                const text = new PIXI.Text(amount, {
+                    fontFamily: 'Arial',
+                    fontSize: 20,
+                    fill: DAMAGE_COLORS[damageType],
+                    stroke: DAMAGE_OUTLINE_COLORS[damageType],
+                    strokeThickness: 2
+                });
+                text.x = (x + .5) * TILE_WIDTH;
+                const startY = (y + .5) * TILE_WIDTH;
+                const endY = y * TILE_WIDTH;
+                text.y = startY;
+                pixiDungeonView.addParticle(text);
+
+                return {
+                    start: () => pixiDungeonView.addParticle,
+                    advance: (delta) => {
+                        cumulativeTime += delta;
+                        if(cumulativeTime > TIME) {
+                            text.parent.removeChild(text);
+                        } else {
+                            text.y = (endY - startY) * Easings.linear(cumulativeTime / TIME) + startY;
+                            return true;
+                        }
+                    }
+                };
+            }
         }
     }
 }

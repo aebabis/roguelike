@@ -96,6 +96,52 @@ export default class PixiDungeonView {
         setTimeout(resize);
         window.addEventListener('resize', resize);
     }
+
+    init() {
+        const stage = this.getStage();
+
+        this._entitySprites = {};
+
+        const sharedData = this._sharedData;
+        this._pixiApp.renderer;
+        const animationController = this._animationController = new PixiAnimationController(
+            sharedData,
+            this,
+            this._pixiApp,
+            new DefaultPixiAnimationPack()
+        );
+
+        sharedData.addObserver((event) => {
+            if(!event) {
+                return; // TODO: Make mouse events have an event type?
+            }
+            if(event instanceof Dungeon){
+                this.populateStage(stage);
+                document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
+                this.moveViewport();
+                //animationController.flush();
+            } else {
+                animationController.handleGameEvent(event);
+            }
+        });
+
+        sharedData.addObserver((event) => {
+            if(event instanceof GameEvents.SpawnEvent) {
+                this.updateCreatureLocations();
+                this._tileGroups[event.getX()][event.getY()].update();
+            } else if(event instanceof GameEvents.HitpointsEvent) {
+                /*if(event.getAmount() < 0) {
+                    getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
+                        .appendTo(grid.children[0]);
+                }*/
+            } else if(event instanceof GameEvents.TakeItemEvent || event instanceof GameEvents.ItemDropEvent) {
+                this.updateItems();
+            }
+            this.updateStatBars();
+            this.updateRangeIndicator();
+            this.updateSelectedTileIndicator();
+        });
+    }
     
     setSpritePack(spritePack) {
         this._spritePack = spritePack;
@@ -150,57 +196,15 @@ export default class PixiDungeonView {
         return container;
     }
 
-    init() {
-        const stage = this.getStage();
-
-        this._entitySprites = {};
-
-        const sharedData = this._sharedData;
-        this._pixiApp.renderer;
-        const animationController = this._animationController = new PixiAnimationController(
-            sharedData,
-            this,
-            this._pixiApp,
-            new DefaultPixiAnimationPack()
-        );
-
-        sharedData.addObserver((event) => {
-            if(!event) {
-                return; // TODO: Make mouse events have an event type?
-            }
-            if(event instanceof Dungeon){
-                this.populateStage(stage);
-                document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
-                this.moveViewport();
-                //animationController.flush();
-            } else {
-                animationController.handleGameEvent(event);
-            }
-        });
-
-        sharedData.addObserver((event) => {
-            if(event instanceof GameEvents.SpawnEvent) {
-                this.updateCreatureLocations();
-                this._tileGroups[event.getX()][event.getY()].update();
-            } else if(event instanceof GameEvents.HitpointsEvent) {
-                /*if(event.getAmount() < 0) {
-                    getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
-                        .appendTo(grid.children[0]);
-                }*/
-            } else if(event instanceof GameEvents.TakeItemEvent || event instanceof GameEvents.ItemDropEvent) {
-                this.updateItems();
-            }
-            this.updateStatBars();
-            this.updateRangeIndicator();
-            this.updateSelectedTileIndicator();
-        });
-    }
-
     populateStage() {
         this.populateSprites();
         this.updateCreatureLocations();
         this.updateItems();
         this.updateVision();
+    }
+
+    addParticle(particle) {
+        this._particleLayer.addChild(particle);
     }
     
     populateSprites() {
@@ -216,6 +220,7 @@ export default class PixiDungeonView {
         const indicatorLayer = this._indicatorLayer = new PIXI.Container();
         const itemLayer = this._itemLayer = new PIXI.Container();
         const creatureLayer = this._creatureLayer = new PIXI.Container();
+        const particleLayer = this._particleLayer = new PIXI.Container();
 
         dungeon.forEachTile((tile, x, y) => {
             const tileGroup = this.getSpritePack().getTileGroup(tile);
@@ -257,6 +262,7 @@ export default class PixiDungeonView {
         stage.addChild(indicatorLayer);
         stage.addChild(itemLayer);
         stage.addChild(creatureLayer);
+        stage.addChild(particleLayer);
     }
 
     updateItems() {

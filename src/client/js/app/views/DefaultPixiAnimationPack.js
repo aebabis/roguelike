@@ -2,6 +2,7 @@ import Abilities from '../abilities/Abilities.js';
 import GameEvents from '../events/GameEvents.js';
 import Moves from '../entities/creatures/moves/Moves.js';
 import Effects from '../effects/Effects.js';
+import Weapons from '../entities/weapons/Weapons.js';
 import DamageTypes from '../entities/DamageTypes.js';
 
 const PIXI = require('pixi.js');
@@ -193,12 +194,47 @@ export default class DefaultPixiAnimationPack {
                 }
             };
         } else if(gameEvent instanceof GameEvents.ZeroDamageEvent) {
+            const creature = gameEvent.getCreature();
+            const cause = gameEvent.getCause();
+            const tile = dungeon.getTile(creature);
+            const x = tile.getX();
+            const y = tile.getY();
+            const TIME = 40;
 
+            if((cause instanceof Weapons.FrostDagger || cause instanceof Weapons.LightningRod)) {
+                return;
+            }
 
+            const text = new PIXI.Text('Blocked', {
+                fontFamily: 'Arial',
+                fontSize: 10,
+                fill: 'white',
+                stroke: 'black',
+                strokeThickness: 2
+            });
+            text.x = (x + .1) * TILE_WIDTH;
+            const startY = (y + .5) * TILE_WIDTH;
+            const endY = y * TILE_WIDTH;
+            text.y = startY;
+            pixiDungeonView.addParticle(text);
+
+            return {
+                start: () => pixiDungeonView.addParticle,
+                advance: (delta) => {
+                    cumulativeTime += delta;
+                    if(cumulativeTime > TIME) {
+                        text.parent.removeChild(text);
+                    } else {
+                        text.y = (endY - startY) * Easings.linear(cumulativeTime / TIME) + startY;
+                        return true;
+                    }
+                }
+            };
         } else if(gameEvent instanceof GameEvents.HitpointsEvent) {
             const amount = gameEvent.getAmount();
             const damageType = gameEvent.getDamageType();
             const creature = gameEvent.getCreature();
+            const cause = gameEvent.getCause();
             const tile = dungeon.getTile(creature);
             const x = tile.getX();
             const y = tile.getY();
@@ -212,7 +248,10 @@ export default class DefaultPixiAnimationPack {
                     stroke: DAMAGE_OUTLINE_COLORS[damageType],
                     strokeThickness: 2
                 });
-                text.x = (x + .5) * TILE_WIDTH;
+                const isShifted = (cause instanceof Weapons.FrostDagger || cause instanceof Weapons.LightningRod) &&
+                        (damageType === DamageTypes.MELEE_PHYSICAL || damageType === DamageTypes.RANGED_PHYSICAL);
+                const xShift = isShifted ? .4 : 0;
+                text.x = (x + .5 - xShift) * TILE_WIDTH;
                 const startY = (y + .5) * TILE_WIDTH;
                 const endY = y * TILE_WIDTH;
                 text.y = startY;

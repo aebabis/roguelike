@@ -7,7 +7,7 @@ export default class LesserHeal extends Ability {
     /** Restores 2 HP to the caster or a creature within 5 spaces */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-        optionalTargetTile.getCreature().heal(dungeon, HEAL_AMOUNT);
+        optionalTargetTile.getCreature().heal(dungeon, this, HEAL_AMOUNT);
     }
 
     /** @override */

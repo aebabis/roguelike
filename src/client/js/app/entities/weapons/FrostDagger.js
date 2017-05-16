@@ -18,7 +18,7 @@ export default class FrostDagger extends Weapon {
     }
 
     onAttack(dungeon, attacker, defender) {
-        defender.receiveDamage(dungeon, BONUS_DAMAGE, DamageTypes.COLD);
+        defender.receiveDamage(dungeon, this, BONUS_DAMAGE, DamageTypes.COLD);
     }
 
     getFriendlyDescription() {

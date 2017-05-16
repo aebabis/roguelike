@@ -4,7 +4,7 @@ var AMOUNT = 4;
 
 export default class CherrySoda extends Consumable {
     use(dungeon, creature) {
-        creature.heal(dungeon, AMOUNT);
+        creature.heal(dungeon, this, AMOUNT);
     }
 
     getUseMessage(dungeon, creature) {

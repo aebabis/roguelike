@@ -10,7 +10,7 @@ export default class Firebolt extends Ability {
     /** Does 3 fire damage to a target within 5 tiles */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-        optionalTargetTile.getCreature().receiveDamage(dungeon, AMOUNT, DamageTypes.FIRE);
+        optionalTargetTile.getCreature().receiveDamage(dungeon, this, AMOUNT, DamageTypes.FIRE);
     }
 
     /** @override */

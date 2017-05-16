@@ -18,7 +18,7 @@ export default class LightningRod extends Weapon {
     }
 
     onAttack(dungeon, attacker, defender) {
-        defender.receiveDamage(dungeon, BONUS_DAMAGE, DamageTypes.ELECTRICAL);
+        defender.receiveDamage(dungeon, this, BONUS_DAMAGE, DamageTypes.ELECTRICAL);
     }
 
     getFriendlyDescription() {

@@ -91,7 +91,7 @@ export default {
                     return dungeon.getPlayableCharacter().getCurrentHP() < 4;
                 },
                 effect: function() {
-                    dungeon.getPlayableCharacter().heal(dungeon, 10);
+                    dungeon.getPlayableCharacter().heal(dungeon, this, 10);
                 }
             })
             .addTrigger({

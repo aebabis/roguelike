@@ -278,13 +278,14 @@ export default class Creature extends Entity {
      * Applies a given amount of typed damage to the creature,
      * minus the creature's damage reduction
      * @param {Dungeon} dungeon - The creature's current Dungeon
+     * @param {Object} cause - The source of the damage (usually an ability or weapon)
      * @param {number} amount - The amount of damage
      * @param {string} type - A member of {@link DamageTypes}
      * @return {number} The amount of damage received. If the creature
      * has no reduction for the given type, then this will be the same
      * as the input amount
      */
-    receiveDamage(dungeon, amount, type) {
+    receiveDamage(dungeon, cause, amount, type) {
         if(!Number.isInteger(amount) || amount < 0) {
             throw new Error('amount must be a non-negative integer');
         }
@@ -295,9 +296,9 @@ export default class Creature extends Entity {
 
         if(modifiedAmount > 0) {
             this._currentHP = Math.min(this.getCurrentHP() - modifiedAmount, this.getBaseHP());
-            dungeon.fireEvent(new HitpointsEvent(dungeon, this, -modifiedAmount, type));
+            dungeon.fireEvent(new HitpointsEvent(dungeon, this, cause, -modifiedAmount, type));
         } else {
-            dungeon.fireEvent(new ZeroDamageEvent(dungeon, this, type));
+            dungeon.fireEvent(new ZeroDamageEvent(dungeon, this, cause, type));
         }
 
         return modifiedAmount;
@@ -307,11 +308,12 @@ export default class Creature extends Entity {
      * Restores the Creature's hitpoints by a given amount. The Creature
      * cannot go above it's hitpoint maximum in this way
      * @param {Dungeon} dungeon - The creature's current Dungeon
+     * @param {Object} cause - The cause of the healing
      * @param {number} amount - The amount of damage to restore
      */
-    heal(dungeon, amount) {
+    heal(dungeon, cause, amount) {
         this._currentHP = Math.min(this.getCurrentHP() + amount, this.getBaseHP());
-        dungeon.fireEvent(new HitpointsEvent(dungeon, this, amount, null));
+        dungeon.fireEvent(new HitpointsEvent(dungeon, this, cause, amount, null));
     }
 
     /**

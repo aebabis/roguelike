@@ -3,7 +3,7 @@ import GameEvent from './GameEvent.js';
 import Creature from '../entities/creatures/Creature.js';
 
 export default class ZeroDamageEvent extends GameEvent {
-    constructor(dungeon, creature, type) {
+    constructor(dungeon, creature, cause, type) {
         super(dungeon);
         if(!(creature instanceof Creature)) {
             throw new Error('Second parameter must be a Creature');
@@ -12,6 +12,7 @@ export default class ZeroDamageEvent extends GameEvent {
             throw new Error('Third parameter must be a string');
         }
         this._creature = creature;
+        this._cause = cause;
         this._type = type;
     }
 
@@ -22,6 +23,14 @@ export default class ZeroDamageEvent extends GameEvent {
      */
     getCreature() {
         return this._creature;
+    }
+
+    /**
+     * Gets the source of attempted damage
+     * @return {Object}
+     */
+    getCause() {
+        return this._cause;
     }
 
     getDamageType() {

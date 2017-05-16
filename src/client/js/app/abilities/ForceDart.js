@@ -8,7 +8,7 @@ export default class ForceDart extends Ability {
     /** Does 2 energy damage to a target within 5 tiles */
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
-        optionalTargetTile.getCreature().receiveDamage(dungeon, 2, DamageTypes.ENERGY);
+        optionalTargetTile.getCreature().receiveDamage(dungeon, this, 2, DamageTypes.ENERGY);
     }
 
     /** @override */

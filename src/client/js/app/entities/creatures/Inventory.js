@@ -78,6 +78,8 @@ var Inventory = class Inventory {
         }
         if(item === undefined) {
             throw new Error('Illegal item slot: ' + position);
+        } else if(item === null) {
+            throw new Error('Slot empty: ' + position);
         } else {
             return item;
         }

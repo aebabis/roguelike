@@ -35,7 +35,7 @@ module.exports = {
                 ]
             },
             apiOptions: {
-                cssImageRef: "spritesheet.png"
+                cssImageRef: 'spritesheet.png'
             },
             spritesmithOptions: {
                 padding: 2
@@ -76,38 +76,34 @@ module.exports = {
         })
     ],
     module: {
-        loaders: [
+        rules: [
             {
-                loader: 'babel-loader',
-                include: [
-                    path.resolve(__dirname, 'src'),
-                    path.resolve(__dirname, 'node_modules', 'es6-a-star', 'es6-a-star.js')
-                ],
-
                 test: /\.js$/,
+                loader: 'babel-loader',
+                include: [path.resolve(__dirname, 'src')],
                 query: {
                     presets: ['es2015']
                 }
             }, {
-                //loader: 'style!css',
-                loaders: ['style', 'css', 'sass'],
-                test: /\.s?css$/
+                test: /\.s?css$/,
+                use: [{
+                    loader: 'style-loader',
+                }, {
+                    loader: 'css-loader',
+                }, {
+                    loader: 'sass-loader',
+                }]
             }, {
                 loader: 'url-loader?limit=100000',
                 test: /\.png$/
             }
-        ],
-        resolve: {
-            alias: {
-                angular: path.join(__dirname, './node_modules/angular/index.js')
-            }
-        }
+        ]
     },
 
     // http://stackoverflow.com/questions/35171288/error-cannot-resolve-module-style-loader
     resolve: {
-        extensions: ['', '.js', '.css'],
-        modulesDirectories: [
+        extensions: ['.js', '.css'],
+        modules: [
             'node_modules'
         ]
     }

@@ -42,7 +42,7 @@
     "pixi.js": "^4.5.0",
     "random-js": "^1.0.8",
     "sass-loader": "^6.0.5",
-    "sinon": "^1.17.4",
+    "sinon": "^2.2.0",
     "style-loader": "^0.17.0",
     "traceur": "0.0.111",
     "url-loader": "^0.5.7",
@@ -51,7 +51,7 @@
     "webpack-spritesmith": "^0.3.1"
   },
   "devDependencies": {
-    "esdoc": "^0.4.8",
+    "esdoc": "^0.5.2",
     "eslint": "^3.19.0",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-hot-middleware": "^2.17.0"

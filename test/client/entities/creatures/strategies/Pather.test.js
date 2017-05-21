@@ -31,7 +31,7 @@ describe('Pather', function() {
         const dungeon = getUDungeon();
         const player = new PlayableCharacter();
         const enemy = new BlackVoidSphere();
-        sinon.stub(player, 'hasSeen', () => true);
+        sinon.stub(player, 'hasSeen').callsFake(() => true);
         dungeon.moveCreature(player, 0, 0);
         dungeon.moveCreature(enemy, 2, 1);
 

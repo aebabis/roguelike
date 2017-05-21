@@ -1,5 +1,5 @@
 global.Random = require('random-js');
-const JSDOM = require('jsdom').JSDOM;
+import { JSDOM } from '../node_modules/jsdom/lib/api.js';
 
 if (!Array.prototype.includes) {
     Array.prototype.includes = function(searchElement /*, fromIndex*/) {

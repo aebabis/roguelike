@@ -4,7 +4,7 @@
   "description": "A Free HTML5 Roguelike",
   "main": "index.js",
   "engines": {
-    "node": "6.10.3"
+    "node": ">=6.10.3"
   },
   "scripts": {
     "install": "webpack",

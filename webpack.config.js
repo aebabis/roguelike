@@ -20,7 +20,7 @@ module.exports = {
             Random: 'random-js'
         }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new SpritesmithPlugin({
             src: {
                 cwd: path.resolve(__dirname, 'src', 'client', 'images', 'small'),

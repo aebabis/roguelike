@@ -34,7 +34,7 @@
     "html-webpack-plugin": "^2.28.0",
     "isparta": "^4.0.0",
     "istanbul": "^1.1.0-alpha.1",
-    "jsdom": "^9.11.0",
+    "jsdom": "^10.1.0",
     "mocha": "^3.0.2",
     "mysql": "^2.13.0",
     "node-sass": "^4.5.0",

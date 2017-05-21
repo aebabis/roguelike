@@ -1,5 +1,5 @@
 global.Random = require('random-js');
-var jsdom = require('jsdom').jsdom;
+const JSDOM = require('jsdom').JSDOM;
 
 if (!Array.prototype.includes) {
     Array.prototype.includes = function(searchElement /*, fromIndex*/) {
@@ -8,20 +8,20 @@ if (!Array.prototype.includes) {
             throw new TypeError('Array.prototype.includes called on null or undefined');
         }
 
-        var O = Object(this);
-        var len = parseInt(O.length, 10) || 0;
+        const O = Object(this);
+        const len = parseInt(O.length, 10) || 0;
         if (len === 0) {
             return false;
         }
-        var n = parseInt(arguments[1], 10) || 0;
-        var k;
+        const n = parseInt(arguments[1], 10) || 0;
+        let k;
         if (n >= 0) {
             k = n;
         } else {
             k = len + n;
             if (k < 0) {k = 0;}
         }
-        var currentElement;
+        let currentElement;
         while (k < len) {
             currentElement = O[k];
             if (searchElement === currentElement ||
@@ -34,7 +34,7 @@ if (!Array.prototype.includes) {
     };
 }
 
-global.document = jsdom(`
+const dom = new JSDOM(`
     <html>
     <head>
         <script></script>
@@ -44,14 +44,15 @@ global.document = jsdom(`
         <section class='game' tabindex='0'></section>
         <footer></footer>
     </body>
-    </html>`);
-global.window = global.document.defaultView;
+    </html>
+`);
+const window = global.window = dom.window;
+global.document = window.document;
 global.localStorage = {};
 
 //import Bootstrapper from '../src/client/js/app/Bootstrapper.js';
 import RandomMapDungeonFactory from '../src/client/js/app/dungeons/RandomMapDungeonFactory.js';
 import Rogue from '../src/client/js/app/entities/creatures/classes/Rogue.js';
-
 
 for(let i = 0; i < 10; i++) {
     const prng = Random.engines.mt19937();

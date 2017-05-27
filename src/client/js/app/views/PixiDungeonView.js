@@ -394,15 +394,10 @@ export default class PixiDungeonView {
             color = 0x46465a;
         }
 
-        const playerTile = dungeon.getTile(player);
         rangeIndicator.lineStyle(1, color, 1);
-        rangeIndicator.drawCircle(
-            (playerTile.getX() + .5) * TILE_WIDTH,
-            (playerTile.getY() + .5) * TILE_WIDTH,
-            rangedAttack.getRange() * TILE_WIDTH
-        );
+        rangeIndicator.drawCircle(TILE_WIDTH / 2, TILE_WIDTH / 2, rangedAttack.getRange() * TILE_WIDTH);
         
-        this.getStage().addChild(rangeIndicator);
+        this.getEntityById(player.getId()).addChild(rangeIndicator);
     }
 
     updateSelectedTileIndicator() {

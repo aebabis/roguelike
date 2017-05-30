@@ -89,7 +89,7 @@ export default class DefaultPixiAnimationPack {
                             creatureSprite.x = 0;
                             creatureSprite.y = 0;
                             if(creature.getFaction() === 'Player') {
-                                pixiDungeonView.moveViewport();
+                                pixiDungeonView.moveViewport(to.x, to.y);
                             }
                             return false;
                         } else {
@@ -99,7 +99,7 @@ export default class DefaultPixiAnimationPack {
                             creatureSprite.x = xOffset;
                             creatureSprite.y = yOffset;
                             if(creature.getFaction() === 'Player') {
-                                pixiDungeonView.moveViewport(xOffset, yOffset);
+                                pixiDungeonView.moveViewport(to.x, to.y, xOffset, yOffset);
                             }
                             return true;
                         }

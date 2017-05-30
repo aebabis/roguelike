@@ -120,9 +120,8 @@ export default class PixiDungeonView {
                 document.querySelector('section.game').focus(); //TODO: Make canvas container focusable insted?
                 this.moveViewport();
                 //animationController.flush();
-            } else {
-                animationController.handleGameEvent(event);
             }
+            animationController.handleGameEvent(event);
         });
 
         sharedData.addObserver((event) => {
@@ -423,6 +422,8 @@ export default class PixiDungeonView {
     }
 
     moveViewport(
+        x,
+        y,
         xOffset = 0,
         yOffset = 0
     ) {
@@ -432,8 +433,10 @@ export default class PixiDungeonView {
         const player = dungeon.getPlayableCharacter();
         const tile = dungeon.getTile(player);
 
-        const x = tile.getX();
-        const y = tile.getY();
+        if(typeof x === 'undefined') {
+            x = tile.getX();
+            y = tile.getY();
+        }
 
         const canvasWidth = this.getDom().firstChild.width;
         const canvasHeight = this.getDom().firstChild.height;

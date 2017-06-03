@@ -2,7 +2,7 @@ import GameEvents from '../events/GameEvents.js';
 import Dungeon from '../dungeons/Dungeon.js';
 import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
 
-const SPEEDUP_RATE = 5;
+const SPEEDUP_RATE = 2;
 const GAME_TICKS_PER_FRAME = 1000 / 60;
 
 export default class PixiAnimationController {
@@ -23,7 +23,7 @@ export default class PixiAnimationController {
             while(queue[0] && queue[0].time <= this._simTime) {
                 animations.push(queue.shift());
             }
-            const isBehind = queue.indexOf(({isPlayerMoveEvent}) => isPlayerMoveEvent) !== -1;
+            const isBehind = queue.findIndex(({isPlayerMoveEvent}) => isPlayerMoveEvent) !== -1;
             const speedup = isBehind ? SPEEDUP_RATE : 1;
             // Pixi uses 60 frame per second
             // Game uses 1000 ticks per in-game second.
@@ -58,7 +58,7 @@ export default class PixiAnimationController {
             // Animations with the same game clock timestamp are bucketed
             this._animationQueue = [];
         }
-        const isPlayerMoveEvent = event instanceof GameEvents.MoveEvent && event.getCreature() instanceof PlayableCharacter;
+        const isPlayerMoveEvent = event instanceof GameEvents.PositionChangeEvent && event.getCreature() instanceof PlayableCharacter;
         const animation = this.getAnimationPack().getAnimation(this._sharedData, this._pixiDungeonView, event);
         if(animation) {
             this._animationQueue.push({

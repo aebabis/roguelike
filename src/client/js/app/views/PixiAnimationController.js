@@ -1,6 +1,7 @@
 import GameEvents from '../events/GameEvents.js';
 import Dungeon from '../dungeons/Dungeon.js';
 import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
+import Animation from './animations/Animation';
 
 const SPEEDUP_RATE = 2;
 const GAME_TICKS_PER_FRAME = 1000 / 60;
@@ -33,15 +34,23 @@ export default class PixiAnimationController {
             const simDelta = animationDelta * GAME_TICKS_PER_FRAME;
             this._currentAnimations = animations.filter(entry => {
                 const { animation, time } = entry;
-                if(!entry.started) {
-                    animation.start();
-                    animation.advance(0);
-                    entry.started = true;
+                if(animation instanceof Animation) {
+                    if(!animation.hasStarted()) {
+                        animation.start();
+                    }
+                    animation.onTick(animationDelta);
+                    return !animation.hasEnded();
+                } else {
+                    if(!entry.started) {
+                        animation.start();
+                        animation.advance(0);
+                        entry.started = true;
+                    }
+                    // const windowStart = Math.min(simTime, time);
+                    // const delta = simTime + simDelta - windowStart;
+                    const delta = animationDelta;
+                    return animation.advance(delta);
                 }
-                // const windowStart = Math.min(simTime, time);
-                // const delta = simTime + simDelta - windowStart;
-                const delta = animationDelta;
-                return animation.advance(delta);
             });
             this._simTime = Math.min(simTime + simDelta, dungeon.getCurrentTimestep());
         });

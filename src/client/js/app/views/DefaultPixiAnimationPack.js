@@ -5,6 +5,8 @@ import Effects from '../effects/Effects.js';
 import Weapons from '../entities/weapons/Weapons.js';
 import DamageTypes from '../entities/DamageTypes.js';
 
+import TransitionAnimation from './animations/TransitionAnimation';
+
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
 const Sprite = PIXI.Sprite;
@@ -150,29 +152,21 @@ export default class DefaultPixiAnimationPack {
                 };
             } else if(ability instanceof Abilities.ForceDart) {
                 const sprite = buildSprite('ForceDart');
-                return {
-                    start: () => stage.addChild(sprite),
-                    advance: (delta) => {
-                        cumulativeTime += delta;
-                        if(cumulativeTime < 15) {
-                            const creatureTile = dungeon.getTile(creature);
-                            const startX = (creatureTile.getX() + .5) * TILE_WIDTH;
-                            const startY = (creatureTile.getY() + .5) * TILE_WIDTH;
-                            const endX = (tile.getX() + .5) * TILE_WIDTH;
-                            const endY = (tile.getY() + .5) * TILE_WIDTH;
-                            const p = Easings.linear(cumulativeTime / 15);
-                            const x = startX + (endX - startX) * p;
-                            const y = startY + (endY - startY) * p;
-                            sprite.x = x;
-                            sprite.y = y;
-                            sprite.rotation = Math.atan2(endY -startY, endX - startX);
-                            return true;
-                        } else {
-                            stage.removeChild(sprite);
-                            return false;
-                        }
-                    }
-                };
+                const startX = () => (dungeon.getTile(creature).getX() + .5) * TILE_WIDTH;
+                const startY = () => (dungeon.getTile(creature).getY() + .5) * TILE_WIDTH;
+                const endX = () => (tile.getX() + .5) * TILE_WIDTH;
+                const endY = () => (tile.getY() + .5) * TILE_WIDTH;
+                const rotation = () => Math.atan2(endY() - startY(), endX() - startX());
+                return new TransitionAnimation(15, {
+                    group: sprite,
+                    properties: {
+                        x: { start: startX, end: endX },
+                        y: { start: startY, end: endY },
+                        rotation: { start: rotation, end: rotation }
+                    },
+                    onStart: () => stage.addChild(sprite),
+                    onEnd: () => stage.removeChild(sprite)
+                });
             }
         } else if(gameEvent instanceof GameEvents.DeathEvent) {
             const creature = gameEvent.getCreature();

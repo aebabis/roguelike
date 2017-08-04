@@ -13,11 +13,19 @@ const Easings = {
 };
 
 export default class TransitionAnimation extends Animation {
-    constructor(duration = 30, group, properties, easing = Animation.Easings.linear) {
+    constructor(duration = 30, {
+        group,
+        properties,
+        easing = TransitionAnimation.Easings.linear,
+        onStart = () => {},
+        onEnd = () => {}
+    }) {
         super(duration);
         this._group = group;
         this._properties = properties;
         this._easing = easing;
+        this.onStart = onStart;
+        this.onEnd = onEnd;
     }
 
     static get Easings() { return Easings; }
@@ -28,10 +36,9 @@ export default class TransitionAnimation extends Animation {
         const easing = this._easing;
         const displacement = easing(proportion);
         Object.entries(properties).forEach(([key, {start, end}]) => {
+            if(typeof start === 'function') start = start();
+            if(typeof end === 'function') end = end();
             group[key] = interpolate(start, end, displacement);
         });
-    }
-
-    onEnd() {
     }
 }

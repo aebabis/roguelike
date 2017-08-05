@@ -73,7 +73,7 @@ export default class InventoryView {
 
             const dungeon = sharedData.getDungeon();
             const player = dungeon.getPlayableCharacter();
-            const index = target.getAttribute('data-index');
+            const index = +target.getAttribute('data-index');
             player.setNextMove(new Moves.TrashItemMove(dungeon.getTile(player), index));
             dungeon.resolveUntilBlocked();
             focusGame();

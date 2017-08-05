@@ -30,7 +30,7 @@ export default lib = {
                 </div>
                 ${(isNaN(index) || item instanceof TheTreasure) ?
                     '<button class="home" type="button" title="Walk to the exit" accesskey="h">&#127968;</button>' :
-                    '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
+                    `<button class="trash" data-index="${index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
             </li>`);
         } else {
             return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
@@ -57,7 +57,7 @@ export default lib = {
                             <span class="range-icon"></span> <span class="range-text">${data.range > 1 ? data.range + '\u25CE' : ''}</span>
                         </div>
                     </div>
-                    ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
+                    ${isNaN(index) ? '' : `<button class="trash" data-index="${index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
                 </li>
             `);
         } else {
@@ -85,7 +85,7 @@ export default lib = {
                             <span class="magical-dr-text">-${data.magical} magic damage</span>,
                         </div-->
                     </div>
-                    ${isNaN(index) ? '' : '<button class="trash" type="button" title="Destroy this item. Forever">&#128465;</button>'}
+                    ${isNaN(index) ? '' : `<button class="trash" data-index="{index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
                 </li>
             `);
         } else {

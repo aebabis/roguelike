@@ -40,9 +40,15 @@ export default class ChaseStrategy extends Strategy {
             const mark = enemies.find(enemy => dungeon.getTile(enemy).getDirectDistance(tile) > 1);
             const target = mark ? dungeon.getTile(mark) : this._lastKnownEnemyLocation;
             if(target) {
-                const move = Pather.getMoveToward(dungeon, creature, target);
-                if(move && !move.getReasonIllegal(dungeon, creature)) {
-                    return move;
+                if(target === tile) {
+                    // If monster has reached last known location of player and they aren't there,
+                    // resume other strategies
+                    this._lastKnownEnemyLocation = null;
+                } else {
+                    const move = Pather.getMoveToward(dungeon, creature, target);
+                    if(move && !move.getReasonIllegal(dungeon, creature)) {
+                        return move;
+                    }
                 }
             }
         }

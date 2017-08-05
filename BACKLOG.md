@@ -24,7 +24,6 @@
   - Rename distance functions
   - See corners when adjacent edges are in range (5/3 slope)
   - Non-default session store
-  - Make enemies that fail to find player at its last known location, go back to searching
   - Tell user they can't path onto an unvisited tile
   - Refactor pre-existing animations to use Animation class
 - Low
@@ -44,7 +43,6 @@
   - Color UI when holding accelerator keys (items during ctrl)
   - Typescript
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
-  - Use Yarn
 
 ## Content
   - Invisibility Spell
@@ -60,6 +58,7 @@
   - Leap
     - should not let you jump to a solid tile
     - should not let you jump into a pit
+  - There is a small delay on the first animation; probably the animation clock not advancing until first player event.
 
 
 ## Art

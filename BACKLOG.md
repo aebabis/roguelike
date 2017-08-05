@@ -9,7 +9,6 @@
 - Med
   - Numbered levels from level database
   - Special inventory slot for TheTreasure?
-  - Weights for random dungeon rooms
   - Keybindings Overlay
   - Tile Contents Panel (Use + and - to navigate?)
   - Handle legal noPath situations
@@ -19,9 +18,7 @@
   - Let player know their speed
   - Animate death frame (instead of ending). Camera
   - Potion of flying
-  - Queue animations
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-  - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Make ranged enemies avoid getting in melee range
   - Offline-first
   - Rename distance functions
@@ -29,7 +26,10 @@
   - Non-default session store
   - Make enemies that fail to find player at its last known location, go back to searching
   - Tell user they can't path onto an unvisited tile
+  - Refactor pre-existing animations to use Animation class
 - Low
+  - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
+  - Weights for random dungeon rooms
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars
   - Animation speed

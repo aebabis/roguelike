@@ -5,6 +5,7 @@ import Effects from '../effects/Effects.js';
 import Weapons from '../entities/weapons/Weapons.js';
 import DamageTypes from '../entities/DamageTypes.js';
 
+import AnimationGroup from './animations/AnimationGroup';
 import TransitionAnimation from './animations/TransitionAnimation';
 
 const PIXI = require('pixi.js');
@@ -75,7 +76,6 @@ export default class DefaultPixiAnimationPack {
                         } else {
                             console.warn('Sprite not there');
                         }
-                        pixiDungeonView.updateVision();
                         [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
                             pixiDungeonView.getTileGroup(x, y).update()
                         );
@@ -110,7 +110,6 @@ export default class DefaultPixiAnimationPack {
             } else {
                 // TODO: Extract slide animation to an animation factory.
                 // Use a fast slide for Leap ability
-                pixiDungeonView.updateVision();
                 pixiDungeonView.updateCreatureLocations();
                 pixiDungeonView.moveViewport();
                 [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
@@ -264,6 +263,34 @@ export default class DefaultPixiAnimationPack {
                     }
                 };
             }
+        } else if(gameEvent instanceof GameEvents.VisibilityChangeEvent) {
+            const newlyHiddenTileCoords = gameEvent.getNewlyHiddenTileCoords();
+            const newlyVisibleTileCoords = gameEvent.getNewlyVisibleTileCoords();
+            const animation = new AnimationGroup(
+                newlyHiddenTileCoords.map(({x, y}) => new TransitionAnimation(20, {
+                    group: pixiDungeonView.getTileGroup(x, y),
+                    properties: {alpha: {start: 1, end: .5}}
+                })).concat(newlyVisibleTileCoords.map(({x, y}) => {
+                    const tileGroup = pixiDungeonView.getTileGroup(x, y);
+                    return new TransitionAnimation(20, {
+                        group: tileGroup,
+                        properties: {alpha: {start: () => tileGroup.alpha, end: 1}}
+                    });
+                }))
+            );
+            animation.onStart = () => {
+                console.log('bleh');
+                // TODO: Make this stateless. Don't require VisibilityChangeEvent. Look at movement-type Events
+                newlyHiddenTileCoords.forEach(({x, y}) => {
+                    pixiDungeonView.getItemContainer(x, y).visible = false;
+                    pixiDungeonView.getCreatureContainer(x, y).visible = false;
+                });
+                newlyVisibleTileCoords.forEach(({x, y}) => {
+                    pixiDungeonView.getItemContainer(x, y).visible = true;
+                    pixiDungeonView.getCreatureContainer(x, y).visible = true;
+                });
+            };
+            return animation;
         }
     }
 }

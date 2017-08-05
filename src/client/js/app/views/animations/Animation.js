@@ -6,8 +6,8 @@ export default class Animation {
     start() {
         this._hasStarted = true;
         this._cumulativeTime = 0;
-        this.advance(0, 0, 0);
         this.onStart();
+        this.advance(0, 0, 0);
     }
 
     onStart() {

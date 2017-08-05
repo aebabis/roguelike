@@ -34,7 +34,7 @@ export default class MovementMove extends Move {
         const y = this.getY();
         const adx = Math.abs(x - tile.getX());
         const ady = Math.abs(y - tile.getY());
-        var newLocation = dungeon.getTile(x, y);
+        const newLocation = dungeon.getTile(x, y);
         if(!newLocation) {
             return `Tile [${x}, ${y}] does not exist`;
         }
@@ -47,7 +47,7 @@ export default class MovementMove extends Move {
         if(creature.getBuffs().find((buff)=>buff.getProperties().preventsMovement)) {
             return 'A debuff is preventing movement';
         }
-        var occupant = newLocation.getCreature();
+        const occupant = newLocation.getCreature();
         if(occupant) {
             return 'Cannot move to occupied tile';
         }
@@ -55,21 +55,30 @@ export default class MovementMove extends Move {
     }
 
     execute(dungeon, creature) {
-        var reason = this.getReasonIllegal(dungeon, creature);
+        const reason = this.getReasonIllegal(dungeon, creature);
         if(reason) {
             throw new Error(reason);
         }
-        var tile = dungeon.getTile(creature);
-        var x = this.getX();
-        var y = this.getY();
+        const tile = dungeon.getTile(creature);
+        const x = this.getX();
+        const y = this.getY();
+        let previouslySeenTiles;
+        if(creature.getFaction() === 'Player') {
+            previouslySeenTiles = creature.getVisibleTiles(dungeon);
+        }
         tile.removeCreature();
         dungeon.moveCreature(creature, x, y, this);
         dungeon.fireEvent(new GameEvents.MoveEvent(dungeon, creature, x, y));
+        if(creature.getFaction() === 'Player') {
+            dungeon.fireEvent(new GameEvents.VisibilityChangeEvent(
+                dungeon, creature, previouslySeenTiles, creature.getVisibleTiles(dungeon)
+            ));
+        }
     }
 
     isSeenBy(dungeon, observer) {
-        var actorX = this.getActorX();
-        var actorY = this.getActorY();
+        const actorX = this.getActorX();
+        const actorY = this.getActorY();
         return observer.canSee(dungeon, dungeon.getTile(actorX, actorY)) ||
                 observer.canSee(dungeon, dungeon.getTile(this.getX(), this.getY()));
     }

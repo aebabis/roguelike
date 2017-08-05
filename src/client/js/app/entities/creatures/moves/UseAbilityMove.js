@@ -1,6 +1,6 @@
 import Move from './Move.js';
 
-import AbilityEvent from '../../../events/AbilityEvent.js';
+import GameEvents from '../../../events/GameEvents.js';
 
 /**
  * The move a Creature makes when they use an ability
@@ -69,12 +69,21 @@ export default class UseAbilityMove extends Move {
         }
         const index = this._index;
         const ability = creature.getAbilities()[index];
+        let previouslySeenTiles;
+        if(creature.getFaction() === 'Player' && ability.isMovementAbility()) {
+            previouslySeenTiles = creature.getVisibleTiles(dungeon);
+        }
         if(ability.isTargetted()) {
             ability.use(dungeon, creature, tile);
-            dungeon.fireEvent(new AbilityEvent(dungeon, creature, ability, tile));
+            dungeon.fireEvent(new GameEvents.AbilityEvent(dungeon, creature, ability, tile));
         } else {
             ability.use(dungeon, creature);
-            dungeon.fireEvent(new AbilityEvent(dungeon, creature, ability));
+            dungeon.fireEvent(new GameEvents.AbilityEvent(dungeon, creature, ability));
+        }
+        if(creature.getFaction() === 'Player' && ability.isMovementAbility()) {
+            dungeon.fireEvent(new GameEvents.VisibilityChangeEvent(
+                dungeon, creature, previouslySeenTiles, creature.getVisibleTiles(dungeon)
+            ));
         }
     }
 

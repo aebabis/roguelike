@@ -27,4 +27,4 @@ export default class Move {
     isSeenBy(dungeon, observer) {
         throw new Error('Abstract method not implemented');
     }
-};
+}

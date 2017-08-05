@@ -18,6 +18,7 @@ import TakeItemEvent from './TakeItemEvent.js';
 import TrashItemEvent from './TrashItemEvent.js';
 import UseItemEvent from './UseItemEvent.js';
 import VictoryEvent from './VictoryEvent.js';
+import VisibilityChangeEvent from './VisibilityChangeEvent.js';
 import WaitEvent from './WaitEvent.js';
 import ZeroDamageEvent from './ZeroDamageEvent.js';
 
@@ -42,6 +43,7 @@ export default {
     TrashItemEvent,
     UseItemEvent,
     VictoryEvent,
+    VisibilityChangeEvent,
     WaitEvent,
     ZeroDamageEvent
 };

@@ -475,6 +475,10 @@ export default class PixiDungeonView {
         this._mouseOutHandlers.push(handler);
     }
 
+    getTileWidth() {
+        return 50;
+    }
+
     // TODO: Cellphone zap
     // TODO: Projectile animations
     // TODO: Show buffs

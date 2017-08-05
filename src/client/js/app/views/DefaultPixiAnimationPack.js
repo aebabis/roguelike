@@ -7,6 +7,7 @@ import DamageTypes from '../entities/DamageTypes.js';
 
 import AnimationGroup from './animations/AnimationGroup';
 import TransitionAnimation from './animations/TransitionAnimation';
+import ProjectileAnimation from './animations/ProjectileAnimation';
 
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
@@ -150,21 +151,12 @@ export default class DefaultPixiAnimationPack {
                     }
                 };
             } else if(ability instanceof Abilities.ForceDart) {
-                const sprite = buildSprite('ForceDart');
-                const startX = () => (dungeon.getTile(creature).getX() + .5) * TILE_WIDTH;
-                const startY = () => (dungeon.getTile(creature).getY() + .5) * TILE_WIDTH;
-                const endX = () => (tile.getX() + .5) * TILE_WIDTH;
-                const endY = () => (tile.getY() + .5) * TILE_WIDTH;
-                const rotation = () => Math.atan2(endY() - startY(), endX() - startX());
-                return new TransitionAnimation(15, {
-                    group: sprite,
-                    properties: {
-                        x: { start: startX, end: endX },
-                        y: { start: startY, end: endY },
-                        rotation: { start: rotation, end: rotation }
-                    },
-                    onStart: () => stage.addChild(sprite),
-                    onEnd: () => stage.removeChild(sprite)
+                return new ProjectileAnimation(15, {
+                    pixiDungeonView,
+                    sprite: buildSprite('ForceDart'),
+                    dungeon,
+                    attacker: creature,
+                    target: tile.getCreature(),
                 });
             }
         } else if(gameEvent instanceof GameEvents.DeathEvent) {
@@ -279,7 +271,6 @@ export default class DefaultPixiAnimationPack {
                 }))
             );
             animation.onStart = () => {
-                console.log('bleh');
                 // TODO: Make this stateless. Don't require VisibilityChangeEvent. Look at movement-type Events
                 newlyHiddenTileCoords.forEach(({x, y}) => {
                     pixiDungeonView.getItemContainer(x, y).visible = false;

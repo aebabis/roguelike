@@ -17,7 +17,7 @@ export default class AbilitiesView {
                 return;
             }
 
-            const index = target.getAttribute('data-index');
+            const index = +target.getAttribute('data-index');
             const prevAbility = sharedData.getTargettedAbility();
 
             if(prevAbility === index) {

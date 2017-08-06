@@ -24,7 +24,14 @@ export default class PixiAnimationController {
             while(queue[0] && queue[0].time <= this._simTime) {
                 animations.push(queue.shift());
             }
-            const isBehind = queue.findIndex(({isPlayerMoveEvent}) => isPlayerMoveEvent) !== -1;
+            let isBehind;
+            if(queue.length === 0) {
+                isBehind = this._isBehind = false;
+            } else if(queue.findIndex(({isPlayerMoveEvent}) => isPlayerMoveEvent) !== -1) {
+                isBehind = this._isBehind = true;
+            } else {
+                isBehind = this._isBehind;
+            }
             const speedup = isBehind ? SPEEDUP_RATE : 1;
             // Pixi uses 60 frame per second
             // Game uses 1000 ticks per in-game second.

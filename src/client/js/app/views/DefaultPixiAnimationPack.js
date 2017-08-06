@@ -117,6 +117,18 @@ export default class DefaultPixiAnimationPack {
                     pixiDungeonView.getTileGroup(x, y).update()
                 );
             }
+        } else if(gameEvent instanceof GameEvents.AttackEvent) {
+            if(gameEvent.getWeapon().isMelee()) {
+                // TODO: Slash animation
+            } else {
+                return new ProjectileAnimation(15, {
+                    pixiDungeonView,
+                    sprite: buildSprite('Bullet'),
+                    dungeon,
+                    attacker: gameEvent.getAttacker(),
+                    target: gameEvent.getTarget(),
+                });
+            }
         } else if(gameEvent instanceof GameEvents.AbilityEvent) {
             const ability = gameEvent.getAbility();
             const creature = gameEvent.getCreature();

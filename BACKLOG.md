@@ -80,3 +80,4 @@
   - Poison splatter
   - More sodas
   - Coin tile
+  - Arrow

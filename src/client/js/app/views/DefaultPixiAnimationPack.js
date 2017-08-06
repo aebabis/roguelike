@@ -65,49 +65,23 @@ export default class DefaultPixiAnimationPack {
                 const to = gameEvent.getToCoords();
                 const dx = to.x - from.x;
                 const dy = to.y - from.y;
-                return {
-                    start: () => {
-                        const container = pixiDungeonView.removeEntityById(creature.getId());
-                        if(container) {
-                            pixiDungeonView.addCreatureSprite(
-                                container,
-                                to.x,
-                                to.y
-                            );
-                        } else {
-                            console.warn('Sprite not there');
-                        }
+                return new TransitionAnimation(MOVE_FRAMES, {
+                    group: () => pixiDungeonView.getEntityById(creature.getId()),
+                    properties: {
+                        x: {start: -(dx * pixiDungeonView.getTileWidth()), end: 0},
+                        y: {start: -(dy * pixiDungeonView.getTileWidth()), end: 0}
+                    },
+                    onStart: () => {
+                        pixiDungeonView.addCreatureSprite(
+                            pixiDungeonView.removeEntityById(creature.getId()),
+                            to.x,
+                            to.y
+                        );
                         [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
                             pixiDungeonView.getTileGroup(x, y).update()
                         );
-                    },
-                    advance: (delta) => {
-                        cumulativeTime += delta;
-                        const creatureSprite = pixiDungeonView.getEntityById(creature.getId());
-                        if(!creatureSprite) {
-                            console.warn('No creature sprite found for animation'); // TODO: Prevent other updates from moving sprite
-                            return;
-                        }
-                        if(cumulativeTime > MOVE_FRAMES) {
-                            creatureSprite.x = 0;
-                            creatureSprite.y = 0;
-                            if(creature.getFaction() === 'Player') {
-                                pixiDungeonView.moveViewport(to.x, to.y);
-                            }
-                            return false;
-                        } else {
-                            const displacement = 1 - Easings.linear(cumulativeTime / MOVE_FRAMES);
-                            const xOffset = -dx * displacement * TILE_WIDTH;
-                            const yOffset = -dy * displacement * TILE_WIDTH;
-                            creatureSprite.x = xOffset;
-                            creatureSprite.y = yOffset;
-                            if(creature.getFaction() === 'Player') {
-                                pixiDungeonView.moveViewport(to.x, to.y, xOffset, yOffset);
-                            }
-                            return true;
-                        }
                     }
-                };
+                });
             } else {
                 // TODO: Extract slide animation to an animation factory.
                 // Use a fast slide for Leap ability

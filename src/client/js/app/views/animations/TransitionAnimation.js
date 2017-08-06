@@ -31,6 +31,9 @@ export default class TransitionAnimation extends Animation {
     static get Easings() { return Easings; }
 
     start() {
+        if(typeof this._group === 'function') {
+            this._group = this._group();
+        }
         this._properties = Object.entries(this._properties).reduce((properties, [key, {start, end}]) => {
             // Property value determination may be deferred until the animation starts.
             // This makes it possible to chain interpolated animations without

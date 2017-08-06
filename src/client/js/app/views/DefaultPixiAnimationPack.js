@@ -5,6 +5,7 @@ import Effects from '../effects/Effects.js';
 import Weapons from '../entities/weapons/Weapons.js';
 import DamageTypes from '../entities/DamageTypes.js';
 
+import Animation from './animations/Animation';
 import AnimationGroup from './animations/AnimationGroup';
 import TransitionAnimation from './animations/TransitionAnimation';
 import ProjectileAnimation from './animations/ProjectileAnimation';
@@ -59,29 +60,42 @@ export default class DefaultPixiAnimationPack {
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
             const cause = gameEvent.getCause();
             if(cause instanceof Moves.MovementMove || cause instanceof Effects.KnockbackEffect) {
-                const MOVE_FRAMES = 20;
                 const creature = gameEvent.getCreature();
+                const duration = creature.getSpeed() * 60 / 1000;
                 const from = gameEvent.getFromCoords();
                 const to = gameEvent.getToCoords();
                 const dx = to.x - from.x;
                 const dy = to.y - from.y;
-                return new TransitionAnimation(MOVE_FRAMES, {
-                    group: () => pixiDungeonView.getEntityById(creature.getId()),
-                    properties: {
-                        x: {start: -(dx * pixiDungeonView.getTileWidth()), end: 0},
-                        y: {start: -(dy * pixiDungeonView.getTileWidth()), end: 0}
-                    },
-                    onStart: () => {
-                        pixiDungeonView.addCreatureSprite(
-                            pixiDungeonView.removeEntityById(creature.getId()),
-                            to.x,
-                            to.y
-                        );
-                        [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
-                            pixiDungeonView.getTileGroup(x, y).update()
-                        );
-                    }
-                });
+                const group = () => pixiDungeonView.getEntityById(creature.getId());
+                const animations = [
+                    new TransitionAnimation(duration, {
+                        group,
+                        properties: {
+                            x: {start: -(dx * pixiDungeonView.getTileWidth()), end: 0},
+                            y: {start: -(dy * pixiDungeonView.getTileWidth()), end: 0}
+                        },
+                        onStart: () => {
+                            pixiDungeonView.addCreatureSprite(
+                                pixiDungeonView.removeEntityById(creature.getId()),
+                                to.x,
+                                to.y
+                            );
+                            [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
+                                pixiDungeonView.getTileGroup(x, y).update()
+                            );
+                        }
+                    }),
+                ];
+                if(creature.getFaction() === 'Player') {
+                    const viewportAnimation = new Animation();
+                    viewportAnimation.advance = () => {
+                        const {x, y} = group();
+                        const tileWidth = pixiDungeonView.getTileWidth();
+                        pixiDungeonView.moveViewport(to.x, to.y, x % tileWidth, y % tileWidth);
+                    };
+                    animations.push(viewportAnimation);
+                }
+                return new AnimationGroup(animations);
             } else {
                 // TODO: Extract slide animation to an animation factory.
                 // Use a fast slide for Leap ability

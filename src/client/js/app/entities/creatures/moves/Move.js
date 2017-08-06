@@ -12,7 +12,7 @@ export default class Move {
         return this._actorY;
     }
 
-    getReasonIllegal(dungeon, creature) {
+    getReasonIllegal(dungeon, creature) { // eslint-disable-line no-unused-vars
         throw new Error('Abstract method not implemented');
     }
 
@@ -20,11 +20,11 @@ export default class Move {
         throw new Error('Abstract method not implemented');
     }
 
-    execute(dungeon, creature) {
+    execute(dungeon, creature) { // eslint-disable-line no-unused-vars
         throw new Error('Abstract method not implemented');
     }
 
-    isSeenBy(dungeon, observer) {
+    isSeenBy(dungeon, observer) { // eslint-disable-line no-unused-vars
         throw new Error('Abstract method not implemented');
     }
 }

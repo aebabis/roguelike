@@ -85,7 +85,7 @@ export default lib = {
                             <span class="magical-dr-text">-${data.magical} magic damage</span>,
                         </div-->
                     </div>
-                    ${isNaN(index) ? '' : `<button class="trash" data-index="{index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
+                    ${isNaN(index) ? '' : `<button class="trash" data-index="${index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
                 </li>
             `);
         } else {

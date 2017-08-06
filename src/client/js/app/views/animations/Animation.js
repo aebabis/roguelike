@@ -31,7 +31,7 @@ export default class Animation {
         }
     }
 
-    advance(delta, cumulativeTime, proportion) {
+    advance(delta, cumulativeTime, proportion) { // eslint-disable-line no-unused-vars
         throw new Error('Abstract method not implemented');
     }
 

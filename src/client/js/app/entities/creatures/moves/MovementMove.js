@@ -62,18 +62,9 @@ export default class MovementMove extends Move {
         const tile = dungeon.getTile(creature);
         const x = this.getX();
         const y = this.getY();
-        let previouslySeenTiles;
-        if(creature.getFaction() === 'Player') {
-            previouslySeenTiles = creature.getVisibleTiles(dungeon);
-        }
         tile.removeCreature();
         dungeon.moveCreature(creature, x, y, this);
         dungeon.fireEvent(new GameEvents.MoveEvent(dungeon, creature, x, y));
-        if(creature.getFaction() === 'Player') {
-            dungeon.fireEvent(new GameEvents.VisibilityChangeEvent(
-                dungeon, creature, previouslySeenTiles, creature.getVisibleTiles(dungeon)
-            ));
-        }
     }
 
     isSeenBy(dungeon, observer) {

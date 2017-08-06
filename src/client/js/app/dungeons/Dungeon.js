@@ -381,17 +381,29 @@ export default class Dungeon extends Observable {
             }
 
             try {
-                const dungeon = this;
+                // A movement move, ability move, or item move performed
+                // by anyone has the potential to affect the player's visibility.
+                // When the player can see such a move, we record the visibility
+                // changes so we can publish them after the move is executed
+                const player = this.getPlayableCharacter();
+                const couldAffectPlayerVision = move.isSeenBy(this, player) &&
+                    (move instanceof Moves.MovementMove || move instanceof Moves.UseAbilityMove || Moves instanceof Moves.UseItemMove);
+                const previouslySeenTiles = couldAffectPlayerVision && player.getVisibleTiles(this);
+
                 activeCreature.executeMove(this, move);
-                this.getCreatures().forEach(function(creature) {
-                    if(activeCreature !== creature && move.isSeenBy(dungeon, creature)) {
-                        creature.observeMove(dungeon, activeCreature, move);
+                this.getCreatures().forEach((creature) => {
+                    if(activeCreature !== creature && move.isSeenBy(this, creature)) {
+                        creature.observeMove(this, activeCreature, move);
                     }
                 });
+                if(couldAffectPlayerVision) {
+                    this.fireEvent(new GameEvents.VisibilityChangeEvent(
+                        this, player, previouslySeenTiles, player.getVisibleTiles(this)
+                    ));
+                }
             } catch(error) {
                 console.error(error);
                 activeCreature.executeMove(this, new Moves.WaitMove(this.getTile(activeCreature)));
-                //activeCreature.wait();
             }
         } else {
             this._timestep++;

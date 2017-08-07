@@ -371,7 +371,7 @@ export default class CharacterBuilder {
             }
 
             promiseHandlers.resolve = () => {
-                dialog.close(); // Auto close doesn't always work. Force it. TODO: Find out why
+                dialog.open && dialog.close(); // Auto close doesn't always work. Force it. TODO: Find out why
                 resolve();
             };
             promiseHandlers.reject = reject;

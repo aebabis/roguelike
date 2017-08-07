@@ -19,6 +19,7 @@ export default class GameConditions {
      * @return {boolean} - `true` if the player has lost; `false` otherwise
      */
     hasPlayerLost(dungeon) {
-        return dungeon.getPlayableCharacter().isDead();
+        const player = dungeon.getPlayableCharacter();
+        return player && player.isDead();
     }
 }

@@ -6,15 +6,15 @@ import { default as Tiles } from '../../../../../src/client/js/app/tiles/Tiles.j
 
 const expect = require('chai').expect;
 
-describe('Enemies', function() {
-    it('should all construct without throwing', function() {
-        Object.keys(Enemies).map(constructorName => Enemies[constructorName]).forEach(function(Enemy) {
+describe('Enemies', () => {
+    it('should all construct without throwing', () => {
+        Object.keys(Enemies).map(constructorName => Enemies[constructorName]).forEach((Enemy) => {
             new Enemy();
         });
     });
 
-    describe('Bigfoot', function() {
-        it('should be able to kick the player into a pit', function() {
+    describe('Bigfoot', () => {
+        it('should be able to kick the player into a pit', () => {
             const dungeon = new Dungeon(1, 3);
             dungeon.setTile(new Tiles.PitTile(0, 2), 0, 2);
             const player = new PlayableCharacter();
@@ -28,7 +28,7 @@ describe('Enemies', function() {
             expect(player.isDead()).to.equal(true);
         });
 
-        it('should not be able to kick the player into a wall', function() {
+        it('should not be able to kick the player into a wall', () => {
             const dungeon = new Dungeon(1, 3);
             dungeon.setTile(new Tiles.WallTile(0, 2), 0, 2);
             const player = new PlayableCharacter();
@@ -41,6 +41,21 @@ describe('Enemies', function() {
             dungeon.resolveUntilBlocked();
             expect(player.isDead()).to.equal(false);
         });
+    });
 
-    })
+    describe('Witch', () => {
+        it('should cast Fireball at enemies', () => {
+            const dungeon = new Dungeon(2, 2);
+            const player = new PlayableCharacter();
+            const witch = new Enemies.Witch();
+
+            dungeon.moveCreature(witch, 0, 0);
+            dungeon.moveCreature(player, 1, 1);
+            player.setNextMove(new Moves.WaitMove(dungeon.getTile(player)));
+
+            expect(player.getCurrentHP()).to.equal(player.getBaseHP());
+            dungeon.resolveUntilBlocked();
+            expect(player.getCurrentHP()).not.to.equal(player.getBaseHP());
+        });
+    });
 });

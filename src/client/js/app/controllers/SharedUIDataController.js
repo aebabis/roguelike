@@ -70,6 +70,7 @@ export default class SharedUIDataController extends Observable {
      * @param {Dungeon} dungeon - The dungeon to replace the current dungeon
      */
     setDungeon(dungeon) {
+        dungeon.resolveUntilBlocked();
         if(!(dungeon instanceof Dungeon)) {
             throw new Error('Must pass a dungeon');
         }

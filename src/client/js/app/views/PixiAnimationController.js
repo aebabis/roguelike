@@ -70,7 +70,7 @@ export default class PixiAnimationController {
     handleGameEvent(event) {
         if(event instanceof Dungeon) {
             // Sim time is used to determine when animations can be dequeued
-            this._simTime = 0;
+            this._simTime = event.getCurrentTimestep();
             // Animations with the same game clock timestamp are bucketed
             this._animationQueue = [];
         }

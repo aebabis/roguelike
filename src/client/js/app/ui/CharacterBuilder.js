@@ -370,7 +370,10 @@ export default class CharacterBuilder {
                 dialogPolyfill.registerDialog(dialog);
             }
 
-            promiseHandlers.resolve = resolve;
+            promiseHandlers.resolve = () => {
+                dialog.close(); // Auto close doesn't always work. Force it. TODO: Find out why
+                resolve();
+            };
             promiseHandlers.reject = reject;
 
             angular.bootstrap(dialog, ['vog']);

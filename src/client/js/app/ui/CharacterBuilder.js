@@ -370,9 +370,9 @@ export default class CharacterBuilder {
                 dialogPolyfill.registerDialog(dialog);
             }
 
-            promiseHandlers.resolve = () => {
+            promiseHandlers.resolve = (character) => {
                 dialog.open && dialog.close(); // Auto close doesn't always work. Force it. TODO: Find out why
-                resolve();
+                resolve(character);
             };
             promiseHandlers.reject = reject;
 

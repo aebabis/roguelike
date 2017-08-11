@@ -255,17 +255,12 @@ angular.module('vog', [])
         `<form method="dialog" class="gitrecht" ng-controller="character-builder" ng-submit="submit()">
             <h2>Select Character</h2>
             <div class="prebuilts">
-                <div class="group" ng-if="lastBuild">
-                    <h3>Most Recent</h3>
-                    <button ng-click="selectLastBuild()">
-                        <character-build build="lastBuild"></character-build>
-                    </button>
-                </div>
-                <div class="group">
-                    <button ng-repeat="build in prebuilts" ng-click="selectPrebuilt($index)">
-                        <character-build build="build"></character-build>
-                    </button>
-                </div>
+                <button class="last-build" ng-click="selectLastBuild()">
+                    <character-build build="lastBuild"></character-build>
+                </button>
+                <button ng-repeat="build in prebuilts" ng-click="selectPrebuilt($index)">
+                    <character-build build="build"></character-build>
+                </button>
             </div>
             <button type="button" ng-if="!isBuilderVisible()" ng-click="showBuilder()">Make a Build</button>
             <div class="builder" ng-if="isBuilderVisible()">

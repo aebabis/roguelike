@@ -22,30 +22,47 @@
         font-size: 2em;
     }
 
-    .prebuilts {
-        display: flex;
-        margin: 1em 0;
-        button + button {
-            margin-left: 1em;
-        }
-
-        button {
-            flex: 1;
-            background: linear-gradient(to bottom, $darkbrown 0%, $darkbrown 51%, #662F22 100%);
-            border: 0;
-            color: #FFEEDD;
-            padding: .5em;
-            border-radius: .25em;
-            border: solid 1px #552200;
-
-            &.last-build {
-                background: linear-gradient(to bottom, #336633 0%, #336633 51%, #114411 100%);
-                border: solid 1px #003300;
-            }
-        }
+    .select-character {
+        text-align: center;
 
         button > * {
             font-size: 1.5em;
+        }
+
+        .prebuilts {
+            display: flex;
+            margin: 1em 0;
+            button + button {
+                margin-left: 1em;
+            }
+
+            button {
+                flex: 1;
+                background: linear-gradient(to bottom, $darkbrown 0%, $darkbrown 51%, #662F22 100%);
+                color: #FFEEDD;
+                padding: .5em;
+                border-radius: .25em;
+                border: solid 1px #552200;
+
+                &.last-build {
+                    background: linear-gradient(to bottom, #336633 0%, #336633 51%, #114411 100%);
+                    border: solid 1px #003300;
+                }
+            }
+        }
+
+        hr {
+            border-top: $border;
+        }
+
+        button.create-build {
+            margin-top: 1em;
+            background: linear-gradient(to bottom, #DDCC33 0%, #DDCC33 51%, #AA9933 100%);
+            color: #AA4400;
+            padding: .5em;
+            border-radius: .25em;
+            border: solid 1px #998822;
+            font-weight: bold;
         }
     }
 

@@ -7,7 +7,8 @@
     "node": ">=6.10.3"
   },
   "scripts": {
-    "install": "webpack",
+    "install": "npm run build",
+    "build": "webpack",
     "start": "babel-node src/server/server.js",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive --compilers js:babel-register --colors --reporter dot",
     "cover:upload": "cat ./coverage/lcov.info && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",

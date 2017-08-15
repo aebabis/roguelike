@@ -29,6 +29,7 @@ module.exports = {
             target: {
                 image: path.resolve(__dirname, 'dist', 'images', 'spritesheet.png'),
                 css: [
+                    path.resolve(__dirname, 'dist', 'images', 'sprites.css'),
                     [path.resolve(__dirname, 'dist', 'images', 'spritesheet.json'), {
                         format: 'pixi_template'
                     }]

@@ -12,3 +12,10 @@ require('../../../../node_modules/normalize.css/normalize.css');
 LayoutBootstrapper.bootstrap().then(function(sharedData) {
     MenuFlowsController.start(sharedData);
 });
+
+// TODO: Determine how to incorporate generated spritesheet
+// CSS into bundle during build time.
+const spriteCss = document.createElement('link');
+spriteCss.rel = 'stylesheet';
+spriteCss.href = 'images/sprites.css';
+document.body.appendChild(spriteCss);

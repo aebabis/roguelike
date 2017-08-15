@@ -26,6 +26,7 @@
   - Non-default session store
   - Tell user they can't path onto an unvisited tile
   - Refactor pre-existing animations to use Animation class
+  - Phase in new sprite CSS
 - Low
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Weights for random dungeon rooms

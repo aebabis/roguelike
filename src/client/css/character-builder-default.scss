@@ -68,7 +68,16 @@
 
     .builder {
         padding: $margin;
-        border: $border;
+        display: flex;
+
+        > * {
+            flex: 1;
+        }
+
+        .selections {
+            border: $border;
+            padding: $margin;
+        }
 
         .items {
             h3 {
@@ -117,7 +126,7 @@
 
         .preview {
             border: $border;
-            margin-top: $margin;
+            margin-left: $margin;
             padding: $margin;
         }
     }

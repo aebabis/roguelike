@@ -271,77 +271,79 @@ angular.module('vog', [])
             <div class="section build-character" ng-if="isBuilderVisible()">
                 <button type="button" class="back" title="Return to select character" ng-click="showBuilder(false)"></button>
                 <div class="builder" ng-if="isBuilderVisible()">
-                    <div class="col">
-                        <div class="items">
-                            <h3>Character</h3>
-                            <label ng-repeat="(character, money) in CHARACTERS" class="icon" data-class-name="{{character}}" title="{{character | vogName}}" ng-class="{selected: selections.character === character}">
-                                <input type="radio" name="class" value="{{character}}" ng-model="selections.character" ng-click="fixAbilities()">
-                            </label>
+                    <div class="selections">
+                        <div class="col">
+                            <div class="items">
+                                <h3>Character</h3>
+                                <label ng-repeat="(character, money) in CHARACTERS" class="icon" data-class-name="{{character}}" title="{{character | vogName}}" ng-class="{selected: selections.character === character}">
+                                    <input type="radio" name="class" value="{{character}}" ng-model="selections.character" ng-click="fixAbilities()">
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="items">
-                            <h3>Melee Weapon</h3>
-                            <label ng-repeat="(weapon, cost) in MELEE_WEAPONS"
-                                class="icon" data-item-name="{{weapon}}"
-                                title="{{weapon | vogName}}"
-                                ng-class="{selected: selections.melee === weapon}"
-                                data-cost="{{cost}}">
-                                <input type="radio" name="melee" ng-value="weapon" ng-model="selections.melee">
-                            </label>
+                        <div class="col">
+                            <div class="items">
+                                <h3>Melee Weapon</h3>
+                                <label ng-repeat="(weapon, cost) in MELEE_WEAPONS"
+                                    class="icon" data-item-name="{{weapon}}"
+                                    title="{{weapon | vogName}}"
+                                    ng-class="{selected: selections.melee === weapon}"
+                                    data-cost="{{cost}}">
+                                    <input type="radio" name="melee" ng-value="weapon" ng-model="selections.melee">
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="items">
-                            <h3>Ranged Weapon</h3>
-                            <label class="icon" data-item-name="None" ng-class="{selected: selections.ranged === null}">
-                                <input type="radio" name="ranged" ng-value="null" title="None" ng-model="selections.ranged">
-                            </label>
-                            <label ng-repeat="(weapon, cost) in RANGED_WEAPONS"
-                                class="icon" data-item-name="{{weapon}}"
-                                title="{{weapon | vogName}}"
-                                ng-class="{selected: selections.ranged === weapon}"
-                                data-cost="{{cost}}">
-                                <input type="radio" name="ranged" ng-value="weapon" ng-model="selections.ranged">
-                            </label>
+                        <div class="col">
+                            <div class="items">
+                                <h3>Ranged Weapon</h3>
+                                <label class="icon" data-item-name="None" ng-class="{selected: selections.ranged === null}">
+                                    <input type="radio" name="ranged" ng-value="null" title="None" ng-model="selections.ranged">
+                                </label>
+                                <label ng-repeat="(weapon, cost) in RANGED_WEAPONS"
+                                    class="icon" data-item-name="{{weapon}}"
+                                    title="{{weapon | vogName}}"
+                                    ng-class="{selected: selections.ranged === weapon}"
+                                    data-cost="{{cost}}">
+                                    <input type="radio" name="ranged" ng-value="weapon" ng-model="selections.ranged">
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="items">
-                            <h3>Armor</h3>
-                            <label class="icon" data-item-name="None" title="None" ng-class="{selected: selections.armor === null}">
-                                <input type="radio" name="armor" ng-value="null" ng-model="selections.armor">
-                            </label>
-                            <label ng-repeat="(armor, cost) in ARMOR"
-                                class="icon" data-item-name="{{armor}}"
-                                title="{{armor | vogName}}"
-                                ng-class="{selected: selections.armor === armor}"
-                                data-cost="{{cost}}">
-                                <input type="radio" name="armor" ng-value="armor" ng-model="selections.armor">
-                            </label>
+                        <div class="col">
+                            <div class="items">
+                                <h3>Armor</h3>
+                                <label class="icon" data-item-name="None" title="None" ng-class="{selected: selections.armor === null}">
+                                    <input type="radio" name="armor" ng-value="null" ng-model="selections.armor">
+                                </label>
+                                <label ng-repeat="(armor, cost) in ARMOR"
+                                    class="icon" data-item-name="{{armor}}"
+                                    title="{{armor | vogName}}"
+                                    ng-class="{selected: selections.armor === armor}"
+                                    data-cost="{{cost}}">
+                                    <input type="radio" name="armor" ng-value="armor" ng-model="selections.armor">
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="items">
-                            <h3>Abilities</h3>
-                            <label ng-repeat="(ability, cost) in getPurchaseableAbilities()"
-                                class="icon" data-ability-name="{{ability}}"
-                                title="{{ability | vogName}}"
-                                ng-class="{selected: selections.abilities[ability]}"
-                                data-cost="{{cost}}">
-                                <input type="checkbox" class="icon" ng-model="selections.abilities[ability]"></input>
-                            </label>
+                        <div class="col">
+                            <div class="items">
+                                <h3>Abilities</h3>
+                                <label ng-repeat="(ability, cost) in getPurchaseableAbilities()"
+                                    class="icon" data-ability-name="{{ability}}"
+                                    title="{{ability | vogName}}"
+                                    ng-class="{selected: selections.abilities[ability]}"
+                                    data-cost="{{cost}}">
+                                    <input type="checkbox" class="icon" ng-model="selections.abilities[ability]"></input>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="items">
-                            <h3>Consumables</h3>
-                            <button ng-repeat="(consumable, cost) in CONSUMABLES"
-                                    type="button" class="icon"
-                                    data-item-name="{{getConsumableName(consumable)}}"
-                                    title="{{consumable | vogName}}"
-                                    ng-click="addToBackpack(consumable)"
-                                    data-cost="{{cost}}"></button>
+                        <div class="col">
+                            <div class="items">
+                                <h3>Consumables</h3>
+                                <button ng-repeat="(consumable, cost) in CONSUMABLES"
+                                        type="button" class="icon"
+                                        data-item-name="{{getConsumableName(consumable)}}"
+                                        title="{{consumable | vogName}}"
+                                        ng-click="addToBackpack(consumable)"
+                                        data-cost="{{cost}}"></button>
+                            </div>
                         </div>
                     </div>
                     <div class="preview">

@@ -19,7 +19,7 @@ describe('Creature', function() {
             dungeon.moveCreature(creature, 0, 0);
 
             expect(function() {
-                creature.canSee(dungeon, {})
+                creature.canSee(dungeon, {});
             }).to.throw();
         });
 

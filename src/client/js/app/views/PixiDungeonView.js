@@ -381,8 +381,6 @@ export default class PixiDungeonView {
         if(!rangedAttack) {
             return;
         }
-
-        rangeIndicator = this._rangeIndicator = new PIXI.Graphics();
         
         let color;
         if(typeof rangedAttack.isMovementAbility === 'function') {
@@ -393,10 +391,55 @@ export default class PixiDungeonView {
             color = 0x46465a;
         }
 
-        rangeIndicator.lineStyle(1, color, 1);
-        rangeIndicator.drawCircle(TILE_WIDTH / 2, TILE_WIDTH / 2, rangedAttack.getRange() * TILE_WIDTH);
-        
+        rangeIndicator = this._rangeIndicator = this._createRangeIndicator(color, rangedAttack.getRange());
+
         this.getEntityById(player.getId()).addChild(rangeIndicator);
+    }
+
+    _createRangeIndicator(color, range) {
+        const indicator = new PIXI.Graphics();
+        indicator.lineStyle(1, color, 1);
+
+        const targetabilityMap = {};
+        for(let x = -range - 2; x <= range + 2; x++) {
+            let col = targetabilityMap[x] = {};
+            for(let y = -range - 2; y <= range + 2; y++) {
+                col[y] = Math.sqrt(x * x + y * y) <= range;
+            }
+        }
+
+        let tile = {x: 0, y: Math.floor(range)}; // Drawing corner is arbitrarily upper-right of tile
+        const tiles = [];
+        do {
+            tiles.push(tile);
+            const {x, y} = tile;
+            if(y >= 0) {
+                // Try to increase x
+                if(targetabilityMap[x + 1][y] !== targetabilityMap[x + 1][y + 1]) {
+                    tile = {x: x + 1, y};
+                } else if(x >= 0) {
+                    tile = {x, y: y - 1};
+                } else {
+                    tile = {x, y: y + 1};
+                }
+            } else {
+                if(targetabilityMap[x][y] !== targetabilityMap[x][y + 1]) {
+                    tile = {x: x - 1, y};
+                } else if(x >= 0) {
+                    tile = {x, y: y - 1};
+                } else {
+                    tile = {x, y: y + 1};
+                }
+            }
+        } while(tile.x !== tiles[0].x || tile.y !== tiles[0].y);
+        tiles.push(tiles[0]);
+
+        indicator.drawPolygon(
+            tiles.map(({x, y}) => ({x: (x + 1) * TILE_WIDTH, y: (y + 1) * TILE_WIDTH}))
+                .map(({x, y}) => new PIXI.Point(x > 0 ? x + 1 : x, y <= 0 ? y - 1 : y))
+        );
+        
+        return indicator;
     }
 
     updateSelectedTileIndicator() {

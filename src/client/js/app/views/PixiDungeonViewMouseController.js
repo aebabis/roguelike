@@ -18,7 +18,7 @@ export default class PixiDungeonViewMouseController {
                 gameContainer.focus();
                 return;
             }
-            sharedData.pathTo(x, y);
+            sharedData.handleTileActivation(x, y);
         });
 
         graphicalDungeonView.onMouseOver(function(x, y) {

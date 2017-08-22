@@ -93,7 +93,7 @@ export default class SharedUIDataController extends Observable {
         return this._dungeon;
     }
 
-    pathTo(x, y) {
+    handleTileActivation(x, y) {
         var dungeon = this.getDungeon();
         var player = dungeon.getPlayableCharacter();
         var playerLocation = dungeon.getTile(player); // TODO: Ensure that tile isn't empty
@@ -118,7 +118,7 @@ export default class SharedUIDataController extends Observable {
                 moves = Pather.getMoveSequenceToward(dungeon, player, dungeon.getTile(x, y));
             }
         }
-        if(moves.length === 0) {
+        if(!moves || moves.length === 0) {
             this.dispatchUIEvent(new UIMessageEvent('No path to location'));
         } else {
             this._playerSawEnemyAct = false;
@@ -252,7 +252,7 @@ export default class SharedUIDataController extends Observable {
      * ability, or null if no ability is selected
      */
     getAbilityTarget() {
-        return this._abilityTargets && this._abilityTargets[0] || null;
+        return (this._abilityTargets && this._abilityTargets[0]) || null;
     }
 
     /**
@@ -321,7 +321,7 @@ export default class SharedUIDataController extends Observable {
      * item, or null if no item is selected
      */
     getItemTarget() {
-        return this._itemTargets && this._itemTargets[0] || null;
+        return (this._itemTargets && this._itemTargets[0]) || null;
     }
 
     /**
@@ -362,7 +362,7 @@ export default class SharedUIDataController extends Observable {
      * weapon, or null if no weapon is selected
      */
     getAttackTarget() {
-        return this._attackTargets && this._attackTargets[0] || null;
+        return (this._attackTargets && this._attackTargets[0]) || null;
     }
 
     /**

@@ -87,7 +87,7 @@ export default class InventoryView {
             const home = sharedData.getDungeon().getTiles(tile => tile.constructor.name === 'EntranceTile')[0];
             const x = home.getX();
             const y = home.getY();
-            sharedData.pathTo(x, y);
+            sharedData.handleTileActivation(x, y);
             focusGame();
         });
 

@@ -1,27 +1,28 @@
-import Entity from '../Entity.js';
-import Tile from '../../tiles/Tile.js';
+import Entity from '../Entity';
+import Tile from '../../tiles/Tile';
 
-import BuffAppliedEvent from '../../events/BuffAppliedEvent.js';
-import BuffEndedEvent from '../../events/BuffEndedEvent.js';
-import DeathEvent from '../../events/DeathEvent.js';
-import HitpointsEvent from '../../events/HitpointsEvent.js';
-import InventoryChangeEvent from '../../events/InventoryChangeEvent.js';
-import ItemDropEvent from '../../events/ItemDropEvent.js';
-import TakeItemEvent from '../../events/TakeItemEvent.js';
-import ZeroDamageEvent from '../../events/ZeroDamageEvent.js';
+import BuffAppliedEvent from '../../events/BuffAppliedEvent';
+import BuffEndedEvent from '../../events/BuffEndedEvent';
+import DeathEvent from '../../events/DeathEvent';
+import HitpointsEvent from '../../events/HitpointsEvent';
+import InventoryChangeEvent from '../../events/InventoryChangeEvent';
+import ItemDropEvent from '../../events/ItemDropEvent';
+import TakeItemEvent from '../../events/TakeItemEvent';
+import ZeroDamageEvent from '../../events/ZeroDamageEvent';
 
-import Inventory from './Inventory.js';
-import Weapon from '../weapons/Weapon.js';
+import Inventory from './Inventory';
+import Weapon from '../weapons/Weapon';
+import Armor from '../armor/Armor';
 
-import Ability from '../../abilities/Ability.js';
+import Ability from '../../abilities/Ability';
 
-import Buff from './buffs/Buff.js';
+import Buff from './buffs/Buff';
 
-import Strategy from './strategies/Strategy.js';
+import Strategy from './strategies/Strategy';
 
-import Items from '../Items.js';
-import Consumable from '../consumables/Consumable.js';
-import ItemComparator from './ItemComparator.js';
+import Items from '../Items';
+import Consumable from '../consumables/Consumable';
+import ItemComparator from './ItemComparator';
 
 const visionLookup = {};
 
@@ -92,7 +93,7 @@ export default class Creature extends Entity {
                 inventory.equipItem(item);
             } else if(item instanceof Weapon && item.getRange() > 1 && !inventory.getRangedWeapon()) {
                 inventory.equipItem(item);
-            } else if(item.getPhysicalReduction && !inventory.getArmor()) {
+            } else if(item instanceof Armor && !inventory.getArmor()) {
                 inventory.equipItem(item);
             } else {
                 inventory.addItem(item);

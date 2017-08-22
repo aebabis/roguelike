@@ -39,7 +39,9 @@ export default class PlayerLocationView {
         });
 
         this.getDom().innerHTML = `
-        <div role="presentation" class="portrait"></div>
+        <div role="presentation" class="portrait md-icon-wrap">
+            <div class="icon-${player.toString()}"></div>
+        </div>
         <div class="stat-block player">
             <h2>${name}</h2>
             <div class="bar hp" title="Hitpoints">
@@ -56,7 +58,7 @@ export default class PlayerLocationView {
             </div-->
         </div>
         <div class="items">
-            ${items.map((item)=>`<div class="sm-icon-wrap"><div class="icon-${item.name}">${item.name}</div></div>`).join('')}
+            ${items.map((item)=>`<div class="sm-icon-wrap"><div class="icon-${item.name}"></div></div>`).join('')}
         </div>`;
     }
 

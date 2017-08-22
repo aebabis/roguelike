@@ -7,6 +7,15 @@
     }
 }
 
+.md-icon-wrap {
+    width: 70px;
+    height: 70px;
+    > * {
+        transform: scale(.7);
+        margin: -15px;
+    }
+}
+
 .theme-default .gitrecht .icon {
     background-size: 100%;
 

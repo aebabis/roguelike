@@ -1,0 +1,10 @@
+{
+  "source": "./src/client/js/app",
+  "destination": "./doc",
+  "plugins": [{
+    "name": "esdoc-standard-plugin",
+    "option": {
+      "typeInference": {"enable": false}
+    }
+  }]
+}

@@ -44,6 +44,7 @@
   - Color UI when holding accelerator keys (items during ctrl)
   - Typescript
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
+  - Figure out why type inference doesn't work with ESDoc
 
 ## Content
   - Invisibility Spell

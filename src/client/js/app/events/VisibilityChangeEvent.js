@@ -31,7 +31,7 @@ export default class VisibilityChangeEvent extends GameEvent {
 
     /**
      * Gets the list of tiles that just became hidden to the creature
-     * @return {Array<{x, y}>}
+     * @return {Array<Object>}
      */
     getNewlyHiddenTileCoords() {
         return this._newlyHiddenTileCoords;
@@ -39,7 +39,7 @@ export default class VisibilityChangeEvent extends GameEvent {
 
     /**
      * Gets the list of tiles that just became visible to the creature
-     * @return {Array<{x, y}>}
+     * @return {Array<Object>}
      */
     getNewlyVisibleTileCoords() {
         return this._newlyVisibleTileCoords;

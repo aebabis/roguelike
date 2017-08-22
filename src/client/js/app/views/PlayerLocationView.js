@@ -1,9 +1,6 @@
-import Moves from '../entities/creatures/moves/Moves.js';
-
 export default class PlayerLocationView {
     /**
-     * @class PlayerLocationView
-     * @description View summarizing the tile where the player is standing
+     * View summarizing the tile where the player is standing
      */
     constructor(sharedData) {
         const dom = this._dom = document.createElement('div');

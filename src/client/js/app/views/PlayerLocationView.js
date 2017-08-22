@@ -33,9 +33,8 @@ export default class PlayerLocationView {
 
         const items = tile.getItems().map(function(item, index) {
             return {
-                name: item.getName(),
-                index: index,
-                takeable: false // TODO: Change button to div
+                name: item.toString(),
+                index: index
             };
         });
 
@@ -57,11 +56,7 @@ export default class PlayerLocationView {
             </div-->
         </div>
         <div class="items">
-            ${items.map((item)=>`
-                <button class="item"
-                    ${item.takeable ? '' : 'disabled'}
-                    data-index="${item.index}">${item.name}
-                </button>`)}
+            ${items.map((item)=>`<div class="sm-icon-wrap"><div class="icon-${item.name}">${item.name}</div></div>`).join('')}
         </div>`;
     }
 

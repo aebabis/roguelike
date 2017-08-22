@@ -1,3 +1,12 @@
+.sm-icon-wrap {
+    width: 50px;
+    height: 50px;
+    > * {
+        transform: scale(.5);
+        margin: -25px;
+    }
+}
+
 .theme-default .gitrecht .icon {
     background-size: 100%;
 

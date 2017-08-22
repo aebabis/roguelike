@@ -36,12 +36,16 @@ export default class MenuBar {
         const dom = this._dom = template();
         dom.querySelector('.newgame').addEventListener('click', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
-                sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(true), character));
+                const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(true), character);
+                sharedData.setDungeon(dungeon);
+                dungeon.resolveUntilBlocked();
             });
         });
         dom.querySelector('.restart').addEventListener('click', function() {
             new CharacterBuilder().getCharacter().then(function(character) {
-                sharedData.setDungeon(new RandomMapDungeonFactory().getRandomMap(getPrng(false), character));
+                const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(false), character)
+                sharedData.setDungeon(dungeon);
+                dungeon.resolveUntilBlocked();
             });
         });
         dom.querySelector('.load').addEventListener('click', function() {
@@ -55,6 +59,7 @@ export default class MenuBar {
                     }
                 });
                 sharedData.setDungeon(dungeon);
+                dungeon.resolveUntilBlocked();
             });
         });
         dom.querySelector('.upload').addEventListener('click', function() {

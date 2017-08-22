@@ -24,6 +24,7 @@ function newGame(sharedData) {
     new CharacterBuilder().getCharacter().then(function(character) {
         const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(localStorage.repeatPreviousLevel !== 'true'), character);
         sharedData.setDungeon(dungeon);
+        dungeon.resolveUntilBlocked();
     });
 }
 
@@ -36,6 +37,7 @@ export default {
                     handler: () => {
                         let dungeon = TutorialLayoutGenerator.generate();
                         sharedData.setDungeon(dungeon);
+                        dungeon.resolveUntilBlocked();
                         dungeon.addObserver(function(event) {
                             if(event instanceof GameEvents.VictoryEvent) {
                                 UserProgressService.markTutorialComplete();

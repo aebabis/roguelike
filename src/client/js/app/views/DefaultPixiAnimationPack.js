@@ -106,12 +106,19 @@ export default class DefaultPixiAnimationPack {
                 );
             }
         } else if(gameEvent instanceof GameEvents.AttackEvent) {
-            if(gameEvent.getWeapon().isMelee()) {
+            const weapon = gameEvent.getWeapon();
+            if(weapon.isMelee()) {
                 // TODO: Slash animation
             } else {
+                let spriteName;
+                if(weapon instanceof Weapons.Shortbow || weapon instanceof Weapons.Longbow) {
+                    spriteName = 'Arrow';
+                } else {
+                    spriteName = 'Bullet';
+                }
                 return new ProjectileAnimation(15, {
                     pixiDungeonView,
-                    sprite: buildSprite('Bullet'),
+                    sprite: buildSprite(spriteName),
                     dungeon,
                     attacker: gameEvent.getAttacker(),
                     target: gameEvent.getTarget(),

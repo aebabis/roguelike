@@ -1,8 +1,12 @@
 import Armor from './Armor.js';
 import DamageTypes from '../DamageTypes.js';
 
+/** Amount of protection provided by armor */
 var AMOUNT = 3;
 
+/**
+ * Provides a lot of protection against physical attacks
+ */
 export default class HeavyArmor extends Armor {
     /**
      * @override

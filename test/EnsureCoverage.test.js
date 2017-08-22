@@ -1,6 +1,18 @@
 global.Random = require('random-js');
 import { JSDOM } from '../node_modules/jsdom/lib/api.js';
 
+if (!Object.entries) {
+    Object.entries = function(obj) {
+        var ownProps = Object.keys( obj );
+        var i = ownProps.length;
+        var resArray = new Array(i); // preallocate the Array
+        while (i--) {
+            resArray[i] = [ownProps[i], obj[ownProps[i]]];
+        }
+        return resArray;
+    };
+}
+
 if (!Array.prototype.includes) {
     Array.prototype.includes = function(searchElement /*, fromIndex*/) {
         'use strict';

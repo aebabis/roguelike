@@ -43,6 +43,7 @@ export default class SharedUIDataController extends Observable {
         }
         this._targettedAbilityIndex = null;
         this._targettedItemIndex = null;
+        this._examineTarget = null;
 
         this.addObserver((event) => {
             // Whenever the player makes a move, cancel
@@ -154,10 +155,14 @@ export default class SharedUIDataController extends Observable {
         if(isNaN(x) || isNaN(y)) {
             throw new Error('x and y must be numbers');
         }
-        this._inspectedTile = Object.freeze({
-            x: +x,
-            y: +y
-        });
+        if(this.getDungeon().getTile(x, y)) {
+            this._inspectedTile = Object.freeze({
+                x: +x,
+                y: +y
+            });
+        } else {
+            throw new Error(`Illegal tile coordinates: ${x}, ${y}`);
+        }
         this._notifyObservers();
     }
 
@@ -247,7 +252,7 @@ export default class SharedUIDataController extends Observable {
      * ability, or null if no ability is selected
      */
     getAbilityTarget() {
-        return this._abilityTargets && this._abilityTargets[0];
+        return this._abilityTargets && this._abilityTargets[0] || null;
     }
 
     /**
@@ -316,7 +321,7 @@ export default class SharedUIDataController extends Observable {
      * item, or null if no item is selected
      */
     getItemTarget() {
-        return this._itemTargets && this._itemTargets[0];
+        return this._itemTargets && this._itemTargets[0] || null;
     }
 
     /**
@@ -357,7 +362,7 @@ export default class SharedUIDataController extends Observable {
      * weapon, or null if no weapon is selected
      */
     getAttackTarget() {
-        return this._attackTargets && this._attackTargets[0];
+        return this._attackTargets && this._attackTargets[0] || null;
     }
 
     /**

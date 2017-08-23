@@ -14,7 +14,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'Vaults of Git’recht'
+            title: 'Vaults of Git’recht',
+            favicon: './src/client/images/favicon.ico'
         }),
         new webpack.ProvidePlugin({
             Random: 'random-js'

@@ -47,6 +47,10 @@
             .icon {
                 visibility: hidden;
             }
+
+            .inventory-icon {
+                background-color: rgb(220, 170, 130);
+            }
         }
 
         &[data-is-targetting="true"] {

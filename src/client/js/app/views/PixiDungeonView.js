@@ -174,17 +174,6 @@ export default class PixiDungeonView {
         return this._creatureContainers[x][y];
     }
 
-    addCreatureSprite(sprite, x, y) {
-        this.getCreatureContainer(x, y).addChild(sprite);
-    }
-
-    removeCreatureSprite(x, y) {
-        const container = this.getCreatureContainer(x, y);
-        const sprite = container.children[0];
-        container.removeChild(sprite);
-        return sprite;
-    }
-
     getEntityById(id) {
         return this._entitySprites[id];
     }
@@ -193,6 +182,22 @@ export default class PixiDungeonView {
         const container = this._entitySprites[id];
         container.parent.removeChild(container);
         return container;
+    }
+
+    moveCreatureGroup(creature, x, y) {
+        const spritePack = this.getSpritePack();
+        const entitySprites = this._entitySprites;
+        let sprite = entitySprites[creature.getId()];
+        if(!sprite) {
+            sprite = entitySprites[creature.getId()] = spritePack.getSpriteStack(
+                [creature.constructor.name]
+            );
+            sprite.addChild(new PIXI.Graphics());
+        }
+        if(sprite.parent) {
+            sprite.parent.removeChild(sprite);
+        }
+        this.getCreatureContainer(x, y).addChild(sprite);
     }
 
     populateStage() {
@@ -232,17 +237,17 @@ export default class PixiDungeonView {
             tileGroups[x][y] = tileGroup;
 
             tileGroup
-            .on('click', () => {
-                this._clickHanders.forEach(handler => handler(x, y));
-            }).on('tap', () => {
-                this._clickHanders.forEach(handler => handler(x, y));
-            }).on('mouseover', () => {
-                setTimeout(() => { // Ensure mouseout fires first
-                    this._mouseOverHandlers.forEach(handler => handler(x, y));
+                .on('click', () => {
+                    this._clickHanders.forEach(handler => handler(x, y));
+                }).on('tap', () => {
+                    this._clickHanders.forEach(handler => handler(x, y));
+                }).on('mouseover', () => {
+                    setTimeout(() => { // Ensure mouseout fires first
+                        this._mouseOverHandlers.forEach(handler => handler(x, y));
+                    });
+                }).on('mouseout', () => {
+                    this._mouseOutHandlers.forEach(handler => handler(x, y));
                 });
-            }).on('mouseout', () => {
-                this._mouseOutHandlers.forEach(handler => handler(x, y));
-            });
 
             tileLayer.addChild(tileGroup);
 
@@ -300,23 +305,9 @@ export default class PixiDungeonView {
 
     updateCreatureLocations() {
         const dungeon = this._sharedData.getDungeon();
-        const spritePack = this.getSpritePack();
-        const entitySprites = this._entitySprites; // TODO: Getter
         dungeon.getCreatures().forEach((creature) => {
-            let sprite = entitySprites[creature.getId()];
-            if(!sprite) {
-                sprite = entitySprites[creature.getId()] = spritePack.getSpriteStack(
-                    [creature.constructor.name]
-                );
-                sprite.addChild(new PIXI.Graphics());
-            }
-            if(sprite.parent) {
-                sprite.parent.removeChild(sprite);
-            }
-            if(!creature.isDead()) {
-                const tile = dungeon.getTile(creature);
-                this.getCreatureContainer(tile.getX(), tile.getY()).addChild(sprite);
-            }
+            const tile = dungeon.getTile(creature);
+            this.moveCreatureGroup(creature, tile.getX(), tile.getY());
         });
     }
 

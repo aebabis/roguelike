@@ -75,11 +75,7 @@ export default class DefaultPixiAnimationPack {
                             y: {start: -(dy * pixiDungeonView.getTileWidth()), end: 0}
                         },
                         onStart: () => {
-                            pixiDungeonView.addCreatureSprite(
-                                pixiDungeonView.removeEntityById(creature.getId()),
-                                to.x,
-                                to.y
-                            );
+                            pixiDungeonView.moveCreatureGroup(creature, to.x, to.y);
                             [gameEvent.getFromCoords(), gameEvent.getToCoords()].forEach(({x, y}) =>
                                 pixiDungeonView.getTileGroup(x, y).update()
                             );

@@ -1,6 +1,7 @@
-import Armor from '../entities/armor/Armor.js';
-import Weapon from '../entities/weapons/Weapon.js';
-import TheTreasure from '../entities/TheTreasure.js';
+import Armor from '../entities/armor/Armor';
+import Weapon from '../entities/weapons/Weapon';
+import TheTreasure from '../entities/TheTreasure';
+import AbilityConsumable from '../entities/consumables/AbilityConsumable';
 
 const buildDom = str => {
     const div = document.createElement('div');
@@ -24,7 +25,10 @@ export default lib = {
                     data-is-targetting="${!!isTargetting}"
                     title="${item.getFriendlyDescription()}">
                     <div class="inventory-icon tiny-icon-wrap">
-                        <div class="icon-${item.toString()}"></div>
+                        ${(item instanceof AbilityConsumable) ?
+                            `<div class="icon-Scroll"></div><div class="icon-${item.getAbility().toString()}"></div>` :
+                            `<div class="icon-${item.toString()}"></div>`
+                        }
                     </div>
                     <div class="info">
                         <span class="name">${item.getName()}</span>

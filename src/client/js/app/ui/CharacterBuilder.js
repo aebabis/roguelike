@@ -157,7 +157,11 @@ angular.module('vog', [])
         };
 
         $scope.getConsumableName = function(consumable) {
-            return consumable in Abilities ? `${consumable}_Consumable` : consumable;
+            return $scope.isAbilityConsumable(consumable) ? `${consumable}_Consumable` : consumable;
+        };
+
+        $scope.isAbilityConsumable = function(consumable) {
+            return consumable in Abilities;
         };
 
         $scope.getPurchaseableAbilities = function() {
@@ -351,7 +355,9 @@ angular.module('vog', [])
                                             title="{{consumable | vogName}}"
                                             ng-click="addToBackpack(consumable)"
                                             data-cost="{{cost}}">
-                                        <div class="icon-{{getConsumableName(consumable)}}"></div>
+                                        <div ng-if="isAbilityConsumable(consumable)" class="icon-Scroll"></div>
+                                        <div ng-if="isAbilityConsumable(consumable)" class="icon-{{consumable}}"></div>
+                                        <div ng-if="!isAbilityConsumable(consumable)" class="icon-{{consumable}}"></div>
                                     </button>
                                 </div>
                             </div>

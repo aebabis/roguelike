@@ -1,3 +1,14 @@
+.tiny-icon-wrap,
+.sm-icon-wrap,
+.md-icon-wrap {
+    position: relative;
+    > * {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
 .tiny-icon-wrap {
     width: 32px;
     height: 32px;

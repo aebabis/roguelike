@@ -54,13 +54,16 @@ export default class AbilitiesView {
         <h2>Abilities</h2>
         <div class="wrap">
             ${player.getAbilities().map((item, index)=>
-                    `<button class="ability" title="${item.getDescription()}" data-index="${index}" data-targetting="${targettedIndex === index}" data-name="${item.getName()}">
-                        <div class="inner icon" data-ability-name="${item.toString()}">
-                            <span class="name">${item.getName()}</span>
-                            <span class="cost">${item.getManaCost()}<span class="screenreader"> mana</span></span>
-                            <span class="hotkey">${index + 1}</span>
-                        </div>
-                    </button>`).join('')}
+        `<button class="ability" title="${item.getDescription()}" data-index="${index}" data-targetting="${targettedIndex === index}" data-name="${item.getName()}">
+            <div class="inner">
+                <div class="sm-icon-wrap">
+                    <div class="icon-${item.toString()}"></div>
+                </div>
+                <span class="name">${item.getName()}</span>
+                <span class="cost">${item.getManaCost()}<span class="screenreader"> mana</span></span>
+                <span class="hotkey">${index + 1}</span>
+            </div>
+        </button>`).join('')}
         </div>`;
     }
 

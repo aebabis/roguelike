@@ -17,24 +17,26 @@ export default lib = {
             return lib.getArmorDom(item, index);
         } else if(item){
             return buildDom(
-            `<li class="slot item"
-                 tabindex="0"
-                 data-index="${index}"
-                 data-item="${item.toString()}"
-                 data-is-targetting="${!!isTargetting}"
-                 title="${item.getFriendlyDescription()}">
-                <div class="icon" data-item-name="${item.toString()}"></div>
-                <div class="info">
-                    <span class="name">${item.getName()}</span>
-                    <span class="desc">${item.getFriendlyDescription()}</span>
-                </div>
-                ${(isNaN(index) || item instanceof TheTreasure) ?
-                    '<button class="home" type="button" title="Walk to the exit" accesskey="h">&#127968;</button>' :
-                    `<button class="trash" data-index="${index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
+                `<li class="slot item"
+                    tabindex="0"
+                    data-index="${index}"
+                    data-item="${item.toString()}"
+                    data-is-targetting="${!!isTargetting}"
+                    title="${item.getFriendlyDescription()}">
+                    <div class="inventory-icon tiny-icon-wrap">
+                        <div class="icon-${item.toString()}"></div>
+                    </div>
+                    <div class="info">
+                        <span class="name">${item.getName()}</span>
+                        <span class="desc">${item.getFriendlyDescription()}</span>
+                    </div>
+                    ${(isNaN(index) || item instanceof TheTreasure) ?
+        '<button class="home" type="button" title="Walk to the exit" accesskey="h">&#127968;</button>' :
+        `<button class="trash" data-index="${index}" type="button" title="Destroy this item. Forever">&#128465;</button>`}
             </li>`);
         } else {
             return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
-                <div class="icon"></div>
+                <div class="inventory-icon"></div>
                 <div class="info">(Empty slot)</div>
             </li>`);
         }
@@ -49,7 +51,9 @@ export default lib = {
             };
             return buildDom(`
                 <li class="slot item weapon" tabindex="0" data-index="${index}" data-item="${weapon.toString()}">
-                    <div class="icon" data-item-name="${weapon.toString()}"></div>
+                    <div class="inventory-icon tiny-icon-wrap">
+                        <div class="icon-${weapon.toString()}"></div>
+                    </div>
                     <div class="info">
                         <div class="name">${data.name}</div>
                         <div class="desc">
@@ -62,7 +66,7 @@ export default lib = {
             `);
         } else {
             return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
-                <div class="icon"></div>
+                <div class="inventory-icon"></div>
                 <div class="info">(Empty weapon slot)</div>
             </li>`);
         }
@@ -77,7 +81,9 @@ export default lib = {
             };
             return buildDom(`
                 <li class="slot item armor" tabindex="0" data-index="${index}" data-item="${armor.toString()}">
-                    <div class="icon" data-item-name="${armor.toString()}"></div>
+                    <div class="inventory-icon tiny-icon-wrap">
+                        <div class="icon-${armor.toString()}"></div>
+                    </div>
                     <div class="info">
                         <div class="name">${data.name}</div>
                         <!--div class="stats">
@@ -90,7 +96,7 @@ export default lib = {
             `);
         } else {
             return buildDom(`<li class="slot empty" tabindex="0" data-index="${index}">
-                <div class="icon"></div>
+                <div class="inventory-icon"></div>
                 <div class="info">(Empty armor slot)</div>
             </li>`);
         }

@@ -30,12 +30,7 @@
             border-radius: .3em;
             width: 6em;
             height: 6em;
-            background-image: url(../images/small/ThisIsAThing.png);
             background-color: black;
-            background-size: 90%;
-            background-position-x: center;
-            background-position-y: .6em;
-            background-repeat: no-repeat;
         }
 
         .name {
@@ -45,6 +40,11 @@
             display: block;
             color: white;
             font-weight: bold;
+        }
+
+        .sm-icon-wrap {
+            position: absolute;
+            margin: 4px;
         }
 
         .cost {

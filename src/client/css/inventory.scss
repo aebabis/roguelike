@@ -57,11 +57,11 @@
             pointer-events: none;
         }
 
-        .icon {
+        .inventory-icon {
             background-color: #c7573c;
         }
 
-        .icon, .info {
+        .inventory-icon, .info {
             display: inline-block;
             vertical-align: top;
         }
@@ -81,7 +81,7 @@
             overflow: hidden;
         }
 
-        .icon {
+        .inventory-icon {
             margin-right: .2em;
             width: 3em;
             height: 3em;

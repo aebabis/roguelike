@@ -7,8 +7,9 @@ import DamageTypes from '../entities/DamageTypes.js';
 
 import Animation from './animations/Animation';
 import AnimationGroup from './animations/AnimationGroup';
-import TransitionAnimation from './animations/TransitionAnimation';
+import FloatingTextAnimation from './animations/FloatingTextAnimation';
 import ProjectileAnimation from './animations/ProjectileAnimation';
+import TransitionAnimation from './animations/TransitionAnimation';
 
 const PIXI = require('pixi.js');
 const TextureCache = (PIXI.utils.TextureCache);
@@ -226,37 +227,24 @@ export default class DefaultPixiAnimationPack {
             const tile = dungeon.getTile(creature);
             const x = tile.getX();
             const y = tile.getY();
-            const TIME = 40;
+
+            // const hpBarWidth = maxBarWidth * Math.max(0, creature.getCurrentHP()) / creature.getBaseHP();
+            // const actionBarWidth = maxBarWidth * creature.getTimeToNextMove() / creature.getSpeed();
 
             if(amount < 0) {
-                const text = new PIXI.Text(amount, {
+                const isShifted = (cause instanceof Weapons.FrostDagger || cause instanceof Weapons.LightningRod) &&
+                        (damageType === DamageTypes.MELEE_PHYSICAL || damageType === DamageTypes.RANGED_PHYSICAL);
+                return new FloatingTextAnimation(pixiDungeonView, new PIXI.Text(amount, {
                     fontFamily: 'Arial',
                     fontSize: 20,
                     fill: DAMAGE_COLORS[damageType],
                     stroke: DAMAGE_OUTLINE_COLORS[damageType],
                     strokeThickness: 2
+                }), {
+                    x,
+                    y,
+                    xOffset: isShifted ? .4 : 0
                 });
-                const isShifted = (cause instanceof Weapons.FrostDagger || cause instanceof Weapons.LightningRod) &&
-                        (damageType === DamageTypes.MELEE_PHYSICAL || damageType === DamageTypes.RANGED_PHYSICAL);
-                const xShift = isShifted ? .4 : 0;
-                text.x = (x + .5 - xShift) * TILE_WIDTH;
-                const startY = (y + .5) * TILE_WIDTH;
-                const endY = y * TILE_WIDTH;
-                text.y = startY;
-                pixiDungeonView.addParticle(text);
-
-                return {
-                    start: () => pixiDungeonView.addParticle,
-                    advance: (delta) => {
-                        cumulativeTime += delta;
-                        if(cumulativeTime > TIME) {
-                            text.parent.removeChild(text);
-                        } else {
-                            text.y = (endY - startY) * Easings.linear(cumulativeTime / TIME) + startY;
-                            return true;
-                        }
-                    }
-                };
             }
         } else if(gameEvent instanceof GameEvents.VisibilityChangeEvent) {
             const newlyHiddenTileCoords = gameEvent.getNewlyHiddenTileCoords();

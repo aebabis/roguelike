@@ -1,7 +1,22 @@
+const interpolate = (start, end, proportion) => {
+    if(typeof start === 'number' && typeof end === 'number') {
+        return start + proportion * (end - start);
+    }
+    throw new Error(`Cannot interpolate between ${start} and ${end}`);
+};
+
+const Easings = {
+    linear: t => t,
+    easeIn: (t) => t*t
+};
+
 export default class Animation {
     constructor(duration = 30) {
         this._duration = duration;
     }
+
+    static get interpolate() { return interpolate; }
+    static get Easings() { return Easings; }
 
     start() {
         this._hasStarted = true;

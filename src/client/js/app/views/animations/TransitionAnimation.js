@@ -1,17 +1,5 @@
 import Animation from './Animation';
 
-const interpolate = (start, end, proportion) => {
-    if(typeof start === 'number' && typeof end === 'number') {
-        return start + proportion * (end - start);
-    }
-    throw new Error(`Cannot interpolate between ${start} and ${end}`);
-};
-
-const Easings = {
-    linear: t => t,
-    easeIn: (t) => t*t
-};
-
 export default class TransitionAnimation extends Animation {
     constructor(duration = 30, {
         group,
@@ -27,8 +15,6 @@ export default class TransitionAnimation extends Animation {
         this.onStart = onStart;
         this.onEnd = onEnd;
     }
-
-    static get Easings() { return Easings; }
 
     start() {
         if(typeof this._group === 'function') {
@@ -53,7 +39,7 @@ export default class TransitionAnimation extends Animation {
         const easing = this._easing;
         const displacement = easing(proportion);
         Object.entries(properties).forEach(([key, {start, end}]) => {
-            group[key] = interpolate(start, end, displacement);
+            group[key] = Animation.interpolate(start, end, displacement);
         });
     }
 }

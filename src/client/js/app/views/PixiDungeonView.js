@@ -17,6 +17,9 @@ const PIXI = require('pixi.js');
 const TILE_WIDTH = 50;
 const GAP_WIDTH = 0;
 
+const STAT_BAR_PADDING = 4;
+const STAT_BAR_HEIGHT = 3;
+
 const NEUTRAL_COLOR = 0x46465a;
 const ATTACK_MOVE_COLOR = 0x8b0000;
 const ITEM_MOVE_COLOR = 0x7F00FF;
@@ -136,7 +139,6 @@ export default class PixiDungeonView {
             } else if(event instanceof GameEvents.TakeItemEvent || event instanceof GameEvents.ItemDropEvent) {
                 this.updateItems();
             }
-            this.updateStatBars();
             this.updateRangeIndicator();
             this.updateSelectedTileIndicator();
         });
@@ -192,6 +194,9 @@ export default class PixiDungeonView {
             sprite = entitySprites[creature.getId()] = spritePack.getSpriteStack(
                 [creature.constructor.name]
             );
+            // HP Bar
+            sprite.addChild(new PIXI.Graphics());
+            // Speed Bar
             sprite.addChild(new PIXI.Graphics());
         }
         if(sprite.parent) {
@@ -311,45 +316,47 @@ export default class PixiDungeonView {
         });
     }
 
-    updateStatBars() {
-        const dungeon = this._sharedData.getDungeon();
-        const player = dungeon.getPlayableCharacter();
-        const entitySprites = this._entitySprites; // TODO: Getter
-        
-        dungeon.getCreatures().forEach(function(creature) {
-            const sprite = entitySprites[creature.getId()];
-            if(sprite) {
-                const creatureWidth = sprite.children[0].width;
-                const statGraphics = sprite.children[1];
+    setCreatureHpBarWidth(creatureId, proportion) {
+        const sprite = this._entitySprites[creatureId];
+        const creatureWidth = sprite.children[0].width;
+        const graphics = sprite.children[1];
 
-                statGraphics.clear();
-                const padding = 4;
-                const maxBarWidth = creatureWidth - 2 * padding;
-                const barHeight = 3;
+        graphics.clear();
+        const maxBarWidth = creatureWidth - 2 * STAT_BAR_PADDING;
+        const barWidth = maxBarWidth * proportion;
 
-                const hpBarWidth = maxBarWidth * Math.max(0, creature.getCurrentHP()) / creature.getBaseHP();
-                const actionBarWidth = maxBarWidth * creature.getTimeToNextMove() / creature.getSpeed();
+        graphics.x = STAT_BAR_PADDING;
+        graphics.y = STAT_BAR_PADDING;
 
-                statGraphics.x = padding;
-                statGraphics.y = padding;
+        graphics.lineStyle(1, 0x660000);
+        graphics.drawRect(0, 0, barWidth, STAT_BAR_HEIGHT);
+        graphics.beginFill(0x8f0222);
+        graphics.drawRect(1, 1, barWidth - 1, STAT_BAR_HEIGHT);
+        graphics.endFill();
+    }
 
-                statGraphics.lineStyle(1, 0x660000);
-                statGraphics.drawRect(0, 0, hpBarWidth, barHeight);
-                statGraphics.beginFill(0x8f0222);
-                statGraphics.drawRect(1, 1, hpBarWidth - 1, barHeight);
-                statGraphics.endFill();
+    setCreatureSpeedBarWidth(creatureId, proportion) {
+        const sprite = this._entitySprites[creatureId];
+        const creatureWidth = sprite.children[0].width;
+        const graphics = sprite.children[2];
 
-                if(creature === player) {
-                    return;
-                }
+        graphics.clear();
 
-                statGraphics.lineStyle(1, 0xCC7000);
-                statGraphics.drawRect(0, barHeight + 2, actionBarWidth, barHeight);
-                statGraphics.beginFill(0xdddd00);
-                statGraphics.drawRect(1, barHeight + 3, actionBarWidth - 1, barHeight - 1);
-                statGraphics.endFill();
-            }
-        });
+        if(creatureId === this._sharedData.getDungeon().getPlayableCharacter().getId()) {
+            return;
+        }
+
+        const maxBarWidth = creatureWidth - 2 * STAT_BAR_PADDING;
+        const barWidth = maxBarWidth * proportion;
+
+        graphics.x = STAT_BAR_PADDING;
+        graphics.y = STAT_BAR_PADDING;
+
+        graphics.lineStyle(1, 0xCC7000);
+        graphics.drawRect(0, STAT_BAR_HEIGHT + 2, barWidth, STAT_BAR_HEIGHT);
+        graphics.beginFill(0xdddd00);
+        graphics.drawRect(1, STAT_BAR_HEIGHT + 3, barWidth - 1, STAT_BAR_HEIGHT - 1);
+        graphics.endFill();
     }
 
     updateRangeIndicator() {

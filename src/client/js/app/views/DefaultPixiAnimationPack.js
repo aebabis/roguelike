@@ -228,13 +228,19 @@ export default class DefaultPixiAnimationPack {
             const x = tile.getX();
             const y = tile.getY();
 
-            // const hpBarWidth = maxBarWidth * Math.max(0, creature.getCurrentHP()) / creature.getBaseHP();
-            // const actionBarWidth = maxBarWidth * creature.getTimeToNextMove() / creature.getSpeed();
+            const hpAnimation = new Animation(0);
+            hpAnimation.onStart = () => pixiDungeonView.setCreatureHpBarWidth(
+                creature.getId(),
+                Math.max(0, creature.getCurrentHP()) / creature.getBaseHP()
+            );
+            hpAnimation.advance = () => {};
+
+            const animations = [hpAnimation];
 
             if(amount < 0) {
                 const isShifted = (cause instanceof Weapons.FrostDagger || cause instanceof Weapons.LightningRod) &&
                         (damageType === DamageTypes.MELEE_PHYSICAL || damageType === DamageTypes.RANGED_PHYSICAL);
-                return new FloatingTextAnimation(pixiDungeonView, new PIXI.Text(amount, {
+                animations.push(new FloatingTextAnimation(pixiDungeonView, new PIXI.Text(amount, {
                     fontFamily: 'Arial',
                     fontSize: 20,
                     fill: DAMAGE_COLORS[damageType],
@@ -244,8 +250,10 @@ export default class DefaultPixiAnimationPack {
                     x,
                     y,
                     xOffset: isShifted ? .4 : 0
-                });
+                }));
             }
+
+            return new AnimationGroup(animations);
         } else if(gameEvent instanceof GameEvents.VisibilityChangeEvent) {
             const newlyHiddenTileCoords = gameEvent.getNewlyHiddenTileCoords();
             const newlyVisibleTileCoords = gameEvent.getNewlyVisibleTileCoords();
@@ -273,6 +281,18 @@ export default class DefaultPixiAnimationPack {
                 });
             };
             return animation;
+        } else if(gameEvent instanceof GameEvents.HumanToMoveEvent) {
+            return new AnimationGroup(
+                dungeon.getCreatures().map(creature => {
+                    const speedAnimation = new Animation(0);
+                    speedAnimation.onStart = () => pixiDungeonView.setCreatureSpeedBarWidth(
+                        creature.getId(),
+                        creature.getTimeToNextMove() / creature.getSpeed()
+                    );
+                    speedAnimation.advance = () => {};
+                    return speedAnimation;
+                })
+            );
         }
     }
 }

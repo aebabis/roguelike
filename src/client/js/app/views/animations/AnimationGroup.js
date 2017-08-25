@@ -15,16 +15,23 @@ export default class AnimationGroup extends Animation {
         const animations = this._animations;
         return animations.length === 0 || animations[0].hasStarted();
     }
-
+    
     advance() {
     }
 
     onTick(delta) {
-        this._animations.forEach(animation => animation.onTick(delta));
+        this._animations.forEach(animation => {
+            if(!animation.hasEnded()) {
+                animation.onTick(delta);
+            }
+        });
     }
 
     hasEnded() {
         const animations = this._animations;
-        return animations.length === 0 || animations[0].hasEnded();
+        return animations.reduce(
+            (prev, animation) => prev && animation.hasEnded(),
+            true
+        );
     }
 }

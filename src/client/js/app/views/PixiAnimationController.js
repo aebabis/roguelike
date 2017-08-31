@@ -18,6 +18,9 @@ export default class PixiAnimationController {
 
         pixiApp.ticker.add((delta) => {
             const dungeon = sharedData.getDungeon();
+            if(!dungeon) {
+                return;
+            }
             const simTime = this._simTime;
             const animations = this._currentAnimations;
             const queue = this._animationQueue;

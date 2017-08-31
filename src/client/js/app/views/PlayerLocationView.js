@@ -13,6 +13,9 @@ export default class PlayerLocationView {
     update() {
         const sharedData = this._sharedData;
         const dungeon = sharedData.getDungeon();
+        if(!dungeon) {
+            return;
+        }
         const player = dungeon.getPlayableCharacter();
         const tile = dungeon.getTile(player);
 

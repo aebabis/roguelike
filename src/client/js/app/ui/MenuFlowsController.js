@@ -38,7 +38,7 @@ export default {
                         let dungeon = TutorialLayoutGenerator.generate();
                         sharedData.setDungeon(dungeon);
                         dungeon.resolveUntilBlocked();
-                        dungeon.addObserver(function(event) {
+                        dungeon.getEventStream().subscribe(function(event) {
                             if(event instanceof GameEvents.VictoryEvent) {
                                 UserProgressService.markTutorialComplete();
                             }

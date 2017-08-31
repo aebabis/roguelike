@@ -1,4 +1,3 @@
-import Observable from '../util/Observable.js';
 import Tile from '../tiles/Tile.js';
 import Creature from '../entities/creatures/Creature.js';
 import Move from '../entities/creatures/moves/Move.js';
@@ -13,19 +12,20 @@ import HumanMovingEvent from '../events/HumanMovingEvent.js';
 
 import DebugConsole from '../util/DebugConsole.js';
 
+import Rx from 'rxjs/Rx';
+
 /**
  * An explorable dungeon in the game. Contains a grid of tiles
  * and the high-level logic for advancing the game state. Optionally
  * contains a set of victory and defeat conditions
  */
-export default class Dungeon extends Observable {
+export default class Dungeon {
     /**
      * Initializes an empty dungeon with the specified width
      * @param {number} width - The number of columns in the dungeon
      * @param {number} height - The number of rows in the dungeon
      */
     constructor(width, height) {
-        super(width, height);
         if(isNaN(width) || isNaN(height)) {
             throw new Error('`width` and `height` must be numbers');
         }
@@ -41,6 +41,7 @@ export default class Dungeon extends Observable {
             }
         }
         this._timestep = 0;
+        this._eventStream = new Rx.ReplaySubject();
     }
 
     /**
@@ -210,7 +211,7 @@ export default class Dungeon extends Observable {
             this._player = creature;
             creature._updateVisionMap(this); // TODO: Figure out a way for player to know to update itself
         }
-        this._notifyObservers();
+        this._eventStream.next(); // TODO: Make a CreatureMoved event
     }
 
     /**
@@ -261,7 +262,7 @@ export default class Dungeon extends Observable {
         } else {
             this._grid[param1][param2].removeCreature();
         }
-        this._notifyObservers();
+        this._eventStream.next();
     }
 
     /**
@@ -271,7 +272,7 @@ export default class Dungeon extends Observable {
      */
     fireEvent(event) {
         // TODO: Should this be a separate subscriber list?
-        this._notifyObservers(event);
+        this._eventStream.next(event);
         this.getCreatures().forEach((creature) => {
             if(event.isSeenBy(this, creature)) {
                 creature.observeEvent(this, event);
@@ -441,5 +442,9 @@ export default class Dungeon extends Observable {
         for(let i = 0; i < count; i++) {
             this.resolveNextStep();
         }
+    }
+
+    getEventStream() {
+        return this._eventStream;
     }
 }

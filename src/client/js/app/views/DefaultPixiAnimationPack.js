@@ -293,6 +293,20 @@ export default class DefaultPixiAnimationPack {
                     return speedAnimation;
                 })
             );
+        } else if(gameEvent instanceof GameEvents.SpawnEvent) {
+            // TODO: Also place creature from here rather than handling it entirely in the PixiDungeonView
+            const creature = gameEvent.getCreature();
+
+            const hpAnimation = new Animation(0);
+            hpAnimation.onStart = () => pixiDungeonView.setCreatureHpBarWidth(
+                creature.getId(),
+                Math.max(0, creature.getCurrentHP()) / creature.getBaseHP()
+            );
+            hpAnimation.advance = () => {};
+
+            const animations = [hpAnimation];
+
+            return new AnimationGroup(animations);
         }
     }
 }

@@ -102,10 +102,14 @@ export default class InventoryView {
     }
 
     redraw() {
+        const dungeon = this._sharedData.getDungeon();
+        if(!dungeon) {
+            return;
+        }
         const dom = this._dom;
         dom.innerHTML = '';
         dom.appendChild(
-            getInventoryDom(this._sharedData.getDungeon().getPlayableCharacter(), this._sharedData.getTargettedItem())
+            getInventoryDom(dungeon.getPlayableCharacter(), this._sharedData.getTargettedItem())
         );
     }
 

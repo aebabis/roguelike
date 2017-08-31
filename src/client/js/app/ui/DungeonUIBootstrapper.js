@@ -8,7 +8,6 @@ import GraphicalViewKeyboardController from '../controllers/GraphicalViewKeyboar
 import PixiDungeonViewMouseController from '../views/PixiDungeonViewMouseController.js';
 
 export default function(sharedData) {
-    //const mapView = new GraphicalDungeonView(sharedData);
     const mapView = new PixiDungeonView(sharedData);
     const eventLogView = new EventLogView(sharedData);
     const inventoryView = new InventoryView(sharedData);
@@ -35,6 +34,4 @@ export default function(sharedData) {
     container.appendChild(abilitiesView.getDom());
     sidebarInner.appendChild(inventoryView.getDom());
     sidebarInner.appendChild(eventLogView.getDom());
-
-    setTimeout(function() { sharedData.getDungeon().resolveUntilBlocked(); });
 }

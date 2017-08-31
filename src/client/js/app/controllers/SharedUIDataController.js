@@ -55,6 +55,9 @@ export default class SharedUIDataController extends Observable {
             }
 
             const dungeon = this.getDungeon();
+            if(!dungeon) {
+                return;
+            }
             const player = dungeon.getPlayableCharacter();
             if(event instanceof GameEvent &&
                     event.getCreature &&
@@ -75,12 +78,14 @@ export default class SharedUIDataController extends Observable {
             throw new Error('Must pass a dungeon');
         }
         // Clean up old observer
-        if(typeof this._dungeonObserver === 'function') {
-            this._dungeon.removeObserver(this._dungeonObserver);
+        if(typeof this._unsubscribe === 'function') {
+            this._unsubscribe();
         }
         // Chain observer so that UI doesn't need to store direct
         // reference to dungeon
-        dungeon.addObserver(this._dungeonObserver = (event)=>this._notifyObservers(event));
+        this._unsubscribe = dungeon.getEventStream().subscribe(event => {
+            this._notifyObservers(event);
+        });
         this._dungeon = dungeon;
         this._notifyObservers(dungeon);
     }

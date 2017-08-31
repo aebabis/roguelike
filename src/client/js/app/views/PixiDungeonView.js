@@ -115,7 +115,7 @@ export default class PixiDungeonView {
         );
 
         sharedData.addObserver((event) => {
-            if(!event) {
+            if(!event || !sharedData.getDungeon()) {
                 return; // TODO: Make mouse events have an event type?
             }
             if(event instanceof Dungeon){
@@ -128,6 +128,9 @@ export default class PixiDungeonView {
         });
 
         sharedData.addObserver((event) => {
+            if(!sharedData.getDungeon()) {
+                return;
+            }
             if(event instanceof GameEvents.SpawnEvent) {
                 this.updateCreatureLocations();
                 this._tileGroups[event.getX()][event.getY()].update();
@@ -310,6 +313,9 @@ export default class PixiDungeonView {
 
     updateCreatureLocations() {
         const dungeon = this._sharedData.getDungeon();
+        if(!dungeon) {
+            return;
+        }
         dungeon.getCreatures().forEach((creature) => {
             const tile = dungeon.getTile(creature);
             this.moveCreatureGroup(creature, tile.getX(), tile.getY());

@@ -15,6 +15,9 @@ export default class GraphicalViewKeyboardController {
         // Arrow key handler
         document.querySelector('section.game').addEventListener('keydown', function(event) {
             const dungeon = sharedData.getDungeon();
+            if(!dungeon) {
+                return;
+            }
             //var active = document.activeElement;
             const code = event.keyCode;
 

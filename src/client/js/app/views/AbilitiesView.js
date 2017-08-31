@@ -48,6 +48,9 @@ export default class AbilitiesView {
     update() {
         const sharedData = this._sharedData;
         const dungeon = sharedData.getDungeon();
+        if(!dungeon) {
+            return;
+        }
         const player = dungeon.getPlayableCharacter();
         const targettedIndex = sharedData.getTargettedAbility();
         this.getDom().innerHTML = `

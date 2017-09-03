@@ -205,7 +205,6 @@ export default class PixiDungeonView {
         const spritePack = this.getSpritePack();
         const entitySprites = this._entitySprites;
         let sprite = entitySprites[item.getId()];
-        console.log(item.getId());
         if(!sprite) {
             sprite = entitySprites[item.getId()] = spritePack.getItemSprite(
                 item
@@ -319,6 +318,9 @@ export default class PixiDungeonView {
 
     setCreatureHpBarWidth(creatureId, proportion) {
         const sprite = this._entitySprites[creatureId];
+        if(!sprite) {
+            return; // Creature could have died from related HP change
+        }
         const creatureWidth = sprite.children[0].width;
         const graphics = sprite.children[1];
 

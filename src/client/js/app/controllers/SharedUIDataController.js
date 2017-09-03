@@ -81,11 +81,6 @@ export default class SharedUIDataController extends Observable {
         if(typeof this._unsubscribe === 'function') {
             this._unsubscribe();
         }
-        // Chain observer so that UI doesn't need to store direct
-        // reference to dungeon
-        this._unsubscribe = dungeon.getEventStream().subscribe(event => {
-            this._notifyObservers(event);
-        });
         this._dungeon = dungeon;
         this._notifyObservers(dungeon);
     }

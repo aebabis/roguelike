@@ -16,6 +16,8 @@ export default class PixiAnimationController {
         this._animationQueue = [];
         this._currentAnimations = [];
 
+        this.rebindDungeonEventStream();
+
         pixiApp.ticker.add((delta) => {
             const dungeon = sharedData.getDungeon();
             if(!dungeon) {
@@ -70,23 +72,35 @@ export default class PixiAnimationController {
         return this._animationPack;
     }
 
+    rebindDungeonEventStream() {
+        if(this._subscription) {
+            this._subscription.unsubscribe;
+        }
+        const dungeon = this._sharedData.getDungeon();
+        if(dungeon) {
+            this._subscription = dungeon.getEventStream().subscribe(event => {
+                const animation = this.getAnimationPack().getAnimation(this._sharedData, this._pixiDungeonView, event);
+                if(animation) {
+                    const isPlayerMoveEvent = event instanceof GameEvents.PositionChangeEvent && event.getCreature() instanceof PlayableCharacter;
+                    this._animationQueue.push({
+                        animation,
+                        time: event.getTimestamp(),
+                        // If multiple HumanMovingEvents are in the queue,
+                        // the player is pathing and the animation should be sped up
+                        isPlayerMoveEvent
+                    });
+                }
+            });
+        }
+    }
+
     handleGameEvent(event) {
         if(event instanceof Dungeon) {
             // Sim time is used to determine when animations can be dequeued
             this._simTime = event.getCurrentTimestep();
             // Animations with the same game clock timestamp are bucketed
             this._animationQueue = [];
-        }
-        const isPlayerMoveEvent = event instanceof GameEvents.PositionChangeEvent && event.getCreature() instanceof PlayableCharacter;
-        const animation = this.getAnimationPack().getAnimation(this._sharedData, this._pixiDungeonView, event);
-        if(animation) {
-            this._animationQueue.push({
-                animation,
-                time: event.getTimestamp(),
-                // If multiple HumanMovingEvents are in the queue,
-                // the player is pathing and the animation should be sped up
-                isPlayerMoveEvent
-            });
+            this.rebindDungeonEventStream();
         }
     }
 }

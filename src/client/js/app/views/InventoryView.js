@@ -96,8 +96,16 @@ export default class InventoryView {
     }
 
     update(event) {
-        if(event instanceof GameEvents.InventoryChangeEvent || event instanceof Dungeon) {
+        if(event instanceof Dungeon) {
             this.redraw();
+            if(this._subscription) {
+                this._subscription.unsubscribe();
+            }
+            this._subscription = event.getEventStream().subscribe(event => {
+                if(event instanceof GameEvents.InventoryChangeEvent) {
+                    this.redraw();
+                }
+            });
         }
     }
 

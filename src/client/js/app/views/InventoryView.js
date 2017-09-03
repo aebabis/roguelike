@@ -92,20 +92,28 @@ export default class InventoryView {
         });
 
         sharedData.addObserver((event)=>this.update(event));
+        this.bindToDungeonStream();
         this.redraw();
     }
 
-    update(event) {
-        if(event instanceof Dungeon) {
-            this.redraw();
-            if(this._subscription) {
-                this._subscription.unsubscribe();
-            }
-            this._subscription = event.getEventStream().subscribe(event => {
+    bindToDungeonStream() {
+        if(this._subscription) {
+            this._subscription.unsubscribe();
+        }
+        const dungeon = this._sharedData.getDungeon();
+        if(dungeon) {
+            this._subscription = dungeon.getEventStream().subscribe(event => {
                 if(event instanceof GameEvents.InventoryChangeEvent) {
                     this.redraw();
                 }
             });
+        }
+    }
+
+    update(event) {
+        if(event instanceof Dungeon) {
+            this.bindToDungeonStream();
+            this.redraw();
         }
     }
 

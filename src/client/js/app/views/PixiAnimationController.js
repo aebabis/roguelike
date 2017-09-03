@@ -16,7 +16,7 @@ export default class PixiAnimationController {
         this._animationQueue = [];
         this._currentAnimations = [];
 
-        this.rebindDungeonEventStream();
+        this.bindToDungeonStream();
 
         pixiApp.ticker.add((delta) => {
             const dungeon = sharedData.getDungeon();
@@ -72,7 +72,7 @@ export default class PixiAnimationController {
         return this._animationPack;
     }
 
-    rebindDungeonEventStream() {
+    bindToDungeonStream() {
         if(this._subscription) {
             this._subscription.unsubscribe;
         }
@@ -100,7 +100,7 @@ export default class PixiAnimationController {
             this._simTime = event.getCurrentTimestep();
             // Animations with the same game clock timestamp are bucketed
             this._animationQueue = [];
-            this.rebindDungeonEventStream();
+            this.bindToDungeonStream();
         }
     }
 }

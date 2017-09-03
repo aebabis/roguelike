@@ -9,6 +9,7 @@ import Animation from './animations/Animation';
 import AnimationGroup from './animations/AnimationGroup';
 import FloatingTextAnimation from './animations/FloatingTextAnimation';
 import ProjectileAnimation from './animations/ProjectileAnimation';
+import SingleFrameAnimation from './animations/SingleFrameAnimation';
 import TransitionAnimation from './animations/TransitionAnimation';
 
 const PIXI = require('pixi.js');
@@ -57,6 +58,7 @@ export default class DefaultPixiAnimationPack {
     getAnimation(sharedData, pixiDungeonView, gameEvent) {
         const dungeon = sharedData.getDungeon();
         const stage = pixiDungeonView.getStage();
+        const spritePack = pixiDungeonView.getSpritePack();
         let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
             const cause = gameEvent.getCause();
@@ -307,6 +309,16 @@ export default class DefaultPixiAnimationPack {
             const animations = [hpAnimation];
 
             return new AnimationGroup(animations);
+        } else if(gameEvent instanceof GameEvents.TakeItemEvent) {
+            return new SingleFrameAnimation(() => {
+                pixiDungeonView.removeEntityById(gameEvent.getItem().getId());
+            });
+        } else if(gameEvent instanceof GameEvents.ItemDropEvent) {
+            const tile = gameEvent.getTile();
+            const item = gameEvent.getItem();
+            return new SingleFrameAnimation(() => {
+                pixiDungeonView.moveItemGroup(item, tile.getX(), tile.getY());
+            });
         }
     }
 }

@@ -205,7 +205,7 @@ export default class RandomMapDungeonFactory {
         drops.forEach(function(item) {
             const position = Random.integer(0, emptyTiles.length - 1)(prng);
             const tile = emptyTiles[position];
-            tile.addItem(item);
+            dungeon.moveItem(item, tile.getX(), tile.getY());
         });
 
         const playerLocation = locations.shift();
@@ -242,7 +242,7 @@ export default class RandomMapDungeonFactory {
         const treasureLocation = Random.picker(
             treasureLocations.slice(-Math.floor(treasureLocations.length / 3))
         )(prng);
-        treasureLocation.addItem(new TheTreasure(dungeon));
+        dungeon.moveItem(new TheTreasure(dungeon), treasureLocation.getX(), treasureLocation.getY());
 
         dungeon.setGameConditions(new GetTheTreasureConditions());
 

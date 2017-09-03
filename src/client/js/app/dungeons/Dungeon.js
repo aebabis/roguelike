@@ -214,6 +214,12 @@ export default class Dungeon {
         this._eventStream.next(); // TODO: Make a CreatureMoved event
     }
 
+    moveItem(item, x, y) {
+        const tile = this.getTile(x, y);
+        tile.addItem(item);
+        this._eventStream.next(new GameEvents.ItemDropEvent(this, tile, item));
+    }
+
     /**
      * @return {Array<Creature>} - The creatures in the dungeon
      */
@@ -445,6 +451,6 @@ export default class Dungeon {
     }
 
     getEventStream() {
-        return this._eventStream;
+        return this._eventStream.share();
     }
 }

@@ -78,9 +78,11 @@ export default class SharedUIDataController extends Observable {
             throw new Error('Must pass a dungeon');
         }
         // Clean up old observer
-        if(typeof this._unsubscribe === 'function') {
-            this._unsubscribe();
+        if(this._subscription) {
+            this._subscription.unsubscribe();
         }
+        this._subscription = dungeon.getEventStream().subscribe(() => this._notifyObservers());
+
         this._dungeon = dungeon;
         this._notifyObservers(dungeon);
     }

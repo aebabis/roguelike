@@ -12,7 +12,7 @@ describe('InventoryView', function() {
     it('should update when a player picks up an item', function() {
         const dungeon = new Dungeon(2, 2);
         dungeon.moveCreature(new Rogue(), 0, 0);
-        dungeon.getTile(1, 1).addItem(new Slingshot());
+        dungeon.moveItem(new Slingshot(), 1, 1);
 
         const sharedData = new SharedUIDataController(dungeon);
         const view = new InventoryView(sharedData);

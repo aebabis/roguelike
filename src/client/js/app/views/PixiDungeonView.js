@@ -134,13 +134,6 @@ export default class PixiDungeonView {
             if(event instanceof GameEvents.SpawnEvent) {
                 this.updateCreatureLocations();
                 this._tileGroups[event.getX()][event.getY()].update();
-            } else if(event instanceof GameEvents.HitpointsEvent) {
-                /*if(event.getAmount() < 0) {
-                    getScrollingText(event.getAmount(), x, y, DAMAGE_COLORS[event.getDamageType()] || 'green', DAMAGE_OUTLINE_COLORS[event.getDamageType()] || 'green')
-                        .appendTo(grid.children[0]);
-                }*/
-            } else if(event instanceof GameEvents.TakeItemEvent || event instanceof GameEvents.ItemDropEvent) {
-                this.updateItems();
             }
             this.updateRangeIndicator();
             this.updateSelectedTileIndicator();
@@ -208,10 +201,25 @@ export default class PixiDungeonView {
         this.getCreatureContainer(x, y).addChild(sprite);
     }
 
+    moveItemGroup(item, x, y) {
+        const spritePack = this.getSpritePack();
+        const entitySprites = this._entitySprites;
+        let sprite = entitySprites[item.getId()];
+        console.log(item.getId());
+        if(!sprite) {
+            sprite = entitySprites[item.getId()] = spritePack.getItemSprite(
+                item
+            );
+        }
+        if(sprite.parent) {
+            sprite.parent.removeChild(sprite);
+        }
+        this.getItemContainer(x, y).addChild(sprite);
+    }
+
     populateStage() {
         this.populateSprites();
         this.updateCreatureLocations();
-        this.updateItems();
         this.updateVision();
     }
 
@@ -275,19 +283,6 @@ export default class PixiDungeonView {
         stage.addChild(itemLayer);
         stage.addChild(creatureLayer);
         stage.addChild(particleLayer);
-    }
-
-    updateItems() {
-        const dungeon = this._sharedData.getDungeon();
-        const spritePack = this.getSpritePack();
-        // const itemContainers = this._itemContainers;
-        dungeon.forEachTile((tile, x, y) => {
-            const itemLayer = this.getItemContainer(x, y);
-            while(itemLayer.children.length) itemLayer.removeChildAt(0);
-            tile.getItems().forEach(function(item) {
-                itemLayer.addChild(spritePack.getItemSprite(item));
-            });
-        });
     }
 
     updateVision() {

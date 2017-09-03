@@ -46,9 +46,9 @@ export default {
                 const cell = new Tiles[tile](x, y);
                 items.forEach(function(itemName) {
                     if(itemName in Abilities) {
-                        cell.addItem(new AbilityConsumable(new Abilities[itemName]()));
+                        dungeon.moveItem(new AbilityConsumable(new Abilities[itemName]()), x, y);
                     } else {
-                        cell.addItem(new Items[itemName]());
+                        dungeon.moveItem(new Items[itemName](), x, y);
                     }
                 });
                 dungeon.setTile(cell, x, y);

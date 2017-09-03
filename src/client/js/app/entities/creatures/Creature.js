@@ -349,7 +349,7 @@ export default class Creature extends Entity {
             // (e.g. Ent melee weapon are not droppable)
             if(item.constructor.name in Items) {
                 tile.addItem(item);
-                dungeon.fireEvent(new ItemDropEvent(dungeon, item));
+                dungeon.fireEvent(new ItemDropEvent(dungeon, tile, item));
             }
         });
     }

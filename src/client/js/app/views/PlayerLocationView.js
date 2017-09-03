@@ -19,10 +19,6 @@ export default class PlayerLocationView {
         const player = dungeon.getPlayableCharacter();
         const tile = dungeon.getTile(player);
 
-        /*const tileName = tile.constructor.name;
-        const x = tile.getX();
-        const y = tile.getY();*/
-
         const name = player.constructor.name;
         const hp = player.getCurrentHP();
         const baseHP = player.getBaseHP();

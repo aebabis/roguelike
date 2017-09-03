@@ -51,9 +51,9 @@ export default {
         dungeon.moveCreature(bvs1, 5, 1);
         dungeon.moveCreature(bvs2, 7, 4);
 
-        dungeon.getTile(8, 9).addItem(new TheTreasure(dungeon));
-        dungeon.getTile(4, 3).addItem(new Weapons.Longsword());
-        dungeon.getTile(6, 1).addItem(new Weapons.Slingshot());
+        dungeon.moveItem(new TheTreasure(dungeon), 8, 9);
+        dungeon.moveItem(new Weapons.Longsword(), 4, 3);
+        dungeon.moveItem(new Weapons.Slingshot(), 6, 1);
 
         dungeon.setGameConditions(new GetTheTreasureConditions());
 

@@ -5,9 +5,14 @@ export default class ItemDropEvent extends GameEvent {
       * @class ItemDropEvent
       * @description Event fired whenever an item is dropped or spawned
       */
-    constructor(dungeon, item) {
+    constructor(dungeon, tile, item) {
         super(dungeon);
+        this._tile = tile;
         this._item = item;
+    }
+
+    getTile() {
+        return this._tile;
     }
 
     getItem() {

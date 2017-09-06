@@ -58,7 +58,6 @@ export default class DefaultPixiAnimationPack {
     getAnimation(sharedData, pixiDungeonView, gameEvent) {
         const dungeon = sharedData.getDungeon();
         const stage = pixiDungeonView.getStage();
-        const spritePack = pixiDungeonView.getSpritePack();
         let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
             const cause = gameEvent.getCause();
@@ -299,16 +298,13 @@ export default class DefaultPixiAnimationPack {
             // TODO: Also place creature from here rather than handling it entirely in the PixiDungeonView
             const creature = gameEvent.getCreature();
 
-            const hpAnimation = new Animation(0);
-            hpAnimation.onStart = () => pixiDungeonView.setCreatureHpBarWidth(
-                creature.getId(),
-                Math.max(0, creature.getCurrentHP()) / creature.getBaseHP()
-            );
-            hpAnimation.advance = () => {};
-
-            const animations = [hpAnimation];
-
-            return new AnimationGroup(animations);
+            return new SingleFrameAnimation(() => {
+                pixiDungeonView.moveCreatureGroup(creature, gameEvent.getX(), gameEvent.getY());
+                pixiDungeonView.setCreatureHpBarWidth(
+                    creature.getId(),
+                    Math.max(0, creature.getCurrentHP()) / creature.getBaseHP()
+                );
+            });
         } else if(gameEvent instanceof GameEvents.TakeItemEvent) {
             return new SingleFrameAnimation(() => {
                 pixiDungeonView.removeEntityById(gameEvent.getItem().getId());

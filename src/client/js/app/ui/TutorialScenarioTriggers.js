@@ -4,15 +4,21 @@ import GameEvents from '../events/GameEvents.js';
 class Triggers {
     constructor(dungeon) {
         this._triggers = [];
-        dungeon.addObserver((event) => {
-            this._triggers
-                .filter((trigger)=>trigger.enabled)
-                .filter((trigger)=>trigger.condition(event, dungeon))
-                .forEach((trigger)=>{
-                    this.disableTrigger(trigger.name);
-                    trigger.effect.call(this, event, dungeon);
-                });
-        });
+        this._dungeon = dungeon;
+        dungeon.getEventStream().subscribe(
+            event => this._handleEvent(event)
+        );
+    }
+
+    _handleEvent(event) {
+        const dungeon = this._dungeon;
+        this._triggers
+            .filter((trigger)=>trigger.enabled)
+            .filter((trigger)=>trigger.condition(event, dungeon))
+            .forEach((trigger)=>{
+                this.disableTrigger(trigger.name);
+                trigger.effect.call(this, event, dungeon);
+            });
     }
 
     addTrigger({name, enabled, condition, effect}) {
@@ -41,6 +47,11 @@ class Triggers {
         this._triggers.find((trigger)=>trigger.name === name).enabled = false;
         return this;
     }
+
+    checkConditions() {
+        this._handleEvent(null);
+        return this;
+    }
 }
 
 const setMessage = (() => {
@@ -66,20 +77,16 @@ export default {
             .addTrigger({
                 name: 'START',
                 enabled: true,
-                condition: function() {
-                    return true;
-                },
-                effect: function() {
-                    setMessage('Welcome to Git\'recht. To find the treasure, move using the mouse, numpad, or arrow keys');
-                }
+                condition: () => true,
+                effect: () =>
+                    setMessage('Welcome to Git\'recht. To find the treasure, move using the mouse, numpad, or arrow keys')
             })
             .addTrigger({
                 name: 'OUT_OF_MANA',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    return dungeon.getPlayableCharacter().getCurrentMana() === 0;
-                },
-                effect: function() {
+                condition: (event, dungeon) =>
+                    dungeon.getPlayableCharacter().getCurrentMana() === 0,
+                effect: () => {
                     this.enableTrigger('OUT_OF_MANA');
                     dungeon.getPlayableCharacter().modifyMana(10);
                 }
@@ -87,50 +94,39 @@ export default {
             .addTrigger({
                 name: 'LOW_HEALTH',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    return dungeon.getPlayableCharacter().getCurrentHP() < 4;
-                },
-                effect: function() {
-                    dungeon.getPlayableCharacter().heal(dungeon, this, 10);
-                }
+                condition: (event, dungeon) => dungeon.getPlayableCharacter().getCurrentHP() < 4,
+                effect: () => dungeon.getPlayableCharacter().heal(dungeon, this, 10),
             })
             .addTrigger({
                 name: 'FOUND_SWORD',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    return dungeon.getPlayableCharacter().getInventory().getMeleeWeapon();
-                },
-                effect: function() {
-                    setMessage('You found a longsword, enabling you to attack adjacent enemies. Since you had no weapons, it was automatically equipped');
+                condition: (event, dungeon) => dungeon.getPlayableCharacter().getInventory().getMeleeWeapon(),
+                effect: () => {
+                    setMessage('You found a longsword, enabling you to attack adjacent enemies. Since you had no weapons, it was automatically equipped')
                 }
             })
             .addTrigger({
                 name: 'ENEMY_SPOTTED',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    return dungeon.getPlayableCharacter().getVisibleEnemies(dungeon).length > 0;
-                },
-                effect: function() {
-                    setMessage('That void sphere is no match for your longsword. Move next to it, then click to attack it', true);
+                condition: (event, dungeon) =>
+                    dungeon.getPlayableCharacter().getVisibleEnemies(dungeon).length > 0,
+                effect: () => {
+                    setMessage('That void sphere is no match for your longsword. Move next to it, then click to attack it', true)
                 }
             })
             .addTrigger({
                 name: 'FOUND_SLINGSHOT',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    return dungeon.getPlayableCharacter().getInventory().getRangedWeapon();
-                },
-                effect: function() {
-                    setMessage('Ranged weapons allow you to attack enemies at a distance. Use your slingshot to attack the void sphere down the hall');
+                condition: (event, dungeon) => dungeon.getPlayableCharacter().getInventory().getRangedWeapon(),
+                effect: () => {
+                    setMessage('Ranged weapons allow you to attack enemies at a distance. Use your slingshot to attack the void sphere down the hall')
                 }
             })
             .addTrigger({
                 name: 'ALL_ENEMIES_DESTROYED',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    return dungeon.getCreatures().length === 1;
-                },
-                effect: function(event, dungeon) {
+                condition: (event, dungeon) => dungeon.getCreatures().length === 1,
+                effect: (event, dungeon) => {
                     dungeon.getPlayableCharacter().addAbility(new Leap());
                     setMessage('To get to the final room, you will need to use the Leap ability. Click the Leap button on the left (or press 1) and click to leap across the spike pits');
                 }
@@ -138,23 +134,22 @@ export default {
             .addTrigger({
                 name: 'ACROSS_THE_PITS',
                 enabled: true,
-                condition: function(event, dungeon) {
-                    let location = dungeon.getTile(dungeon.getPlayableCharacter());
+                condition: (event, dungeon) => {
+                    const location = dungeon.getTile(dungeon.getPlayableCharacter());
                     return location.getX() > 6 && location.getY() > 5;
                 },
-                effect: function() {
+                effect: () => {
                     setMessage('Almost there! Now grab the treasure, and return the entrance');
                 }
             })
             .addTrigger({
                 name: 'VICTORY',
                 enabled: true,
-                condition: function(event) {
-                    return event instanceof GameEvents.VictoryEvent;
-                },
-                effect: function() {
+                condition: (event) => event instanceof GameEvents.VictoryEvent,
+                effect: () => {
                     setMessage('You\'ve successfully completed the tutorial. To try a harder level, click "New Game" in the upper-left');
                 }
-            });
+            })
+            .checkConditions();
     }
 };

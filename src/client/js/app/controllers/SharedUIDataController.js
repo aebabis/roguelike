@@ -4,7 +4,6 @@ import Dungeon from '../dungeons/Dungeon.js';
 
 import Moves from '../entities/creatures/moves/Moves.js';
 
-import GameEvent from '../events/GameEvent.js';
 import GameEvents from '../events/GameEvents.js';
 
 import Pather from '../entities/creatures/strategies/Pather.js';
@@ -44,29 +43,6 @@ export default class SharedUIDataController extends Observable {
         this._targettedAbilityIndex = null;
         this._targettedItemIndex = null;
         this._examineTarget = null;
-
-        this.addObserver((event) => {
-            // Whenever the player makes a move, cancel
-            // any UI flows managed by the shared data
-            if(event instanceof GameEvents.HumanMovingEvent) {
-                this.unsetAttackMode();
-                this.unsetTargettedAbility();
-                this.unsetTargettedItem();
-            }
-
-            const dungeon = this.getDungeon();
-            if(!dungeon) {
-                return;
-            }
-            const player = dungeon.getPlayableCharacter();
-            if(event instanceof GameEvent &&
-                    event.getCreature &&
-                    event.getCreature() !== player &&
-                    event.isSeenBy(dungeon, player)) {
-                // Mark whenever the player observes another creature act
-                this._playerSawEnemyAct = true;
-            }
-        });
     }
 
     /**
@@ -77,11 +53,31 @@ export default class SharedUIDataController extends Observable {
         if(!(dungeon instanceof Dungeon)) {
             throw new Error('Must pass a dungeon');
         }
+        this._playerSawEnemy = false;
+
         // Clean up old observer
-        if(this._subscription) {
-            this._subscription.unsubscribe();
+        if(this._subscriptions) {
+            this._subscriptions.forEach(subscription => subscription.unsubscribe());
         }
-        this._subscription = dungeon.getEventStream().subscribe(() => this._notifyObservers());
+        this._subscriptions = [
+            dungeon.getEventStream().subscribe(() => this._notifyObservers()),
+            dungeon.getEventStream().subscribe((event)=> {
+                if(event instanceof GameEvents.MoveEvent) {
+                    const enemies = dungeon.getPlayableCharacter().getVisibleEnemies(dungeon);
+                    if(enemies.length > 0) {
+                        this._playerSawEnemy = true;
+                    }
+                }
+
+                // Whenever the player makes a move, cancel
+                // any UI flows managed by the shared data
+                if(event instanceof GameEvents.HumanMovingEvent) {
+                    this.unsetAttackMode();
+                    this.unsetTargettedAbility();
+                    this.unsetTargettedItem();
+                }
+            })
+        ];
 
         this._dungeon = dungeon;
         this._notifyObservers(dungeon);
@@ -123,10 +119,10 @@ export default class SharedUIDataController extends Observable {
         if(!moves || moves.length === 0) {
             this.dispatchUIEvent(new UIMessageEvent('No path to location'));
         } else {
-            this._playerSawEnemyAct = false;
+            this._playerSawEnemy = false;
             moves.forEach((move) => {
-                if(this._playerSawEnemyAct) {
-                    // If the player has seen an enemy move since
+                if(this._playerSawEnemy) {
+                    // If the player has seen an enemy since
                     // starting this path, stop the path and let
                     // the player re-evaluate.
                     return;

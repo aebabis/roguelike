@@ -16,7 +16,7 @@ function getUDungeon() {
 }
 
 describe('Pather', function() {
-    it('should attempt to path through unknown tunnels', function() {
+    it('should attempt to path through unknown tiles', function() {
         const dungeon = getUDungeon();
         const player = new PlayableCharacter();
         dungeon.moveCreature(player, 0, 0);
@@ -24,7 +24,7 @@ describe('Pather', function() {
         const targetTile = dungeon.getTile(2, 0);
 
         const path = Pather.getMoveSequenceToward(dungeon, player, targetTile);
-        expect(path).to.equal(null);
+        expect(path.length).to.equal(4);
     });
 
     it('should attempt to path through unseen enemies on visited tiles', function() {

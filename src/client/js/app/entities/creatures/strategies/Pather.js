@@ -162,11 +162,18 @@ const Pather = {
         let getNeighbors;
         if(creature instanceof PlayableCharacter) {
             getNeighbors = (node) => node.getNeighbors8(dungeon)
-                .filter(neighbor => creature.hasSeen(neighbor))
-                .filter(neighbor => neighbor === target ||
-                    creature.canSee(dungeon, neighbor) ?
-                        creature.canOccupyNow(neighbor) :
-                        creature.canOccupy(neighbor)); // Assume unseen tiles are unoccupied when player paths
+                .filter(neighbor => {
+                    if(neighbor === target) {
+                        return true;
+                    }
+                    if(creature.canSee(dungeon, neighbor)) {
+                        return creature.canOccupyNow(neighbor);
+                    } else if(creature.hasSeen(neighbor)) {
+                        return creature.canOccupy(neighbor);
+                    } else {
+                        return true;
+                    }
+                });
         } else {
             getNeighbors = (node)=>node.getNeighbors8(dungeon)
                 .filter(neighbor => creature.canOccupy(neighbor)) // Monsters implicitly know the dungeon layout

@@ -6,7 +6,7 @@ import Enemies from '../entities/creatures/enemies/Enemies.js';
 
 import Abilities from '../abilities/Abilities.js';
 
-import EntityTable from '../entities/EntityTable.js';
+import CostedDistributionTable from '../util/CostedDistributionTable.js';
 import TheTreasure from '../entities/TheTreasure.js';
 
 import Weapons from '../entities/weapons/Weapons.js';
@@ -22,142 +22,142 @@ import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayo
 
 const LOOT_VALUE = 70;
 
-const itemTable = new EntityTable([{
-    entity: Weapons.Stick,
+const itemTable = new CostedDistributionTable([{
+    value: Weapons.Stick,
     weight: 3,
     cost: 5
 }, {
-    entity: Weapons.Dagger,
+    value: Weapons.Dagger,
     weight: 5,
     cost: 10
 }, {
-    entity: Weapons.Shortsword,
+    value: Weapons.Shortsword,
     weight: 10,
     cost: 20
 }, {
-    entity: Weapons.Longsword,
+    value: Weapons.Longsword,
     weight: 5,
     cost: 30
 }, {
-    entity: Weapons.Slingshot,
+    value: Weapons.Slingshot,
     weight: 10,
     cost: 10
 }, {
-    entity: Weapons.Shortbow,
+    value: Weapons.Shortbow,
     weight: 5,
     cost: 30
 }, {
-    entity: Weapons.Longbow,
+    value: Weapons.Longbow,
     weight: 2,
     cost: 60
 }, {
-    entity: CherrySoda,
+    value: CherrySoda,
     weight: 40,
     cost: 10
 }, {
-    entity: BlueberrySoda,
+    value: BlueberrySoda,
     weight: 25,
     cost: 10
 }, {
-    entity: function() {
+    value: function() {
         return new AbilityConsumable(new Abilities.Fireball());
     },
     weight: 10,
     cost: 20
 }, {
-    entity: function() {
+    value: function() {
         return new AbilityConsumable(new Abilities.ForceDart());
     },
     weight: 30,
     cost: 10
 }, {
-    entity: function() {
+    value: function() {
         return new AbilityConsumable(new Abilities.Firebolt());
     },
     weight: 15,
     cost: 15
 }, {
-    entity: function() {
+    value: function() {
         return new AbilityConsumable(new Abilities.LesserSnare());
     },
     weight: 5,
     cost: 10
 }, {
-    entity: Armors.LightArmor,
+    value: Armors.LightArmor,
     weight: 5,
     cost: 15
 }, {
-    entity: Armors.MediumArmor,
+    value: Armors.MediumArmor,
     weight: 3,
     cost: 25
 }, {
-    entity: Armors.HeavyArmor,
+    value: Armors.HeavyArmor,
     weight: 2,
     cost: 40
 }]);
 
-const table = new EntityTable([{
-    entity: Enemies.Archer,
+const table = new CostedDistributionTable([{
+    value: Enemies.Archer,
     weight: 40,
     cost: 10
 }, {
-    entity: Enemies.Bigfoot,
+    value: Enemies.Bigfoot,
     weight: 30,
     cost: 8
 }, {
-    entity: Enemies.BlackVoidSphere,
+    value: Enemies.BlackVoidSphere,
     weight: 100,
     cost: 3
 }, {
-    entity: Enemies.ClunkyNinetiesCellPhone,
+    value: Enemies.ClunkyNinetiesCellPhone,
     weight: 30,
     cost: 5
 }, {
-    entity: Enemies.Cow,
+    value: Enemies.Cow,
     weight: 4,
     cost: 2
 }, {
-    entity: Enemies.Crier,
+    value: Enemies.Crier,
     weight: 20,
     cost: 8
 }, {
-    entity: Enemies.DustBunny,
+    value: Enemies.DustBunny,
     weight: 40,
     cost: 14
 }, {
-    entity: Enemies.DustMite,
+    value: Enemies.DustMite,
     weight: 20,
     cost: 2
 }, {
-    entity: Enemies.Ent,
+    value: Enemies.Ent,
     weight: 60,
     cost: 9
 }, {
-    entity: Enemies.FireSprite,
+    value: Enemies.FireSprite,
     weight: 60,
     cost: 6
 }, {
-    entity: Enemies.FlyingSerpent,
+    value: Enemies.FlyingSerpent,
     weight: 60,
     cost: 4
 }, {
-    entity: Enemies.MongolianHorseArcher,
+    value: Enemies.MongolianHorseArcher,
     weight: 30,
     cost: 20
 }, {
-    entity: Enemies.Skeleton,
+    value: Enemies.Skeleton,
     weight: 80,
     cost: 5
 }, {
-    entity: Enemies.SlingshotImp,
+    value: Enemies.SlingshotImp,
     weight: 50,
     cost: 3
 }, {
-    entity: Enemies.Witch,
+    value: Enemies.Witch,
     weight: 50,
     cost: 10
 }, {
-    entity: Enemies.Wyrm,
+    value: Enemies.Wyrm,
     weight: 20,
     cost: 15
 }]);
@@ -202,10 +202,10 @@ export default class RandomMapDungeonFactory {
         const locations = Random.shuffle(prng, emptyTiles);
 
         const drops = itemTable.rollEntries(dungeon, prng, LOOT_VALUE);
-        drops.forEach(function(item) {
+        drops.forEach(({value}) => {
             const position = Random.integer(0, emptyTiles.length - 1)(prng);
             const tile = emptyTiles[position];
-            dungeon.moveItem(item, tile.getX(), tile.getY());
+            dungeon.moveItem(value, tile.getX(), tile.getY());
         });
 
         const playerLocation = locations.shift();
@@ -215,13 +215,14 @@ export default class RandomMapDungeonFactory {
         }
 
         // Test game configuration
-        const creatures = table.rollEntries(dungeon, prng, 70);
+        const creatures = table.rollEntries(dungeon, prng, 70).map(({value}) => value);
+        console.log(creatures);
 
         reportCreaturesToConsole(creatures);
 
         // Place enemies
         const enemyLocations = locations.filter((location)=>location.getEuclideanDistance(playerLocation) > 5);
-        creatures.forEach(function(creature) {
+        creatures.forEach(creature => {
             const loc = enemyLocations.shift();
             if(loc) {
                 dungeon.moveCreature(creature, loc.getX(), loc.getY());

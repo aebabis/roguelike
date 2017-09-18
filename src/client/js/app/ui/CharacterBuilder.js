@@ -472,7 +472,7 @@ angular.module('vog', [])
                             <div class="col">
                                 <div class="items">
                                     <h3>Consumables</h3>
-                                    <button ng-repeat="(consumable, cost) in CONSUMABLES"
+                                    <button ng-repeat="(consumable, cost) in CONSUMABLES track by $index"
                                             class="tiny-icon-wrap"
                                             type="button"
                                             title="{{consumable | vogName}}"

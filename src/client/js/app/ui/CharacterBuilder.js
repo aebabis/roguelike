@@ -1,13 +1,15 @@
-import Classes from '../entities/creatures/classes/Classes.js';
+import Classes from '../entities/creatures/classes/Classes';
 
-import Abilities from '../abilities/Abilities.js';
-import Armors from '../entities/armor/Armors.js';
-import Consumables from '../entities/consumables/Consumables.js';
-import Weapons from '../entities/weapons/Weapons.js';
+import Abilities from '../abilities/Abilities';
+import Armors from '../entities/armor/Armors';
+import Consumables from '../entities/consumables/Consumables';
+import Weapons from '../entities/weapons/Weapons';
 
-import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
+import AbilityConsumable from '../entities/consumables/AbilityConsumable';
 
-var dialogPolyfill = require('../../../../../node_modules/dialog-polyfill/dialog-polyfill.js');
+import CostedDistributionTable from '../util/CostedDistributionTable';
+
+var dialogPolyfill = require('../../../../../node_modules/dialog-polyfill/dialog-polyfill');
 require('../../../../../node_modules/dialog-polyfill/dialog-polyfill.css');
 
 const angular = require('angular');
@@ -63,6 +65,93 @@ const ABILITIES = {
     LesserSnare: 15
 };
 
+const characterTable = new CostedDistributionTable([{
+    value: 'Fighter',
+    weight: 1
+}, {
+    value: 'Miner',
+    weight: 1
+}, {
+    value: 'Rogue',
+    weight: 1
+}, {
+    value: 'Wizard',
+    weight: 1
+}]);
+
+const meleeTable = new CostedDistributionTable([{
+    value: 'Stick',
+    weight: 1
+}, {
+    value: 'Dagger',
+    weight: 1
+}, {
+    value: 'Shortsword',
+    weight: 1
+}, {
+    value: 'Longsword',
+    weight: 1
+}, {
+    value: 'FrostDagger',
+    weight: 1
+}, {
+    value: 'LightningRod',
+    weight: 1
+}, {
+    value: 'Warhammer',
+    weight: 1
+}]);
+
+const rangedTable = new CostedDistributionTable([{
+    value: 'Slingshot',
+    weight: 1
+}, {
+    value: 'Shortbow',
+    weight: 1
+}, {
+    value: 'Longbow',
+    weight: 1
+}]);
+
+const armorTable = new CostedDistributionTable([{
+    value: 'LightArmor',
+    weight: 1
+}, {
+    value: 'MediumArmor',
+    weight: 1
+}, {
+    value: 'HeavyArmor',
+    weight: 1
+}]);
+
+const consumableTable = new CostedDistributionTable([{
+    value: 'BlueberrySoda',
+    weight: 40
+}, {
+    value: 'CherrySoda',
+    weight: 100
+}, {
+    value: 'Fireball',
+    weight: 10
+}, {
+    value: 'ForceDart',
+    weight: 25
+}, {
+    value: 'LesserSnare',
+    weight: 5
+}, {
+    value: null,
+    weight: 100
+}]);
+
+const abilityTable = new CostedDistributionTable([{
+    value: 'Fireball',
+    weight: 10
+}, {
+    value: null,
+    weight: 100
+}]);
+
 function getStartingAbilities(className) {
     switch(className) {
     case 'Fighter': return ['DashAttack'];
@@ -86,14 +175,14 @@ angular.module('vog', [])
                 return Object.keys(ABILITIES).filter((ability)=>abilities[ability]);
             };
             this.getAbilityNames = function() {
-                const { build: {character, abilities } } = this;
+                const { build: {character } } = this;
                 return getStartingAbilities(character).concat(this.getSelectedAbilityNames());
             };
         },
         templateUrl: 'character-build.html'
     })
     .controller('character-builder', ['$scope', 'promiseHandlers', function($scope, promiseHandlers) {
-        const { resolve, reject } = promiseHandlers;
+        const { resolve } = promiseHandlers;
 
         $scope.CHARACTERS = CHARACTERS;
         $scope.MELEE_WEAPONS = MELEE_WEAPONS;
@@ -140,12 +229,41 @@ angular.module('vog', [])
             abilities: {Fireball: true}
         }];
 
-        $scope.selectLastBuild = function(index) {
+        $scope.selectLastBuild = function() {
             $scope.selections = $scope.lastBuild;
         };
 
         $scope.selectPrebuilt = function(index) {
             $scope.selections = $scope.prebuilts[index];
+        };
+
+        $scope.selectRandom = () => {
+            const prng = Random.engines.mt19937();
+            prng.seed(+new Date());
+
+            const character = characterTable.rollEntry(prng);
+            const melee = meleeTable.rollEntry(prng);
+            const ranged = rangedTable.rollEntry(prng);
+            const armor = armorTable.rollEntry(prng);
+            const backpack = new Array(new Classes[character]().getBackpackSize()).fill(null).map(() =>
+                consumableTable.rollEntry(prng)
+            ).filter(Boolean);
+            const abilities = new Array(new Classes[character]().getBackpackSize()).fill(null).map(() =>
+                abilityTable.rollEntry(prng)
+            ).filter(Boolean).reduce((prev, ability) => {
+                prev[ability] = true;
+                return prev;
+            }, {});
+
+            $scope.selections = {
+                character,
+                melee,
+                ranged,
+                armor,
+                backpack,
+                abilities,
+                isRandom: true
+            };
         };
 
         let isBuilderVisible = false;
@@ -237,7 +355,9 @@ angular.module('vog', [])
                 }
             });
 
-            localStorage.lastBuild = JSON.stringify(selections);
+            if(!selections.isRandom) {
+                localStorage.lastBuild = JSON.stringify(selections);
+            }
 
             resolve(character);
         };
@@ -265,6 +385,9 @@ angular.module('vog', [])
                         </button>
                         <button ng-repeat="build in prebuilts" ng-click="selectPrebuilt($index)">
                             <character-build build="build"></character-build>
+                        </button>
+                        <button class="random" ng-click="selectRandom()">
+                            ?
                         </button>
                     </div>
                     <hr>

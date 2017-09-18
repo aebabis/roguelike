@@ -201,8 +201,8 @@ export default class RandomMapDungeonFactory {
         const emptyTiles = dungeon.getTiles(tile=>!tile.isSolid() && tile.hasFloor());
         const locations = Random.shuffle(prng, emptyTiles);
 
-        const drops = itemTable.rollEntries(dungeon, prng, LOOT_VALUE);
-        drops.forEach(({value}) => {
+        const drops = itemTable.rollEntries(prng, LOOT_VALUE);
+        drops.forEach((value) => {
             const position = Random.integer(0, emptyTiles.length - 1)(prng);
             const tile = emptyTiles[position];
             dungeon.moveItem(value, tile.getX(), tile.getY());
@@ -215,8 +215,7 @@ export default class RandomMapDungeonFactory {
         }
 
         // Test game configuration
-        const creatures = table.rollEntries(dungeon, prng, 70).map(({value}) => value);
-        console.log(creatures);
+        const creatures = table.rollEntries(prng, 70);
 
         reportCreaturesToConsole(creatures);
 

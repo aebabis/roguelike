@@ -17,7 +17,7 @@ export default class CostedDistributionTable {
         this._entries.push({ value, weight, cost });
     }
 
-    rollEntry(dungeon, prng, costLimit = Infinity) {
+    rollEntry(prng, costLimit = Infinity) {
         const available = this._entries.filter((item)=>(item.cost <= costLimit));
         if(available.length === 0) {
             return null;
@@ -25,31 +25,25 @@ export default class CostedDistributionTable {
         const totalWeight = available.reduce((prev, item) => prev + item.weight, 0);
         const target = Random.real(0, totalWeight)(prng);
         let runningTotal = 0;
-        const {value, weight, cost} = available.find(({weight}) => {
+        const { value } = available.find(({weight}) => {
             runningTotal += weight;
             return target <= runningTotal;
         });
-        let resultValue;
-        if(value.toString().indexOf('class') !== -1) {
-            resultValue = new value();
+        if(value != null && value.toString().indexOf('class') !== -1) {
+            return new value();
         } else if(typeof value === 'function') {
-            resultValue = value();
+            return value();
         } else {
-            resultValue = value;
+            return value;
         }
-        return {
-            value: resultValue,
-            weight,
-            cost
-        };
     }
 
-    rollEntries(dungeon, prng, costLimit = Infinity) {
-        const entry = this.rollEntry(dungeon, prng, costLimit);
+    rollEntries(prng, costLimit = Infinity) {
+        const entry = this.rollEntry(prng, costLimit);
         if(!entry) {
             return [];
         } else {
-            return [entry].concat(this.rollEntries(dungeon, prng, costLimit - entry.cost));
+            return [entry].concat(this.rollEntries(prng, costLimit - entry.cost));
         }
     }
 

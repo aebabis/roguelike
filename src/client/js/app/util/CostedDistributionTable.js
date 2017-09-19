@@ -39,17 +39,33 @@ export default class CostedDistributionTable {
     }
 
     rollEntries(prng, costLimit = Infinity) {
-        const entry = this.rollEntry(prng, costLimit);
-        if(!entry) {
-            return [];
-        } else {
-            return [entry].concat(this.rollEntries(prng, costLimit - entry.cost));
+        const results = [];
+        let available = this._entries;
+        while(available.length > 0) {
+            available = available.filter((item)=>(item.cost <= costLimit));
+            if(available.length === 0) {
+                break;
+            }
+            const totalWeight = available.reduce((prev, item) => prev + item.weight, 0);
+            const target = Random.real(0, totalWeight)(prng);
+            let runningTotal = 0;
+            const { value, cost } = available.find(({weight}) => {
+                runningTotal += weight;
+                return target <= runningTotal;
+            });
+            costLimit -= cost;
+            if(value != null && value.toString().indexOf('class') !== -1) {
+                results.push(new value());
+            } else if(typeof value === 'function') {
+                results.push(value());
+            } else {
+                results.push(value);
+            }
         }
+        return results;
     }
 
-    getCost({constructor}) {
-        if(constructor) {
-            return this._entries.find(({value}) => value === constructor);
-        }
+    getCost(target) {
+        return this._entries.find(({value}) => value === target || value === target.constructor).cost;
     }
 }

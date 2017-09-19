@@ -40,7 +40,10 @@ export default class AbilitiesView {
             const code = event.keyCode;
             if(48 <= code && code <= 57) {
                 const index = (code + 1) % 10; // '0' key means 10th index
-                dom.querySelectorAll('button')[index].click();
+                const button = dom.querySelectorAll('button')[index];
+                if(button) {
+                    button.click();
+                }
             }
         });
     }

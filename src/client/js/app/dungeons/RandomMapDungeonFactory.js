@@ -141,6 +141,10 @@ const table = new CostedDistributionTable([{
     weight: 60,
     cost: 4
 }, {
+    value: Enemies.Lobster,
+    weight: 5,
+    cost: 3
+}, {
     value: Enemies.MongolianHorseArcher,
     weight: 30,
     cost: 20

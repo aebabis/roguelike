@@ -21,11 +21,15 @@ class FireSpriteAttack extends Weapon {
     }
 
     getDamage() {
-        return 1;
+        return 2;
     }
 
     getDamageType() {
         return DamageTypes.FIRE;
+    }
+
+    onAttack(dungeon, attacker) {
+        attacker.die(dungeon);
     }
 }
 

@@ -387,7 +387,8 @@ angular.module('vog', [])
                             <character-build build="build"></character-build>
                         </button>
                         <button class="random" ng-click="selectRandom()">
-                            ?
+                            <h3 class="screenreader">Random</h3>
+                            <span>?</span>
                         </button>
                     </div>
                     <hr>

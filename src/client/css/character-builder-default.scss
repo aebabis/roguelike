@@ -48,6 +48,14 @@
                     background: linear-gradient(to bottom, #336633 0%, #336633 51%, #114411 100%);
                     border: solid 1px #003300;
                 }
+
+                &.random {
+                    background: linear-gradient(to bottom, #8b338b 0%, #6c4055 31%, #772F44 100%);
+                    border: solid 1px #330055;
+                    span {
+                        font-size: 10em;
+                    }
+                }
             }
         }
 

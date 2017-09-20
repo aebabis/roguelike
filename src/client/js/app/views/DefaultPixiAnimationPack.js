@@ -137,24 +137,19 @@ export default class DefaultPixiAnimationPack {
                 sprite.height = TILE_WIDTH;
                 sprite.anchor.x = sprite.anchor.y = .5;
                 sprite.scale = 0;
-                return {
-                    start: () => stage.addChild(sprite),
-                    advance: (delta) => {
-                        cumulativeTime += delta;
+                return new Animation(EXPAND_FRAMES + FADE_FRAMES, {
+                    onStart: () => stage.addChild(sprite),
+                    onEnd: () => stage.removeChild(sprite),
+                    advance: (delta, cumulativeTime) => {
                         if(cumulativeTime < EXPAND_FRAMES) {
                             const scale = MAX_SCALE * Easings.easeIn(cumulativeTime / EXPAND_FRAMES);
                             sprite.scale.set(scale, scale);
-                            return true;
-                        } else if(cumulativeTime < EXPAND_FRAMES + FADE_FRAMES) {
+                        } else {
                             sprite.scale.set(MAX_SCALE, MAX_SCALE);
                             sprite.alpha = 1 - (cumulativeTime - EXPAND_FRAMES) / FADE_FRAMES;
-                            return true;
-                        } else {
-                            stage.removeChild(sprite);
-                            return false;
                         }
                     }
-                };
+                });
             } else if(ability instanceof Abilities.ForceDart) {
                 return new ProjectileAnimation(15, {
                     pixiDungeonView,
@@ -166,30 +161,19 @@ export default class DefaultPixiAnimationPack {
             }
         } else if(gameEvent instanceof GameEvents.DeathEvent) {
             const creature = gameEvent.getCreature();
-            const location = dungeon.getTile(creature);
             const sprite = pixiDungeonView.getEntityById(creature.getId());
-            const FRAMES = 20;
-            return {
-                start: () => {
-                    pixiDungeonView.getTileGroup(location).update();
-                },
-                advance(delta) {
-                    cumulativeTime += delta;
-                    if(cumulativeTime > FRAMES) {
-                        sprite.parent.removeChild(sprite);
-                    } else {
-                        sprite.alpha = 1 - Easings.linear(cumulativeTime / FRAMES);
-                        return true;
-                    }
+            return new Animation(20, {
+                onEnd: () => sprite.parent.removeChild(sprite),
+                advance: (delta, cumulativeTime, proportion) => {
+                    sprite.alpha = 1 - Easings.linear(proportion);
                 }
-            };
+            });
         } else if(gameEvent instanceof GameEvents.ZeroDamageEvent) {
             const creature = gameEvent.getCreature();
             const cause = gameEvent.getCause();
             const tile = dungeon.getTile(creature);
             const x = tile.getX();
             const y = tile.getY();
-            const TIME = 40;
 
             if((cause instanceof Weapons.FrostDagger || cause instanceof Weapons.LightningRod)) {
                 return;
@@ -208,18 +192,13 @@ export default class DefaultPixiAnimationPack {
             text.y = startY;
             pixiDungeonView.addParticle(text);
 
-            return {
-                start: () => pixiDungeonView.addParticle,
-                advance: (delta) => {
-                    cumulativeTime += delta;
-                    if(cumulativeTime > TIME) {
-                        text.parent.removeChild(text);
-                    } else {
-                        text.y = (endY - startY) * Easings.linear(cumulativeTime / TIME) + startY;
-                        return true;
-                    }
+            return new Animation(40, {
+                onStart: () => pixiDungeonView.addParticle(text),
+                onEnd: () => text.parent.removeChild(text),
+                advance: (delta, cumulativeTime, proportion) => {
+                    text.y = (endY - startY) * Easings.linear(proportion) + startY;
                 }
-            };
+            });
         } else if(gameEvent instanceof GameEvents.HitpointsEvent) {
             const amount = gameEvent.getAmount();
             const damageType = gameEvent.getDamageType();

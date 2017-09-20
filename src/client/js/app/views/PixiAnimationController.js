@@ -45,24 +45,12 @@ export default class PixiAnimationController {
             const animationDelta = speedup * delta;
             const simDelta = animationDelta * GAME_TICKS_PER_FRAME;
             this._currentAnimations = animations.filter(entry => {
-                const { animation, time } = entry;
-                if(animation instanceof Animation) {
-                    if(!animation.hasStarted()) {
-                        animation.start();
-                    }
-                    animation.onTick(animationDelta);
-                    return !animation.hasEnded();
-                } else {
-                    if(!entry.started) {
-                        animation.start();
-                        animation.advance(0);
-                        entry.started = true;
-                    }
-                    // const windowStart = Math.min(simTime, time);
-                    // const delta = simTime + simDelta - windowStart;
-                    const delta = animationDelta;
-                    return animation.advance(delta);
+                const { animation } = entry;
+                if(!animation.hasStarted()) {
+                    animation.start();
                 }
+                animation.onTick(animationDelta);
+                return !animation.hasEnded();
             });
             this._simTime = Math.min(simTime + simDelta, dungeon.getCurrentTimestep());
         });

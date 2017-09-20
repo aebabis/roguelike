@@ -5,15 +5,13 @@ export default class TransitionAnimation extends Animation {
         group,
         properties,
         easing = TransitionAnimation.Easings.linear,
-        onStart = () => {},
-        onEnd = () => {}
+        onStart,
+        onEnd
     }) {
-        super(duration);
+        super(duration, {onStart, onEnd});
         this._group = group;
         this._properties = properties;
         this._easing = easing;
-        this.onStart = onStart;
-        this.onEnd = onEnd;
     }
 
     start() {

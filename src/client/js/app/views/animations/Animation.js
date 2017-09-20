@@ -11,8 +11,17 @@ const Easings = {
 };
 
 export default class Animation {
-    constructor(duration = 30) {
+    constructor(duration = 30, {onStart, onEnd, advance} = {}) {
         this._duration = duration;
+        if(onStart) {
+            this.onStart = onStart;
+        }
+        if(onEnd) {
+            this.onEnd = onEnd;
+        }
+        if(advance) {
+            this.advance = advance;
+        }
     }
 
     static get interpolate() { return interpolate; }

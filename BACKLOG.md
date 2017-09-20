@@ -15,7 +15,6 @@
   - Method for getting a single adjacent tile from a direction
   - Keyboard and mouse instructions
   - BlockTheExit strategy
-  - Let player know their speed
   - Animate death frame (instead of ending). Camera
   - Potion of flying
   - Use https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
@@ -28,11 +27,11 @@
   - Refactor pre-existing animations to use Animation class
   - Phase in new sprite CSS
 - Low
+  - Let player know their speed
   - In-game advice (don't flee fast enemies, remember abilities, find the treasure)
   - Weights for random dungeon rooms
   - Come up with a better name for "speed"
   - Option to hide enemy health and action bars
-  - Animation speed
   - Consider splitting source/target events into two events
   - Icon to indicate an enemy about to take a double-move
   - Optimize webpack (http://jamesknelson.com/using-es6-in-the-browser-with-babel-6-and-webpack/), (https://github.com/babel/babel-loader#babel-loader-is-slow)
@@ -42,9 +41,7 @@
   - Circular dependency injection (GameEvents inside Creature)
   - Melee attack animation improvement
   - Color UI when holding accelerator keys (items during ctrl)
-  - Typescript
   - Ability to compare 2 dungeons, for testing dungeon factory regressions
-  - Figure out why type inference doesn't work with ESDoc
 
 ## Content
   - Invisibility Spell
@@ -62,7 +59,6 @@
     - should not let you jump into a pit
   - There is a small delay on the first animation; probably the animation clock not advancing until first player event.
   - New visibility animations don't account for enemies affecting visibility (e.g. by opening a door)
-
 
 ## Art
   - Snail icon
@@ -82,4 +78,3 @@
   - Poison splatter
   - More sodas
   - Coin tile
-  - Arrow

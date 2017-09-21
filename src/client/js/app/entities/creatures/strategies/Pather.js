@@ -171,7 +171,7 @@ const Pather = {
                     } else if(creature.hasSeen(neighbor)) {
                         return creature.canOccupy(neighbor);
                     } else {
-                        return true;
+                        return false;
                     }
                 });
         } else {

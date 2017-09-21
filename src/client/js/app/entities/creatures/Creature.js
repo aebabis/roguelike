@@ -320,10 +320,12 @@ export default class Creature extends Entity {
     /**
      * Modifies the Creature's current mana by the given amount. Mana cannot
      * go below zero or above the Creature's base mana value
+     * @param {Dungeon} dungeon - The creature's current Dungeon
+     * @param {Object} cause - The cause of the mana change
      * @param {number} amount - An integer to add to the Creature's current mana.
      * Negative numbers are allowed
      */
-    modifyMana(amount) {
+    modifyMana(dungeon, cause, amount) {
         if(!Number.isInteger(amount)) {
             throw new Error('amount must be an integer');
         }

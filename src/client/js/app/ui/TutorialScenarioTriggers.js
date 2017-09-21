@@ -88,7 +88,7 @@ export default {
                     dungeon.getPlayableCharacter().getCurrentMana() === 0,
                 effect: () => {
                     this.enableTrigger('OUT_OF_MANA');
-                    dungeon.getPlayableCharacter().modifyMana(10);
+                    dungeon.getPlayableCharacter().modifyMana(dungeon, this, 10);
                 }
             })
             .addTrigger({

@@ -53,7 +53,7 @@ export default class Ability {
             throw new Error(reason);
         }
         if(!isFree) {
-            creature.modifyMana(-this.getManaCost());
+            creature.modifyMana(dungeon, this, -this.getManaCost());
         }
     }
 

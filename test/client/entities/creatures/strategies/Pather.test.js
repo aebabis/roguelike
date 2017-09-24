@@ -24,7 +24,7 @@ describe('Pather', function() {
         const targetTile = dungeon.getTile(2, 0);
 
         const path = Pather.getMoveSequenceToward(dungeon, player, targetTile);
-        expect(path.length).to.equal(4);
+        expect(path).to.equal(null);
     });
 
     it('should attempt to path through unseen enemies on visited tiles', function() {

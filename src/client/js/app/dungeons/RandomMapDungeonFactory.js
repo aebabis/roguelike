@@ -96,7 +96,7 @@ const itemTable = new CostedDistributionTable([{
     cost: 40
 }]);
 
-const table = new CostedDistributionTable([{
+const enemyTable = new CostedDistributionTable([{
     value: Enemies.Archer,
     weight: 40,
     cost: 10
@@ -135,7 +135,7 @@ const table = new CostedDistributionTable([{
 }, {
     value: Enemies.FireSprite,
     weight: 60,
-    cost: 6
+    cost: 3
 }, {
     value: Enemies.FlyingSerpent,
     weight: 60,
@@ -177,7 +177,7 @@ function reportCreaturesToConsole(creatures) {
     const data = creatures.map(function(creature) {
         return {
             name: creature.getName(),
-            cost: table.getCost(creature)
+            cost: enemyTable.getCost(creature)
         };
     }).sort((c1, c2)=>c1.cost-c2.cost);
     const maxNameLength = data.map((item)=>item.name.length).reduce((a,b)=>Math.max(a,b));
@@ -223,7 +223,7 @@ export default class RandomMapDungeonFactory {
         }
 
         // Test game configuration
-        const creatures = table.rollEntries(prng, 70);
+        const creatures = enemyTable.rollEntries(prng, 80);
 
         reportCreaturesToConsole(creatures);
 

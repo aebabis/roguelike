@@ -41,7 +41,7 @@ export default class Bigfoot extends Creature {
         ));
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 475;
     }
 

@@ -17,7 +17,7 @@ export default class Miner extends PlayableCharacter {
         return 6;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 425;
     }
 

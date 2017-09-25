@@ -25,7 +25,7 @@ export default class Witch extends Creature {
         return 10;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 550;
     }
 }

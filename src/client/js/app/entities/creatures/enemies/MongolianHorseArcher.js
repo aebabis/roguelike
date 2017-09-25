@@ -25,7 +25,7 @@ export default class MongolianHorseArcher extends Creature {
         return 6;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 350;
     }
 }

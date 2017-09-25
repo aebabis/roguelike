@@ -33,7 +33,7 @@ export default class Lobster extends Creature {
         return new LobsterClaw();
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 600;
     }
 

@@ -50,7 +50,7 @@ export default class FlyingSerpent extends Creature {
         return null;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 250;
     }
 

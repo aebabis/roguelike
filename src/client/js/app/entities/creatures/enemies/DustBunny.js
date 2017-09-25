@@ -47,7 +47,7 @@ export default class DustBunny extends Creature {
     }
 
     /** @override */
-    getSpeed() {
+    getBaseSpeed() {
         return 300;
     }
 

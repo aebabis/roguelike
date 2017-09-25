@@ -24,7 +24,7 @@ export default class Archer extends Creature {
         return 4;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 450;
     }
 }

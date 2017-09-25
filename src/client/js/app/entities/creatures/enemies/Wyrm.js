@@ -57,7 +57,7 @@ export default class Wyrm extends Creature {
         return 10;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 500;
     }
 }

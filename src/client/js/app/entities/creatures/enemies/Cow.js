@@ -14,7 +14,7 @@ export default class Cow extends Creature {
         ));
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 600;
     }
 

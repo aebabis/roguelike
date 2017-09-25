@@ -48,12 +48,12 @@ export default class Creature extends Entity {
       */
     constructor() {
         super();
-        this._delay();
         this._currentHP = this.getBaseHP();
         this._currentMana = this.getBaseMana();
         this._inventory = new Inventory();
         this._abilities = [];
         this._buffs = [];
+        this._delay();
     }
 
     _delay(multiplier) {
@@ -709,13 +709,30 @@ export default class Creature extends Entity {
     }
 
     /**
-     * Returns the number of game ticks the creature must wait in between
-     * its moves. Lower numbers are better
+     * Returns the default number of game ticks the creature must wait in 
+     * between its moves. This can be modified by buffs
      * @return {number} The number of base cooldown ticks in between the
      * creature's moves.
      */
-    getSpeed() {
+    getBaseSpeed() {
         return 500;
+    }
+
+    /**
+     * Returns the number of game ticks the creature must wait in between
+     * its moves. Lower numbers are better
+     * @return {number} The number of cooldown ticks in between the
+     * creature's moves.
+     */
+    getSpeed() {
+        const baseSpeed = this.getBaseSpeed();
+        const delayFactor = this.getBuffs().map(buff =>
+            buff.getProperties().delayFactor || 1
+        ).reduce((a, b) => a * b, 1);
+        const delayModifier = this.getBuffs().map(buff =>
+            buff.getProperties().delayModifier || 0
+        ).reduce((a, b) => a + b, 0);
+        return baseSpeed * delayFactor + delayModifier;
     }
 
     /**

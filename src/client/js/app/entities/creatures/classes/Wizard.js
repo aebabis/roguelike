@@ -13,7 +13,7 @@ export default class Wizard extends PlayableCharacter {
         return 16;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 450;
     }
 

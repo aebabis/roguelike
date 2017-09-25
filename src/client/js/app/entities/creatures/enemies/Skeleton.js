@@ -51,7 +51,7 @@ export default class Skeleton extends Creature {
         return new SkeletonArmor();
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 600;
     }
 

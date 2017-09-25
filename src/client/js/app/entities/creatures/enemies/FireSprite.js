@@ -59,7 +59,7 @@ export default class FireSprite extends Creature {
         return new FireSpriteArmor();
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 250;
     }
 

@@ -13,7 +13,7 @@ export default class Rogue extends PlayableCharacter {
         return 10;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 375;
     }
 

@@ -56,7 +56,7 @@ export default class Crier extends Creature {
         ));
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 500;
     }
 

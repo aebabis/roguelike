@@ -40,7 +40,7 @@ export default class BlackVoidSphere extends Creature {
         return null;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 600;
     }
 

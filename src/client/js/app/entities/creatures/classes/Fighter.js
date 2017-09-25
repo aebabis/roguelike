@@ -17,7 +17,7 @@ export default class Fighter extends PlayableCharacter {
         return 6;
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 450;
     }
 

@@ -59,7 +59,7 @@ export default class Ent extends Creature {
         return new Bark();
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 800;
     }
 

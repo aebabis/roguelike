@@ -32,7 +32,7 @@ export default class DustMite extends Creature {
         return new DustMiteAttack();
     }
 
-    getSpeed() {
+    getBaseSpeed() {
         return 300;
     }
 

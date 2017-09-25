@@ -12,6 +12,7 @@ import FlyingSerpent from './FlyingSerpent.js';
 import Lobster from './Lobster.js';
 import MongolianHorseArcher from './MongolianHorseArcher.js';
 import Skeleton from './Skeleton.js';
+import Slime from './Slime.js';
 import SlingshotImp from './SlingshotImp.js';
 import Witch from './Witch.js';
 import Wyrm from './Wyrm.js';
@@ -31,6 +32,7 @@ export default {
     Lobster,
     MongolianHorseArcher,
     Skeleton,
+    Slime,
     SlingshotImp,
     Witch,
     Wyrm

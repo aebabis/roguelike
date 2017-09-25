@@ -153,6 +153,10 @@ const table = new CostedDistributionTable([{
     weight: 80,
     cost: 5
 }, {
+    value: Enemies.Slime,
+    weight: 30,
+    cost: 6
+}, {
     value: Enemies.SlingshotImp,
     weight: 50,
     cost: 3

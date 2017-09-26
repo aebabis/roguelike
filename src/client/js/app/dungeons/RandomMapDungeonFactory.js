@@ -154,7 +154,7 @@ const enemyTable = new CostedDistributionTable([{
     cost: 5
 }, {
     value: Enemies.Slime,
-    weight: 30,
+    weight: 50,
     cost: 6
 }, {
     value: Enemies.SlingshotImp,

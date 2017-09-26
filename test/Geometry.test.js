@@ -1,4 +1,4 @@
-import { default as Geometry } from '../src/client/js/app/util/Geometry.js';
+import { default as Geometry } from '../src/client/js/app/util/Geometry';
 
 var expect = require('chai').expect;
 

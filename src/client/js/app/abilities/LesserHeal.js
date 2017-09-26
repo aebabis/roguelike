@@ -1,4 +1,4 @@
-import Ability from './Ability.js';
+import Ability from './Ability';
 
 var HEAL_AMOUNT = 2;
 

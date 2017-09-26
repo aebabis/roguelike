@@ -1,10 +1,10 @@
-import GameEvent from './GameEvent.js';
+import GameEvent from './GameEvent';
 
-import Creature from '../entities/creatures/Creature.js';
+import Creature from '../entities/creatures/Creature';
 
-import Ability from '../abilities/Ability.js';
+import Ability from '../abilities/Ability';
 
-import Tile from '../tiles/Tile.js';
+import Tile from '../tiles/Tile';
 
 export default class AbilityEvent extends GameEvent {
     /**

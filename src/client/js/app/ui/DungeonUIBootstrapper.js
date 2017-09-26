@@ -1,11 +1,11 @@
-import PixiDungeonView from '../views/PixiDungeonView.js';
-import EventLogView from '../views/EventLogView.js';
-import AbilitiesView from '../views/AbilitiesView.js';
-import InventoryView from '../views/InventoryView.js';
-import PlayerLocationView from '../views/PlayerLocationView.js';
+import PixiDungeonView from '../views/PixiDungeonView';
+import EventLogView from '../views/EventLogView';
+import AbilitiesView from '../views/AbilitiesView';
+import InventoryView from '../views/InventoryView';
+import PlayerLocationView from '../views/PlayerLocationView';
 
-import GraphicalViewKeyboardController from '../controllers/GraphicalViewKeyboardController.js';
-import PixiDungeonViewMouseController from '../views/PixiDungeonViewMouseController.js';
+import GraphicalViewKeyboardController from '../ui/GraphicalViewKeyboardController';
+import PixiDungeonViewMouseController from '../views/PixiDungeonViewMouseController';
 
 export default function(sharedData) {
     const mapView = new PixiDungeonView(sharedData);

@@ -1,4 +1,4 @@
-import Ability from './Ability.js';
+import Ability from './Ability';
 
 function getToTile(dungeon, creature, optionalTargetTile) {
     const casterLocation = dungeon.getTile(creature);

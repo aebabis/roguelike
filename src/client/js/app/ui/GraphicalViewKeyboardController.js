@@ -1,6 +1,6 @@
-import Moves from '../entities/creatures/moves/Moves.js';
+import Moves from '../entities/creatures/moves/Moves';
 
-import UIMessageEvent from './UIMessageEvent.js';
+import UIMessageEvent from './UIMessageEvent';
 
 /**
  * Controller that listens for keypresses on dungeon views

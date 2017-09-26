@@ -1,13 +1,13 @@
-import { default as Dungeon } from '../../../../src/client/js/app/dungeons/Dungeon.js';
-import { default as Tiles } from '../../../../src/client/js/app/tiles/Tiles.js';
-import { default as PlayableCharacter } from '../../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import { default as Slingshot } from '../../../../src/client/js/app/entities/weapons/Slingshot.js';
-import { default as LightArmor } from '../../../../src/client/js/app/entities/armor/LightArmor.js';
+import { default as Dungeon } from '../../../../src/client/js/app/dungeons/Dungeon';
+import { default as Tiles } from '../../../../src/client/js/app/tiles/Tiles';
+import { default as PlayableCharacter } from '../../../../src/client/js/app/entities/creatures/PlayableCharacter';
+import { default as Slingshot } from '../../../../src/client/js/app/entities/weapons/Slingshot';
+import { default as LightArmor } from '../../../../src/client/js/app/entities/armor/LightArmor';
 
-import { default as AbilityConsumable } from '../../../../src/client/js/app/entities/consumables/AbilityConsumable.js';
-import { default as CherrySoda } from '../../../../src/client/js/app/entities/consumables/CherrySoda.js';
+import { default as AbilityConsumable } from '../../../../src/client/js/app/entities/consumables/AbilityConsumable';
+import { default as CherrySoda } from '../../../../src/client/js/app/entities/consumables/CherrySoda';
 
-import { default as Fireball } from '../../../../src/client/js/app/abilities/Fireball.js';
+import { default as Fireball } from '../../../../src/client/js/app/abilities/Fireball';
 
 const expect = require('chai').expect;
 

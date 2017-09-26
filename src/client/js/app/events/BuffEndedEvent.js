@@ -1,4 +1,4 @@
-import GameEvent from './GameEvent.js';
+import GameEvent from './GameEvent';
 
 export default class BuffEndedEvent extends GameEvent {
     /**

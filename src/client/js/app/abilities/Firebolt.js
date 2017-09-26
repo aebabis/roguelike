@@ -1,5 +1,5 @@
-import Ability from './Ability.js';
-import DamageTypes from '../entities/DamageTypes.js';
+import Ability from './Ability';
+import DamageTypes from '../entities/DamageTypes';
 
 const AMOUNT = 3;
 

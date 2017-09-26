@@ -1,7 +1,7 @@
-import { default as Dungeon } from '../../../../../src/client/js/app/dungeons/Dungeon.js';
-import { default as PlayableCharacter } from '../../../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
+import { default as Dungeon } from '../../../../../src/client/js/app/dungeons/Dungeon';
+import { default as PlayableCharacter } from '../../../../../src/client/js/app/entities/creatures/PlayableCharacter';
 
-import { default as PoisonDebuff } from '../../../../../src/client/js/app/entities/creatures/buffs/PoisonDebuff.js';
+import { default as PoisonDebuff } from '../../../../../src/client/js/app/entities/creatures/buffs/PoisonDebuff';
 
 const expect = require('chai').expect;
 

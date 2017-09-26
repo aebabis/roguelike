@@ -1,7 +1,7 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
 
-import Slingshot from '../../weapons/Slingshot.js';
+import Slingshot from '../../weapons/Slingshot';
 
 export default class SlingshotImp extends Creature {
     /**

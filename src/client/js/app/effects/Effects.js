@@ -1,4 +1,4 @@
-import KnockbackEffect from './KnockbackEffect.js';
+import KnockbackEffect from './KnockbackEffect';
 
 export default {
     KnockbackEffect

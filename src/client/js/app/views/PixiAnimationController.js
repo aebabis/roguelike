@@ -1,6 +1,6 @@
-import GameEvents from '../events/GameEvents.js';
-import Dungeon from '../dungeons/Dungeon.js';
-import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
+import GameEvents from '../events/GameEvents';
+import Dungeon from '../dungeons/Dungeon';
+import PlayableCharacter from '../entities/creatures/PlayableCharacter';
 import Animation from './animations/Animation';
 
 const SPEEDUP_RATE = 2;

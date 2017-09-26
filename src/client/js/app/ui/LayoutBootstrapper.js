@@ -1,6 +1,6 @@
-import MenuBar from './MenuBar.js';
-import SharedUIDataController from '../controllers/SharedUIDataController.js';
-import DungeonUIBootstrapper from './DungeonUIBootstrapper.js';
+import MenuBar from './MenuBar';
+import SharedUIDataController from '../ui/SharedUIDataController';
+import DungeonUIBootstrapper from './DungeonUIBootstrapper';
 
 export default {
     bootstrap: function() {

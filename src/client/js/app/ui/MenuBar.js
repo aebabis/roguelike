@@ -1,11 +1,11 @@
-import CharacterBuilder from './CharacterBuilder.js';
-import DungeonPicker from './DungeonPicker.js';
+import CharacterBuilder from './CharacterBuilder';
+import DungeonPicker from './DungeonPicker';
 
-import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
-import DebugConsole from '../util/DebugConsole.js';
-import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializer.js';
+import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory';
+import DebugConsole from '../util/DebugConsole';
+import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializer';
 
-import Account from '../../account/Account.js';
+import Account from '../../account/Account';
 
 function template() {
     const menuBar = document.createElement('div');

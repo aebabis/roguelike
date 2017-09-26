@@ -1,5 +1,5 @@
-import Creature from '../entities/creatures/Creature.js';
-import GameEvent from './GameEvent.js';
+import Creature from '../entities/creatures/Creature';
+import GameEvent from './GameEvent';
 
 export default class SpawnEvent extends GameEvent {
     constructor(dungeon, creature, x, y) {

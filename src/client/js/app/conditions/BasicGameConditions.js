@@ -1,4 +1,4 @@
-import GameConditions from './GameConditions.js';
+import GameConditions from './GameConditions';
 
 /**
  * Game win and loss conditions for a kill-all-enemies game

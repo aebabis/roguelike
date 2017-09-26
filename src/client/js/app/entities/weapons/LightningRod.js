@@ -1,5 +1,5 @@
-import Weapon from './Weapon.js';
-import DamageTypes from '../DamageTypes.js';
+import Weapon from './Weapon';
+import DamageTypes from '../DamageTypes';
 
 var DAMAGE = 4;
 var BONUS_DAMAGE = 1;

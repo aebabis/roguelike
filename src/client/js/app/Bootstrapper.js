@@ -1,5 +1,5 @@
-import LayoutBootstrapper from './ui/LayoutBootstrapper.js';
-import MenuFlowsController from './ui/MenuFlowsController.js';
+import LayoutBootstrapper from './ui/LayoutBootstrapper';
+import MenuFlowsController from './ui/MenuFlowsController';
 
 // http://stackoverflow.com/a/31770875/2993478
 var req = require.context('../../css', true, /\.scss$/);

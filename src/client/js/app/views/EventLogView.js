@@ -1,6 +1,6 @@
-import GameEvents from '../events/GameEvents.js';
+import GameEvents from '../events/GameEvents';
 
-import UIMessageEvent from '../controllers/UIMessageEvent.js';
+import UIMessageEvent from '../ui/UIMessageEvent';
 
 export default class EventLogView {
     /**

@@ -1,7 +1,7 @@
-import Moves from '../entities/creatures/moves/Moves.js';
-import GameEvents from '../events/GameEvents.js';
-import Dungeon from '../dungeons/Dungeon.js';
-import ItemDomFactory from './ItemDomFactory.js';
+import Moves from '../entities/creatures/moves/Moves';
+import GameEvents from '../events/GameEvents';
+import Dungeon from '../dungeons/Dungeon';
+import ItemDomFactory from './ItemDomFactory';
 
 function getInventoryDom(creature, targettedIndex) {
     const meleeWeapon = creature.getMeleeWeapon();

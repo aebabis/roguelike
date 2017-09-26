@@ -1,8 +1,8 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
 
-import Stick from '../../weapons/Stick.js';
-import Fireball from '../../../abilities/Fireball.js';
+import Stick from '../../weapons/Stick';
+import Fireball from '../../../abilities/Fireball';
 
 export default class Witch extends Creature {
     constructor() {

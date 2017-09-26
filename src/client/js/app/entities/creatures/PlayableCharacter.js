@@ -1,8 +1,8 @@
-import Creature from './Creature.js';
+import Creature from './Creature';
 
-import Move from './moves/Move.js';
+import Move from './moves/Move';
 
-import Inventory from './Inventory.js';
+import Inventory from './Inventory';
 
 export default class PlayableCharacter extends Creature {
     /**

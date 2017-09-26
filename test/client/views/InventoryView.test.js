@@ -1,10 +1,10 @@
-import Dungeon  from '../../../src/client/js/app/dungeons/Dungeon.js';
-import Rogue from '../../../src/client/js/app/entities/creatures/classes/Rogue.js';
-import Moves from '../../../src/client/js/app/entities/creatures/moves/Moves.js';
-import Slingshot from '../../../src/client/js/app/entities/weapons/Slingshot.js';
+import Dungeon  from '../../../src/client/js/app/dungeons/Dungeon';
+import Rogue from '../../../src/client/js/app/entities/creatures/classes/Rogue';
+import Moves from '../../../src/client/js/app/entities/creatures/moves/Moves';
+import Slingshot from '../../../src/client/js/app/entities/weapons/Slingshot';
 
-import SharedUIDataController from '../../../src/client/js/app/controllers/SharedUIDataController.js';
-import InventoryView from '../../../src/client/js/app/views/InventoryView.js';
+import SharedUIDataController from '../../../src/client/js/app/ui/SharedUIDataController';
+import InventoryView from '../../../src/client/js/app/views/InventoryView';
 
 var expect = require('chai').expect;
 

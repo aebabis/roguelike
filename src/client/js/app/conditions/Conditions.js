@@ -1,5 +1,5 @@
-import BasicGameConditions from './BasicGameConditions.js';
-import GetTheTreasureConditions from './GetTheTreasureConditions.js';
+import BasicGameConditions from './BasicGameConditions';
+import GetTheTreasureConditions from './GetTheTreasureConditions';
 
 export default {
     BasicGameConditions,

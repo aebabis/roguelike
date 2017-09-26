@@ -1,4 +1,4 @@
-import ConnectedRoomLayoutGenerator  from '../../../../../src/client/js/app/dungeons/generators/layouts/ConnectedRoomLayoutGenerator.js';
+import ConnectedRoomLayoutGenerator  from '../../../../../src/client/js/app/dungeons/generators/layouts/ConnectedRoomLayoutGenerator';
 
 var expect = require('chai').expect;
 

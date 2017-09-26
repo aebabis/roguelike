@@ -1,4 +1,4 @@
-import Tile from './Tile.js';
+import Tile from './Tile';
 
 export default class PitTile extends Tile {
     /**

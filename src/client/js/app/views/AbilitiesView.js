@@ -1,4 +1,4 @@
-import Moves from '../entities/creatures/moves/Moves.js';
+import Moves from '../entities/creatures/moves/Moves';
 
 export default class AbilitiesView {
     /**

@@ -1,10 +1,10 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
-import DamageTypes from '../../DamageTypes.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
+import DamageTypes from '../../DamageTypes';
 
-import Armor from '../../armor/Armor.js';
-import Weapon from '../../weapons/Weapon.js';
-import Firebolt from '../../../abilities/Firebolt.js';
+import Armor from '../../armor/Armor';
+import Weapon from '../../weapons/Weapon';
+import Firebolt from '../../../abilities/Firebolt';
 
 class WyrmHide extends Armor {
     getReduction(type) {

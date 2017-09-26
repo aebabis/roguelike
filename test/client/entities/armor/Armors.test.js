@@ -1,6 +1,6 @@
-import Armor from '../../../../src/client/js/app/entities/armor/Armor.js';
-import Armors from '../../../../src/client/js/app/entities/armor/Armors.js';
-import DamageTypes from '../../../../src/client/js/app/entities/DamageTypes.js';
+import Armor from '../../../../src/client/js/app/entities/armor/Armor';
+import Armors from '../../../../src/client/js/app/entities/armor/Armors';
+import DamageTypes from '../../../../src/client/js/app/entities/DamageTypes';
 
 const expect = require('chai').expect;
 

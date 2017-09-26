@@ -1,24 +1,24 @@
-import EntranceTile from '../tiles/EntranceTile.js';
+import EntranceTile from '../tiles/EntranceTile';
 
-import GetTheTreasureConditions from '../conditions/GetTheTreasureConditions.js';
+import GetTheTreasureConditions from '../conditions/GetTheTreasureConditions';
 
-import Enemies from '../entities/creatures/enemies/Enemies.js';
+import Enemies from '../entities/creatures/enemies/Enemies';
 
-import Abilities from '../abilities/Abilities.js';
+import Abilities from '../abilities/Abilities';
 
-import CostedDistributionTable from '../util/CostedDistributionTable.js';
-import TheTreasure from '../entities/TheTreasure.js';
+import CostedDistributionTable from '../util/CostedDistributionTable';
+import TheTreasure from '../entities/TheTreasure';
 
-import Weapons from '../entities/weapons/Weapons.js';
-import Armors from '../entities/armor/Armors.js';
+import Weapons from '../entities/weapons/Weapons';
+import Armors from '../entities/armor/Armors';
 
-import AbilityConsumable from '../entities/consumables/AbilityConsumable.js';
-import CherrySoda from '../entities/consumables/CherrySoda.js';
-import BlueberrySoda from '../entities/consumables/BlueberrySoda.js';
+import AbilityConsumable from '../entities/consumables/AbilityConsumable';
+import CherrySoda from '../entities/consumables/CherrySoda';
+import BlueberrySoda from '../entities/consumables/BlueberrySoda';
 
-import DebugConsole from '../util/DebugConsole.js';
+import DebugConsole from '../util/DebugConsole';
 
-import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayoutGenerator.js';
+import ConnectedRoomLayoutGenerator from './generators/layouts/ConnectedRoomLayoutGenerator';
 
 const LOOT_VALUE = 70;
 

@@ -1,8 +1,8 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
 
-import LightArmor from '../../armor/LightArmor.js';
-import Longbow from '../../weapons/Longbow.js';
+import LightArmor from '../../armor/LightArmor';
+import Longbow from '../../weapons/Longbow';
 
 export default class Archer extends Creature {
     /**

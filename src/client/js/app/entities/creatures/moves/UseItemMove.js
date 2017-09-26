@@ -1,8 +1,8 @@
-import GameEvents from '../../../events/GameEvents.js';
+import GameEvents from '../../../events/GameEvents';
 
-import Move from './Move.js';
+import Move from './Move';
 
-import Consumable from '../../consumables/Consumable.js';
+import Consumable from '../../consumables/Consumable';
 
 export default class UseItemMove extends Move {
     constructor(actorTile, position, targetTile) {

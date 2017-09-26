@@ -1,6 +1,6 @@
-import Buff from './Buff.js';
-import GameEvents from '../../../events/GameEvents.js';
-import DamageTypes from '../../DamageTypes.js';
+import Buff from './Buff';
+import GameEvents from '../../../events/GameEvents';
+import DamageTypes from '../../DamageTypes';
 
 export default class PoisonDebuff extends Buff {
     /**

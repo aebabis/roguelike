@@ -1,5 +1,5 @@
 global.Random = require('random-js');
-import { JSDOM } from '../node_modules/jsdom/lib/api.js';
+import { JSDOM } from '../node_modules/jsdom/lib/api';
 
 if (!Object.entries) {
     Object.entries = function(obj) {
@@ -62,9 +62,9 @@ const window = global.window = dom.window;
 global.document = window.document;
 global.localStorage = {};
 
-//import Bootstrapper from '../src/client/js/app/Bootstrapper.js';
-import RandomMapDungeonFactory from '../src/client/js/app/dungeons/RandomMapDungeonFactory.js';
-import Rogue from '../src/client/js/app/entities/creatures/classes/Rogue.js';
+//import Bootstrapper from '../src/client/js/app/Bootstrapper';
+import RandomMapDungeonFactory from '../src/client/js/app/dungeons/RandomMapDungeonFactory';
+import Rogue from '../src/client/js/app/entities/creatures/classes/Rogue';
 
 for(let i = 0; i < 10; i++) {
     const prng = Random.engines.mt19937();

@@ -1,9 +1,9 @@
-import { default as Dungeon } from '../../../../../src/client/js/app/dungeons/Dungeon.js';
-import { default as Tiles } from '../../../../../src/client/js/app/tiles/Tiles.js';
-import { default as PlayableCharacter } from '../../../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import { default as BlackVoidSphere } from '../../../../../src/client/js/app/entities/creatures/enemies/BlackVoidSphere.js';
+import { default as Dungeon } from '../../../../../src/client/js/app/dungeons/Dungeon';
+import { default as Tiles } from '../../../../../src/client/js/app/tiles/Tiles';
+import { default as PlayableCharacter } from '../../../../../src/client/js/app/entities/creatures/PlayableCharacter';
+import { default as BlackVoidSphere } from '../../../../../src/client/js/app/entities/creatures/enemies/BlackVoidSphere';
 
-import { default as Pather } from '../../../../../src/client/js/app/entities/creatures/strategies/Pather.js';
+import { default as Pather } from '../../../../../src/client/js/app/entities/creatures/strategies/Pather';
 
 const expect = require('chai').expect;
 const sinon = require('sinon');

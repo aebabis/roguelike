@@ -1,5 +1,5 @@
-import Move from './Move.js';
-import GameEvents from '../../../events/GameEvents.js';
+import Move from './Move';
+import GameEvents from '../../../events/GameEvents';
 
 export default class WaitMove extends Move {
     getReasonIllegal() {

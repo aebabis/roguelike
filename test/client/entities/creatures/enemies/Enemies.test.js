@@ -1,8 +1,8 @@
-import { default as Enemies } from '../../../../../src/client/js/app/entities/creatures/enemies/Enemies.js';
-import { default as PlayableCharacter } from '../../../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import { default as Moves } from '../../../../../src/client/js/app/entities/creatures/moves/Moves.js';
-import { default as Dungeon } from '../../../../../src/client/js/app/dungeons/Dungeon.js';
-import { default as Tiles } from '../../../../../src/client/js/app/tiles/Tiles.js';
+import { default as Enemies } from '../../../../../src/client/js/app/entities/creatures/enemies/Enemies';
+import { default as PlayableCharacter } from '../../../../../src/client/js/app/entities/creatures/PlayableCharacter';
+import { default as Moves } from '../../../../../src/client/js/app/entities/creatures/moves/Moves';
+import { default as Dungeon } from '../../../../../src/client/js/app/dungeons/Dungeon';
+import { default as Tiles } from '../../../../../src/client/js/app/tiles/Tiles';
 
 const expect = require('chai').expect;
 

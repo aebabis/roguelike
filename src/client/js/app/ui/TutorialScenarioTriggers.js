@@ -1,5 +1,5 @@
-import Leap from '../abilities/Leap.js';
-import GameEvents from '../events/GameEvents.js';
+import Leap from '../abilities/Leap';
+import GameEvents from '../events/GameEvents';
 
 class Triggers {
     constructor(dungeon) {

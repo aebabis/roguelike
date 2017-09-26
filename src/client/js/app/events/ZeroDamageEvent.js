@@ -1,6 +1,6 @@
-import GameEvent from './GameEvent.js';
+import GameEvent from './GameEvent';
 
-import Creature from '../entities/creatures/Creature.js';
+import Creature from '../entities/creatures/Creature';
 
 export default class ZeroDamageEvent extends GameEvent {
     constructor(dungeon, creature, cause, type) {

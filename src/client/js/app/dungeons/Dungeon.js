@@ -1,16 +1,16 @@
-import Tile from '../tiles/Tile.js';
-import Creature from '../entities/creatures/Creature.js';
-import Move from '../entities/creatures/moves/Move.js';
-import Moves from '../entities/creatures/moves/Moves.js';
-import GameConditions from '../conditions/GameConditions.js';
+import Tile from '../tiles/Tile';
+import Creature from '../entities/creatures/Creature';
+import Move from '../entities/creatures/moves/Move';
+import Moves from '../entities/creatures/moves/Moves';
+import GameConditions from '../conditions/GameConditions';
 
-import PlayableCharacter from '../entities/creatures/PlayableCharacter.js';
+import PlayableCharacter from '../entities/creatures/PlayableCharacter';
 
-import GameEvents from '../events/GameEvents.js';
-import HumanToMoveEvent from '../events/HumanToMoveEvent.js';
-import HumanMovingEvent from '../events/HumanMovingEvent.js';
+import GameEvents from '../events/GameEvents';
+import HumanToMoveEvent from '../events/HumanToMoveEvent';
+import HumanMovingEvent from '../events/HumanMovingEvent';
 
-import DebugConsole from '../util/DebugConsole.js';
+import DebugConsole from '../util/DebugConsole';
 
 import Rx from 'rxjs/Rx';
 

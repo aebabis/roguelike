@@ -1,4 +1,4 @@
-import Consumable from './Consumable.js';
+import Consumable from './Consumable';
 
 var AMOUNT = 5;
 

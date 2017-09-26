@@ -1,8 +1,8 @@
-import Strategy from './Strategy.js';
-import Creature from '../Creature.js';
-import Dungeon from '../../../dungeons/Dungeon.js';
+import Strategy from './Strategy';
+import Creature from '../Creature';
+import Dungeon from '../../../dungeons/Dungeon';
 
-import Moves from '../moves/Moves.js';
+import Moves from '../moves/Moves';
 
 /**
  * @class IdleStrategy

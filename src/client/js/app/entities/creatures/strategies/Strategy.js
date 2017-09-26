@@ -1,4 +1,4 @@
-//import Moves from '../moves/Moves.js';
+//import Moves from '../moves/Moves';
 
 export default class Strategy {
     getNextMove(dungeon, creature) {

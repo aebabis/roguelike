@@ -1,4 +1,4 @@
-import PlayableCharacter from '../PlayableCharacter.js';
+import PlayableCharacter from '../PlayableCharacter';
 
 var AStar = (function() {
     var StringSet = function() {};
@@ -149,7 +149,7 @@ var AStar = (function() {
     return aStar;
 }());
 
-import Moves from '../moves/Moves.js';
+import Moves from '../moves/Moves';
 
 const Pather = {
     getMoveSequenceToward: function(dungeon, creature, target) {

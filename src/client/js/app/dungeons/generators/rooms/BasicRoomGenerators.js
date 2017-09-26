@@ -1,4 +1,4 @@
-import Tiles from '../../../tiles/Tiles.js';
+import Tiles from '../../../tiles/Tiles';
 
 // TODO: h-pit with no walk-around area
 

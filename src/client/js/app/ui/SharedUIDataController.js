@@ -1,14 +1,14 @@
-import Observable from '../util/Observable.js';
+import Observable from '../util/Observable';
 
-import Dungeon from '../dungeons/Dungeon.js';
+import Dungeon from '../dungeons/Dungeon';
 
-import Moves from '../entities/creatures/moves/Moves.js';
+import Moves from '../entities/creatures/moves/Moves';
 
-import GameEvents from '../events/GameEvents.js';
+import GameEvents from '../events/GameEvents';
 
-import Pather from '../entities/creatures/strategies/Pather.js';
+import Pather from '../entities/creatures/strategies/Pather';
 
-import UIMessageEvent from '../controllers/UIMessageEvent.js';
+import UIMessageEvent from '../ui/UIMessageEvent';
 
 let incr = 0;
 const NEUTRAL_MODE = incr++;

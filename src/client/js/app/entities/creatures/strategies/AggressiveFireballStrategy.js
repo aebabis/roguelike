@@ -1,10 +1,10 @@
-import Strategy from './Strategy.js';
-import Creature from '../Creature.js';
-import Dungeon from '../../../dungeons/Dungeon.js';
+import Strategy from './Strategy';
+import Creature from '../Creature';
+import Dungeon from '../../../dungeons/Dungeon';
 
-import Moves from '../moves/Moves.js';
+import Moves from '../moves/Moves';
 
-import Fireball from '../../../abilities/Fireball.js';
+import Fireball from '../../../abilities/Fireball';
 
 /**
  * @class AggressiveFireballStrategy
@@ -21,8 +21,8 @@ export default class AggressiveFireballStrategy extends Strategy {
         var location = enemy && dungeon.getTile(enemy);
         if(!location && this._lastKnownEnemyLocation) {
             location = [this._lastKnownEnemyLocation].concat(this._lastKnownEnemyLocation.getNeighbors8(dungeon))
-                    .filter((tile)=>creature.canSee(dungeon, tile))
-                    .sort((tileA, tileB)=>creatureTile.getDirectDistance(tileA) - creatureTile.getDirectDistance(tileB))[0];
+                .filter((tile)=>creature.canSee(dungeon, tile))
+                .sort((tileA, tileB)=>creatureTile.getDirectDistance(tileA) - creatureTile.getDirectDistance(tileB))[0];
         }
         if(location) {
             var fireballIndex = creature.getAbilityIndex(Fireball);

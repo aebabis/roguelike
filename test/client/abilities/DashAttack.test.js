@@ -1,9 +1,9 @@
-import { default as Dungeon } from '../../../src/client/js/app/dungeons/Dungeon.js';
-import { default as Tiles } from '../../../src/client/js/app/tiles/Tiles.js';
-import { default as DashAttack } from '../../../src/client/js/app/abilities/DashAttack.js';
-import { default as Dagger } from '../../../src/client/js/app/entities/weapons/Dagger.js';
-import { default as PlayableCharacter } from '../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import { default as Ent } from '../../../src/client/js/app/entities/creatures/enemies/Ent.js';
+import { default as Dungeon } from '../../../src/client/js/app/dungeons/Dungeon';
+import { default as Tiles } from '../../../src/client/js/app/tiles/Tiles';
+import { default as DashAttack } from '../../../src/client/js/app/abilities/DashAttack';
+import { default as Dagger } from '../../../src/client/js/app/entities/weapons/Dagger';
+import { default as PlayableCharacter } from '../../../src/client/js/app/entities/creatures/PlayableCharacter';
+import { default as Ent } from '../../../src/client/js/app/entities/creatures/enemies/Ent';
 
 var expect = require('chai').expect;
 

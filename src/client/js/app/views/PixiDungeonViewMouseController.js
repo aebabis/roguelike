@@ -1,4 +1,4 @@
-import Moves from '../entities/creatures/moves/Moves.js';
+import Moves from '../entities/creatures/moves/Moves';
 
 /**
  * Controller that listens for mouse actions on dungeon views

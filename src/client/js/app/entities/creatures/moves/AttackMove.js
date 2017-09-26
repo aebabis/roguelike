@@ -1,5 +1,5 @@
-import Move from './Move.js';
-import AttackEvent from '../../../events/AttackEvent.js';
+import Move from './Move';
+import AttackEvent from '../../../events/AttackEvent';
 
 export default class AttackMove extends Move {
     // TODO: Only allow coords

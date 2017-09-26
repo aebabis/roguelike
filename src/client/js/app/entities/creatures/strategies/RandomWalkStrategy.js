@@ -1,8 +1,8 @@
-import Strategy from './Strategy.js';
-import Creature from '../Creature.js';
-import Dungeon from '../../../dungeons/Dungeon.js';
+import Strategy from './Strategy';
+import Creature from '../Creature';
+import Dungeon from '../../../dungeons/Dungeon';
 
-import Pather from './Pather.js';
+import Pather from './Pather';
 
 /**
  * @class RandomWalkStrategy

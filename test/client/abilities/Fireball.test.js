@@ -1,8 +1,8 @@
-import Dungeon from '../../../src/client/js/app/dungeons/Dungeon.js';
-import PlayableCharacter from '../../../src/client/js/app/entities/creatures/PlayableCharacter.js';
-import Ent from '../../../src/client/js/app/entities/creatures/enemies/Ent.js';
-import Fireball from '../../../src/client/js/app/abilities/Fireball.js';
-import Moves from '../../../src/client/js/app/entities/creatures/moves/Moves.js';
+import Dungeon from '../../../src/client/js/app/dungeons/Dungeon';
+import PlayableCharacter from '../../../src/client/js/app/entities/creatures/PlayableCharacter';
+import Ent from '../../../src/client/js/app/entities/creatures/enemies/Ent';
+import Fireball from '../../../src/client/js/app/abilities/Fireball';
+import Moves from '../../../src/client/js/app/entities/creatures/moves/Moves';
 
 var expect = require('chai').expect;
 

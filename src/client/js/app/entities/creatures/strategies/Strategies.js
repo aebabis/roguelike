@@ -1,12 +1,12 @@
-import AggressiveFireballStrategy from './AggressiveFireballStrategy.js';
-import ChaseStrategy from './ChaseStrategy.js';
-import CompositeStrategy from './CompositeStrategy.js';
-import FleeStrategy from './FleeStrategy.js';
-import HoldStrategy from './HoldStrategy.js';
-import IdleStrategy from './IdleStrategy.js';
-import MeleeAttackStrategy from './MeleeAttackStrategy.js';
-import OffensiveTargettedAbilityStrategy from './OffensiveTargettedAbilityStrategy.js';
-import RandomWalkStrategy from './RandomWalkStrategy.js';
+import AggressiveFireballStrategy from './AggressiveFireballStrategy';
+import ChaseStrategy from './ChaseStrategy';
+import CompositeStrategy from './CompositeStrategy';
+import FleeStrategy from './FleeStrategy';
+import HoldStrategy from './HoldStrategy';
+import IdleStrategy from './IdleStrategy';
+import MeleeAttackStrategy from './MeleeAttackStrategy';
+import OffensiveTargettedAbilityStrategy from './OffensiveTargettedAbilityStrategy';
+import RandomWalkStrategy from './RandomWalkStrategy';
 
 export default {
     AggressiveFireballStrategy,

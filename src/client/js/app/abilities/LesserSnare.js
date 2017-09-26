@@ -1,5 +1,5 @@
-import Ability from './Ability.js';
-import SnareDebuff from '../entities/creatures/buffs/SnareDebuff.js';
+import Ability from './Ability';
+import SnareDebuff from '../entities/creatures/buffs/SnareDebuff';
 
 var DURATION = 1500;
 

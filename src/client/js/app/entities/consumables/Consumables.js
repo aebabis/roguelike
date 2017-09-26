@@ -1,5 +1,5 @@
-import BlueberrySoda from './BlueberrySoda.js';
-import CherrySoda from './CherrySoda.js';
+import BlueberrySoda from './BlueberrySoda';
+import CherrySoda from './CherrySoda';
 
 export default {
     BlueberrySoda,

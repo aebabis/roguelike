@@ -1,5 +1,5 @@
-import Dungeon from '../dungeons/Dungeon.js'; // TOOD: Update transpiler
-import Creature from '../entities/creatures/Creature.js';
+import Dungeon from '../dungeons/Dungeon'; // TOOD: Update transpiler
+import Creature from '../entities/creatures/Creature';
 
 /**
  * A grid tile in the dungeon

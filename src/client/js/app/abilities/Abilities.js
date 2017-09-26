@@ -1,11 +1,11 @@
-import DashAttack from './DashAttack.js';
-import Fireball from './Fireball.js';
-import Firebolt from './Firebolt.js';
-import ForceDart from './ForceDart.js';
-import Leap from './Leap.js';
-import LesserHeal from './LesserHeal.js';
-import LesserSnare from './LesserSnare.js';
-import Tunnel from './Tunnel.js';
+import DashAttack from './DashAttack';
+import Fireball from './Fireball';
+import Firebolt from './Firebolt';
+import ForceDart from './ForceDart';
+import Leap from './Leap';
+import LesserHeal from './LesserHeal';
+import LesserSnare from './LesserSnare';
+import Tunnel from './Tunnel';
 
 export default {
     DashAttack,

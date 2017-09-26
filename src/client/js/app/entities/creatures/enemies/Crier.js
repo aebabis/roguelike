@@ -1,11 +1,11 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
 
-import Armor from '../../armor/Armor.js';
-import Weapon from '../../weapons/Weapon.js';
-import DamageTypes from '../../DamageTypes.js';
+import Armor from '../../armor/Armor';
+import Weapon from '../../weapons/Weapon';
+import DamageTypes from '../../DamageTypes';
 
-import KnockbackEffect from '../../../effects/KnockbackEffect.js';
+import KnockbackEffect from '../../../effects/KnockbackEffect';
 
 class TrumpetPlating extends Armor {
     getReduction(type) {

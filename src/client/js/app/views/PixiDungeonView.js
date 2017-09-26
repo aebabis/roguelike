@@ -1,16 +1,15 @@
-import Dungeon from '../dungeons/Dungeon.js';
-// import GameEvent from '../events/GameEvent.js';
-import GameEvents from '../events/GameEvents.js';
+import Dungeon from '../dungeons/Dungeon';
+import GameEvents from '../events/GameEvents';
 
-// import DungeonTooltips from './DungeonTooltips.js';
+// import DungeonTooltips from './DungeonTooltips';
 
-import SharedUIDataController from '../controllers/SharedUIDataController.js';
+import SharedUIDataController from '../ui/SharedUIDataController';
 
-import Moves from '../entities/creatures/moves/Moves.js';
+import Moves from '../entities/creatures/moves/Moves';
 
-import DefaultPixiAnimationPack from './DefaultPixiAnimationPack.js';
-import DefaultSpritePack from './DefaultSpritePack.js';
-import PixiAnimationController from './PixiAnimationController.js';
+import DefaultPixiAnimationPack from './DefaultPixiAnimationPack';
+import DefaultSpritePack from './DefaultSpritePack';
+import PixiAnimationController from './PixiAnimationController';
 
 const PIXI = require('pixi.js');
 

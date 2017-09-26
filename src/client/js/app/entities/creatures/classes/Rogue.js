@@ -1,4 +1,4 @@
-import PlayableCharacter from '../PlayableCharacter.js';
+import PlayableCharacter from '../PlayableCharacter';
 
 export default class Rogue extends PlayableCharacter {
     getBackpackSize() {

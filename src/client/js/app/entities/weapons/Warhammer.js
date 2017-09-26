@@ -1,7 +1,7 @@
-import Weapon from './Weapon.js';
-import DamageTypes from '../DamageTypes.js';
+import Weapon from './Weapon';
+import DamageTypes from '../DamageTypes';
 
-import KnockbackEffect from '../../effects/KnockbackEffect.js';
+import KnockbackEffect from '../../effects/KnockbackEffect';
 
 var AMOUNT = 4;
 

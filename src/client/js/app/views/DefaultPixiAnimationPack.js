@@ -1,9 +1,9 @@
-import Abilities from '../abilities/Abilities.js';
-import GameEvents from '../events/GameEvents.js';
-import Moves from '../entities/creatures/moves/Moves.js';
-import Effects from '../effects/Effects.js';
-import Weapons from '../entities/weapons/Weapons.js';
-import DamageTypes from '../entities/DamageTypes.js';
+import Abilities from '../abilities/Abilities';
+import GameEvents from '../events/GameEvents';
+import Moves from '../entities/creatures/moves/Moves';
+import Effects from '../effects/Effects';
+import Weapons from '../entities/weapons/Weapons';
+import DamageTypes from '../entities/DamageTypes';
 
 import Animation from './animations/Animation';
 import AnimationGroup from './animations/AnimationGroup';

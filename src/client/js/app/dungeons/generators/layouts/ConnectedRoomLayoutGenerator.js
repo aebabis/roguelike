@@ -1,8 +1,8 @@
-import BasicRoomGenerators from '../rooms/BasicRoomGenerators.js';
+import BasicRoomGenerators from '../rooms/BasicRoomGenerators';
 
-import Dungeon from '../../Dungeon.js';
+import Dungeon from '../../Dungeon';
 
-import Tiles from '../../../tiles/Tiles.js';
+import Tiles from '../../../tiles/Tiles';
 
 const NORTH = 'NORTH';
 const EAST = 'EAST';

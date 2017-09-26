@@ -1,7 +1,7 @@
-import GameEvents from '../../../events/GameEvents.js';
-import TheTreasure from '../../TheTreasure.js';
+import GameEvents from '../../../events/GameEvents';
+import TheTreasure from '../../TheTreasure';
 
-import Move from './Move.js';
+import Move from './Move';
 
 export default class TrashItemMove extends Move {
     constructor(actorTile, itemIndex) {

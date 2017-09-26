@@ -1,6 +1,6 @@
-import Dungeon from '../../Dungeon.js';
+import Dungeon from '../../Dungeon';
 
-import Tiles from '../../../tiles/Tiles.js';
+import Tiles from '../../../tiles/Tiles';
 
 const WIDTH = {
     lower: 24,

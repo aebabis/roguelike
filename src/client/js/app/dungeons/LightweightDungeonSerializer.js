@@ -1,11 +1,11 @@
-import Tiles from '../tiles/Tiles.js';
-import Items from '../entities/Items.js';
-import Enemies from '../entities/creatures/enemies/Enemies.js';
-import Conditions from '../conditions/Conditions.js';
-import Abilities from '../abilities/Abilities.js';
+import Tiles from '../tiles/Tiles';
+import Items from '../entities/Items';
+import Enemies from '../entities/creatures/enemies/Enemies';
+import Conditions from '../conditions/Conditions';
+import Abilities from '../abilities/Abilities';
 import AbilityConsumable from '../entities/consumables/AbilityConsumable';
 
-import Dungeon from '../dungeons/Dungeon.js';
+import Dungeon from '../dungeons/Dungeon';
 
 export default {
     serialize: function(dungeon) {

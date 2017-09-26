@@ -1,4 +1,4 @@
-import Items from '../Items.js';
+import Items from '../Items';
 
 const SEQUENCES = [
     [Items.Slingshot, Items.Shortbow, Items.Longbow],

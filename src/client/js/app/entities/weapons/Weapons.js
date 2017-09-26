@@ -1,13 +1,13 @@
-import Stick from './Stick.js';
-import Dagger from './Dagger.js';
-import Shortsword from './Shortsword.js';
-import Longsword from './Longsword.js';
-import Slingshot from './Slingshot.js';
-import Shortbow from './Shortbow.js';
-import Longbow from './Longbow.js';
-import Warhammer from './Warhammer.js';
-import FrostDagger from './FrostDagger.js';
-import LightningRod from './LightningRod.js';
+import Stick from './Stick';
+import Dagger from './Dagger';
+import Shortsword from './Shortsword';
+import Longsword from './Longsword';
+import Slingshot from './Slingshot';
+import Shortbow from './Shortbow';
+import Longbow from './Longbow';
+import Warhammer from './Warhammer';
+import FrostDagger from './FrostDagger';
+import LightningRod from './LightningRod';
 
 export default {
     Stick,

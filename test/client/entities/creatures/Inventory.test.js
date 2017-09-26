@@ -1,5 +1,5 @@
-import { default as Inventory } from '../../../../src/client/js/app/entities/creatures/Inventory.js';
-import { default as Items } from '../../../../src/client/js/app/entities/Items.js';
+import { default as Inventory } from '../../../../src/client/js/app/entities/creatures/Inventory';
+import { default as Items } from '../../../../src/client/js/app/entities/Items';
 
 const expect = require('chai').expect;
 

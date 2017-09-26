@@ -1,13 +1,13 @@
-import CharacterBuilder from './CharacterBuilder.js';
-import UserProgressService from '../services/UserProgressService.js';
-import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory.js';
-import TutorialLayoutGenerator from '../dungeons/generators/layouts/TutorialLayoutGenerator.js';
-import TutorialScenarioTriggers from './TutorialScenarioTriggers.js';
-import GameEvents from '../events/GameEvents.js';
+import CharacterBuilder from './CharacterBuilder';
+import UserProgressService from '../services/UserProgressService';
+import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory';
+import TutorialLayoutGenerator from '../dungeons/generators/layouts/TutorialLayoutGenerator';
+import TutorialScenarioTriggers from './TutorialScenarioTriggers';
+import GameEvents from '../events/GameEvents';
 
-import DialogService from './DialogService.js';
+import DialogService from './DialogService';
 
-import DebugConsole from '../util/DebugConsole.js';
+import DebugConsole from '../util/DebugConsole';
 
 function getPrng(newSeed) {
     const prng = Random.engines.mt19937();

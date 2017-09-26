@@ -1,6 +1,6 @@
-import GameConditions from './GameConditions.js';
-import TheTreasure from '../entities/TheTreasure.js';
-import EntranceTile from '../tiles/EntranceTile.js';
+import GameConditions from './GameConditions';
+import TheTreasure from '../entities/TheTreasure';
+import EntranceTile from '../tiles/EntranceTile';
 
 /**
  * Victory and defeat conditions for a steal-the-treasure game

@@ -1,11 +1,11 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
 
-import Weapon from '../../weapons/Weapon.js';
-import DamageTypes from '../../DamageTypes.js';
+import Weapon from '../../weapons/Weapon';
+import DamageTypes from '../../DamageTypes';
 
-import DashAttack from '../../../abilities/DashAttack.js';
-import KnockbackEffect from '../../../effects/KnockbackEffect.js';
+import DashAttack from '../../../abilities/DashAttack';
+import KnockbackEffect from '../../../effects/KnockbackEffect';
 
 class Foot extends Weapon {
     getDamage() {

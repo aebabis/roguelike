@@ -1,7 +1,7 @@
-import Armor from '../armor/Armor.js';
-import Weapon from '../weapons/Weapon.js';
+import Armor from '../armor/Armor';
+import Weapon from '../weapons/Weapon';
 
-import Item from '../Item.js';
+import Item from '../Item';
 
 var DEFAULT_BACKPACE_SIZE = 2;
 

@@ -1,4 +1,4 @@
-import Ability from './Ability.js';
+import Ability from './Ability';
 
 /** Lets user jump over enemies and obstacles to a nearby tile */
 export default class Leap extends Ability {

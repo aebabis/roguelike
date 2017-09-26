@@ -1,5 +1,5 @@
-import Armor from './Armor.js';
-import DamageTypes from '../DamageTypes.js';
+import Armor from './Armor';
+import DamageTypes from '../DamageTypes';
 
 /** Amount of protection provided by armor */
 var AMOUNT = 3;

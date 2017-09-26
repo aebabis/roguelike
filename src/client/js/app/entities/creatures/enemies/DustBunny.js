@@ -1,10 +1,10 @@
-import Creature from '../Creature.js';
-import Strategies from '../strategies/Strategies.js';
+import Creature from '../Creature';
+import Strategies from '../strategies/Strategies';
 
-import Weapon from '../../weapons/Weapon.js';
-import DamageTypes from '../../DamageTypes.js';
+import Weapon from '../../weapons/Weapon';
+import DamageTypes from '../../DamageTypes';
 
-import DustMite from './DustMite.js';
+import DustMite from './DustMite';
 
 /**
  * Basic melee attack for a dust bunny

@@ -1,4 +1,4 @@
-import Consumable from './Consumable.js';
+import Consumable from './Consumable';
 
 var HEAL_AMOUNT = 2;
 var MANA_AMOUNT = 2;

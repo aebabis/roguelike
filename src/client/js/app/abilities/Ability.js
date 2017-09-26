@@ -1,6 +1,6 @@
-import Dungeon from '../dungeons/Dungeon.js';
-import Creature from '../entities/creatures/Creature.js';
-import Tile from '../tiles/Tile.js';
+import Dungeon from '../dungeons/Dungeon';
+import Creature from '../entities/creatures/Creature';
+import Tile from '../tiles/Tile';
 
 /**
  * @abstract

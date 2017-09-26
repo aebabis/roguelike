@@ -1,6 +1,6 @@
-import Move from './Move.js';
+import Move from './Move';
 
-import GameEvents from '../../../events/GameEvents.js';
+import GameEvents from '../../../events/GameEvents';
 
 /**
  * The move a Creature makes when they use an ability

@@ -1,4 +1,4 @@
-import Buff from './Buff.js';
+import Buff from './Buff';
 
 export default class SlowDebuff extends Buff {
     /**

@@ -1,5 +1,5 @@
-import Ability from './Ability.js';
-import DamageTypes from '../entities/DamageTypes.js';
+import Ability from './Ability';
+import DamageTypes from '../entities/DamageTypes';
 
 /**
  * Shoots at a dart of magical energy at an enemy

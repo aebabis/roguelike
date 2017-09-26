@@ -1,4 +1,4 @@
-import SharedUIDataController from '../../../src/client/js/app/controllers/SharedUIDataController';
+import SharedUIDataController from '../../../src/client/js/app/ui/SharedUIDataController';
 import Dungeon from '../../../src/client/js/app/dungeons/Dungeon';
 import Tiles from '../../../src/client/js/app/tiles/Tiles';
 import Rogue from '../../../src/client/js/app/entities/creatures/classes/Rogue';

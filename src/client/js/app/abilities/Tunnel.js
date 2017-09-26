@@ -1,5 +1,5 @@
-import Ability from './Ability.js';
-import Tiles from '../tiles/Tiles.js';
+import Ability from './Ability';
+import Tiles from '../tiles/Tiles';
 
 /** Lets user jump over enemies and obstacles to a nearby tile */
 export default class Tunnel extends Ability {

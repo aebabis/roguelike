@@ -1,5 +1,5 @@
-import Ability from './Ability.js';
-import DamageTypes from '../entities/DamageTypes.js';
+import Ability from './Ability';
+import DamageTypes from '../entities/DamageTypes';
 
 const AMOUNT = 5;
 
@@ -12,8 +12,8 @@ export default class Fireball extends Ability {
     use(dungeon, creature, optionalTargetTile, isFree) {
         super.use(dungeon, creature, optionalTargetTile, isFree);
         optionalTargetTile.getNeighbors8(dungeon).concat(optionalTargetTile)
-                .map(tile => tile.getCreature()).filter(Boolean)
-                .forEach(creature => creature.receiveDamage(dungeon, this, AMOUNT, DamageTypes.FIRE));
+            .map(tile => tile.getCreature()).filter(Boolean)
+            .forEach(creature => creature.receiveDamage(dungeon, this, AMOUNT, DamageTypes.FIRE));
     }
 
     /** @override */

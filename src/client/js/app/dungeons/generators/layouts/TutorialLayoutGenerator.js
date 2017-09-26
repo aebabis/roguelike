@@ -1,16 +1,16 @@
-import Dungeon from '../../Dungeon.js';
+import Dungeon from '../../Dungeon';
 
-import Tiles from '../../../tiles/Tiles.js';
+import Tiles from '../../../tiles/Tiles';
 
-import Rogue from '../../../entities/creatures/classes/Rogue.js';
+import Rogue from '../../../entities/creatures/classes/Rogue';
 
-import Enemies from '../../../entities/creatures/enemies/Enemies.js';
-import Strategies from '../../../entities/creatures/strategies/Strategies.js';
+import Enemies from '../../../entities/creatures/enemies/Enemies';
+import Strategies from '../../../entities/creatures/strategies/Strategies';
 
-import Weapons from '../../../entities/weapons/Weapons.js';
-import TheTreasure from '../../../entities/TheTreasure.js';
+import Weapons from '../../../entities/weapons/Weapons';
+import TheTreasure from '../../../entities/TheTreasure';
 
-import GetTheTreasureConditions from '../../../conditions/GetTheTreasureConditions.js';
+import GetTheTreasureConditions from '../../../conditions/GetTheTreasureConditions';
 
 function fill(dungeon, Tile, x1, y1, x2, y2) {
     for(let x = x1; x < x2; x++) {

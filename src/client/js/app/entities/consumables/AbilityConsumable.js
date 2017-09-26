@@ -1,5 +1,5 @@
-import Consumable from './Consumable.js';
-import GameEvents from '../../events/GameEvents.js';
+import Consumable from './Consumable';
+import GameEvents from '../../events/GameEvents';
 
 export default class AbilityConsumable extends Consumable {
     /**

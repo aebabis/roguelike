@@ -1,7 +1,7 @@
-import Fighter from './Fighter.js';
-import Miner from './Miner.js';
-import Rogue from './Rogue.js';
-import Wizard from './Wizard.js';
+import Fighter from './Fighter';
+import Miner from './Miner';
+import Rogue from './Rogue';
+import Wizard from './Wizard';
 
 export default {
     Fighter,

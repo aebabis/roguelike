@@ -1,5 +1,5 @@
-import { default as Consumable } from '../../../../src/client/js/app/entities/consumables/Consumable.js';
-import { default as Consumables } from '../../../../src/client/js/app/entities/consumables/Consumables.js';
+import { default as Consumable } from '../../../../src/client/js/app/entities/consumables/Consumable';
+import { default as Consumables } from '../../../../src/client/js/app/entities/consumables/Consumables';
 
 const expect = require('chai').expect;
 

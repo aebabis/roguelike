@@ -5,28 +5,23 @@ const Sprite = PIXI.Sprite;
 const TILE_WIDTH = 50;
 const SCROLL_ICON_WIDTH = TILE_WIDTH * .7;
 
-const NEUTRAL_COLOR = 0x46465a;
-const ATTACK_MOVE_COLOR = 0x8b0000;
-const ITEM_MOVE_COLOR = 0x7F00FF;
-const ABILITY_MOVE_COLOR = 0x9400D3;
-
 export default class DefaultSpritePack {
     constructor() {
     }
 
-    getSprite(name) {
+    getSprite(name, {width = TILE_WIDTH, height = TILE_WIDTH} = {}) {
         const sprite = new Sprite(TextureCache[name] || TextureCache['ThisIsAThing']);
         sprite.x = 0;
         sprite.y = 0;
-        sprite.width = TILE_WIDTH;
-        sprite.height = TILE_WIDTH;
+        sprite.width = width;
+        sprite.height = height;
         return sprite;
     }
 
-    getSpriteStack(spriteNames) {
+    getSpriteStack(spriteNames, options) {
         const group = new PIXI.Container();
         spriteNames.forEach((spriteName) => { // TODO: Shift stack instead
-            group.addChild(this.getSprite(spriteName));
+            group.addChild(this.getSprite(spriteName, options));
         });
         return group;
     }

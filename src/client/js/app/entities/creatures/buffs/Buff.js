@@ -1,5 +1,9 @@
-export default class Buff {
+import Identifiable from '../../../util/Identifiable';
+
+export default class Buff extends Identifiable {
+
     constructor(dungeon) {
+        super();
         this._creationTimestamp = dungeon.getCurrentTimestep();
     }
 

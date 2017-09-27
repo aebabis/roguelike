@@ -294,6 +294,18 @@ export default class DefaultPixiAnimationPack {
             return new SingleFrameAnimation(() => {
                 pixiDungeonView.moveItemGroup(item, tile.getX(), tile.getY());
             });
+        } else if(gameEvent instanceof GameEvents.BuffAppliedEvent) {
+            const creature = gameEvent.getCreature();
+            const buff = gameEvent.getBuff();
+            return new SingleFrameAnimation(() => {
+                pixiDungeonView.addStatusIcon(creature.getId(), buff.getId(), buff.toString());
+            });
+        } else if(gameEvent instanceof GameEvents.BuffEndedEvent) {
+            const creature = gameEvent.getCreature();
+            const buff = gameEvent.getBuff();
+            return new SingleFrameAnimation(() => {
+                pixiDungeonView.removeStatusIcon(creature.getId(), buff.getId());
+            });
         }
     }
 }

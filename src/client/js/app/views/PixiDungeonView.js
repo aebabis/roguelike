@@ -193,6 +193,8 @@ export default class PixiDungeonView {
             sprite.addChild(new PIXI.Graphics());
             // Speed Bar
             sprite.addChild(new PIXI.Graphics());
+            // Status Icons
+            sprite.addChild(new PIXI.Graphics());
         }
         if(sprite.parent) {
             sprite.parent.removeChild(sprite);
@@ -224,7 +226,40 @@ export default class PixiDungeonView {
     addParticle(particle) {
         this._particleLayer.addChild(particle);
     }
+
+    _adjustStatusIcons(creatureId) {
+        const statusIcons = this.getEntityById(creatureId).children[3];
+        const tileWidth = this.getTileWidth();
+        let x = 0;
+        statusIcons.children.forEach((icon) => {
+            icon.x = x;
+            icon.y = tileWidth - icon.height;
+            x += icon.width;
+        });
+    }
     
+    addStatusIcon(creatureId, key, name) {
+        const tileWidth = this.getTileWidth();
+        const icon = this.getSpritePack().getSpriteStack([name], {
+            width: tileWidth / 3,
+            height: tileWidth / 3
+        });
+        icon.iconId = key;
+        const statusIcons = this.getEntityById(creatureId).children[3];
+        statusIcons.addChild(icon);
+        this._adjustStatusIcons(creatureId);
+    }
+
+    removeStatusIcon(creatureId, key) {
+        const statusIcons = this.getEntityById(creatureId).children[3];
+        const icon = statusIcons.children.find(icon => icon.iconId === key);
+        if(!icon) {
+            throw new Error(`No icon found with key ${key}`);
+        }
+        statusIcons.removeChild(icon);
+        this._adjustStatusIcons(creatureId);
+    }
+
     populateSprites() {
         const stage = this.getStage();
         while(stage.children.length) stage.removeChild(stage.children[0]);

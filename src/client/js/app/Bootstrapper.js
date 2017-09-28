@@ -1,5 +1,4 @@
 import LayoutBootstrapper from './ui/LayoutBootstrapper';
-import MenuFlowsController from './ui/MenuFlowsController';
 
 // http://stackoverflow.com/a/31770875/2993478
 var req = require.context('../../css', true, /\.scss$/);
@@ -9,8 +8,8 @@ req.keys().forEach(function(key){
 
 require('../../../../node_modules/normalize.css/normalize.css');
 
-LayoutBootstrapper.bootstrap().then(function(sharedData) {
-    MenuFlowsController.start(sharedData);
+LayoutBootstrapper.bootstrap().then(function(menuFlowsController) {
+    menuFlowsController.start();
 });
 
 // TODO: Determine how to incorporate generated spritesheet

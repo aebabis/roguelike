@@ -1,8 +1,4 @@
-import CharacterBuilder from './CharacterBuilder';
-import DungeonPicker from './DungeonPicker';
-
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory';
-import DebugConsole from '../util/DebugConsole';
 import LightweightDungeonSerializer from '../dungeons/LightweightDungeonSerializer';
 
 import Account from '../../account/Account';
@@ -20,48 +16,12 @@ function template() {
     return menuBar;
 }
 
-function getPrng(newSeed) {
-    const prng = Random.engines.mt19937();
-    if(localStorage.lastSeed && !newSeed) {
-        prng.seed(localStorage.lastSeed);
-    } else {
-        prng.seed(localStorage.lastSeed = +new Date());
-    }
-    DebugConsole.log(localStorage.lastSeed);
-    return prng;
-}
-
 export default class MenuBar {
-    constructor(sharedData) {
+    constructor(menuFlowsController) {
         const dom = this._dom = template();
-        dom.querySelector('.newgame').addEventListener('click', function() {
-            new CharacterBuilder().getCharacter().then(function(character) {
-                const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(true), character);
-                sharedData.setDungeon(dungeon);
-                dungeon.resolveUntilBlocked();
-            });
-        });
-        dom.querySelector('.restart').addEventListener('click', function() {
-            new CharacterBuilder().getCharacter().then(function(character) {
-                const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(false), character)
-                sharedData.setDungeon(dungeon);
-                dungeon.resolveUntilBlocked();
-            });
-        });
-        dom.querySelector('.load').addEventListener('click', function() {
-            const getDungeon = new DungeonPicker().getDungeon();
-            const getCharacter = new CharacterBuilder().getCharacter();
-
-            Promise.all([getDungeon, getCharacter]).then(function([dungeon, character]) {
-                dungeon.forEachTile(function(tile, x, y) {
-                    if(tile.getName() === 'Entrance') { // TODO: Make this more robust
-                        dungeon.moveCreature(character, x, y);
-                    }
-                });
-                sharedData.setDungeon(dungeon);
-                dungeon.resolveUntilBlocked();
-            });
-        });
+        dom.querySelector('.newgame').addEventListener('click', () => menuFlowsController.startNewGameFlow());
+        dom.querySelector('.restart').addEventListener('click', () => menuFlowsController.startRestartMapFlow());
+        dom.querySelector('.load').addEventListener('click', () => menuFlowsController.startLoadGameFlow());
         dom.querySelector('.upload').addEventListener('click', function() {
             Account.getAuthToken().then(function(token) {
                 const method = 'POST';

@@ -1,6 +1,7 @@
 import MenuBar from './MenuBar';
 import SharedUIDataController from '../ui/SharedUIDataController';
 import DungeonUIBootstrapper from './DungeonUIBootstrapper';
+import MenuFlowsController from './MenuFlowsController';
 
 export default {
     bootstrap: function() {
@@ -21,11 +22,12 @@ export default {
                 body.appendChild(game);
                 body.appendChild(footer);
                 
-                const menu = new MenuBar(sharedData);
+                const menuFlowsController = new MenuFlowsController(sharedData);
+                const menu = new MenuBar(menuFlowsController);
                 header.appendChild(menu.getDom());
 
                 new DungeonUIBootstrapper(sharedData);
-                resolve(sharedData);
+                resolve(menuFlowsController);
             });
         });
     }

@@ -58,7 +58,6 @@ export default class DefaultPixiAnimationPack {
     getAnimation(sharedData, pixiDungeonView, gameEvent) {
         const dungeon = sharedData.getDungeon();
         const stage = pixiDungeonView.getStage();
-        let cumulativeTime = 0;
         if(gameEvent instanceof GameEvents.PositionChangeEvent) {
             const cause = gameEvent.getCause();
             if(cause instanceof Moves.MovementMove || cause instanceof Effects.KnockbackEffect) {

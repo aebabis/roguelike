@@ -10,7 +10,7 @@ import DialogService from './DialogService';
 
 import DebugConsole from '../util/DebugConsole';
 
-function getPrng(newSeed) {
+const getPrng = (newSeed) => {
     const prng = Random.engines.mt19937();
     if(localStorage.lastSeed && !newSeed) {
         prng.seed(localStorage.lastSeed);
@@ -19,22 +19,14 @@ function getPrng(newSeed) {
     }
     DebugConsole.log(localStorage.lastSeed);
     return prng;
-}
+};
 
 export default class MenuFlowsController {
     constructor(sharedData) {
         this._sharedData = sharedData;
     }
 
-    newGame(sharedData) {
-        new CharacterBuilder().getCharacter().then(function(character) {
-            const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(localStorage.repeatPreviousLevel !== 'true'), character);
-            sharedData.setDungeon(dungeon);
-            dungeon.resolveUntilBlocked();
-        });
-    }
-
-    start() {
+    startTutorialCheckFlow() {
         if(!UserProgressService.hasCompletedTutorial()) {
             DialogService.showFormDialog('It looks like this is your first visit. Would you like to play the tutorial?', {
                 buttons: [{
@@ -43,7 +35,7 @@ export default class MenuFlowsController {
                         let dungeon = TutorialLayoutGenerator.generate();
                         this._sharedData.setDungeon(dungeon);
                         dungeon.resolveUntilBlocked();
-                        dungeon.getEventStream().subscribe(function(event) {
+                        dungeon.getEventStream().subscribe((event) => {
                             if(event instanceof GameEvents.VictoryEvent) {
                                 UserProgressService.markTutorialComplete();
                             }
@@ -54,28 +46,24 @@ export default class MenuFlowsController {
                     content: 'No thanks',
                     handler: () => {
                         UserProgressService.markTutorialComplete();
-                        this.newGame(this._sharedData);
+                        this.startNewGameFlow();
                     }
                 }]
             });
         } else {
-            this.newGame(this._sharedData);
+            this.startNewGameFlow(false, localStorage.repeatPreviousLevel === 'true');
         }
     }
 
-    startNewGameFlow() {
+    startNewGameFlow(
+        repeatCharacter = false,
+        repeatMap = false
+    ) {
         new CharacterBuilder().getCharacter().then((character) => {
-            const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(true), character);
+            const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(!repeatMap), character);
             this._sharedData.setDungeon(dungeon);
             dungeon.resolveUntilBlocked();
-        });
-    }
-
-    startRestartMapFlow() {
-        new CharacterBuilder().getCharacter().then((character) => {
-            const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(false), character);
-            this._sharedData.setDungeon(dungeon);
-            dungeon.resolveUntilBlocked();
+            this.handleEndGame(dungeon);
         });
     }
 
@@ -91,16 +79,31 @@ export default class MenuFlowsController {
             });
             this._sharedData.setDungeon(dungeon);
             dungeon.resolveUntilBlocked();
+            this.handleEndGame(dungeon);
         });
     }
 
-    startRepeatCharacterFlow() {
-
+    handleEndGame(dungeon) {
+        const subscription = dungeon.getEventStream().subscribe(event => {
+            if(dungeon.hasEnded()) {
+                this.openEndGameDialog(dungeon.getGameConditions().hasPlayerWon(dungeon));
+                subscription.unsubscribe();
+            }
+        });
     }
 
-    // Victory
-    // buff.onAttack
-    // pet stays exactly 2 tiles away or waits
-    // Stoneskin
-    // Cleric
+    openEndGameDialog(isVictory) {
+        const nextGame = 'Next Game';
+        const buildCharacter = 'New Character';
+
+        DialogService.showFormDialog(isVictory ? 'Victory' : 'Defeat', {
+            buttons: [{
+                content: nextGame,
+                handler: () => this.startNewGameFlow(true, false)
+            }, {
+                content: buildCharacter,
+                handler: () => this.startNewGameFlow(false, false)
+            }]
+        }).catch(e => console.error(e));
+    }
 }

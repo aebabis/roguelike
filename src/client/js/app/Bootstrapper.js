@@ -9,7 +9,7 @@ req.keys().forEach(function(key){
 require('../../../../node_modules/normalize.css/normalize.css');
 
 LayoutBootstrapper.bootstrap().then(function(menuFlowsController) {
-    menuFlowsController.start();
+    menuFlowsController.startTutorialCheckFlow();
 });
 
 // TODO: Determine how to incorporate generated spritesheet

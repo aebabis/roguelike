@@ -59,7 +59,10 @@ export default class MenuFlowsController {
         repeatCharacter = false,
         repeatMap = false
     ) {
-        new CharacterBuilder().getCharacter().then((character) => {
+        const getCharacter = repeatCharacter ?
+            CharacterBuilder.copyLastCharacter() :
+            new CharacterBuilder().getCharacter();
+        getCharacter.then((character) => {
             const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(!repeatMap), character);
             this._sharedData.setDungeon(dungeon);
             dungeon.resolveUntilBlocked();
@@ -84,26 +87,28 @@ export default class MenuFlowsController {
     }
 
     handleEndGame(dungeon) {
-        const subscription = dungeon.getEventStream().subscribe(event => {
-            if(dungeon.hasEnded()) {
+        dungeon.getEventStream().subscribe(event => {
+            if(event instanceof GameEvents.DefeatEvent || event instanceof GameEvents.VictoryEvent) {
                 this.openEndGameDialog(dungeon.getGameConditions().hasPlayerWon(dungeon));
-                subscription.unsubscribe();
             }
         });
     }
 
     openEndGameDialog(isVictory) {
-        const nextGame = 'Next Game';
-        const buildCharacter = 'New Character';
-
-        DialogService.showFormDialog(isVictory ? 'Victory' : 'Defeat', {
-            buttons: [{
-                content: nextGame,
-                handler: () => this.startNewGameFlow(true, false)
-            }, {
-                content: buildCharacter,
-                handler: () => this.startNewGameFlow(false, false)
-            }]
-        }).catch(e => console.error(e));
+        const text = isVictory ? 'Victory' : 'Defeat';
+        const buttons = isVictory ? [{
+            content: 'Next Game',
+            handler: () => this.startNewGameFlow(true, false)
+        }, {
+            content: 'Build Character',
+            handler: () => this.startNewGameFlow(false, false)
+        }] : [{
+            content: 'Try Again',
+            handler: () => this.startNewGameFlow(true, true)
+        }, {
+            content: 'New Map',
+            handler: () => this.startNewGameFlow(false, false)
+        }];
+        DialogService.showFormDialog(text, { buttons }).catch(e => console.error(e));
     }
 }

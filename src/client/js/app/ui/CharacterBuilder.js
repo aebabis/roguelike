@@ -334,32 +334,34 @@ angular.module('vog', [])
 
         $scope.submit = function() {
             const { selections } = $scope;
-            const character = new Classes[selections.character]();
-            getStartingAbilities(selections.character).concat($scope.getSelectedAbilityNames()).forEach(function(abilityName) {
-                character.addAbility(new Abilities[abilityName]());
-            });
-
-            [
-                Purchaseables[selections.melee],
-                Purchaseables[selections.ranged],
-                Purchaseables[selections.armor]
-            ].filter(Boolean).forEach(function(Class) {
-                character.addItem(new Class());
-            });
-
-            selections.backpack.forEach(function(itemName) {
-                if(Consumables[itemName]) {
-                    character.addItem(new Consumables[itemName]());
-                } else {
-                    character.addItem(new AbilityConsumable(new Abilities[itemName]));
-                }
-            });
 
             if(!selections.isRandom) {
                 localStorage.lastBuild = JSON.stringify(selections);
             }
 
-            resolve(character);
+            resolve(() => {
+                const character = new Classes[selections.character]();
+                getStartingAbilities(selections.character).concat($scope.getSelectedAbilityNames()).forEach(function(abilityName) {
+                    character.addAbility(new Abilities[abilityName]());
+                });
+
+                [
+                    Purchaseables[selections.melee],
+                    Purchaseables[selections.ranged],
+                    Purchaseables[selections.armor]
+                ].filter(Boolean).forEach(function(Class) {
+                    character.addItem(new Class());
+                });
+
+                selections.backpack.forEach(function(itemName) {
+                    if(Consumables[itemName]) {
+                        character.addItem(new Consumables[itemName]());
+                    } else {
+                        character.addItem(new AbilityConsumable(new Abilities[itemName]));
+                    }
+                });
+                return character;
+            });
         };
     }]).constant('promiseHandlers', promiseHandlers).run(['$templateCache', function($templateCache) {
         $templateCache.put('character-build.html',
@@ -503,6 +505,8 @@ angular.module('vog', [])
             </form>`);
     }]);
 
+let generator;
+
 export default class CharacterBuilder {
     constructor() {
         this._promise = new Promise((resolve, reject) => {
@@ -515,9 +519,10 @@ export default class CharacterBuilder {
                 dialogPolyfill.registerDialog(dialog);
             }
 
-            promiseHandlers.resolve = (character) => {
+            promiseHandlers.resolve = (gen) => {
                 dialog.open && dialog.close(); // Auto close doesn't always work. Force it. TODO: Find out why
-                resolve(character);
+                generator = gen;
+                resolve(gen());
             };
             promiseHandlers.reject = reject;
 
@@ -529,5 +534,9 @@ export default class CharacterBuilder {
 
     getCharacter() {
         return this._promise;
+    }
+
+    static copyLastCharacter() {
+        return Promise.resolve(generator());
     }
 }

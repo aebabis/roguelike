@@ -95,7 +95,8 @@ export default class MenuFlowsController {
     }
 
     openEndGameDialog(isVictory) {
-        const text = isVictory ? 'Victory' : 'Defeat';
+        const header = document.createElement('h2');
+        header.innerText = isVictory ? 'Victory' : 'Defeat';
         const buttons = isVictory ? [{
             content: 'Next Game',
             handler: () => this.startNewGameFlow(true, false)
@@ -109,6 +110,6 @@ export default class MenuFlowsController {
             content: 'New Map',
             handler: () => this.startNewGameFlow(false, false)
         }];
-        DialogService.showFormDialog(text, { buttons }).catch(e => console.error(e));
+        DialogService.showFormDialog(header, { buttons }).catch(e => console.error(e));
     }
 }

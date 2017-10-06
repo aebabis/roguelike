@@ -382,7 +382,7 @@ angular.module('vog', [])
                 <div class="section select-character" ng-if="!isBuilderVisible()">
                     <h2>Select Character</h2>
                     <div class="prebuilts">
-                        <button class="last-build" ng-click="selectLastBuild()">
+                        <button ng-if="lastBuild" class="last-build" ng-click="selectLastBuild()">
                             <character-build build="lastBuild"></character-build>
                         </button>
                         <button ng-repeat="build in prebuilts" ng-click="selectPrebuilt($index)">

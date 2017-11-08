@@ -6,12 +6,22 @@ import { default as LightArmor } from '../../../../src/client/js/app/entities/ar
 
 import { default as AbilityConsumable } from '../../../../src/client/js/app/entities/consumables/AbilityConsumable';
 import { default as CherrySoda } from '../../../../src/client/js/app/entities/consumables/CherrySoda';
+import { default as Items } from '../../../../src/client/js/app/entities/Items';
 
 import { default as Fireball } from '../../../../src/client/js/app/abilities/Fireball';
+import { default as MovementMove } from '../../../../src/client/js/app/entities/creatures/moves/MovementMove';
 
 const expect = require('chai').expect;
 
 describe('Creature', function() {
+    let dungeon;
+    let player;
+    beforeEach(function() {
+        dungeon = new Dungeon(2, 2);
+        player = new PlayableCharacter();
+        dungeon.moveCreature(player, 0, 0);
+    });
+
     describe('canSee', function() {
         it('should require a tile to be passed', function() {
             const dungeon = new Dungeon(2, 2);
@@ -68,11 +78,6 @@ describe('Creature', function() {
     });
 
     describe('canAddItem', function() {
-        let player;
-        beforeEach(function() {
-            player = new PlayableCharacter();
-        });
-
         it('should return true when trying to add a weapon to an empty equipment slot', function() {
             var canAdd = player.canAddItem(new Slingshot());
             expect(canAdd).to.equal(true);
@@ -90,6 +95,19 @@ describe('Creature', function() {
 
             var canAdd = player.canAddItem(new AbilityConsumable(new Fireball()));
             expect(canAdd).to.equal(false);
+        });
+    });
+
+    describe('takeItems', () => {
+        it('should allow an item to be replaced, even when full', () => {
+            player.addItem(new Items.LightArmor());
+            for(let i = 0; i < player.getBackpackSize(); i++) {
+                player.addItem(new Items.BlueberrySoda());
+            }
+
+            dungeon.getTile(1, 1).addItem(new Items.MediumArmor());
+            player.executeMove(dungeon, new MovementMove(dungeon.getTile(player), 1, 1));
+            expect(player.getArmor()).to.be.instanceof(Items.MediumArmor);
         });
     });
 });

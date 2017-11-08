@@ -117,7 +117,7 @@ export default class Creature extends Entity {
                 return true;
             } else if(item instanceof Weapon && item.getRange() > 1 && !inventory.getRangedWeapon()) {
                 return true;
-            } else if(item.getPhysicalReduction && !inventory.getArmor()) {
+            } else if(item instanceof Armor && !inventory.getArmor()) {
                 return true;
             } else {
                 return !inventory.isBackpackFull();

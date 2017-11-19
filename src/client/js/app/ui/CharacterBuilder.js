@@ -181,6 +181,23 @@ angular.module('vog', [])
         },
         templateUrl: 'character-build.html'
     })
+    .component('characterBuildPreview', {
+        bindings: {
+            build: '=',
+            removeFromBackpack: '='
+        },
+        controller: function() {
+            this.getSelectedAbilityNames = function() {
+                const { build: { abilities } } = this;
+                return Object.keys(ABILITIES).filter((ability)=>abilities[ability]);
+            };
+            this.getAbilityNames = function() {
+                const { build: {character } } = this;
+                return getStartingAbilities(character).concat(this.getSelectedAbilityNames());
+            };
+        },
+        templateUrl: 'character-build-preview.html'
+    })
     .controller('character-builder', ['$scope', 'promiseHandlers', function($scope, promiseHandlers) {
         const { resolve } = promiseHandlers;
 
@@ -315,6 +332,11 @@ angular.module('vog', [])
             }
         };
 
+        $scope.removeFromBackpack = (index) => {
+            console.log(index);
+            $scope.selections.backpack.splice(index, 1);
+        };
+
         $scope.getCost = function() {
             const { selections } = $scope;
             return MELEE_WEAPONS[selections.melee] +
@@ -375,6 +397,25 @@ angular.module('vog', [])
                 </div>
                 <div class="consumables">
                     <span ng-repeat="name in $ctrl.build.backpack"><span ng-if="!$first">, </span>{{name | vogName}}</span>
+                </div>
+            </div>`);
+        $templateCache.put('character-build-preview.html',
+            `<div class="character-build">
+                <h3>{{$ctrl.build.character}}</h3>
+                <div class="melee-weapon">{{$ctrl.build.melee | vogName}}</div>
+                <div class="ranged-weapon" ng-if="$ctrl.build.ranged">{{$ctrl.build.ranged | vogName}}</div>
+                <div class="armor" ng-if="$ctrl.build.armor">{{$ctrl.build.armor | vogName}}</div>
+                <ul class="abilities">
+                    <li ng-repeat="name in $ctrl.getAbilityNames() track by $index">
+                        {{name | vogName}}
+                    </li>
+                </ul>
+                <div class="consumables">
+                    <button type="button"
+                            ng-repeat="name in $ctrl.build.backpack track by $index"
+                            ng-click="$ctrl.removeFromBackpack($index)">
+                        {{name | vogName}}
+                    </button>
                 </div>
             </div>`);
         $templateCache.put('character-builder.html',
@@ -489,7 +530,10 @@ angular.module('vog', [])
                             </div>
                         </div>
                         <div class="preview">
-                            <character-build build="selections"></character-build>
+                            <character-build-preview
+                                build="selections"
+                                remove-from-backpack="removeFromBackpack"
+                            ></character-build-preview>
                             <span ng-if="getCost() <= getMoney()" class="amount-left">
                                 <span class="value">{{getMoney() - getCost()}}</span>
                                 <span class="remaining">left</span>

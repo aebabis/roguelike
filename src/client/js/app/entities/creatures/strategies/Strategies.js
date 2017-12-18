@@ -2,6 +2,7 @@ import AggressiveFireballStrategy from './AggressiveFireballStrategy';
 import ChaseStrategy from './ChaseStrategy';
 import CompositeStrategy from './CompositeStrategy';
 import FleeStrategy from './FleeStrategy';
+import FollowAllyStrategy from './FollowAllyStrategy';
 import HoldStrategy from './HoldStrategy';
 import IdleStrategy from './IdleStrategy';
 import MeleeAttackStrategy from './MeleeAttackStrategy';
@@ -13,6 +14,7 @@ export default {
     ChaseStrategy,
     CompositeStrategy,
     FleeStrategy,
+    FollowAllyStrategy,
     HoldStrategy,
     IdleStrategy,
     MeleeAttackStrategy,

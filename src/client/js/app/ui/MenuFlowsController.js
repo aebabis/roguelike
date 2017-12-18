@@ -1,4 +1,5 @@
 import CharacterBuilder from './CharacterBuilder';
+import Companions from '../entities/creatures/companions/Companions';
 import DungeonPicker from './DungeonPicker';
 import UserProgressService from '../services/UserProgressService';
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory';
@@ -64,6 +65,11 @@ export default class MenuFlowsController {
             new CharacterBuilder().getCharacter();
         getCharacter.then((character) => {
             const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(!repeatMap), character);
+            const characterLocation = dungeon.getTile(character);
+            const kitty = new Companions.Kitten();
+            const kittyTile = characterLocation.getNeighbors8(dungeon).filter(tile => kitty.canOccupyNow(tile))[0];
+            dungeon.moveCreature(kitty, kittyTile.getX(), kittyTile.getY());
+
             this._sharedData.setDungeon(dungeon);
             dungeon.resolveUntilBlocked();
             this.handleEndGame(dungeon);

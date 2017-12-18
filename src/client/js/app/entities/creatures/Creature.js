@@ -588,6 +588,14 @@ export default class Creature extends Entity {
     }
 
     /**
+     * Gets the list of allied Creatures that this Creature can currently see
+     * @return {Creature[]}
+     */
+    getVisibleAllies(dungeon) {
+        return this.getVisibleCreatures(dungeon).filter((other)=>!this.isEnemy(other));
+    }
+
+    /**
      * Gets the list of enemy Creatures that this Creature can currently see
      * @return {Creature[]}
      */

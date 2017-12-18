@@ -631,6 +631,14 @@ export default class Creature extends Entity {
     }
 
     /**
+     * Tells whether this creature represents a player
+     * @return {boolean}
+     */
+    isPlayer() {
+        return false;
+    }
+
+    /**
      * Sets this Creature's movement strategy. NPCs have a Strategy object
      * to determine their moves
      * @param {Strategy} strategy

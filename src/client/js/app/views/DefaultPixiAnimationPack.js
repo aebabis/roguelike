@@ -83,7 +83,7 @@ export default class DefaultPixiAnimationPack {
                         }
                     }),
                 ];
-                if(creature.getFaction() === 'Player') {
+                if(creature.isPlayer()) {
                     const viewportAnimation = new Animation();
                     viewportAnimation.advance = () => {
                         const {x, y} = group();

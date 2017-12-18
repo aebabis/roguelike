@@ -50,6 +50,10 @@ export default class PlayableCharacter extends Creature {
         return 'Player';
     }
 
+    isPlayer() {
+        return true;
+    }
+
     canUseItems() {
         return true;
     }

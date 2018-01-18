@@ -1,5 +1,4 @@
 import CharacterBuilder from './CharacterBuilder';
-import Companions from '../entities/creatures/companions/Companions';
 import DungeonPicker from './DungeonPicker';
 import UserProgressService from '../services/UserProgressService';
 import RandomMapDungeonFactory from '../dungeons/RandomMapDungeonFactory';

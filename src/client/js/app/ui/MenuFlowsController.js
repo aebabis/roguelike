@@ -60,15 +60,18 @@ export default class MenuFlowsController {
         repeatCharacter = false,
         repeatMap = false
     ) {
-        const getCharacter = repeatCharacter ?
-            CharacterBuilder.copyLastCharacter() :
-            new CharacterBuilder().getCharacter();
-        getCharacter.then((character) => {
+        const getBuild = repeatCharacter ?
+            CharacterBuilder.copyLastBuild() :
+            new CharacterBuilder().getBuild();
+        getBuild.then(({character, companion}) => {
             const dungeon = new RandomMapDungeonFactory().getRandomMap(getPrng(!repeatMap), character);
             const characterLocation = dungeon.getTile(character);
-            const kitty = new Companions.Kitten();
-            const kittyTile = characterLocation.getNeighbors8(dungeon).filter(tile => kitty.canOccupyNow(tile))[0];
-            dungeon.moveCreature(kitty, kittyTile.getX(), kittyTile.getY());
+            if(companion) {
+                const companionTile = characterLocation.getNeighbors8(dungeon).filter(
+                    tile => companion.canOccupyNow(tile)
+                )[0];
+                dungeon.moveCreature(companion, companionTile.getX(), companionTile.getY());
+            }
 
             this._sharedData.setDungeon(dungeon);
             dungeon.resolveUntilBlocked();
@@ -78,12 +81,18 @@ export default class MenuFlowsController {
 
     startLoadGameFlow() {
         const getDungeon = new DungeonPicker().getDungeon();
-        const getCharacter = new CharacterBuilder().getCharacter();
+        const getBuild = new CharacterBuilder().getBuild();
 
-        Promise.all([getDungeon, getCharacter]).then(([dungeon, character]) => {
+        Promise.all([getDungeon, getBuild]).then(([dungeon, {character, companion}]) => {
             dungeon.forEachTile((tile, x, y) => {
                 if(tile.getName() === 'Entrance') { // TODO: Make this more robust
                     dungeon.moveCreature(character, x, y);
+                    if(companion) {
+                        const companionTile = tile.getNeighbors8(dungeon).filter(
+                            tile => companion.canOccupyNow(tile)
+                        )[0];
+                        dungeon.moveCreature(companion, companionTile.getX(), companionTile.getY());
+                    }
                 }
             });
             this._sharedData.setDungeon(dungeon);

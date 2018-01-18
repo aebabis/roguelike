@@ -1,4 +1,5 @@
 import Classes from '../entities/creatures/classes/Classes';
+import Companions from '../entities/creatures/companions/Companions';
 
 import Abilities from '../abilities/Abilities';
 import Armors from '../entities/armor/Armors';
@@ -220,7 +221,8 @@ angular.module('vog', [])
             ranged: null,
             armor: null,
             backpack: [],
-            abilities: {}
+            abilities: {},
+            companion: null
         };
 
         $scope.prebuilts = [{
@@ -229,21 +231,24 @@ angular.module('vog', [])
             ranged: null,
             armor: 'MediumArmor',
             backpack: ['CherrySoda', 'ForceDart'],
-            abilities: {}
+            abilities: {},
+            companion: null
         }, {
             character: 'Rogue',
             melee: 'FrostDagger',
             ranged: null,
             armor: 'LightArmor',
             backpack: ['CherrySoda'],
-            abilities: {}
+            abilities: {},
+            companion: 'Kitten'
         }, {
             character: 'Wizard',
             melee: 'Stick',
             ranged: null,
             armor: 'LightArmor',
             backpack: ['BlueberrySoda'],
-            abilities: {Fireball: true}
+            abilities: {Fireball: true},
+            companion: null
         }];
 
         $scope.selectLastBuild = function() {
@@ -363,6 +368,10 @@ angular.module('vog', [])
 
             resolve(() => {
                 const character = new Classes[selections.character]();
+                const companion = selections.companion ?
+                    new Companions[selections.companion]() :
+                    null;
+
                 getStartingAbilities(selections.character).concat($scope.getSelectedAbilityNames()).forEach(function(abilityName) {
                     character.addAbility(new Abilities[abilityName]());
                 });
@@ -382,7 +391,10 @@ angular.module('vog', [])
                         character.addItem(new AbilityConsumable(new Abilities[itemName]));
                     }
                 });
-                return character;
+                return {
+                    character,
+                    companion
+                };
             });
         };
     }]).constant('promiseHandlers', promiseHandlers).run(['$templateCache', function($templateCache) {
@@ -576,11 +588,11 @@ export default class CharacterBuilder {
         });
     }
 
-    getCharacter() {
+    getBuild() {
         return this._promise;
     }
 
-    static copyLastCharacter() {
+    static copyLastBuild() {
         return Promise.resolve(generator());
     }
 }

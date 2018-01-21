@@ -66,6 +66,10 @@ const ABILITIES = {
     LesserSnare: 15
 };
 
+const COMPANIONS = {
+    Kitten: 5
+};
+
 const characterTable = new CostedDistributionTable([{
     value: 'Fighter',
     weight: 1
@@ -208,6 +212,7 @@ angular.module('vog', [])
         $scope.ARMOR = ARMOR;
         $scope.CONSUMABLES = CONSUMABLES;
         $scope.ABILITIES = ABILITIES;
+        $scope.COMPANIONS = COMPANIONS;
 
         try {
             $scope.lastBuild = JSON.parse(localStorage.lastBuild);
@@ -348,7 +353,8 @@ angular.module('vog', [])
                 (RANGED_WEAPONS[selections.ranged] || 0) +
                 (ARMOR[selections.armor] || 0) +
                 selections.backpack.map((item)=>CONSUMABLES[item]).reduce((a, b)=>a+b, 0) +
-                $scope.getSelectedAbilityNames().map((ability)=>ABILITIES[ability]).reduce((a, b)=>a+b, 0);
+                $scope.getSelectedAbilityNames().map((ability)=>ABILITIES[ability]).reduce((a, b)=>a+b, 0) +
+                (COMPANIONS[selections.companion] || 0);
         };
 
         $scope.getMoney = function() {
@@ -410,6 +416,7 @@ angular.module('vog', [])
                 <div class="consumables">
                     <span ng-repeat="name in $ctrl.build.backpack"><span ng-if="!$first">, </span>{{name | vogName}}</span>
                 </div>
+                <div class="companion" ng-if="$ctrl.build.companion">{{$ctrl.build.companion | vogName}}</div>
             </div>`);
         $templateCache.put('character-build-preview.html',
             `<div class="character-build">
@@ -429,6 +436,7 @@ angular.module('vog', [])
                         {{name | vogName}}
                     </button>
                 </div>
+                <div class="companion" ng-if="$ctrl.build.companion">{{$ctrl.build.companion | vogName}}</div>
             </div>`);
         $templateCache.put('character-builder.html',
             `<form method="dialog" class="gitrecht" ng-controller="character-builder" ng-submit="submit()">
@@ -456,7 +464,7 @@ angular.module('vog', [])
                     <div class="builder" ng-if="isBuilderVisible()">
                         <div class="selections">
                             <div class="col">
-                                <div class="items">
+                                <div class="options items">
                                     <h3>Character</h3>
                                     <label ng-repeat="(character, money) in CHARACTERS"
                                             class="tiny-icon-wrap"
@@ -468,7 +476,7 @@ angular.module('vog', [])
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="items">
+                                <div class="options items">
                                     <h3>Melee Weapon</h3>
                                     <label ng-repeat="(weapon, cost) in MELEE_WEAPONS"
                                             class="tiny-icon-wrap"
@@ -481,7 +489,7 @@ angular.module('vog', [])
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="items">
+                                <div class="options items">
                                     <h3>Ranged Weapon</h3>
                                     <label class="tiny-icon-wrap" ng-class="{selected: selections.ranged === null}">
                                         <input type="radio" name="ranged" ng-value="null" title="None" ng-model="selections.ranged">
@@ -497,7 +505,7 @@ angular.module('vog', [])
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="items">
+                                <div class="options items">
                                     <h3>Armor</h3>
                                     <label class="tiny-icon-wrap" title="None" ng-class="{selected: selections.armor === null}">
                                         <input type="radio" name="armor" ng-value="null" ng-model="selections.armor">
@@ -513,7 +521,7 @@ angular.module('vog', [])
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="items">
+                                <div class="options items">
                                     <h3>Abilities</h3>
                                     <label ng-repeat="(ability, cost) in getPurchaseableAbilities()"
                                             class="tiny-icon-wrap"
@@ -526,7 +534,7 @@ angular.module('vog', [])
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="items">
+                                <div class="options items">
                                     <h3>Consumables</h3>
                                     <button ng-repeat="(consumable, cost) in CONSUMABLES track by $index"
                                             class="tiny-icon-wrap"
@@ -538,6 +546,22 @@ angular.module('vog', [])
                                         <div ng-if="isAbilityConsumable(consumable)" class="icon-{{consumable}}"></div>
                                         <div ng-if="!isAbilityConsumable(consumable)" class="icon-{{consumable}}"></div>
                                     </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="options creatures">
+                                    <h3>Companion</h3>
+                                    <label class="tiny-icon-wrap" ng-class="{selected: selections.companion === null}">
+                                        <input type="radio" name="companion" ng-value="null" title="None" ng-model="selections.companion">
+                                    </label>
+                                    <label ng-repeat="(companion, cost) in COMPANIONS"
+                                            class="tiny-icon-wrap"
+                                            title="{{companion | vogName}}"
+                                            ng-class="{selected: selections.companion === companion}"
+                                            data-cost="{{cost}}">
+                                        <div class="icon-{{companion}}"></div>
+                                        <input type="radio" name="companion" ng-value="companion" ng-model="selections.companion">
+                                    </label>
                                 </div>
                             </div>
                         </div>

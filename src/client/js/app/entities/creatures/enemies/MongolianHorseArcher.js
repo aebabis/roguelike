@@ -6,8 +6,8 @@ import Shortbow from '../../weapons/Shortbow';
 
 export default class MongolianHorseArcher extends Creature {
     /**
-      * @class SlingshotImp
-      * @description Basic ranged enemy.
+      * @class MongolianHorseArcher
+      * @description Difficult ranged enemy who tries to kite player
       */
     constructor() {
         super();
@@ -21,10 +21,12 @@ export default class MongolianHorseArcher extends Creature {
         ));
     }
 
+    /** @override */
     getBaseHP() {
         return 6;
     }
 
+    /** @override */
     getBaseSpeed() {
         return 350;
     }

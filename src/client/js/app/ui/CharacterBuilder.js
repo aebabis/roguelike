@@ -67,7 +67,8 @@ const ABILITIES = {
 };
 
 const COMPANIONS = {
-    Kitten: 5
+    Kitten: 5,
+    Firefox: 30
 };
 
 const characterTable = new CostedDistributionTable([{

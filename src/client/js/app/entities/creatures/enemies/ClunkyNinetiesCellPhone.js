@@ -1,9 +1,9 @@
 import Creature from '../Creature';
 import Inventory from '../Inventory';
 import Weapon from '../../weapons/Weapon';
-import AttackMove from '../moves/AttackMove';
 import UseItemMove from '../moves/UseItemMove';
-import WaitMove from '../moves/WaitMove';
+import Strategy from '../strategies/Strategy';
+import Strategies from '../strategies/Strategies';
 
 import DamageTypes from '../../DamageTypes';
 
@@ -45,6 +45,21 @@ class CellPhoneZap extends Weapon {
     }
 }
 
+class ChargeWhenReadyStrategy extends Strategy {
+    getNextMove(dungeon, creature) {
+        const tile = dungeon.getTile(creature);
+        const target = creature.getVisibleEnemies(dungeon).find(function(creature) {
+            return tile.getDirectDistance(dungeon.getTile(creature)) > 1;
+        });
+        const weapon = creature.getRangedWeapon();
+        if(target && weapon && !weapon.isCharged(dungeon)) {
+            return new UseItemMove(dungeon.getTile(creature), Inventory.RANGED_SLOT);
+        } else {
+            return null;
+        }
+    }
+}
+
 export default class ClunkyNinetiesCellPhone extends Creature {
     /**
       * @class ClunkyNinetiesCellPhone
@@ -52,24 +67,12 @@ export default class ClunkyNinetiesCellPhone extends Creature {
       */
     constructor() {
         super();
+        this.setStrategy(new Strategies.CompositeStrategy(
+            new ChargeWhenReadyStrategy(),
+            new Strategies.ChaseStrategy(),
+            new Strategies.IdleStrategy()
+        ));
         this.setRangedWeapon(new CellPhoneZap());
-    }
-
-    getNextMove(dungeon) {
-        var tile = dungeon.getTile(this);
-        var target = this.getVisibleEnemies(dungeon).find(function(creature) {
-            return tile.getDirectDistance(dungeon.getTile(creature)) > 1;
-        });
-        if(target) {
-            var weapon = this.getRangedWeapon();
-            if(weapon.isCharged(dungeon)) {
-                return new AttackMove(dungeon.getTile(this), dungeon.getTile(target));
-            } else {
-                return new UseItemMove(dungeon.getTile(this), Inventory.RANGED_SLOT);
-            }
-        } else {
-            return new WaitMove(dungeon.getTile(this));
-        }
     }
 
     getBaseHP() {

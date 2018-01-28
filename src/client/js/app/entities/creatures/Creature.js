@@ -1,3 +1,4 @@
+import Geometry from '../../util/Geometry';
 import Entity from '../Entity';
 import Tile from '../../tiles/Tile';
 
@@ -23,8 +24,6 @@ import Strategy from './strategies/Strategy';
 import Items from '../Items';
 import Consumable from '../consumables/Consumable';
 import ItemComparator from './ItemComparator';
-
-const visionLookup = {};
 
 function rangeBetween(a, b) {
     const arr = [];
@@ -454,10 +453,8 @@ export default class Creature extends Entity {
             throw new Error('Must pass a Tile or Creature');
         }
         const location = dungeon.getTile(this);
-
-        if(tile.getEuclideanDistance(location) > this.getVisionRadius()) {
-            return false;
-        }
+        const tileDistance = tile.getEuclideanDistance(location);
+        const visionRadius = this.getVisionRadius();
 
         // Coordinates of starting and ending tile
         const x0 = location.getX();
@@ -469,59 +466,22 @@ export default class Creature extends Entity {
 
 
         if(dx === 0) {
-            return rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x0, y)));
+            return tileDistance < visionRadius &&
+                rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x0, y)));
         } else if(dy === 0) {
-            return rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y0)));
+            return tileDistance < visionRadius &&
+                rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y0)));
         } else if(Math.abs(dx) === 1) {
-            return rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x0, y))) ||
-                rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x1, y)));
+            return tileDistance < visionRadius &&
+                (rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x0, y))) ||
+                rangeBetween(y0, y1).every((y) => !this.visionObsuredBy(dungeon.getTile(x1, y))));
         } else if(Math.abs(dy) === 1) {
-            return rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y0))) ||
-                rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y1)));
+            return tileDistance < visionRadius &&
+                (rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y0))) ||
+                rangeBetween(x0, x1).every((x) => !this.visionObsuredBy(dungeon.getTile(x, y1))));
         } else { // Sight ray is a diagonal
-            let checkList = visionLookup[dx + ',' + dy];
-            if(!checkList) {
-                // Compute sequence of tiles intersected by delta line.
-                // Delta line is transformed to start at 0,0 to improve
-                // chance of cache hit in the future
-                checkList = [];
-
-                const xDir = Math.sign(dx);
-                const yDir = Math.sign(dy);
-                const targetSlopeX = dx - xDir;
-                const targetSlopeY = dy - yDir;
-
-                // Algorithm uses a cursor which traces path by
-                // moving along tile edges
-                let cursorX = xDir;
-                let cursorY = yDir;
-
-                while(Math.abs(cursorX) < Math.abs(dx) ||
-                        Math.abs(cursorY) < Math.abs(dy)) {
-                    checkList.push({
-                        dx: cursorX,
-                        dy: cursorY
-                    });
-
-                    // Compare cursor slope to LOS slope.
-                    // If larger, we need to travel along x-axis
-                    // If smaller, travel along y-axis
-                    // If equal, do both
-                    // Use cross-product for efficiency
-                    const cursorCross = cursorY * targetSlopeX;
-                    const targetCross = cursorX * targetSlopeY;
-
-                    if(Math.abs(cursorCross) >= Math.abs(targetCross)) { // cursorSlope >= targetSlope
-                        cursorX += xDir;
-                    }
-                    if(Math.abs(cursorCross) <= Math.abs(targetCross)) { // cursorSlope <= targetSlope
-                        cursorY += yDir;
-                    }
-                }
-
-                visionLookup[dx + ',' + dy] = checkList;
-            }
-            return checkList.every(({dx, dy}) => !this.visionObsuredBy(dungeon.getTile(dx + x0, dy + y0)));
+            return tileDistance < visionRadius &&
+                Geometry.tilesAlongLine(dx, dy).every(({dx, dy}) => !this.visionObsuredBy(dungeon.getTile(dx + x0, dy + y0)));
         }
     }
 
